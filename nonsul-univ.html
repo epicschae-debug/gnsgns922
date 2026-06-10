@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>대학별 입학처 · 지훈쌤 강의실</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--mint-soft:#5fd6b422;--rose:#f08a9b;--rose-soft:#f08a9b22;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);min-height:100vh;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 16px 48px;line-height:1.5}
+.app{width:100%;max-width:440px;padding-top:calc(24px + env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px;animation:rise .5s ease both}
+.back{width:34px;height:34px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:17px}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.hsub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.notice{background:var(--gold-soft);border:1px solid #f5b54455;border-radius:14px;padding:12px 14px;font-size:12.5px;color:#f3d9a6;line-height:1.55;animation:rise .5s .04s ease both}
+.notice b{color:var(--gold)}
+.chips{display:flex;gap:8px;margin:18px 0 14px;overflow-x:auto;scrollbar-width:none;animation:rise .5s .08s ease both}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--ink-2);color:var(--muted);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:.15s}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1a1205}
+.sec{font-size:13px;color:var(--muted);font-weight:600;margin:20px 2px 10px}
+.list{display:flex;flex-direction:column;gap:10px}
+.u{display:block;background:var(--ink-2);border:1px solid var(--line);border-radius:15px;padding:13px 15px;text-decoration:none;color:inherit;transition:.18s;animation:rise .4s ease both}
+.u:active{transform:scale(.98);background:var(--ink-3)}
+@media(hover:hover){.u:hover{background:var(--ink-3);border-color:#3a4660}}
+.u .row1{display:flex;align-items:center;flex-wrap:wrap;gap:7px;row-gap:5px}
+.u .name{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
+.date{flex:none;font-size:11px;font-weight:700;color:var(--gold);background:var(--gold-soft);border:1px solid #f5b54440;padding:2.5px 8px;border-radius:99px}
+.u .go{font-size:12px;color:var(--gold);font-weight:600;margin-left:auto;flex:none}
+.u .go::after{content:' \2197'}
+.badge{flex:none;font-size:10.5px;font-weight:700;padding:2.5px 8px;border-radius:99px}
+.badge.seo{background:var(--gold-soft);color:var(--gold)}
+.badge.yak{background:var(--mint-soft);color:var(--mint)}
+.badge.med{background:var(--rose-soft);color:var(--rose)}
+.u .meta{margin-top:6px;font-size:11.5px;color:var(--muted);line-height:1.55}
+.u .meta+.meta{margin-top:2px}
+.u .meta b{color:#b9c4dd;font-weight:600}
+.lv-최상{color:#ff8f8f;font-weight:700}
+.lv-상{color:var(--gold);font-weight:700}
+.lv-중상{color:#f0c987;font-weight:600}
+.lv-중{color:#b9c4dd;font-weight:600}
+.lv-중하{color:#9fd8c5;font-weight:600}
+.lv-하{color:var(--mint);font-weight:600}
+.foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <a class="back" href="nonsul.html">&#8592;</a>
+    <div>
+      <div class="htitle">대학별 입학처</div>
+      <div class="hsub">2027 논술 실시 대학 · 직렬별 전수조사</div>
+    </div>
+  </div>
+
+  <div class="notice"><b>시험일</b>은 2027 요강(5월경) 발표 후 확정 &mdash; 나오는 대로 업데이트할게. 시간·문항·범위는 2026 수시 기준, 최저·전형비율은 2027 시행계획 기준이야. 최종은 입학처에서 확인!</div>
+
+  <div class="chips">
+    <button class="chip on" data-f="all">전체</button>
+    <button class="chip" data-f="seo">서술형</button>
+    <button class="chip" data-f="yak">약술형</button>
+    <button class="chip" data-f="med">메디컬 (의·치·한·수의·약)</button>
+  </div>
+
+  <div id="out"></div>
+
+  <div class="foot">대학명을 누르면 해당 입학처 홈페이지로 이동합니다<br>전화문의 : 010-4201-9477</div>
+</div>
+
+<script>
+/* ============================================================
+   ★ 여기만 수정하면 됨 ★
+   - date : 요강 발표되면 '미발표' → '11/22(토)' 처럼 변경
+   - min  : 수능최저 / ratio : 전형비율 / range : 출제범위 / ppl : 모집인원
+   - lv   : '최상'/'상'/'중상'/'중'/'중하'/'하' / exam : 시간·문항·출제경향
+   - type : 'seo'(수리논술) / 'yak'(약술형) / 'med'(메디컬)
+   ============================================================ */
+const UNIV = [
+// ── 서술형 · 상위권 ──────────────────────────────
+{g:'서술형 · 상위권',name:'연세대',url:'https://admission.yonsei.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'논술100',range:'수학 전과목+통합과학',lv:'상',exam:'90분 · 수리·통합형 신설(과학 서·논술) · 수능 전 시행 전통'},
+{g:'서술형 · 상위권',name:'고려대',url:'https://oku.korea.ac.kr',type:'seo',date:'미발표',min:'4개합8·한4',ratio:'논술100',range:'전범위',lv:'상',exam:'80분 · 문항 비공개 · 시간 매우 짧음, 4개 영역 관리'},
+{g:'서술형 · 상위권',name:'서강대',url:'https://admission.sogang.ac.kr',type:'seo',date:'미발표',min:'3개합7·한4',ratio:'논술100',range:'전범위',lv:'상',exam:'100분 · 2문제(40+60%) · 논증 위주, 미적 단골+확통↑'},
+{g:'서술형 · 상위권',name:'한양대',url:'https://iphak.hanyang.ac.kr',type:'seo',date:'미발표',min:'3개합7(4영역 응시)',ratio:'논술100',range:'전범위',lv:'최상',exam:'90분 · 2문항 · 단답 지양, 논증·증명형'},
+{g:'서술형 · 상위권',name:'중앙대',url:'https://admission.cau.ac.kr',type:'seo',date:'미발표',min:'일반형 3개합6·한4 / 창의형 없음(재학생만)',ratio:'70:20:출결10',range:'전범위',lv:'상',exam:'120분 · 4문항 · 사고력+쓰기 서술'},
+{g:'서술형 · 상위권',name:'중앙대(다빈치)',url:'https://admission.cau.ac.kr',type:'seo',date:'미발표',min:'미적용(폐지)',ratio:'70:20:출결10',range:'전범위',lv:'상',exam:'120분 · 서울과 동일 계열 유형'},
+{g:'서술형 · 상위권',name:'서울시립대',url:'https://admission.uos.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'80:20',range:'전범위',lv:'상',exam:'120분 · 4문항 · 증명·논증 유명, 변별력 최상급'},
+{g:'서술형 · 상위권',name:'이화여대',url:'https://admission.ewha.ac.kr',type:'seo',date:'미발표',min:'2개합5(수포함)',ratio:'논술100',range:'전범위',lv:'상',exam:'100분 · 자연Ⅰ(중상)/자연Ⅱ(상) 유형 배정 요강 확인'},
+{g:'서술형 · 상위권',name:'경희대',url:'https://iphak.khu.ac.kr',type:'seo',date:'미발표',min:'2개합5·한5',ratio:'논술100',range:'전범위',lv:'상',exam:'120분 · 6문항 내외 · 논증·자연현상 해석 (국제캠 동일)'},
+{g:'서술형 · 상위권',name:'건국대',url:'https://enter.konkuk.ac.kr',type:'seo',date:'미발표',min:'2개합5·한5',ratio:'논술100',range:'전범위',lv:'중상',exam:'100분 · 4문항 · 제시문+추론과정 서술'},
+// ── 서술형 · 중상~중위권 ─────────────────────────
+{g:'서술형 · 중상~중위권',name:'성균관대',url:'https://admission.skku.edu',type:'seo',date:'미발표',min:'3개합6 (반도체·약학 등 3개합5)',ratio:'논술100',range:'수(상하)+수Ⅰ·Ⅱ',lv:'중상',exam:'100분 · 3문제 · 개념 유도·과정 중심'},
+{g:'서술형 · 중상~중위권',name:'아주대',url:'https://www.iajou.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'80:20',range:'~미적분',lv:'중상',exam:'120분 · 2문항 · 부분점수 후함, 공식암기형 배제'},
+{g:'서술형 · 중상~중위권',name:'동국대(서울)',url:'https://ipsi.dongguk.edu',type:'seo',date:'미발표',min:'2개합5(수/과 포함)·한4',ratio:'70:20:출결10',range:'전범위',lv:'중상',exam:'90분 · 3문항 · 실생활 접목형'},
+{g:'서술형 · 중상~중위권',name:'동국대(고양)',url:'https://ipsi.dongguk.edu',type:'seo',date:'미발표',min:'2개합5(수/과 포함)·한4',ratio:'70:20:출결10',range:'전범위',lv:'중상',exam:'90분 · 3문항 · 서울과 동일 유형 (바이오시스템)'},
+{g:'서술형 · 중상~중위권',name:'홍익대(서울)',url:'https://ibsi.hongik.ac.kr',type:'seo',date:'미발표',min:'2개합5·한4 (완화)',ratio:'90:10',range:'전범위',lv:'중상',exam:'120분 · 제시문 2~4개 · 논리·창의 서술'},
+{g:'서술형 · 중상~중위권',name:'부산대',url:'https://go.pusan.ac.kr',type:'seo',date:'미발표',min:'2개합5·한4(수포함)',ratio:'80:20',range:'~미적분',lv:'중상',exam:'100분 · 수(미/기) 지정 폐지, 일부 과탐 필수 응시'},
+{g:'서술형 · 중상~중위권',name:'경북대',url:'https://ipsi1.knu.ac.kr',type:'seo',date:'미발표',min:'2개합5~6 (계열별·수포함)',ratio:'70:30 (내신 주의)',range:'~미적분+교과 통합',lv:'중상',exam:'100분 · 3문항 내외(AAT) · 교과 통합 서술'},
+{g:'서술형 · 중상~중위권',name:'인하대',url:'https://admission.inha.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'80:20',range:'~미적분',lv:'중',exam:'120분 · 교과서 중심 제시문 · 풀이 서술'},
+{g:'서술형 · 중상~중위권',name:'세종대',url:'https://ipsi.sejong.ac.kr',type:'seo',date:'미발표',min:'2개합5',ratio:'80:20',range:'~미적분',lv:'중',exam:'120분 · 융합 이해 서술'},
+{g:'서술형 · 중상~중위권',name:'광운대',url:'https://iphak.kw.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'80:20',range:'~미적분+확통 (기하X)',lv:'중',exam:'120분 · 2문제(소문항 5개 내외)'},
+{g:'서술형 · 중상~중위권',name:'단국대(죽전)',url:'https://ipsi.dankook.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'90:10',range:'~미적분',lv:'중',exam:'120분 · 통합교과형 2문항'},
+{g:'서술형 · 중상~중위권',name:'숙명여대',url:'https://admission.sookmyung.ac.kr',type:'seo',date:'미발표',min:'2개합5',ratio:'90:10',range:'~미적분',lv:'중',exam:'100분 · 3문항 · 풀이과정·정답 서술'},
+{g:'서술형 · 중상~중위권',name:'숭실대',url:'https://iphak.ssu.ac.kr',type:'seo',date:'미발표',min:'2개합6 (완화)',ratio:'90:10',range:'~미적분',lv:'중',exam:'100분 · 2~4문제 · 수리적 의사결정 서술'},
+{g:'서술형 · 중상~중위권',name:'서울과기대',url:'https://admission.seoultech.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'70:30 (내신 주의)',range:'~미적분',lv:'중',exam:'100분 · 대문항 3개 · 제시문 답변형'},
+{g:'서술형 · 중상~중위권',name:'고려대(세종)',url:'https://oku.korea.ac.kr/sejong/index.do',type:'seo',date:'미발표',min:'2개합6 (과탐 지정 폐지)',ratio:'논술100',range:'~미적분',lv:'중',exam:'120분 · 6문제 내외 · 개념+종합사고'},
+{g:'서술형 · 중상~중위권',name:'가톨릭대(성심)',url:'https://ipsi.catholic.ac.kr',type:'seo',date:'미발표',min:'미적용 (간호는 3개합7)',ratio:'논술100',range:'~미적분',lv:'중',exam:'90분 · 3문항 · 제시문 분석·풀이 서술'},
+{g:'서술형 · 중상~중위권',name:'연세대(미래)',url:'https://mirae.yonsei.ac.kr/wj/2349/subview.do',type:'seo',date:'미발표',min:'미적용 (폐지)',ratio:'90:10',range:'~미적분',lv:'중',exam:'120분 · 3문제 내외 · 의예 논술 폐지'},
+{g:'서술형 · 중상~중위권',name:'한국항공대',url:'https://ibhak.kau.ac.kr',type:'seo',date:'미발표',min:'2개합6',ratio:'논술100',range:'이학 ~수Ⅱ / 공학 ~미적분',lv:'중',exam:'90분 · 2문항 · 분석·응용 서술, 계열별 범위 상이'},
+{g:'서술형 · 중상~중위권',name:'성신여대',url:'https://ipsi.sungshin.ac.kr',type:'seo',date:'미발표',min:'2개합7',ratio:'논술100 (변경)',range:'~미적분',lv:'중하',exam:'100분 · 4문항 이내 · 답+풀이 서술'},
+{g:'서술형 · 중상~중위권',name:'동덕여대',url:'https://ipsi.dongduk.ac.kr',type:'seo',date:'미발표',min:'2개합6 (강화)',ratio:'논술100',range:'~미적분',lv:'중하',exam:'90분 · 3문항 · 사고력 서술'},
+{g:'서술형 · 중상~중위권',name:'경기대',url:'https://enter.kyonggi.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'90:10',range:'수(상하)+수Ⅰ·Ⅱ',lv:'중하',exam:'100분 · 2문항 · 기본개념 추론 서술'},
+{g:'서술형 · 중상~중위권',name:'덕성여대',url:'https://ipsi.duksung.ac.kr',type:'seo',date:'미발표',min:'2개합7',ratio:'논술100',range:'수(상하)+수Ⅰ·Ⅱ',lv:'중하',exam:'90분 · 2문항 · 교과서 주제 풀이'},
+{g:'서술형 · 중상~중위권',name:'서울여대',url:'https://admission.swu.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'80:20',range:'수·수Ⅰ·Ⅱ',lv:'중하',exam:'90분 · 2~4문항 · 과학논술→수리 변경'},
+{g:'서술형 · 중상~중위권',name:'한국외대(서울)',url:'https://adms.hufs.ac.kr',type:'seo',date:'미발표',min:'2개합4',ratio:'논술100',range:'수Ⅰ·Ⅱ',lv:'중하',exam:'90분 · 7문항 · 짧은 풀이, 계산 위주 (약술 성격)'},
+{g:'서술형 · 중상~중위권',name:'한국외대(글로벌)',url:'https://adms.hufs.ac.kr',type:'seo',date:'미발표',min:'2개합6 (강화 주의)',ratio:'논술100',range:'수Ⅰ·Ⅱ',lv:'중하',exam:'90분 · 7문항 · 서울과 동일 유형'},
+// ── 약술형 ──────────────────────────────────────
+{g:'약술형 (국어+수학 / 수학만)',name:'가천대(성남)',url:'https://admission.gachon.ac.kr',type:'yak',date:'미발표',min:'1개 3',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'80분 · 국6+수9 · 경쟁률 매우 높음'},
+{g:'약술형 (국어+수학 / 수학만)',name:'국민대',url:'https://admission.kookmin.ac.kr',type:'yak',date:'미발표',min:'2개합6 (과탐 지정)',ratio:'논술100',range:'국어/~미적분 포함!',lv:'중하',exam:'90분 · 국2+수9 · 2026 신설'},
+{g:'약술형 (국어+수학 / 수학만)',name:'삼육대',url:'https://ipsi.syu.ac.kr',type:'yak',date:'미발표',min:'1개 3',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'80분 · 국6+수9'},
+{g:'약술형 (국어+수학 / 수학만)',name:'상명대',url:'https://admission.smu.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'90:10',range:'국어/수(상하)+수Ⅰ·Ⅱ',lv:'하',exam:'60분 · 국2+수8'},
+{g:'약술형 (국어+수학 / 수학만)',name:'서경대',url:'https://ipsi.skuniv.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'60분 · 국4+수4'},
+{g:'약술형 (국어+수학 / 수학만)',name:'수원대',url:'https://ipsi.suwon.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'75:25 (내신 높음)',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'80분 · 국5+수10 · EBS 연계 약술'},
+{g:'약술형 (국어+수학 / 수학만)',name:'신한대',url:'https://ipsi.shinhan.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'90:10',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'80분 · 국6+수9'},
+{g:'약술형 (국어+수학 / 수학만)',name:'을지대',url:'https://iphak.eulji.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'80:20',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'70분 · 국7+수7 · 인문·자연 구분 없음'},
+{g:'약술형 (국어+수학 / 수학만)',name:'한신대',url:'https://ipsi.hs.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'80:20',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'80분 · 국5+수10'},
+{g:'약술형 (국어+수학 / 수학만)',name:'강남대',url:'https://admission.kangnam.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'80:20',range:'국어/수Ⅰ·Ⅱ',lv:'하',exam:'60분 · 국3+수7 · 2026 신설'},
+{g:'약술형 (국어+수학 / 수학만)',name:'한국공학대',url:'https://ipsi.tukorea.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'80:20',range:'수Ⅰ·Ⅱ (수학만)',lv:'하',exam:'80~90분(요강 확인) · 수학 9문항 · 개조식 약술'},
+{g:'약술형 (국어+수학 / 수학만)',name:'한국기술교대(천안)',url:'https://ipsi.koreatech.ac.kr',type:'yak',date:'미발표',min:'미적용',ratio:'논술100',range:'수Ⅰ·Ⅱ (수학만)',lv:'하',exam:'80분 · 10문항 내외 · EBS 수준'},
+{g:'약술형 (국어+수학 / 수학만)',name:'홍익대(세종)',url:'https://ibsi.hongik.ac.kr',type:'yak',date:'미발표',min:'1개 4',ratio:'90:10',range:'수Ⅰ·Ⅱ (수학만)',lv:'하',exam:'70분 · 서술형 7문항 · 모의문항 입학처 공개'},
+// ── 메디컬 (의·치·한·수의·약) ────────────────────
+{g:'메디컬 (의·치·한·수의·약)',name:'경희대 의·치·한·약',url:'https://iphak.khu.ac.kr',type:'med',date:'미발표',min:'3개합4·한5',ratio:'논술100',range:'수학 전범위+과학(물·화·생 택1, Ⅱ포함)',ppl:'의15·치13·한15',lv:'최상',exam:'120분 · 수리+과학 각 4문항 · 통합형 논술'},
+{g:'메디컬 (의·치·한·수의·약)',name:'한양대 의예',url:'https://iphak.hanyang.ac.kr',type:'med',date:'미발표',min:'3개합4 (탐2 응시)',ratio:'논술100',range:'전범위 (자연 동일시험)',ppl:'8명',lv:'최상',exam:'90분 · 2문항 · 논증·증명형'},
+{g:'메디컬 (의·치·한·수의·약)',name:'가톨릭대 의예',url:'https://ipsi.catholic.ac.kr',type:'med',date:'미발표',min:'3개합4·한4 (과 절사)',ratio:'논술100',range:'~미적분+확통',ppl:'19명',lv:'상',exam:'100분 · 4문항 · 성의캠 별도 고사, 제시문+논증'},
+{g:'메디컬 (의·치·한·수의·약)',name:'중앙대 의학·약학',url:'https://admission.cau.ac.kr',type:'med',date:'미발표',min:'4개합5·한4 (창의형은 최저X)',ratio:'70:20:출결10',range:'전범위',ppl:'의14+창의4',lv:'상',exam:'120분 · 4문항 · 사고력+쓰기 서술'},
+{g:'메디컬 (의·치·한·수의·약)',name:'이화여대 의예·약학',url:'https://admission.ewha.ac.kr',type:'med',date:'미발표',min:'의예 4개합5 / 약학 4개합6',ratio:'논술100',range:'전범위',ppl:'의예 5명',lv:'상',exam:'100분 · 서술형 · 최저 매우 높음'},
+{g:'메디컬 (의·치·한·수의·약)',name:'경북대 의·치·수의',url:'https://ipsi1.knu.ac.kr',type:'med',date:'미발표',min:'3개합4~5 (수포함·일부 절사)',ratio:'70:30',range:'~미적분+의학논술(통과·생Ⅰ·Ⅱ)',ppl:'의15·치3·수의3',lv:'상',exam:'100분 · 3문항 내외 · 의학자료 해석+수리, 별도 고사'},
+{g:'메디컬 (의·치·한·수의·약)',name:'아주대 의학',url:'https://www.iajou.ac.kr',type:'med',date:'미발표',min:'4개합6',ratio:'80:20',range:'~미적분+생명과학Ⅰ·Ⅱ',ppl:'20명',lv:'상',exam:'120분 · 수리 2문항+과학논술 · 별도 고사'},
+{g:'메디컬 (의·치·한·수의·약)',name:'부산대(양산) 의예',url:'https://go.pusan.ac.kr',type:'med',date:'미발표',min:'3개합4·한4 (수포함·과탐 응시)',ratio:'80:20',range:'~미적분+기하 (확통X)',ppl:'11명',lv:'상',exam:'100분 · 기하 포함 주의 · 일반전형 신설'},
+{g:'메디컬 (의·치·한·수의·약)',name:'부산대 약학·한의학',url:'https://go.pusan.ac.kr',type:'med',date:'미발표',min:'3개합4·한4 (수포함)',ratio:'80:20',range:'~미적분+기하 (확통X)',lv:'상',exam:'100분 · 기하 포함 주의'},
+{g:'메디컬 (의·치·한·수의·약)',name:'연세대 약학',url:'https://admission.yonsei.ac.kr',type:'med',date:'미발표',min:'미적용',ratio:'논술100',range:'수학 전과목+통합과학',lv:'상',exam:'90분 · 수리·통합형 · 치의예 논술 폐지'},
+{g:'메디컬 (의·치·한·수의·약)',name:'건국대 수의예',url:'https://enter.konkuk.ac.kr',type:'med',date:'미발표',min:'3개합4·한5',ratio:'논술100',range:'전범위 (자연 동일시험)',ppl:'6명',lv:'중상',exam:'100분 · 4문항 · 제시문+추론'},
+{g:'메디컬 (의·치·한·수의·약)',name:'가천대 의예',url:'https://admission.gachon.ac.kr',type:'med',date:'미발표',min:'3개 각 1 (수미/기·과 절사)',ratio:'논술100',range:'~미적분',ppl:'40명',lv:'중상',exam:'80분 · 수리논술 8문항 · 메디컬캠 별도 고사'},
+{g:'메디컬 (의·치·한·수의·약)',name:'성균관대 의예',url:'https://admission.skku.edu',type:'med',date:'미발표',min:'3개합4 ※표기 상충, 요강 필수',ratio:'논술100',range:'수(상하)+수Ⅰ·Ⅱ (수리형 동일시험)',ppl:'10명',lv:'중상',exam:'100분 · 3문제 · 최저가 관건'},
+{g:'메디컬 (의·치·한·수의·약)',name:'고려대(세종) 약학',url:'https://oku.korea.ac.kr/sejong/index.do',type:'med',date:'미발표',min:'3개합5 (수미/기+과탐 지정)',ratio:'논술100',range:'~확통·기하',lv:'중상',exam:'120분 · 자연과 범위 상이 주의'},
+{g:'메디컬 (의·치·한·수의·약)',name:'동국대(고양) 약학',url:'https://ipsi.dongguk.edu',type:'med',date:'미발표',min:'3개합4(수/과 포함)·한4',ratio:'70:20:출결10',range:'전범위',lv:'중상',exam:'90분 · 3문항 · 서울과 동일 유형'},
+{g:'메디컬 (의·치·한·수의·약)',name:'아주대 약학',url:'https://www.iajou.ac.kr',type:'med',date:'미발표',min:'3개합5',ratio:'80:20',range:'~미적분 (자연 동일시험)',lv:'중상',exam:'120분 · 2문항 · 부분점수 후함'},
+{g:'메디컬 (의·치·한·수의·약)',name:'인하대 의예',url:'https://admission.inha.ac.kr',type:'med',date:'미발표',min:'3개 각 1 (과탐 지정)',ratio:'80:20',range:'~미적분 (자연 동일시험)',ppl:'12명',lv:'중',exam:'120분 · 교과서 중심 · 최저가 관건'},
+{g:'메디컬 (의·치·한·수의·약)',name:'숙명여대 약학',url:'https://admission.sookmyung.ac.kr',type:'med',date:'미발표',min:'3개합4 (수포함)',ratio:'90:10',range:'~미적분 (자연 동일시험)',ppl:'4명',lv:'중',exam:'100분 · 3문항 · 최저 상향'},
+{g:'메디컬 (의·치·한·수의·약)',name:'가톨릭대 약학',url:'https://ipsi.catholic.ac.kr',type:'med',date:'미발표',min:'3개합5 (과탐 1)',ratio:'논술100',range:'~미적분+확통',lv:'중',exam:'90분 · 3문항 · 성심캠 고사'},
+{g:'메디컬 (의·치·한·수의·약)',name:'덕성여대 약학',url:'https://ipsi.duksung.ac.kr',type:'med',date:'미발표',min:'3개합5 (수포함·사탐 가능)',ratio:'논술100',range:'~미적분 (자연과 별도 문항)',lv:'중',exam:'90분 · 3문항 · 자연(2문항)과 범위·문항 다름'},
+{g:'메디컬 (의·치·한·수의·약)',name:'가천대 한의예',url:'https://admission.gachon.ac.kr',type:'med',date:'미발표',min:'2개 각 1 (과탐 모두 1)',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ (약술·자연 동일문제)',ppl:'7명 신설',lv:'하',exam:'80분 · 국6+수9 · 최저가 관건'},
+{g:'메디컬 (의·치·한·수의·약)',name:'가천대 약학',url:'https://admission.gachon.ac.kr',type:'med',date:'미발표',min:'3개합5 (절사)',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ (약술)',ppl:'신설',lv:'하',exam:'80분 · 약술형 동일 유형 · 최저가 관건'},
+{g:'메디컬 (의·치·한·수의·약)',name:'삼육대 약학',url:'https://ipsi.syu.ac.kr',type:'med',date:'미발표',min:'3개합5 (수미/기·과 지정)',ratio:'논술100',range:'국어/수Ⅰ·Ⅱ (약술·자연 동일시험)',ppl:'5명 신설',lv:'하',exam:'80분 · 국6+수9 · 최저가 관건'},
+];
+
+const out=document.getElementById('out');
+function render(f){
+  let html='',cur='',i=0;
+  const B={seo:'<span class="badge seo">서술형</span>',yak:'<span class="badge yak">약술형</span>',med:'<span class="badge med">메디컬</span>'};
+  UNIV.filter(u=>f==='all'||u.type===f).forEach(u=>{
+    if(u.g!==cur){if(cur)html+='</div>';cur=u.g;html+='<div class="sec">'+cur+'</div><div class="list">';i=0;}
+    html+='<a class="u" style="animation-delay:'+Math.min(i*0.03,0.3)+'s" href="'+u.url+'" target="_blank" rel="noopener">'
+      +'<div class="row1"><span class="name">'+u.name+'</span><span class="date">'+u.date+'</span>'+B[u.type]+'<span class="go">바로가기</span></div>'
+      +'<div class="meta">최저 <b>'+u.min+'</b> &middot; '+u.ratio+' &middot; <b>'+u.range+'</b>'+(u.ppl?' &middot; <b>'+u.ppl+'</b>':'')+'</div>'
+      +'<div class="meta"><span class="lv-'+u.lv+'">난이도 '+u.lv+'</span> &middot; '+u.exam+'</div></a>';
+    i++;
+  });
+  out.innerHTML=html+(cur?'</div>':'');
+}
+render('all');
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  c.classList.add('on');render(c.dataset.f);
+}));
+</script>
+</body>
+</html>
