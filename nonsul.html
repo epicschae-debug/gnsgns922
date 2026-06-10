@@ -60,6 +60,9 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .mbtn b{font-size:13px;font-weight:600;display:block}
 .mbtn.kakao{background:#3b2f0e;border-color:#5a4a16}
 .mbtn.kakao .mi{color:var(--gold)}
+.mbtn.today{background:linear-gradient(135deg,#2a2010,#1a1410);border-color:#f5b54455}
+.mbtn.today .mi{color:var(--gold)}
+.mbtn.today b{color:var(--gold)}
 .foot{text-align:center;color:var(--muted);font-size:11px;margin-top:26px;line-height:1.6}
 </style></head><body>
 <div class="app">
@@ -82,11 +85,13 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 </div>
 
 <div class="sec">바로가기</div>
-<div class="menu"></div>
+<div class="menu">
+    <a class="mbtn today" href="오늘의_논제.html#today"><span class="mi">&#128204;</span><b>오늘의 논제</b></a>
     <a class="mbtn" href="nonsul-univ.html"><span class="mi">&#128218;</span><b>대학 바로가기</b></a>
-    <a class="mbtn" href="#"><span class="mi">&#128218;</span><b>강의</b></a>
+    <a class="mbtn" href="#"><span class="mi">&#127891;</span><b>강의</b></a>
     <a class="mbtn" href="#"><span class="mi">&#128196;</span><b>학습자료</b></a>
     <a class="mbtn kakao" href="https://open.kakao.com/o/s1jl9Uyi" target="_blank"><span class="mi">&#128172;</span><b>과제제출</b></a>
+</div>
  
 <script>
 const NOTICE = "이번 주 과제는 삼각함수 논증과제 적어오기입니다 필수!";

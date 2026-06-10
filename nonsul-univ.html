@@ -65,6 +65,7 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .kbar{margin-top:10px;font-size:12.5px;font-weight:700;text-align:center;padding:9px;border-radius:11px}
 .kbar.on{background:var(--mint-soft);color:var(--mint);border:1px solid #5fd6b455}
 .kbar.off{background:var(--ink-3);color:var(--muted);border:1px dashed var(--line)}
+.u.has-k .name{color:var(--mint);background:var(--mint-soft);padding:1.5px 8px;border-radius:7px;box-shadow:0 0 0 1px #5fd6b440 inset}
 .empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 0}
 </style>
 </head>
@@ -90,7 +91,7 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
   <input id="q" class="search" placeholder="🔍 대학 이름 검색 (예: 성신, 경희)" autocomplete="off">
   <div id="out"></div>
 
-  <div class="foot"><b style="color:var(--mint)">기출문항 보기</b>가 있는 대학은 카드를 누르면 기출로 이동 · 우측 상단 <b style="color:var(--gold)">입학처</b> 버튼은 모든 대학 공통<br>기출은 준비되는 대로 추가됩니다 · 전화문의 : 010-4201-9477</div>
+  <div class="foot">대학 이름이 <b style="color:var(--mint)">초록색</b>이면 카드를 눌러 기출문항으로 이동 · 우측 상단 <b style="color:var(--gold)">입학처</b> 버튼은 모든 대학 공통<br>기출은 준비되는 대로 추가됩니다 · 전화문의 : 010-4201-9477</div>
 </div>
 
 <script>
@@ -187,12 +188,11 @@ function render(){
   UNIV.filter(u=>(curF==='all'||u.type===curF)&&(curQ===''||u.name.toLowerCase().includes(curQ))).forEach(u=>{
     cnt++;
     if(u.g!==cur){if(cur)html+='</div>';cur=u.g;html+='<div class="sec">'+cur+'</div><div class="list">';i=0;}
-    html+='<div class="u'+(u.k?' clk':'')+'" style="animation-delay:'+Math.min(i*0.03,0.3)+'s"'+(u.k?' onclick="location.href=\''+u.k+'\'"':'')+'>'
+    html+='<div class="u'+(u.k?' clk has-k':'')+'" style="animation-delay:'+Math.min(i*0.03,0.3)+'s"'+(u.k?' onclick="location.href=\''+u.k+'\'"':'')+'>'
       +'<a class="ipsi-corner" href="'+u.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#127963; 입학처</a>'
       +'<div class="row1"><span class="name">'+u.name+'</span><span class="date">'+u.date+'</span>'+B[u.type]+'</div>'
       +'<div class="meta">최저 <b>'+u.min+'</b> &middot; '+u.ratio+' &middot; <b>'+u.range+'</b>'+(u.ppl?' &middot; <b>'+u.ppl+'</b>':'')+'</div>'
       +'<div class="meta"><span class="lv-'+u.lv+'">난이도 '+u.lv+'</span> &middot; '+u.exam+'</div>'
-      +(u.k?'<div class="kbar on">&#128214; 기출문항 보기 &#8594;</div>':'')
     +'</div>';
     i++;
   });
