@@ -90,7 +90,7 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
   <input id="q" class="search" placeholder="🔍 대학 이름 검색 (예: 성신, 경희)" autocomplete="off">
   <div id="out"></div>
 
-  <div class="foot">카드 <b style="color:var(--mint)">왼쪽=기출문항</b> · <b style="color:var(--gold)">오른쪽=입학처</b> 로 나뉘어 있어요<br>기출은 준비되는 대로 추가됩니다 · 전화문의 : 010-4201-9477</div>
+  <div class="foot"><b style="color:var(--mint)">기출문항 보기</b>가 있는 대학은 카드를 누르면 기출로 이동 · 우측 상단 <b style="color:var(--gold)">입학처</b> 버튼은 모든 대학 공통<br>기출은 준비되는 대로 추가됩니다 · 전화문의 : 010-4201-9477</div>
 </div>
 
 <script>
@@ -192,7 +192,7 @@ function render(){
       +'<div class="row1"><span class="name">'+u.name+'</span><span class="date">'+u.date+'</span>'+B[u.type]+'</div>'
       +'<div class="meta">최저 <b>'+u.min+'</b> &middot; '+u.ratio+' &middot; <b>'+u.range+'</b>'+(u.ppl?' &middot; <b>'+u.ppl+'</b>':'')+'</div>'
       +'<div class="meta"><span class="lv-'+u.lv+'">난이도 '+u.lv+'</span> &middot; '+u.exam+'</div>'
-      +'<div class="kbar '+(u.k?'on':'off')+'">'+(u.k?'&#128214; 기출문항 보기 &#8594;':'&#128214; 기출 준비중')+'</div>'
+      +(u.k?'<div class="kbar on">&#128214; 기출문항 보기 &#8594;</div>':'')
     +'</div>';
     i++;
   });
