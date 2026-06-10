@@ -99,7 +99,7 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
     <!-- 개별진도 = 카톡 바로 연결. href를 본인 오픈채팅/카톡 링크로 교체 -->
     <a class="card" href="https://open.kakao.com/o/s1jl9Uyi" target="_blank" rel="noopener">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-      <h4>개별진도</h4><p>1:1 카톡 상담 바로가기</p>
+      <h4>카톡문의</h4><p>개별진도반 상담이나 학생일정 관련 문의는 이쪽으로 주세요.</p>
     </a>
     <!-- 단기특강(special.html)은 메인에 링크하지 않음 -->
   </div>
@@ -113,9 +113,10 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
       <li>이번 달 목표: 미적분I 1단원 마무리</li>
     </ul>
   </div>
-
+  <div class="foot">전화문의 : 010-4201-9477 </div>
+</div>
 <script>
-const TARGETS={'dday-main':'2026-11-19','dday-exam':'2026-07-08','dday-vac':'2026-07-20'};
+const TARGETS={'dday-main':'2026-11-19','dday-exam':'2026-07-01','dday-vac':'2026-07-17'};
 function dday(s){const t=new Date(s+'T00:00:00'),n=new Date();n.setHours(0,0,0,0);const d=Math.ceil((t-n)/86400000);return d>0?'D-'+d:d===0?'D-DAY':'D+'+Math.abs(d);}
 document.getElementById('dday-main').innerHTML='<span class="pre">D-</span>'+dday(TARGETS['dday-main']).replace(/D[-+]/,'');
 document.getElementById('dday-exam').textContent=dday(TARGETS['dday-exam']);
