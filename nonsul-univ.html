@@ -45,7 +45,27 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .lv-중하{color:#9fd8c5;font-weight:600}
 .lv-하{color:var(--mint);font-weight:600}
 .foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
+.acts{display:flex;gap:8px;margin-top:11px}
+.act{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 8px;border-radius:11px;font-size:12.5px;font-weight:700;text-decoration:none;border:1px solid var(--line);transition:.16s}
+.act.kichul{background:var(--mint-soft);color:var(--mint);border-color:#5fd6b455}
+.act.kichul:active{background:#5fd6b333;transform:scale(.97)}
+.act.kichul.off{background:var(--ink-3);color:var(--muted);border-style:dashed}
+.act.ipsi{background:var(--gold-soft);color:var(--gold);border-color:#f5b54455}
+.act.ipsi:active{background:#f5b54333;transform:scale(.97)}
+@media(hover:hover){.act.kichul:hover{background:#5fd6b333}.act.ipsi:hover{background:#f5b54333}}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.search{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--ink-2);color:var(--text);font-size:14px;font-family:inherit;margin-bottom:12px;animation:rise .5s .06s ease both}
+.search::placeholder{color:var(--muted)}
+.search:focus{outline:none;border-color:var(--gold)}
+.u{position:relative}
+.u.clk{cursor:pointer}
+.u .row1{padding-right:62px}
+.ipsi-corner{position:absolute;top:11px;right:12px;font-size:11px;font-weight:700;color:var(--gold);background:var(--gold-soft);border:1px solid #f5b54455;padding:4px 10px;border-radius:99px;text-decoration:none;z-index:3}
+.ipsi-corner:active{background:#f5b54333}
+.kbar{margin-top:10px;font-size:12.5px;font-weight:700;text-align:center;padding:9px;border-radius:11px}
+.kbar.on{background:var(--mint-soft);color:var(--mint);border:1px solid #5fd6b455}
+.kbar.off{background:var(--ink-3);color:var(--muted);border:1px dashed var(--line)}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 0}
 </style>
 </head>
 <body>
@@ -67,9 +87,10 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
     <button class="chip" data-f="med">메디컬 (의·치·한·수의·약)</button>
   </div>
 
+  <input id="q" class="search" placeholder="🔍 대학 이름 검색 (예: 성신, 경희)" autocomplete="off">
   <div id="out"></div>
 
-  <div class="foot">대학명을 누르면 해당 입학처 홈페이지로 이동합니다<br>전화문의 : 010-4201-9477</div>
+  <div class="foot">카드 <b style="color:var(--mint)">왼쪽=기출문항</b> · <b style="color:var(--gold)">오른쪽=입학처</b> 로 나뉘어 있어요<br>기출은 준비되는 대로 추가됩니다 · 전화문의 : 010-4201-9477</div>
 </div>
 
 <script>
@@ -111,7 +132,7 @@ const UNIV = [
 {g:'서술형 · 중상~중위권',name:'가톨릭대(성심)',url:'https://ipsi.catholic.ac.kr',type:'seo',date:'미발표',min:'미적용 (간호는 3개합7)',ratio:'논술100',range:'~미적분',lv:'중',exam:'90분 · 3문항 · 제시문 분석·풀이 서술'},
 {g:'서술형 · 중상~중위권',name:'연세대(미래)',url:'https://mirae.yonsei.ac.kr/wj/2349/subview.do',type:'seo',date:'미발표',min:'미적용 (폐지)',ratio:'90:10',range:'~미적분',lv:'중',exam:'120분 · 3문제 내외 · 의예 논술 폐지'},
 {g:'서술형 · 중상~중위권',name:'한국항공대',url:'https://ibhak.kau.ac.kr',type:'seo',date:'미발표',min:'2개합6',ratio:'논술100',range:'이학 ~수Ⅱ / 공학 ~미적분',lv:'중',exam:'90분 · 2문항 · 분석·응용 서술, 계열별 범위 상이'},
-{g:'서술형 · 중상~중위권',name:'성신여대',url:'https://ipsi.sungshin.ac.kr',type:'seo',date:'미발표',min:'2개합7',ratio:'논술100 (변경)',range:'~미적분',lv:'중하',exam:'100분 · 4문항 이내 · 답+풀이 서술'},
+{g:'서술형 · 중상~중위권',name:'성신여대',k:'nonsul.html',url:'https://ipsi.sungshin.ac.kr',type:'seo',date:'미발표',min:'2개합7',ratio:'논술100 (변경)',range:'~미적분',lv:'중하',exam:'100분 · 4문항 이내 · 답+풀이 서술'},
 {g:'서술형 · 중상~중위권',name:'동덕여대',url:'https://ipsi.dongduk.ac.kr',type:'seo',date:'미발표',min:'2개합6 (강화)',ratio:'논술100',range:'~미적분',lv:'중하',exam:'90분 · 3문항 · 사고력 서술'},
 {g:'서술형 · 중상~중위권',name:'경기대',url:'https://enter.kyonggi.ac.kr',type:'seo',date:'미발표',min:'미적용',ratio:'90:10',range:'수(상하)+수Ⅰ·Ⅱ',lv:'중하',exam:'100분 · 2문항 · 기본개념 추론 서술'},
 {g:'서술형 · 중상~중위권',name:'덕성여대',url:'https://ipsi.duksung.ac.kr',type:'seo',date:'미발표',min:'2개합7',ratio:'논술100',range:'수(상하)+수Ⅰ·Ⅱ',lv:'중하',exam:'90분 · 2문항 · 교과서 주제 풀이'},
@@ -159,24 +180,30 @@ const UNIV = [
 ];
 
 const out=document.getElementById('out');
-function render(f){
-  let html='',cur='',i=0;
+let curF='all',curQ='';
+function render(){
+  let html='',cur='',i=0,cnt=0;
   const B={seo:'<span class="badge seo">서술형</span>',yak:'<span class="badge yak">약술형</span>',med:'<span class="badge med">메디컬</span>'};
-  UNIV.filter(u=>f==='all'||u.type===f).forEach(u=>{
+  UNIV.filter(u=>(curF==='all'||u.type===curF)&&(curQ===''||u.name.toLowerCase().includes(curQ))).forEach(u=>{
+    cnt++;
     if(u.g!==cur){if(cur)html+='</div>';cur=u.g;html+='<div class="sec">'+cur+'</div><div class="list">';i=0;}
-    html+='<a class="u" style="animation-delay:'+Math.min(i*0.03,0.3)+'s" href="'+u.url+'" target="_blank" rel="noopener">'
-      +'<div class="row1"><span class="name">'+u.name+'</span><span class="date">'+u.date+'</span>'+B[u.type]+'<span class="go">바로가기</span></div>'
+    html+='<div class="u'+(u.k?' clk':'')+'" style="animation-delay:'+Math.min(i*0.03,0.3)+'s"'+(u.k?' onclick="location.href=\''+u.k+'\'"':'')+'>'
+      +'<a class="ipsi-corner" href="'+u.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#127963; 입학처</a>'
+      +'<div class="row1"><span class="name">'+u.name+'</span><span class="date">'+u.date+'</span>'+B[u.type]+'</div>'
       +'<div class="meta">최저 <b>'+u.min+'</b> &middot; '+u.ratio+' &middot; <b>'+u.range+'</b>'+(u.ppl?' &middot; <b>'+u.ppl+'</b>':'')+'</div>'
-      +'<div class="meta"><span class="lv-'+u.lv+'">난이도 '+u.lv+'</span> &middot; '+u.exam+'</div></a>';
+      +'<div class="meta"><span class="lv-'+u.lv+'">난이도 '+u.lv+'</span> &middot; '+u.exam+'</div>'
+      +'<div class="kbar '+(u.k?'on':'off')+'">'+(u.k?'&#128214; 기출문항 보기 &#8594;':'&#128214; 기출 준비중')+'</div>'
+    +'</div>';
     i++;
   });
-  out.innerHTML=html+(cur?'</div>':'');
+  out.innerHTML=(cnt?html+(cur?'</div>':''):'<div class="empty">검색 결과가 없어요</div>');
 }
-render('all');
+render();
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
-  c.classList.add('on');render(c.dataset.f);
+  c.classList.add('on');curF=c.dataset.f;render();
 }));
+document.getElementById('q').addEventListener('input',e=>{curQ=e.target.value.trim().toLowerCase();render();});
 </script>
 </body>
 </html>
