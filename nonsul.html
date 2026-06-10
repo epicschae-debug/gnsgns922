@@ -72,24 +72,34 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
     <div class="qbody" id="qbody"></div>
   </div>
 
-  <div class="nav">
-    <button id="prev" onclick="go(-1)">&#8249; 이전</button>
-    <div class="idx" id="idx">1 / 1</div>
-    <button id="next" onclick="go(1)">다음 &#8250;</button>
-  </div>
-  <button class="todaybtn" onclick="goToday()">&#128197; 오늘의 문제로</button>
+ <div class="nav">
+  <button id="prev" onclick="go(-1)">&#8249; 이전</button>
+  <div class="idx" id="idx">1 / 1</div>
+  <button id="next" onclick="go(1)">다음 &#8250;</button>
+</div>
+<button class="todaybtn" onclick="goToday()">&#128197; 오늘의 문제로</button>
 
-  <div class="sec">오늘의 공지사항</div>
-  <div class="notice"><div class="ndate" id="ndate"></div><div id="notice"></div></div>
+<div class="sec">오늘의 공지사항</div>
+<div class="notice"><div class="ndate" id="ndate"></div><div id="notice"></div></div>
 
-  <div class="sec">수능까지</div>
-  <div class="dday"><div class="lab">2027학년도 수능 (11/19, 목)</div><div class="big" id="dday">D-—</div><div class="sub2" id="ddaysub"></div></div>
-  <div class="sec">대학별 요강 참고</div>
-  <div class="list">
-    <a class="row" href="nonsul-univ.html"><div class="n">&#128206;</div><div class="tx"><b>대학 바로가기 PDF</b><span>다운로드</span></div><div class="arr">&#8250;</div></a>
-  </div>
-  <div class="sec">바로가기</div>
-  <div class="menu">
+<div class="sec">수능까지</div>
+<div class="dday">
+  <div class="lab">2027학년도 수능 (11/19, 목)</div>
+  <div class="big" id="dday">D-Day</div>
+  <div class="sub2" id="ddaysub"></div>
+</div>
+
+<div class="sec">대학별 요강 참고</div>
+<div class="list">
+  <a class="row" href="nonsul-univ.html">
+    <div class="n">&#128206;</div>
+    <div class="tx"><b>대학 바로가기 PDF</b><span>다운로드</span></div>
+    <div class="arr">&#8250;</div>
+  </a>
+</div>
+
+<div class="sec">바로가기</div>
+<div class="menu"></div>
     <a class="mbtn" href="#"><span class="mi">&#128218;</span><b>강의</b></a>
     <a class="mbtn" href="#"><span class="mi">&#128196;</span><b>학습자료</b></a>
     <a class="mbtn kakao" href="https://open.kakao.com/o/s1jl9Uyi-" target="_blank"><span class="mi">&#128172;</span><b>과제제출</b></a>
