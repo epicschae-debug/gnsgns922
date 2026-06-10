@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>논술</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);min-height:100vh;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 16px 48px;line-height:1.5}
+.app{width:100%;max-width:440px;padding-top:calc(24px + env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px;animation:rise .5s ease both}
+.back{width:38px;height:38px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:20px;line-height:1}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.hsub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.sec{font-size:13px;color:var(--muted);font-weight:600;margin:22px 2px 11px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;text-decoration:none;color:inherit;display:block;transition:.18s;animation:rise .5s ease both}
+.card:active{transform:scale(.97);background:var(--ink-3)}
+@media(hover:hover){.card:hover{background:var(--ink-3);border-color:#3a4660;transform:translateY(-2px)}}
+.ico{width:42px;height:42px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;margin-bottom:12px;font-size:19px;font-weight:700;color:var(--gold)}
+.ico svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.card h4{font-size:16px;letter-spacing:-.02em}
+.card p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;text-decoration:none;color:inherit;transition:.16s;animation:rise .5s ease both}
+.row:active{background:var(--ink-3)}
+@media(hover:hover){.row:hover{border-color:#3a4660}}
+.row .n{width:30px;height:30px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:14px}
+.row .tx{flex:1}.row .tx b{font-size:15px;font-weight:600}.row .tx span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.row .arr{color:var(--muted);font-size:16px}
+.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}.card:nth-child(5){animation-delay:.2s}
+.row:nth-child(2){animation-delay:.04s}.row:nth-child(3){animation-delay:.08s}.row:nth-child(4){animation-delay:.12s}.row:nth-child(5){animation-delay:.16s}.row:nth-child(6){animation-delay:.2s}.row:nth-child(7){animation-delay:.24s}.row:nth-child(8){animation-delay:.28s}
+.foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.feature{background:linear-gradient(165deg,#241c2e,#141019);border:1px solid #3a2f45;border-radius:var(--r);padding:20px 18px;position:relative;overflow:hidden;animation:rise .5s .05s both}
+.feature::before{content:'';position:absolute;right:-30px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#f5b54422,transparent 70%)}
+.feature .tag{font-size:12px;color:var(--gold);font-weight:600}
+.feature .q{font-size:16px;line-height:1.6;margin-top:8px;font-weight:600}
+.feature .c{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.feature .day{position:absolute;top:18px;right:18px;font-size:11.5px;color:var(--muted)}
+.ext .n{font-size:13px}
+</style></head><body>
+<div class="app">
+  <div class="top"><a class="back" href="index.html">&#8592;</a>
+    <div><div class="htitle">논술</div><div class="hsub">대학별 기출 · 오늘의 논술 · 첨삭</div></div></div>
+
+  <div class="sec">오늘의 논술</div>
+  <div class="feature">
+    <div class="day" id="qday"></div>
+    <div class="tag">TODAY</div>
+    <div class="q" id="q-title">&mdash;</div>
+    <div class="c" id="q-concept">&mdash;</div>
+  </div>
+
+  <div class="sec">대학별 기출 (입학처 연결)</div>
+  <div class="list">
+    <!-- href를 각 대학 입학처/논술 자료 주소로 교체 -->
+    <a class="row" href="#" target="_blank"><div class="n">&#127979;</div><div class="tx"><b>서울대학교</b><span>입학처 바로가기</span></div><div class="arr">&#8599;</div></a>
+    <a class="row" href="#" target="_blank"><div class="n">&#127979;</div><div class="tx"><b>연세대학교</b><span>입학처 바로가기</span></div><div class="arr">&#8599;</div></a>
+    <a class="row" href="#" target="_blank"><div class="n">&#127979;</div><div class="tx"><b>고려대학교</b><span>입학처 바로가기</span></div><div class="arr">&#8599;</div></a>
+    <a class="row" href="#" target="_blank"><div class="n">&#127979;</div><div class="tx"><b>성균관대학교</b><span>입학처 바로가기</span></div><div class="arr">&#8599;</div></a>
+    <a class="row" href="#" target="_blank"><div class="n">&#127979;</div><div class="tx"><b>한양대학교</b><span>입학처 바로가기</span></div><div class="arr">&#8599;</div></a>
+  </div>
+
+  <div class="sec">첨삭 요령</div>
+  <div class="list">
+    <a class="row" href="material-template.html"><div class="n">&#9999;</div><div class="tx"><b>첨삭 체크리스트</b><span>논제 분석·개요·문장</span></div><div class="arr">&#8250;</div></a>
+  </div>
+  <div class="foot">'오늘의 논술'은 등록한 문항이 날짜별로 자동으로 바뀝니다</div>
+</div>
+<script>
+// 문항을 미리 넣어두면 날짜에 따라 매일 하나씩 자동으로 바뀝니다 (손 안 대도 됨)
+const QUESTIONS=[
+ {q:"제시문 (가)와 (나)의 관점을 비교하고, 자신의 견해를 논술하시오.",c:"개념: 비교·대조 / 논거 구성"},
+ {q:"과학기술 발전이 인간 자유에 미치는 영향을 논하시오.",c:"개념: 인과 분석 / 양면성"},
+ {q:"제시문을 바탕으로 공정성의 기준을 제시하고 적용하시오.",c:"개념: 기준 설정 / 사례 적용"},
+ {q:"개인의 권리와 공동체의 이익이 충돌할 때의 해법을 논하시오.",c:"개념: 가치 충돌 / 절충"},
+ {q:"통계 자료를 해석하고 그 한계를 비판적으로 평가하시오.",c:"개념: 자료 해석 / 반론"}
+];
+const now=new Date();
+const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+const pick=QUESTIONS[doy%QUESTIONS.length];
+document.getElementById('q-title').textContent=pick.q;
+document.getElementById('q-concept').textContent=pick.c;
+const w=['일','월','화','수','목','금','토'];
+document.getElementById('qday').textContent=(now.getMonth()+1)+'/'+now.getDate()+' ('+w[now.getDay()]+')';
+</script>
+</body></html>

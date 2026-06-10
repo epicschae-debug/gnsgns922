@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>교재</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);min-height:100vh;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 16px 48px;line-height:1.5}
+.app{width:100%;max-width:440px;padding-top:calc(24px + env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px;animation:rise .5s ease both}
+.back{width:38px;height:38px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:20px;line-height:1}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.hsub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.sec{font-size:13px;color:var(--muted);font-weight:600;margin:22px 2px 11px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;text-decoration:none;color:inherit;display:block;transition:.18s;animation:rise .5s ease both}
+.card:active{transform:scale(.97);background:var(--ink-3)}
+@media(hover:hover){.card:hover{background:var(--ink-3);border-color:#3a4660;transform:translateY(-2px)}}
+.ico{width:42px;height:42px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;margin-bottom:12px;font-size:19px;font-weight:700;color:var(--gold)}
+.ico svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.card h4{font-size:16px;letter-spacing:-.02em}
+.card p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;text-decoration:none;color:inherit;transition:.16s;animation:rise .5s ease both}
+.row:active{background:var(--ink-3)}
+@media(hover:hover){.row:hover{border-color:#3a4660}}
+.row .n{width:30px;height:30px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:14px}
+.row .tx{flex:1}.row .tx b{font-size:15px;font-weight:600}.row .tx span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.row .arr{color:var(--muted);font-size:16px}
+.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}.card:nth-child(5){animation-delay:.2s}
+.row:nth-child(2){animation-delay:.04s}.row:nth-child(3){animation-delay:.08s}.row:nth-child(4){animation-delay:.12s}.row:nth-child(5){animation-delay:.16s}.row:nth-child(6){animation-delay:.2s}.row:nth-child(7){animation-delay:.24s}.row:nth-child(8){animation-delay:.28s}
+.foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pills{display:flex;gap:7px;margin:2px 0 18px}
+.pill{font-size:11.5px;color:var(--gold);background:var(--gold-soft);border:1px solid #3a4660;padding:4px 10px;border-radius:20px}
+.doc{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;animation:rise .5s .05s both}
+.doc h3{font-size:16px;margin:18px 0 8px;color:var(--gold)}
+.doc h3:first-child{margin-top:0}
+.doc p{font-size:14.5px;line-height:1.7;color:#dfe5f2}
+.doc .box{background:#0e1422;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14px;margin:10px 0;line-height:1.6}
+.tube{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,#10182a,#0a0e18);display:grid;place-items:center;margin-top:8px}
+.tube .play{width:58px;height:58px;border-radius:50%;background:var(--gold);display:grid;place-items:center}
+.tube .play::after{content:'';border-left:18px solid #1a1205;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
+.tube .cap{position:absolute;bottom:10px;font-size:11.5px;color:var(--muted)}
+.tube iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+</style></head><body>
+<div class="app">
+  <div class="top"><a class="back" href="subject-template.html">&#8592;</a>
+    <div><div class="htitle">교재 제목</div><div class="hsub">공통수학1 · 개념</div></div></div>
+  <div class="pills"><span class="pill">공통수학1</span><span class="pill">개념</span></div>
+
+  <div class="doc">
+    <h3>1. 이 단원의 핵심</h3>
+    <p>여기에 개념 설명을 적으면 됩니다. 글, 표, 수식을 자유롭게 넣을 수 있어요. 학생이 폰으로 읽기 좋게 글씨 크기와 줄간격은 이미 맞춰져 있습니다.</p>
+    <div class="box">예시) 다항식의 덧셈은 동류항끼리 모아서 계산한다.</div>
+    <h3>2. 강의 영상</h3>
+    <!-- 아래 .tube 통째로 지우고 이 iframe으로 교체하면 영상이 재생됩니다:
+    <div class="tube"><iframe src="https://www.youtube.com/embed/영상ID" title="강의" allowfullscreen></iframe></div>
+    유튜브 영상 > 공유 > 퍼가기 에서 src 주소를 복사하세요 -->
+    <div class="tube"><div class="play"></div><div class="cap">유튜브 강의가 들어갈 자리 (영상ID 교체)</div></div>
+  </div>
+
+  <div class="sec">함께 보기</div>
+  <div class="list">
+    <a class="row" href="#"><div class="n">&#128206;</div><div class="tx"><b>유형 문제 PDF</b><span>다운로드</span></div><div class="arr">&#8250;</div></a>
+    <a class="row" href="#"><div class="n">&#9654;</div><div class="tx"><b>심화 강의</b><span>다음 영상</span></div><div class="arr">&#8250;</div></a>
+  </div>
+  <div class="foot">이 페이지를 복제해 단원별 교재를 만드세요</div>
+</div></body></html>
