@@ -53,24 +53,47 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .dday .lab{font-size:12.5px;color:var(--muted)}
 .dday .big{font-size:38px;font-weight:800;color:var(--gold);letter-spacing:-.02em;margin:3px 0;line-height:1.1}
 .dday .sub2{font-size:12px;color:var(--muted)}
-.menu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.mbtn{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center;text-decoration:none;color:inherit;display:block;transition:.15s}
+.menu{display:flex;flex-direction:column;gap:10px}
+.mbtn{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;text-align:left;text-decoration:none;color:inherit;display:flex;align-items:center;gap:13px;transition:.15s}
 .mbtn:active{background:var(--ink-3)}
-.mbtn .mi{font-size:22px;display:block;margin-bottom:7px}
-.mbtn b{font-size:13px;font-weight:600;display:block}
+.mbtn .mi{font-size:22px;line-height:1}
+.mbtn b{font-size:15px;font-weight:600}
 .mbtn.kakao{background:#3b2f0e;border-color:#5a4a16}
 .mbtn.kakao .mi{color:var(--gold)}
 .mbtn.today{background:linear-gradient(135deg,#2a2010,#1a1410);border-color:#f5b54455}
 .mbtn.today .mi{color:var(--gold)}
 .mbtn.today b{color:var(--gold)}
 .foot{text-align:center;color:var(--muted);font-size:11px;margin-top:26px;line-height:1.6}
+/* ===== 오늘의 논제 (상단 노출) ===== */
+.tnj{background:linear-gradient(180deg,#18202f,#121826);border:1px solid #f5b54455;border-radius:16px;padding:16px;box-shadow:0 12px 34px #0007}
+.tnj-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.tnj-tt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tnj-badge{font-size:10px;background:var(--gold);color:#0c1019;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.02em}
+.tnj-subj{font-size:12px;font-weight:700;color:var(--muted)}
+.tnj-all{font-size:12px;color:var(--gold);font-weight:700;text-decoration:none;flex:none}
+.tnj-body{font-size:15px;line-height:1.9;word-break:keep-all;color:#eef2fb}
+.tnj-body p{margin:0 0 12px}.tnj-body p:last-child{margin-bottom:0}
+.tnj-body b{color:var(--gold);font-weight:800}
+.tnj-body .katex{font-size:1.02em}.tnj-body .katex-display{margin:12px 0;overflow-x:auto;overflow-y:hidden}
+.tnj-solbtn{margin-top:14px;width:100%;padding:11px;border-radius:12px;border:1px solid #30405f;background:#1b2540;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;color:var(--mint)}
+.tnj-solbtn:active{background:#223054}
+.tnj-sol{display:none;margin-top:10px;padding:14px;border-radius:12px;background:#101725;border:1px solid #243250;font-size:13.5px;line-height:1.9;word-break:keep-all;color:#c8d2e8}
+.tnj-sol.open{display:block}.tnj-sol p{margin:0 0 10px}.tnj-sol p:last-child{margin-bottom:0}
+.tnj-sol b{color:var(--mint)}.tnj-sol .katex-display{margin:10px 0;overflow-x:auto;overflow-y:hidden}
 </style></head><body>
 <div class="app">
   <div class="top"><a class="back" href="index.html">&#8592;</a>
     <div><div class="htitle">논술</div><div class="hsub" id="dateline">수업·자료 바로가기</div></div></div>
 
-
-
+<div class="tnj">
+  <div class="tnj-head">
+    <div class="tnj-tt"><span class="tnj-badge">오늘의 논제</span><span class="tnj-subj" id="tnjSubj"></span></div>
+    <a class="tnj-all" href="오늘의_논제.html#today">전체 보기 &#8250;</a>
+  </div>
+  <div class="tnj-body" id="tnjBody"></div>
+  <button class="tnj-solbtn" id="tnjSolBtn" onclick="tnjToggle()">해설 보기 &#9662;</button>
+  <div class="tnj-sol" id="tnjSol"></div>
+</div>
 
 
 
@@ -86,13 +109,13 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 
 <div class="sec">바로가기</div>
 <div class="menu">
-    <a class="mbtn today" href="오늘의_논제.html#today"><span class="mi">&#128204;</span><b>오늘의 논제</b></a>
     <a class="mbtn" href="nonsul-univ.html"><span class="mi">&#128218;</span><b>대학 바로가기</b></a>
     <a class="mbtn" href="#"><span class="mi">&#127891;</span><b>강의</b></a>
     <a class="mbtn" href="#"><span class="mi">&#128196;</span><b>학습자료</b></a>
     <a class="mbtn kakao" href="https://open.kakao.com/o/s1jl9Uyi" target="_blank"><span class="mi">&#128172;</span><b>과제제출</b></a>
 </div>
  
+<script src="nonje-data.js"></script>
 <script>
 const NOTICE = "이번 주 과제는 삼각함수 논증과제 적어오기입니다 필수!";
 const now=new Date();
@@ -105,5 +128,24 @@ const exam=new Date(2026,10,19);
 const diff=Math.ceil((exam-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/86400000);
 var dd=document.getElementById('dday'); if(dd) dd.textContent='D-'+diff;
 var ds=document.getElementById('ddaysub'); if(ds) ds.textContent='약 '+Math.floor(diff/30)+'개월 '+(diff%30)+'일 남음';
+
+/* ===== 오늘의 논제 렌더 (오늘의_논제.html과 동일 seed) ===== */
+function tnjSeed(){const n=new Date();return Math.floor((n-new Date(n.getFullYear(),0,0))/864e5)+n.getFullYear()*366;}
+function tnjEsc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function tnjBold(s){return s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');}
+function tnjParas(a){return a.map(p=>'<p>'+tnjBold(tnjEsc(p))+'</p>').join('');}
+function tnjKt(el){if(!window.renderMathInElement)return;try{renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,strict:false});}catch(e){}}
+var tnjSolSrc=null;
+function tnjToggle(){var x=document.getElementById('tnjSol'),b=document.getElementById('tnjSolBtn');var o=x.classList.toggle('open');if(o&&tnjSolSrc&&!x.innerHTML){x.innerHTML=tnjParas(tnjSolSrc);tnjKt(x);}b.innerHTML=o?'해설 접기 &#9652;':'해설 보기 &#9662;';}
+function tnjInit(){
+  if(typeof NONJE==='undefined'||!NONJE.length)return;
+  var d=NONJE[tnjSeed()%NONJE.length];
+  var sj=document.getElementById('tnjSubj'); if(sj) sj.textContent=d.subject+' · '+d.type;
+  var qb=document.getElementById('tnjBody'); if(qb){qb.innerHTML=tnjParas(d.q_p);tnjKt(qb);}
+  var sb=document.getElementById('tnjSolBtn');
+  tnjSolSrc=(d.sol_p&&d.sol_p.length)?d.sol_p:null;
+  if(sb){if(tnjSolSrc){sb.disabled=false;sb.style.opacity=1;}else{sb.disabled=true;sb.style.opacity=.5;sb.textContent='수록 해설 없음';}}
+}
+(function w(t){if(window.renderMathInElement){tnjInit();return;}if(t>200){tnjInit();return;}setTimeout(function(){w(t+1);},25);})(0);
 </script>
 </body></html>
