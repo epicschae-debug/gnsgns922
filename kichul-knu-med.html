@@ -1,0 +1,465 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>경북대 의예 논술 기출</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--red:#ff8d76;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);height:100vh;height:100dvh;overflow:hidden;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 14px calc(12px + env(safe-area-inset-bottom));line-height:1.55}
+.app{width:100%;max-width:440px;padding-top:calc(20px + env(safe-area-inset-top));height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{width:38px;height:38px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:20px}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.hsub{font-size:12px;color:var(--muted);margin-top:1px}
+
+/* ===== 문제 카드 ===== */
+.qcard{background:linear-gradient(180deg,#18202f,#121826);border:1px solid var(--line);border-radius:16px;padding:17px 16px 14px;box-shadow:0 12px 34px #0007;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.qhead{flex:none;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}
+.qsrc{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:6px}
+.qtoday{font-size:10px;background:var(--gold);color:#0c1019;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:.02em}
+.qtotal{flex:none;font-size:12px;font-weight:800;color:var(--text);background:#202c44;border:1px solid #30405f;padding:5px 11px;border-radius:999px}
+.qtags{flex:none;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #232e47}
+.tag{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:8px;background:#1b2540;color:#aeb9d4;border:1px solid #2a3754}
+.tag.lv{font-weight:700}
+.tag.easy{color:var(--mint);border-color:#5fd6b455;background:#5fd6b417}
+.tag.mid{color:var(--gold);border-color:#f5b54455;background:var(--gold-soft)}
+.tag.hard{color:var(--red);border-color:#ff8d7655;background:#ff8d7615}
+.qbody{font-size:14.5px;line-height:1.7;color:#e9eef8;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-right:4px;scrollbar-width:thin;scrollbar-color:#2a3754 transparent}
+.qbody::-webkit-scrollbar{width:4px}
+.qbody::-webkit-scrollbar-thumb{background:#2a3754;border-radius:99px}
+.stem{margin-bottom:15px}
+.sub{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.sub .num{flex:none;width:23px;height:23px;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.sub .stxt{flex:1}
+.sub .pt{flex:none;font-size:11px;color:var(--muted);font-weight:700;margin-top:4px;white-space:nowrap}
+.qfig{margin-top:15px;background:#fff;border-radius:11px;padding:9px}
+.qfig img{width:100%;display:block;border-radius:5px}
+.qfig .cap{text-align:center;font-size:11px;color:#7d8aa5;margin-top:5px}
+.katex{font-size:1.02em}
+
+.nav{flex:none;display:flex;align-items:center;gap:10px;margin-top:12px}
+.nav button{flex:1;height:46px;border-radius:13px;border:1px solid var(--line);background:var(--ink-2);color:var(--text);font-size:15px;font-weight:600;font-family:inherit}
+.nav button:active{background:var(--ink-3)}
+.nav button:disabled{opacity:.35}
+.idx{flex:none;min-width:50px;text-align:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.todaybtn{margin-top:9px;height:40px;width:100%;border-radius:12px;border:1px solid #f5b54455;background:var(--gold-soft);color:var(--gold);font-size:13px;font-weight:700;font-family:inherit}
+
+.sec{font-size:13px;color:var(--muted);font-weight:700;margin:26px 2px 11px}
+.notice{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;font-size:14px;color:#dbe2f0;line-height:1.6}
+.notice .ndate{font-size:11.5px;color:var(--gold);font-weight:700;margin-bottom:7px}
+.dday{background:linear-gradient(135deg,#2a1f12,#161019);border:1px solid #3a2f1c;border-radius:16px;padding:18px;text-align:center;position:relative;overflow:hidden}
+.dday::after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#f5b54422,transparent 70%)}
+.dday .lab{font-size:12.5px;color:var(--muted)}
+.dday .big{font-size:38px;font-weight:800;color:var(--gold);letter-spacing:-.02em;margin:3px 0;line-height:1.1}
+.dday .sub2{font-size:12px;color:var(--muted)}
+.menu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.mbtn{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center;text-decoration:none;color:inherit;display:block;transition:.15s}
+.mbtn:active{background:var(--ink-3)}
+.mbtn .mi{font-size:22px;display:block;margin-bottom:7px}
+.mbtn b{font-size:13px;font-weight:600;display:block}
+.mbtn.kakao{background:#3b2f0e;border-color:#5a4a16}
+.mbtn.kakao .mi{color:var(--gold)}
+.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:26px;line-height:1.6}
+.ipsibtn{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--gold-soft);border:1px solid #f5b54455;padding:6px 11px;border-radius:99px;text-decoration:none}
+.ipsibtn:active{background:#f5b54333}
+
+/* ===== 해설 토글 ===== */
+.fold{margin-top:16px;border-top:1px solid #232e47;padding-top:14px}
+.foldbtn{width:100%;height:42px;border-radius:12px;border:1px solid #f5b54455;
+  background:var(--gold-soft);color:var(--gold);font-size:13.5px;font-weight:700;
+  font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.foldbtn:active{background:#f5b54333}
+.foldbtn::before{content:'\25B6';font-size:9px;transition:transform .18s}
+.foldbtn.open::before{transform:rotate(90deg)}
+.foldbox{display:none;margin-top:12px;animation:fade .2s ease}
+.foldbox.open{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.foldbox p{margin:9px 0;font-size:13.5px;line-height:1.72;color:#e3e9f6}
+.foldbox p b{color:var(--gold)}
+.foldbox .boxed,.foldbox .ans{color:var(--mint);font-weight:700}
+.gp{margin-top:13px;background:#13233a;border:1px solid #27496e;border-left:3px solid var(--gold);
+  border-radius:10px;padding:11px 13px;font-size:12.8px;line-height:1.7;color:#c7d3ea}
+.gp::before{content:'\1F4CC \00a0\CC44\C810 \D575\C2EC \D3EC\C778\D2B8';display:block;
+  color:var(--gold);font-weight:800;font-size:11.5px;margin-bottom:5px;letter-spacing:.01em}
+.foldbox .katex{font-size:.99em}
+
+
+/* ==== 행간/수식 간격 여유 ==== */
+.qbody{line-height:2.05;font-size:14px}
+.stem{line-height:2.05;margin-bottom:20px}
+.stem br{display:block;content:'';margin-top:6px}
+.sub{margin:20px 0;align-items:flex-start}
+.sub .stxt{line-height:2.05}
+.sub .stxt br{display:block;content:'';margin-top:6px}
+.katex{font-size:1.04em;line-height:1.2}
+.qbody .katex-display{margin:.6em 0}
+.foldbox p{line-height:1.95}
+</style></head><body>
+<div class="app">
+  <div class="top"><a class="back" href="nonsul-univ.html">&#8592;</a>
+    <div><div class="htitle">경북대 의예 논술 기출</div><div class="hsub">2022~2025 논술(AAT) 자연계열Ⅱ(의·치·수의) 기출 · &#8249; &#8250; 로 넘겨보세요</div></div>
+    <a class="ipsibtn" href="https://ipsi.knu.ac.kr" target="_blank" rel="noopener">&#127963; 입학처</a></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qsrc" id="qsrc"></div><div class="qtotal" id="qtotal"></div></div>
+    <div class="qtags" id="qtags"></div>
+    <div class="qbody" id="qbody"></div>
+  </div>
+
+ <div class="nav">
+  <button id="prev" onclick="go(-1)">&#8249; 이전</button>
+  <div class="idx" id="idx">1 / 1</div>
+  <button id="next" onclick="go(1)">다음 &#8250;</button>
+</div>
+<script>
+/* ===== 공지사항: 이 한 줄만 고치면 됨 ===== */
+const NOTICE = "경북대학교 논술(AAT) 자연계열Ⅱ(메디컬) 기출 모음 · 좌우로 넘겨 보세요.";
+/* ===== 문제 등록. 수식은 $…$ 안에 LaTeX. 기하(이차곡선) 문제는 넣지 않음 ===== */
+const PROBLEMS = [
+ {
+  "no": "2022 기출 · 자연Ⅱ 1",
+  "topic": "미적분 · 합성함수 · 적분법",
+  "level": "상",
+  "total": "110점",
+  "stem": "<b>[제시문]</b><br>(가) $\\{f(g(x))\\}'=f'(g(x))g'(x)$<br>(나) (치환적분) $\\displaystyle\\int_a^b f(t)\\,dt=\\int_\\alpha^\\beta f(g(x))g'(x)\\,dx$<br>(다) (부분적분) $\\displaystyle\\int_a^b f(x)g'(x)\\,dx=\\big[f(x)g(x)\\big]_a^b-\\int_a^b f'(x)g(x)\\,dx$<br><br><b>[문항]</b><br>실수 전체에서 도함수가 연속인 두 함수 $f(x),g(x)$가 다음을 모두 만족시킨다.<br>(1) 모든 실수 $x$: $\\left\\{f\\!\\left(x+\\tfrac14\\right)\\right\\}^2+\\left\\{f\\!\\left(x-\\tfrac14\\right)\\right\\}^2=1$<br>(2) 모든 실수 $x$: $f(x)\\,f\\!\\left(x+\\tfrac12\\right)=3g(x)-16\\{g(x)\\}^3$<br>(3) $\\left(-\\tfrac14,0\\right)$에서 $-\\tfrac12&lt;g(x)&lt;0$<br>(4) $f\\!\\left(\\tfrac{5}{12}\\right)=-\\dfrac{\\sqrt2}{2},\\ g(0)=0$",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> 모든 정수 $n$에 대하여 $|f'(n)|=|f'(0)|$이 성립함을 증명하시오. (단, $f(0)\\ne0$)",
+    "20점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> $g\\!\\left(-\\dfrac{1}{12}\\right)$의 값을 구하시오.",
+    "30점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> $\\displaystyle\\int_{-\\frac1{12}}^{0} f'(x)g(x)\\big[f(x)-2\\{f(x)\\}^3\\big]\\,dx=\\dfrac{q}{p}$라 할 때 $p+q$의 값을 구하시오. (단, $p,q$는 서로소인 자연수)",
+    "60점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> 조건 (1) $f(x+\\tfrac12)^2+f(x)^2=1$ 에서 $x$ 대신 $x+\\tfrac12$을 넣으면 $f(x+1)^2+f(x+\\tfrac12)^2=1$, 따라서 $f(x)^2=f(x+1)^2$. 정수 $n$에 대해 $|f(n)|=|f(0)|\\,(\\ne0)$. 양변을 미분한 $2f(x)f'(x)=2f(x+1)f'(x+1)$에서 $|f(n)||f'(n)|=|f(n+1)||f'(n+1)|$ 이고 $|f(n)|=|f(n+1)|$ 이므로 $|f'(n)|=|f'(n+1)|$. 따라서 <b>$|f'(n)|=|f'(0)|$</b>.</p>\n<p><b>【1-2】</b> $g\\!\\left(-\\tfrac1{12}\\right)=a$ 라 하면 조건 (2)로 $f\\!\\left(-\\tfrac1{12}\\right)f\\!\\left(\\tfrac{5}{12}\\right)=3a-16a^3$, 조건 (1)로 $f\\!\\left(-\\tfrac1{12}\\right)^2+f\\!\\left(\\tfrac5{12}\\right)^2=1$, 조건 (4)의 $f\\!\\left(\\tfrac5{12}\\right)=-\\tfrac{\\sqrt2}{2}$ 에서 $f\\!\\left(-\\tfrac1{12}\\right)=\\pm\\tfrac{\\sqrt2}{2}$ 이므로 $16a^3-3a\\pm\\tfrac12=0$. 조건 (3)에 의해 <span class=\"ans\">$g\\!\\left(-\\dfrac1{12}\\right)=-\\dfrac14$</span>.</p>\n<p><b>【1-3】</b> $h(x)=\\tfrac12f(x)^2-\\tfrac12f(x)^4=\\tfrac12f(x)^2f(x+\\tfrac12)^2$ 이므로 주어진 적분은 $\\displaystyle\\int_{-1/12}^{0}g(x)h'(x)\\,dx=\\Big[g(x)h(x)\\Big]_{-1/12}^{0}-\\tfrac12\\!\\int_{-1/12}^{0}\\!\\big(3g(x)-16g(x)^3\\big)^2 g'(x)\\,dx$. $u=g(x)$로 치환하면 $=-g\\!\\left(-\\tfrac1{12}\\right)h\\!\\left(-\\tfrac1{12}\\right)-\\tfrac12\\!\\int_{-1/4}^{0}\\!(3u-16u^3)^2\\,du=\\dfrac1{32}-\\dfrac12\\cdot\\dfrac{17}{560}=\\dfrac{9}{560}$. 따라서 $p=560,q=9$, <span class=\"ans\">$p+q=569$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> $|f(n)|=|f(0)|$ 임을 확인(5) · $|f'(n)|=|f'(n+1)|$ 임을 증명(15)<br><b>【1-2】</b> $16a^3-3a\\pm\\tfrac12=0$ 유도(20) · $a$의 값 구함(10)<br><b>【1-3】</b> 부분적분으로 $-g\\!\\left(-\\tfrac1{12}\\right)h\\!\\left(-\\tfrac1{12}\\right)-\\tfrac12\\!\\int_{-1/4}^{0}(3u-16u^3)^2du$로 표현(40) · 정적분 값을 $\\dfrac qp$로 표현(15) · $p+q$ 구함(5)</div>"
+ },
+ {
+  "no": "2022 기출 · 자연Ⅱ 2",
+  "topic": "미적분 · 삼각함수 · 수열의 극한",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) 곡선 $y=x^2$ 위의 점 $(x_0,y_0)$에서의 접선 $y-y_0=2x_0(x-x_0)$<br>(나) $\\tan(\\alpha\\pm\\beta)=\\dfrac{\\tan\\alpha\\pm\\tan\\beta}{1\\mp\\tan\\alpha\\tan\\beta}$<br>(다) 수렴하는 수열의 극한 성질 (샌드위치, 합·차·곱·몫)<br><br><b>[문항]</b><br>수열 $\\{a_n\\}$이 모든 자연수 $n$에 대하여 다음을 만족시킨다.<br>(1) $0&lt;a_n&lt;a_{n+1}$<br>(2) 점 $\\mathrm{A}_n(a_n,a_n^{\\,2})$은 곡선 $P:y=x^2$ 위의 점<br>(3) $P$ 위의 점 $\\mathrm{A}_{n+1}$에서의 접선이 두 직선 $\\mathrm{A}_n\\mathrm{A}_{n+1},\\ \\mathrm{A}_{n+1}\\mathrm{A}_{n+2}$와 이루는 예각의 크기가 서로 같다.<br>$r_n=\\dfrac{a_{n+1}}{a_n},\\ s_n=\\dfrac{a_{n+2}-a_{n+1}}{a_{n+1}-a_n}$이라 하자.",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 모든 자연수 $n$에 대하여 $a_{n+2}=\\dfrac{4a_{n+1}^{\\,3}+q\\,a_{n+1}-a_n}{1+p\\,a_na_{n+1}}$이 항상 성립할 때 실수 $p,q$의 값을 각각 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> 모든 자연수 $n$에 대하여 $s_n&gt;1$임을 보이고, 이를 이용하여 $\\displaystyle\\lim_{n\\to\\infty}\\frac{1}{a_n}=0$임을 증명하시오.",
+    "30점"
+   ],
+   [
+    "3",
+    "<b>【2-3】</b> $\\displaystyle\\lim_{n\\to\\infty}(r_n-s_n)=0$이 성립함을 증명하시오.",
+    "20점"
+   ],
+   [
+    "4",
+    "<b>【2-4】</b> 점 $\\mathrm{A}_n$에서 $x$축에 내린 수선의 발을 $\\mathrm{H}_n$이라 하자. 사각형 $\\mathrm{A}_n\\mathrm{H}_n\\mathrm{H}_{n+1}\\mathrm{A}_{n+1}$에서 곡선 $P$로 나누어진 영역 중 윗부분 넓이를 $U_n$, 아랫부분 넓이를 $D_n$이라 하자. $\\displaystyle\\lim_{n\\to\\infty}s_n=3$일 때 $\\displaystyle\\lim_{n\\to\\infty}\\frac{U_n}{D_n}$의 값을 구하시오.",
+    "40점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> 직선 $\\mathrm{A}_n\\mathrm{A}_{n+1}$의 기울기를 $\\tan\\alpha_n=a_{n+1}+a_n$, 점 $\\mathrm{A}_{n+1}$에서의 접선 기울기를 $\\tan\\beta_{n+1}=2a_{n+1}$ 이라 하자. 조건 (3)에서 $\\alpha_n+\\alpha_{n+1}=2\\beta_{n+1}$ 이므로 제시문 (나)로 $\\tan(\\alpha_n+\\alpha_{n+1})=\\tan2\\beta_{n+1}$, 즉 $\\dfrac{(a_{n+1}+a_n)+(a_{n+2}+a_{n+1})}{1-(a_{n+1}+a_n)(a_{n+2}+a_{n+1})}=\\dfrac{4a_{n+1}}{1-4a_{n+1}^2}$. $a_{n+2}$에 대해 정리하면 $a_{n+2}=\\dfrac{4a_{n+1}^3+2a_{n+1}-a_n}{1+4a_na_{n+1}}$, 따라서 <span class=\"ans\">$p=4,\\ q=2$</span>.</p>\n<p><b>【2-2】</b> $s_n=\\dfrac{a_{n+2}-a_{n+1}}{a_{n+1}-a_n}$ 에 【2-1】을 대입하면 $s_n=\\dfrac{1+4a_{n+1}^2}{1+4a_na_{n+1}}$ 이고 $a_n&lt;a_{n+1}$ 이므로 $s_n&gt;1$. 따라서 $a_{n+2}-a_{n+1}&gt;a_{n+1}-a_n&gt;\\cdots&gt;a_2-a_1&gt;0$. $d=a_2-a_1$이라 하면 $a_{n+2}&gt;a_1+(n+1)d$ 이므로 $0&lt;\\dfrac1{a_{n+2}}&lt;\\dfrac1{a_1+(n+1)d}$, 제시문 (다)에 의해 <span class=\"ans\">$\\displaystyle\\lim_{n\\to\\infty}\\dfrac1{a_n}=0$</span>.</p>\n<p><b>【2-3】</b> $r_n-s_n=\\dfrac{a_{n+1}^2-a_na_{n+2}}{a_n(a_{n+1}-a_n)}=\\dfrac{a_{n+1}-a_n}{a_n(1+4a_na_{n+1})}$. 분자·분모를 $a_na_{n+1}$로 나누고 $\\displaystyle\\lim\\dfrac1{a_n}=0$을 쓰면 <span class=\"ans\">$\\displaystyle\\lim_{n\\to\\infty}(r_n-s_n)=0$</span>.</p>\n<p><b>【2-4】</b> $\\lim(r_n-s_n)=0,\\ \\lim s_n=3$ 이므로 $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{a_{n+1}}{a_n}=\\lim r_n=3$. 사각형 $\\mathrm{A}_n\\mathrm{H}_n\\mathrm{H}_{n+1}\\mathrm{A}_{n+1}$의 넓이 $R_n=\\dfrac{(a_{n+1}^2+a_n^2)(a_{n+1}-a_n)}{2}$, 아랫부분 $D_n=\\displaystyle\\int_{a_n}^{a_{n+1}}\\!x^2dx=\\dfrac{a_{n+1}^3-a_n^3}{3}$, 윗부분 $U_n=R_n-D_n=\\dfrac{(a_{n+1}-a_n)^3}{6}$. 따라서 $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{U_n}{D_n}=\\dfrac{(3-1)^2}{2(3^2+3+1)}=$ <span class=\"ans\">$\\dfrac{2}{13}$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> 두 직선과 접선의 기울기를 구함(5) · $\\tan$의 합·차로 관계를 표현(10) · $a_{n+2}$를 바르게 표현(15)<br><b>【2-2】</b> $s_n=\\dfrac{1+4a_{n+1}^2}{1+4a_na_{n+1}}$ 얻음(5) · $a_n&lt;a_{n+1}$로 $s_n&gt;1$ 증명(10) · $a_{n+1}&gt;a_1+n(a_2-a_1)$ 증명하여 $\\dfrac1{a_n}\\to0$ 보임(15)<br><b>【2-3】</b> $r_n-s_n=\\dfrac{a_{n+1}-a_n}{a_n(1+4a_na_{n+1})}$ 얻음(10) · $\\dfrac1{a_n}\\to0$ 이용 극한 $0$ 보임(10)<br><b>【2-4】</b> 영역을 바르게 표현(5) · $U_n,D_n$ 계산(15) · $\\lim r_n=3$ 보임(10) · $\\lim\\dfrac{U_n}{D_n}=\\dfrac2{13}$ 계산(10)</div>"
+ },
+ {
+  "no": "2022 기출 · 자연Ⅱ 3",
+  "topic": "미적분 · 도함수의 활용",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) $f'(x)&gt;0$ 증가, $f'(x)&lt;0$ 감소<br>(나) $\\{f(g(x))\\}'=f'(g(x))g'(x)$<br>(다) 접선 $y-f(x_0)=f'(x_0)(x-x_0)$<br>(라) (사잇값 정리) $[a,b]$에서 연속이고 $f(a)\\ne f(b)$이면 그 사이의 $k$에 대해 $f(c)=k$인 $c\\in(a,b)$ 존재<br>(마) (샌드위치) $\\lim a_n=\\lim b_n=\\alpha,\\ a_n\\le c_n\\le b_n\\Rightarrow\\lim c_n=\\alpha$<br><br><b>[문항]</b><br>실수 $a$에 대하여 실수 전체에서 미분가능한 함수 $f(x)=\\begin{cases}(7-a)x+4\\cos x-2(\\pi+1) & (x\\ge0)\\\\ -(a+1)x^2-(7-a)\\ln(1-x)-2(\\pi-1) & (x&lt;0)\\end{cases}$라 하자. 모든 실수 $x$에 대하여 $f'(x)&gt;0$이 되기 위한 $a$의 범위는 $k_1\\le a&lt;k_2$이다.",
+  "subs": [
+   [
+    "1",
+    "<b>【3-1】</b> $k_1$과 $k_2$의 값을 각각 구하시오.",
+    "20점"
+   ],
+   [
+    "2",
+    "<b>【3-2】</b> $k_1&lt;a&lt;k_2$일 때 $f(x)$는 역함수 $g(x)$를 가진다. 곡선 $y=g(x)$의 $y$절편을 $h(a)$라 할 때 $h(a)$는 미분가능하다. $h'(1)$의 값을 구하시오. (단, $h(1)=\\tfrac{\\pi}{3}$)",
+    "25점"
+   ],
+   [
+    "3",
+    "<b>【3-3】</b> $a=1$일 때 곡선 $y=f(x)$ 위의 점 $(t,f(t))$에서의 접선이 원점을 지나도록 하는 모든 실수 $t$의 집합을 $S$라 하자.<br>(1) $S$의 원소 중 열린구간 $(-2,6\\pi)$에 속하는 원소의 개수가 $5$임을 증명하시오. (단, $6\\ln3+2\\pi&lt;14$)",
+    "35점"
+   ],
+   [
+    "4",
+    "<b>【3-3】</b> (2) $S$의 양수인 원소를 작은 수부터 나열할 때 $n$번째 수를 $c_n$이라 하자. $\\displaystyle\\lim_{n\\to\\infty}(c_{2n}-c_{2n-1})=\\pi$임을 증명하시오.",
+    "40점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【3-1】</b> $f'(x)=\\begin{cases}(7-a)-4\\sin x & (x\\ge0)\\\\ -2(a+1)x+\\dfrac{7-a}{1-x} & (x&lt;0)\\end{cases}$. $x\\ge0$에서 $f'(x)&gt;0$이려면 $(7-a)-4&gt;0$, 즉 $a&lt;3$. $x&lt;0$에서 $f'(x)&gt;0$이려면 $-1\\le a\\le7$. 따라서 $-1\\le a&lt;3$ 이므로 <span class=\"ans\">$k_1=-1,\\ k_2=3$</span>.</p>\n<p><b>【3-2】</b> $h(a)=g(0)$ ($y$절편)이므로 $f(h(a))=f(g(0))=0$. $f(0)=-2(\\pi-1)&lt;0,\\ f'&gt;0$ 이므로 $h(a)&gt;0$ 이고 $f(h(a))=(7-a)h(a)+4\\cos(h(a))-2(\\pi+1)=0$. 양변을 $a$로 미분하면 $-h(a)+(7-a)h'(a)-4\\sin(h(a))h'(a)=0$. $h(1)=\\dfrac\\pi3$ 을 대입하면 <span class=\"ans\">$h'(1)=\\dfrac{(3+\\sqrt3)\\pi}{36}$</span>.</p>\n<p><b>【3-3】(1)</b> $a=1$일 때 점 $(t,f(t))$에서의 접선이 원점을 지나면 $f(t)-tf'(t)=0$. $w(x)=f(x)-xf'(x)=\\begin{cases}4\\cos x+4x\\sin x-2(\\pi+1) & (x\\ge0)\\\\ 2x^2-6\\ln(1-x)-\\dfrac{6x}{1-x}-2(\\pi-1) & (x&lt;0)\\end{cases}$ 라 하면, $w$의 부호 변화를 조사하여 $w(x)=0$의 실근이 열린구간 $(-2,0),\\left(2\\pi,\\tfrac52\\pi\\right),\\left(\\tfrac52\\pi,3\\pi\\right),\\left(4\\pi,\\tfrac92\\pi\\right),\\left(\\tfrac92\\pi,5\\pi\\right)$에 각각 하나씩 존재하고, $[0,2\\pi],[3\\pi,4\\pi],[5\\pi,6\\pi]$ 및 $\\tfrac52\\pi,\\tfrac92\\pi$에는 없음을 보이면 $(-2,6\\pi)$에 속하는 $S$의 원소는 <b>정확히 5개</b>이다.</p>\n<p><b>【3-3】(2)</b> 양수인 원소를 작은 것부터 $c_n$이라 하면 위 분석에서 $2n\\pi&lt;c_{2n-1}&lt;2n\\pi+\\dfrac1n$, $(2n+1)\\pi-\\dfrac1n&lt;c_{2n}&lt;(2n+1)\\pi$ 가 성립한다. 따라서 샌드위치 정리에 의해 <span class=\"ans\">$\\displaystyle\\lim_{n\\to\\infty}(c_{2n}-c_{2n-1})=\\pi$</span>.</p>\n<div class=\"gp\"><b>【3-1】</b> $k_1=-1$ 구함(10) · $k_2=3$ 구함(10)<br><b>【3-2】</b> $(7-a)h(a)+4\\cos(h(a))-2(\\pi+1)=0$ 성립을 보임(10) · $h'(1)=\\dfrac{(3+\\sqrt3)\\pi}{36}$ 구함(15)<br><b>【3-3】(1)</b> 다섯 개의 열린구간에 $S$의 원소가 오직 하나씩 존재함을 보임(30) · 나머지 구간 및 $\\tfrac52\\pi,\\tfrac92\\pi$에는 없음을 보임(5)<br><b>【3-3】(2)</b> $2n\\pi&lt;c_{2n-1}&lt;2n\\pi+\\tfrac1n$ 보임(15) · $(2n+1)\\pi-\\tfrac1n&lt;c_{2n}&lt;(2n+1)\\pi$ 보임(15) · $\\lim(c_{2n}-c_{2n-1})=\\pi$ 보임(10)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅱ 1",
+  "topic": "미적분 · 적분법",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) $f'(a)=\\displaystyle\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}$<br>(나) 우극한·좌극한이 모두 $L$이면 $\\displaystyle\\lim_{x\\to a}f(x)=L$<br>(다) $\\displaystyle\\int_a^b f+\\int_b^c f=\\int_a^c f$<br>(라) 등비수열 합 $\\dfrac{a(1-r^n)}{1-r}$<br>(마) 샌드위치 정리<br><br><b>[문항]</b><br>세 수열 $\\{a_n\\},\\{b_n\\},\\{c_n\\}$과 구간 $(0,\\infty)$에서 미분가능한 $f(x)$가 모든 자연수 $n$에 대하여 만족:<br>(Ⅰ) $2n-1\\le x\\le 2n$: $f(x)=a_n(x-2n+1)^4+b_n(x-2n+1)^2+c_n(x-2n+1)+\\dfrac{1}{2^{\\,n-1}}$<br>(Ⅱ) $2n-2&lt;x&lt;2n-1$: $f(x)=f(4n-2-x)$",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> $c_{2023}$의 값을 구하시오.",
+    "20점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> 모든 자연수 $n$에 대하여 $(2a_n+b_n)(2a_{n+1}+b_{n+1})\\le0$임을 증명하시오.",
+    "30점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> $b_1=-4,\\ \\displaystyle\\lim_{x\\to0+}f(x)=-1$이라 하자.<br>(1) $\\displaystyle\\int_2^{10}|f'(x)|\\,dx=\\dfrac{q}{p}$라 할 때 $p+q$를 구하시오. (단, $p,q$ 서로소인 자연수)",
+    "35점"
+   ],
+   [
+    "4",
+    "<b>【1-3】</b> (2) 양수 $t$에 대하여 $g(x)=|f(x)-t|$가 $(0,\\infty)$에서 미분가능하지 않은 점의 개수를 $m(t)$라 하자. $\\displaystyle\\lim_{t\\to0+}\\frac{m(t)}{\\log_2 t}$의 값을 구하시오.",
+    "35점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> $f$가 $x=2n-1$에서 미분가능하므로 좌·우 미분계수가 같다. 조건 (Ⅰ)·(Ⅱ)에서 $\\displaystyle\\lim_{h\\to0+}\\dfrac{f(2n-1+h)-f(2n-1)}{h}=\\lim_{h\\to0+}(a_nh^3+b_nh+c_n)=c_n$, $\\displaystyle\\lim_{h\\to0-}\\dfrac{f(2n-1+h)-f(2n-1)}{h}=-c_n$. 따라서 $c_n=-c_n$, 즉 $c_n=0$. 그러므로 <span class=\"ans\">$c_{2023}=0$</span>.</p>\n<p><b>【1-2】</b> $f$가 $x=2n$에서 미분가능하므로 좌·우 미분계수가 같다. 조건에서 $\\displaystyle\\lim_{h\\to0+}\\dfrac{f(2n+h)-f(2n)}{h}=-(4a_{n+1}+2b_{n+1})$, $\\displaystyle\\lim_{h\\to0-}\\dfrac{f(2n+h)-f(2n)}{h}=4a_n+2b_n$. 따라서 $-(2a_{n+1}+b_{n+1})=2a_n+b_n$이고, $(2a_n+b_n)(2a_{n+1}+b_{n+1})=-(2a_n+b_n)^2\\le0$. ∎</p>\n<p><b>【1-3】</b> (1) 조건에서 $\\displaystyle\\lim_{x\\to0+}f(x)=\\lim_{x\\to0+}f(2-x)=f(2)=a_1+b_1+1=-1$이고 $b_1=-4$이므로 $a_1=2$, 즉 $2a_1+b_1=0$. 【1-2】에 의해 모든 자연수 $n$에서 $2a_n+b_n=0$. 따라서 $2n-1\\le x\\le2n$에서 $f(x)=a_n(x-2n+1)^4-2a_n(x-2n+1)^2+\\dfrac{1}{2^{n-1}}$, $f'(x)=4a_n(x-2n+1)\\{(x-2n+1)^2-1\\}$. 이로부터 $\\displaystyle\\int_2^{10}|f'(x)|\\,dx=\\{f(3)-f(2)\\}-\\{f(4)-f(3)\\}+\\cdots+\\{f(9)-f(8)\\}-\\{f(10)-f(9)\\}=\\sum_{n=1}^4 2\\!\\left(\\dfrac{1}{2^n}+1\\right)=\\dfrac{79}{8}$. 따라서 $p+q=8+79=$ <span class=\"ans\">$87$</span>.<br>(2) $t\\ge1$이면 $m(t)=0$이고, 자연수 $k$에 대하여 $\\dfrac{1}{2^k}\\le t&lt;\\dfrac{1}{2^{k-1}}$이면 $m(t)=2k$이다. 이 부등식은 $-\\log_2 t\\le k&lt;-\\log_2 t+1$이므로 $0&lt;t&lt;1$일 때 $2\\!\\left(-1+\\dfrac{1}{\\log_2 t}\\right)&lt;\\dfrac{m(t)}{\\log_2 t}\\le-2$. $t\\to0+$에서 좌변이 $-2$로 수렴하므로 함수의 극한의 대소관계(샌드위치 정리)에 의해 <span class=\"ans\">$\\displaystyle\\lim_{t\\to0+}\\dfrac{m(t)}{\\log_2 t}=-2$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> 우미분계수 $=c_n$ 보임(5) · 좌미분계수 $=-c_n$ 보임(5) · $c_{2023}=0$ 구함(10)<br><b>【1-2】</b> $\\lim_{h\\to0+}\\dfrac{f(2n+h)-f(2n)}{h}=-(4a_{n+1}+2b_{n+1})$ 보임(5) · $\\lim_{h\\to0-}\\dfrac{f(2n+h)-f(2n)}{h}=4a_n+2b_n$ 보임(5) · $-(2a_{n+1}+b_{n+1})=2a_n+b_n$ 보임(10) · $(2a_n+b_n)(2a_{n+1}+b_{n+1})=-(2a_n+b_n)^2\\le0$ 보임(10)<br><b>【1-3】(1)</b> $2a_1+b_1=0$ 구함(5) · 모든 $n$에서 $2a_n+b_n=0$ 구함(5) · $\\int_2^{10}|f'(x)|dx$를 구간별 정적분 합으로 전개(10) · $p+q=87$ 구함(15)<br><b>【1-3】(2)</b> $\\dfrac{1}{2^k}\\le t&lt;\\dfrac{1}{2^{k-1}}$이면 $m(t)=2k$ 보임(10) · $2\\!\\left(-1+\\dfrac{1}{\\log_2 t}\\right)&lt;\\dfrac{m(t)}{\\log_2 t}\\le-2$ 보임(10) · $\\lim_{t\\to0+}\\dfrac{m(t)}{\\log_2 t}=-2$ 구함(15)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅱ 2",
+  "topic": "미적분 · 미분법 (지수)",
+  "level": "상",
+  "total": "110점",
+  "stem": "<b>[제시문]</b><br>(가) $f'(x)=\\displaystyle\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}$<br>(나) $y=a^x$이면 $y'=a^x\\ln a$, $\\displaystyle\\lim_{h\\to0}\\frac{a^h-1}{h}=\\ln a$<br>(다) 곱의 미분, (라) 합성함수의 미분, (마) $\\displaystyle\\int_a^b f=F(b)-F(a)$<br><br><b>[문항]</b><br>실수 전체에서 미분가능한 두 함수 $f(x),g(x)$가 모든 실수 $x,y$에 대하여 만족:<br>(Ⅰ) $f(x+y)=2023^{\\,y}f(x)+2023^{\\,x}f(y)$<br>(Ⅱ) $g(x+y)=2023^{\\,xy(2x^2+3xy+2y^2)}g(x)g(y)$<br>(Ⅲ) $g(x)&gt;0$",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 모든 실수 $x$에 대하여 $f'(x)-f(x)\\ln2023=f'(0)\\cdot2023^{\\,x}$임을 증명하시오.",
+    "25점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> $f(2023)=2023$일 때 함수 $f(x)$를 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-3】</b> $g(2023)=2023$일 때 함수 $g(x)$를 구하시오.",
+    "45점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> 조건 (Ⅰ)에 $x=y=0$을 넣으면 $f(0)=0$. $y=h$를 넣어 $f(x+h)=2023^h f(x)+2023^x f(h)$, 양변에서 $f(x)$를 빼고 $h$로 나누면 $\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{2023^h-1}{h}f(x)+2023^x\\dfrac{f(h)-f(0)}{h}$. $h\\to0$ 극한과 미분계수의 정의로 $f'(x)=\\ln2023\\,f(x)+2023^x f'(0)$, 즉 $f'(x)-f(x)\\ln2023=2023^x f'(0)$. ∎</p>\n<p><b>【2-2】</b> 곱의 미분법으로 $\\{2023^{-x}f(x)\\}'=2023^{-x}\\{f'(x)-f(x)\\ln2023\\}=f'(0)$ (∵【2-1】). $h(x)=2023^{-x}f(x)$로 두면 $h'(x)=f'(0)$(상수)이라 $h(x)=f'(0)x+C$, $h(0)=f(0)=0$에서 $C=0$. 따라서 $f(x)=f'(0)\\,x\\cdot2023^x$. $f(2023)=2023$에서 $f'(0)=2023^{-2023}$이므로 <span class=\"ans\">$f(x)=x\\cdot2023^{\\,x-2023}$</span>.</p>\n<p><b>【2-3】</b> 조건 (Ⅱ)에 $x=y=0$과 $g(x)&gt;0$을 쓰면 $g(0)=1$. $xy(2x^2+3xy+2y^2)=\\dfrac{(x+y)^4-x^4-y^4}{2}$이므로 $2023^{-\\frac{(x+y)^4}{2}}g(x+y)=\\left(2023^{-\\frac{x^4}{2}}g(x)\\right)\\!\\left(2023^{-\\frac{y^4}{2}}g(y)\\right)$. $k(x)=\\log_{2023}\\!\\left(2023^{-\\frac{x^4}{2}}g(x)\\right)$로 두면 $k(x+y)=k(x)+k(y)$, $k(0)=0$이고 미분계수의 정의로 $k(x)=cx$. 따라서 $g(x)=2023^{\\frac{x^4}{2}+cx}$이고 $g(2023)=2023$에서 $c=-\\dfrac{2023^3}{2}+\\dfrac{1}{2023}$이므로 <span class=\"ans\">$g(x)=2023^{\\frac{x^4-2023^3 x}{2}+\\frac{x}{2023}}$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> $x=y=0$ 대입 $f(0)=0$ 구함(5) · $\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{2023^h-1}{h}f(x)+2023^x\\dfrac{f(h)-f(0)}{h}$ 유도(10) · 극한·도함수 정의로 $f'(x)-f(x)\\ln2023=2023^x f'(0)$ 유도(10)<br><b>【2-2】</b> $\\{2023^{-x}f(x)\\}'=f'(0)$ 보임(15) · $h(x)=2023^{-x}f(x)=f'(0)x+C,\\ C=0$ 보임(10) · $f(x)=f'(0)x\\cdot2023^x$ 구함(5) · $f(2023)=2023$로 $f(x)=x\\cdot2023^{x-2023}$ 구함(10)<br><b>【2-3】</b> $g(0)=1$ 구함(5) · $2023^{-\\frac{(x+y)^4}{2}}g(x+y)=2023^{-\\frac{x^4}{2}}g(x)\\cdot2023^{-\\frac{y^4}{2}}g(y)$ 보임(10) · $k(x)=\\log_{2023}(2023^{-x^4/2}g(x))$로 $k(x+y)=k(x)+k(y)$ 보임(10) · $k(0)=0,\\ k(x)=cx$ 보임(10) · $g(2023)=2023$로 $g(x)$ 구함(10)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅱ 3",
+  "topic": "미적분 · 정적분",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) (평균값 정리) $\\dfrac{f(b)-f(a)}{b-a}=f'(c)$인 $c\\in(a,b)$ 존재<br>(나) (치환적분) $\\displaystyle\\int_a^b f(x)\\,dx=\\int_\\alpha^\\beta f(g(t))g'(t)\\,dt$<br>(다) 수렴수열 대소·샌드위치<br>(라) 부분적분<br><br><b>[문항]</b><br>자연수 $m$에 대하여 구간 $(0,\\infty)$에서 연속인 두 함수 $f(x),g(x)$가 만족:<br>(Ⅰ) $(0,\\infty)$에서 $g$는 미분가능, $g'$는 연속<br>(Ⅱ) 모든 양수 $x$: $g(x)&gt;0$<br>(Ⅲ) $h(x)=f(g(x))g'(x)$는 $[m,\\infty)$에서 감소",
+  "subs": [
+   [
+    "1",
+    "<b>【3-1】</b> $n\\ge m$인 모든 자연수 $n$에 대하여 $\\displaystyle\\sum_{i=m+1}^{n+1}h(i)&lt;\\int_{g(m)}^{g(n+1)}f(x)\\,dx&lt;\\sum_{i=m}^{n}h(i)$를 증명하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【3-2】</b> 정적분 $\\dfrac12\\displaystyle\\int_{1/7}^{1/4}2^{\\,1/x}\\,dx$의 값의 정수부분을 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【3-3】</b> 자연수 $n$에 대하여 $a_n=\\dfrac{4}{(n+1)\\ln(n+1)}\\displaystyle\\sum_{k=1}^{n+1}\\!\\left\\{\\frac{k^2+2k-1}{(k+1)^2}\\ln\\frac{k+1}{k^2+1}\\right\\}$일 때 $\\displaystyle\\lim_{n\\to\\infty}a_n$의 값을 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【3-1】</b> $h(x)$의 부정적분을 $F(x)$라 하면, 평균값 정리에 의해 각 자연수 $i$에 대하여 $h(c_i)=F(i+1)-F(i)$인 $c_i\\in(i,i+1)$이 존재한다. $h$가 $[m,\\infty)$에서 감소하므로 $i\\ge m$에서 $h(i+1)&lt;h(c_i)&lt;h(i)$이고, 따라서 $\\displaystyle\\sum_{i=m+1}^{n+1}h(i)&lt;F(n+1)-F(m)&lt;\\sum_{i=m}^{n}h(i)$. 치환적분법으로 $F(n+1)-F(m)=\\displaystyle\\int_m^{n+1}f(g(x))g'(x)\\,dx=\\int_{g(m)}^{g(n+1)}f(u)\\,du$이므로 주어진 부등식이 성립한다. ∎</p>\n<p><b>【3-2】</b> $f(x)=2^{1/x}$, $g(x)=\\dfrac{1}{x+3}$로 두면 $h(x)=f(g(x))g'(x)=\\dfrac{-2^{x+3}}{(x+3)^2}$이고, $x&gt;1$에서 $h'(x)&lt;0$이라 $h$는 $[1,\\infty)$에서 감소한다. $g(1)=\\tfrac14$, $g(4)=\\tfrac17$이므로 【3-1】을 $m=1,\\ n=3$에 적용하면 $\\dfrac12\\displaystyle\\int_{1/7}^{1/4}2^{1/x}\\,dx$가 $\\dfrac{2^3}{4^2}+\\dfrac{2^4}{5^2}+\\dfrac{2^5}{6^2}\\approx2.03$과 $\\dfrac{2^4}{5^2}+\\dfrac{2^5}{6^2}+\\dfrac{2^6}{7^2}\\approx2.84$ 사이에 있다. 따라서 정수부분은 <span class=\"ans\">$2$</span>.</p>\n<p><b>【3-3】</b> $f(x)=-\\ln x$, $g(x)=\\dfrac{x^2+1}{x+1}$로 두면 $h(x)=f(g(x))g'(x)=\\left\\{-\\ln\\dfrac{x^2+1}{x+1}\\right\\}\\dfrac{x^2+2x-1}{(x+1)^2}$이고 $h(1)=0$, $h$는 $[1,\\infty)$에서 감소한다. 【3-1】을 적용하면 $a_n$을 정하는 합이 $\\displaystyle\\int_1^{\\frac{n^2+2n+2}{n+2}}(-\\ln x)\\,dx$로 끼이고, 부분적분 $\\displaystyle\\int(-\\ln x)\\,dx=-x(\\ln x-1)+C$를 이용하면 모든 자연수 $n$에서 $c_n&lt;a_n&lt;b_n$인 두 수열 $\\{b_n\\},\\{c_n\\}$을 얻는다. $\\displaystyle\\lim_{n\\to\\infty}b_n=\\lim_{n\\to\\infty}c_n=-4$이므로 수열의 극한의 대소관계에 의해 <span class=\"ans\">$\\displaystyle\\lim_{n\\to\\infty}a_n=-4$</span>.</p>\n<div class=\"gp\"><b>【3-1】</b> 평균값 정리로 $h(c_i)=F(i+1)-F(i)$, $c_i\\in(i,i+1)$ 보임(5) · $i\\ge m$에서 $h(i+1)&lt;h(c_i)&lt;h(i)$ 보임(5) · $\\sum_{i=m+1}^{n+1}h(i)&lt;F(n+1)-F(m)&lt;\\sum_{i=m}^{n}h(i)$ 유도(10) · 치환적분으로 $F(n+1)-F(m)=\\int_{g(m)}^{g(n+1)}f(u)du$ 보임(10)<br><b>【3-2】</b> $f(x)=2^{1/x},\\ g(x)=\\dfrac{1}{x+3}$ 설정(5) · $h$가 $[1,\\infty)$에서 감소 보임(10) · $2&lt;\\dfrac12\\int_{1/7}^{1/4}2^{1/x}dx&lt;3$ 보임(20) · 정수부분 $2$ 구함(5)<br><b>【3-3】</b> $f(x)=-\\ln x,\\ g(x)=\\dfrac{x^2+1}{x+1}$ 설정(5) · $h$가 $[1,\\infty)$에서 감소 보임(10) · $c_n\\le a_n$인 수열 $\\{c_n\\}$ 일반항 구함(10) · $a_n\\le b_n$인 수열 $\\{b_n\\}$ 일반항 구함(10) · $\\lim b_n=\\lim c_n=-4$ 구함(10) · $\\lim a_n=-4$ 구함(5)</div>"
+ },
+ {
+  "no": "2024 기출 · 자연Ⅱ 1",
+  "topic": "미적분 · 일대일함수 · 도함수",
+  "level": "상",
+  "total": "140점",
+  "stem": "<b>[제시문]</b><br>(가) (일대일) $x_1\\ne x_2\\Rightarrow f(x_1)\\ne f(x_2)$<br>(나) (평균값 정리) $\\dfrac{f(b)-f(a)}{b-a}=f'(c)$인 $c\\in(a,b)$ 존재<br>(다) 극한의 사칙연산<br>(라) 명제 $p\\to q$와 대우 $\\sim q\\to\\sim p$의 참·거짓 일치<br>(마) 극값에서 $f'(a)=0$, (바) 연속의 정의<br><br><b>[문항]</b><br>최고차항 계수가 양수인 사차함수 $p(x)$가 다음을 만족:<br>(ㄱ) $f(x)=p\\!\\left(\\dfrac{(k-1)e^{-x}+2|k|-|k-1|+|k-2|+1}{e^{-x}+1}\\right)$이 일대일함수가 되도록 하는 모든 실수 $k$의 집합 $A=\\{k\\mid 1\\le k\\le2\\}\\cup\\{k\\mid k\\ge9\\}$<br>(ㄴ) $k=1$일 때 $\\displaystyle\\lim_{x\\to-\\infty}f(x)=4$",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> $f(x)$가 실수 전체에서 미분가능하고 모든 $x$에 대해 $f'(x)\\ne0$이면 $f(x)$가 일대일함수임을 제시문 (나)를 이용하여 보이시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> $p(0)$의 값을 구하시오.",
+    "15점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> 방정식 $p'(x)=0$의 실근이 각각의 열린구간 $(-1,2),(2,6),(6,14)$에 적어도 하나씩 존재함을 보이시오.",
+    "45점"
+   ],
+   [
+    "4",
+    "<b>【1-4】</b> 실수 $m$에 대하여 방정식 $p(x)-mx-4=0$의 서로 다른 실근의 개수를 $h(m)$이라 하자. $h(m)$이 $m=64$에서 불연속일 때 $p(x)$의 최고차항의 계수를 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> $f$가 일대일이 아니라고 가정하면 $f(a)=f(b)$인 서로 다른 $a,b\\,(a&lt;b)$가 존재한다. 제시문 (나)에 의해 $0=\\dfrac{f(b)-f(a)}{b-a}=f'(c)$인 $c\\in(a,b)$가 존재하여 $f'(x)\\ne0$ 가정에 모순이다. 따라서 $f$는 <b>일대일함수</b>이다.</p>\n<p><b>【1-2】</b> $k=1$일 때 $f(x)=p\\!\\left(\\dfrac{4}{e^{-x}+1}\\right)$. $\\displaystyle\\lim_{x\\to-\\infty}\\dfrac{4}{e^{-x}+1}=0$ 이므로 $4=\\displaystyle\\lim_{x\\to-\\infty}f(x)=p(0)$. 따라서 <span class=\"ans\">$p(0)=4$</span>.</p>\n<p><b>【1-3】</b> $g(x)=\\dfrac{(k-1)e^{-x}+2|k|-|k-1|+|k-2|+1}{e^{-x}+1}$ 라 하면 $g'(x)=\\dfrac{(2|k|-|k-1|+|k-2|-k+2)e^{-x}}{(e^{-x}+1)^2}&gt;0$ 이므로 $g$는 증가·일대일이고 치역은 $\\{\\,k-1&lt;y&lt;2|k|-|k-1|+|k-2|+1\\,\\}$. $f=p\\circ g$가 일대일이 아니면 $f'=p'(g)g'=0$, 즉 $p'(x)=0$이 그 열린구간에 적어도 하나 존재한다. $k=0$이면 $(-1,2)$, $k=3$ 또는 $k=7$이면 각각 $(2,6),(6,14)$에 실근이 존재한다.</p>\n<p><b>【1-4】</b> $p'(x)=0$의 세 실근 $\\alpha&lt;\\beta&lt;\\gamma$에 대해 일대일 조건 $A$를 분석하면 $\\gamma=8,\\ \\beta=4,\\ \\alpha=0$. 따라서 $p'(x)=4ax(x-4)(x-8)$, $p(x)=ax^4-16ax^3+64ax^2+4$. $p(x)-mx-4=x(ax^3-16ax^2+64ax-m)$ 이므로 $h(m)$은 $q(x)=ax^3-16ax^2+64ax=ax(x-8)^2$의 그래프와 $y=m$의 교점 개수보다 $1$ 크다. $q'(x)=a(x-8)(3x-8)$ 이므로 $h(m)$은 $m=0$ 또는 $m=q\\!\\left(\\dfrac83\\right)=\\dfrac{2048}{27}a$에서 불연속. $m=64$에서 불연속이므로 $64=\\dfrac{2048}{27}a$, <span class=\"ans\">$a=\\dfrac{27}{32}$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> $f(a)=f(b)$인 두 실수 존재를 찾음(10) · 평균값정리로 $f'(c)=0$인 $c\\in(a,b)$ 존재를 찾음(10) · 가정에 모순되어 일대일임을 보임(10)<br><b>【1-2】</b> $k=1$일 때 $f(x)=p\\!\\left(\\tfrac{4}{e^{-x}+1}\\right)$ 찾음(5) · $\\lim=0$ 이용 $4=p(0)$ 찾음(10)<br><b>【1-3】</b> $g'(x)&gt;0$ 증가·일대일 찾음(5) · 치역 찾음(10) · $f$ 일대일 아니면 $p'(x)=0$ 실근이 해당 구간에 존재함을 찾음(15) · $k=0,3,7$에서 $(-1,2),(2,6),(6,14)$에 존재함을 찾음(15)<br><b>【1-4】</b> $p'(x)=4ax(x-4)(x-8)$ 찾음(30) · $p(x)-mx-4=x(ax^3-16ax^2+64ax-m)$ 찾음(5) · $h(m)$이 $m=0$ 또는 $q\\!\\left(\\tfrac83\\right)$에서 불연속 찾음(5) · $a=\\dfrac{27}{32}$ 찾음(10)</div>"
+ },
+ {
+  "no": "2024 기출 · 자연Ⅱ 2",
+  "topic": "미적분 · 삼각함수 · 넓이",
+  "level": "상",
+  "total": "140점",
+  "stem": "<b>[문항]</b><br>좌표평면 위에 원점 $\\mathrm{O}(0,0)$과 세 점 $\\mathrm{A}(0,1),\\mathrm{B}(1,1),\\mathrm{C}(1,0)$이 있다. 세 점 $\\mathrm{P,Q,R}$는 다음 규칙으로 움직인다.<br>(ㄱ) 선분 $\\mathrm{PQ}$의 길이는 항상 $1$<br>(ㄴ) $\\mathrm{P,Q}$는 각각 $\\mathrm{O,C}$에서 출발하여 정사각형 $\\mathrm{OABC}$의 변을 따라 시계 방향으로 이동<br>(ㄷ) $\\mathrm{R}$는 정사각형 내부 또는 변 위에 있고 삼각형 $\\mathrm{PQR}$가 정삼각형이 되도록 이동",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> $\\mathrm{P,Q}$가 각각 변 $\\mathrm{OA}$, 변 $\\mathrm{OC}$ 위에 있을 때 $\\mathrm{P}$의 $y$좌표를 $a$라 하자.<br>(1) 점 $\\mathrm{R}$의 좌표 $(x,y)$를 $a$를 이용하여 나타내시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-1】</b> (2) $0\\le a\\le\\dfrac{\\sqrt3}{2}$일 때 점 $\\mathrm{R}$의 좌표 $(x,y)$에 대하여 $y=c_1x+c_2\\sqrt{c_3-x^2}$이 성립한다. 세 실수 $c_1,c_2,c_3$을 각각 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-2】</b> 세 점 $\\mathrm{P,Q,R}$가 모두 정사각형 $\\mathrm{OABC}$의 변 위에 있을 때 가능한 점 $\\mathrm{R}$의 좌표를 모두 구하시오.",
+    "25점"
+   ],
+   [
+    "4",
+    "<b>【2-3】</b> 점 $\\mathrm{P}$가 정사각형 $\\mathrm{OABC}$의 변을 따라 한 바퀴 돌 때 점 $\\mathrm{R}$가 나타내는 도형의 넓이를 구하시오.",
+    "45점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】(1)</b> $\\overline{\\mathrm{PQ}}=1$ 이므로 $\\mathrm{Q}=(\\sqrt{1-a^2},0)$. $\\angle\\mathrm{PQO}=\\theta$ ($\\sin\\theta=a,\\cos\\theta=\\sqrt{1-a^2}$)라 하면 정삼각형 한 변이 $1$이므로 $x=\\sin\\!\\left(\\theta+\\dfrac\\pi6\\right),\\ y=\\sin\\!\\left(\\theta+\\dfrac\\pi3\\right)$. 덧셈정리로 <span class=\"ans\">$x=\\dfrac{\\sqrt3\\,a+\\sqrt{1-a^2}}{2},\\ y=\\dfrac{a+\\sqrt{3(1-a^2)}}{2}$</span>.</p>\n<p><b>【2-1】(2)</b> $0\\le a\\le\\dfrac{\\sqrt3}{2}$ 이면 $0\\le\\theta\\le\\dfrac\\pi3$, 즉 $\\dfrac\\pi6\\le\\theta+\\dfrac\\pi6\\le\\dfrac\\pi2$ 이므로 $\\cos\\!\\left(\\theta+\\dfrac\\pi6\\right)\\ge0$. $y=\\sin\\!\\left(\\left(\\theta+\\dfrac\\pi6\\right)+\\dfrac\\pi6\\right)$를 전개하고 $x=\\sin\\!\\left(\\theta+\\dfrac\\pi6\\right),\\ \\sqrt{1-x^2}=\\cos\\!\\left(\\theta+\\dfrac\\pi6\\right)$를 대입하면 $y=\\dfrac{\\sqrt3}{2}x+\\dfrac12\\sqrt{1-x^2}$. 따라서 <span class=\"ans\">$c_1=\\dfrac{\\sqrt3}{2},\\ c_2=\\dfrac12,\\ c_3=1$</span>.</p>\n<p><b>【2-2】</b> $\\mathrm{P}$가 변 $\\mathrm{OA}$ 위일 때 $0\\le\\theta\\le\\dfrac\\pi2$. $\\mathrm{R}$가 정사각형 변 위에 있으려면 $x=\\sin\\!\\left(\\theta+\\dfrac\\pi6\\right)=1$ 또는 $y=\\sin\\!\\left(\\theta+\\dfrac\\pi3\\right)=1$, 즉 $\\theta=\\dfrac\\pi3$ 또는 $\\dfrac\\pi6$. $\\mathrm{P}$가 네 변을 도는 경우까지 모으면 가능한 $\\mathrm{R}$의 좌표는 <span class=\"ans\">$\\left(1,\\dfrac{\\sqrt3}{2}\\right),\\left(\\dfrac{\\sqrt3}{2},1\\right),\\left(1,1-\\dfrac{\\sqrt3}{2}\\right),\\left(\\dfrac{\\sqrt3}{2},0\\right),\\left(1-\\dfrac{\\sqrt3}{2},0\\right),\\left(0,1-\\dfrac{\\sqrt3}{2}\\right),\\left(0,\\dfrac{\\sqrt3}{2}\\right),\\left(1-\\dfrac{\\sqrt3}{2},1\\right)$</span>.</p>\n<p><b>【2-3】</b> $\\mathrm{R}$가 그리는 도형의 넓이를 $S=1-8S_1-4S_2$로 나누어 계산한다. 직선 $x=\\dfrac12,\\,y=1$과 곡선 $y=\\dfrac{\\sqrt3}{2}x+\\dfrac{\\sqrt{1-x^2}}{2}$로 둘러싸인 넓이 $S_1=\\dfrac{3\\sqrt3}{8}-\\dfrac12-\\dfrac\\pi{24}$, 직선 $x=1,\\,y=1$과 같은 곡선으로 둘러싸인 넓이 $S_2=1-\\dfrac{\\sqrt3}{2}-\\dfrac\\pi{24}$. 따라서 <span class=\"ans\">$S=1+\\dfrac\\pi2-\\sqrt3$</span>.</p>\n<div class=\"gp\"><b>【2-1】(1)</b> $x=\\sin\\!\\left(\\theta+\\tfrac\\pi6\\right),y=\\sin\\!\\left(\\theta+\\tfrac\\pi3\\right)$ 구함(10) · $x=\\dfrac{\\sqrt3a+\\sqrt{1-a^2}}{2}$ 구함(10) · $y=\\dfrac{a+\\sqrt{3(1-a^2)}}{2}$ 구함(10)<br><b>【2-1】(2)</b> $0\\le\\theta\\le\\tfrac\\pi3$ 구함(10) · $c_1=\\dfrac{\\sqrt3}{2}$(10) · $c_2=\\dfrac12$(10) · $c_3=1$(10)<br><b>【2-2】</b> $\\theta=\\tfrac\\pi3$ 또는 $\\tfrac\\pi6$ 구함(9) · $\\mathrm{R}$의 좌표 8개를 모두 구함(16)<br><b>【2-3】</b> $S=1-8S_1-4S_2$ 구함(10) · $S_1=\\dfrac{3\\sqrt3}{8}-\\dfrac12-\\dfrac\\pi{24}$(10) · $S_2=1-\\dfrac{\\sqrt3}{2}-\\dfrac\\pi{24}$(10) · $S=1+\\dfrac\\pi2-\\sqrt3$(15)</div>"
+ },
+ {
+  "no": "2025 기출 · 자연Ⅱ 1",
+  "topic": "미적분 · 변곡점 · 역함수 · 수열",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(마) $\\displaystyle\\int_a^b f(x)\\,dx=\\lim_{n\\to\\infty}\\sum_{k=1}^{n}f(x_k)\\Delta x$ (단, $\\Delta x=\\tfrac{b-a}{n},\\ x_k=a+k\\Delta x$) 외 미분·연속·극값 관련 제시문<br><br><b>[문항]</b><br>삼차함수 $g(x)=ax^3+bx^2+2x-15$와 이차함수 $h(x)=x^2+rx+s$에 대하여 $f(x)=\\begin{cases}g(x) & (x&lt;2)\\\\ h(x) & (x\\ge2)\\end{cases}$라 할 때 $f,g$는 만족 (단, $a$는 자연수, $b,r,s$는 실수):<br>(Ⅰ) $g(x)$는 $x=-\\tfrac23$에서 변곡점<br>(Ⅱ) $f(x)$의 역함수가 존재<br>(Ⅲ) $f(x)$는 실수 전체에서 연속<br>(Ⅳ) $\\displaystyle\\lim_{h\\to0-}\\frac{f(2+3h)-f(2+h)}{h}=2f'(c)$인 $c\\in[2,\\infty)$ 존재",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> 상수 $a$와 $b$의 값을 구하시오.",
+    "20점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> 가능한 모든 실수 $r$의 값의 범위는 $\\alpha\\le r\\le\\beta$이다. 상수 $\\alpha,\\beta$의 값을 구하시오.",
+    "20점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> 【1-2】의 $\\beta$에 대하여 $r=\\beta$일 때 수열 $\\{a_n\\}$은 $a_n=f(n)\\,(n\\ge1)$, 수열 $\\{b_n\\}$은 $a_n=\\displaystyle\\sum_{k=1}^{n}\\frac{k\\,b_{n-k+1}}{n+1}\\,(n\\ge1)$을 만족시킨다.<br>(1) $a_1+a_5$의 값을 구하시오.",
+    "10점"
+   ],
+   [
+    "4",
+    "<b>【1-3】</b> (2) $b_1+3b_2+4b_3-b_{50}$의 값을 구하시오.",
+    "30점"
+   ],
+   [
+    "5",
+    "<b>【1-3】</b> (3) $\\displaystyle\\lim_{n\\to\\infty}\\frac{1}{n^6}\\sum_{k=1}^{n+3}\\!\\left(\\frac{b_k-44}{12}+\\frac{n}{2}\\right)^{\\!5}=\\dfrac{q}{p}$일 때 $p,q$의 값을 구하시오. (단, $p,q$ 서로소인 자연수)",
+    "40점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> $g'(x)=3ax^2+2bx+2,\\ g''(x)=6ax+2b$. 변곡점이 $x=-\\dfrac23$ 이므로 $g''\\!\\left(-\\dfrac23\\right)=0$, 즉 $2a=b$. 역함수가 존재하려면 $g$가 단조여야 하므로 모든 $x$에서 $g'(x)\\ge0$, 판별식 $b^2-6a\\le0$ 에서 $0\\le a\\le\\dfrac32$. $a$가 자연수이므로 <span class=\"ans\">$a=1,\\ b=2$</span>.</p>\n<p><b>【1-2】</b> $g(x)=x^3+2x^2+2x-15$. 연속(III)에서 $\\displaystyle\\lim_{x\\to2-}g(x)=h(2)$, 즉 $2r+s=1$. 역함수 존재에서 $0\\le\\displaystyle\\lim_{h\\to0+}\\dfrac{f(2+h)-f(2)}{h}=4+r$ 이므로 $r\\ge-4$. (IV)에서 $2c+r=\\displaystyle\\lim_{h\\to0-}\\dfrac{f(2+3h)-f(2+h)}{2h}=22$, $c\\ge2$ 이므로 $r=22-2c\\le18$. 따라서 <span class=\"ans\">$\\alpha=-4,\\ \\beta=18$</span>.</p>\n<p><b>【1-3】(1)</b> $r=\\beta=18$ 이면 $s=1-2r=-35$, $h(x)=x^2+18x-35$. $a_n=f(n)$ 이므로 $a_1=g(1)=-10$, $a_n=h(n)=n^2+18n-35\\ (n\\ge2)$. 따라서 $a_1=-10,a_5=80$ 이고 <span class=\"ans\">$a_1+a_5=70$</span>.</p>\n<p><b>【1-3】(2)</b> 정의에서 $(n+1)a_n=b_n+2b_{n-1}+\\cdots+nb_1$. $b_1=2a_1=-20$. $n\\ge2$에서 $\\displaystyle\\sum_{k=1}^{n}b_k=(n+1)a_n-na_{n-1}$ 이므로 $n=2$일 때 $b_1+b_2=3a_2-2a_1=35\\Rightarrow b_2=55$. $n\\ge3$에서 $\\displaystyle\\sum_{k=1}^{n}b_k=3n^2+35n-35$ 이므로 $b_3=62$, 그리고 $n\\ge4$에서 $b_n=6n+32$ 이므로 $b_{50}=332$. 따라서 <span class=\"ans\">$b_1+3b_2+4b_3-b_{50}=61$</span>.</p>\n<p><b>【1-3】(3)</b> $b_k=6k+32$ 이므로 $\\dfrac{b_k-44}{12}+\\dfrac n2=\\dfrac{k-2+n}{2}$. 따라서 주어진 극한은 $\\dfrac{1}{32}\\displaystyle\\lim_{n\\to\\infty}\\dfrac1n\\sum_{t=1}^{n}\\!\\left(\\dfrac tn+1\\right)^{\\!5}=\\dfrac{1}{32}\\int_{1}^{2}x^5\\,dx=\\dfrac{1}{32}\\cdot\\dfrac{63}{6}=\\dfrac{21}{64}$. 따라서 <span class=\"ans\">$p=64,\\ q=21$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> $2a=b$ 제시(5) · $b^2-6a\\le0$ 제시(5) · $a=1,b=2$ 구함(10)<br><b>【1-2】</b> $\\lim_{h\\to0+}=4+r$(4) · $\\lim_{h\\to0-}=44$(4) · $f'(c)=2c+r$(4) · $\\alpha=-4,\\beta=18$(8)<br><b>【1-3】(1)</b> $2r+s=1$(4) · $a_1=-10,\\ a_n=n^2+18n-35\\,(n\\ge2)$(4) · $a_1+a_5=70$(2)<br><b>【1-3】(2)</b> $\\sum b_k=3n^2+35n-35$(10) · $b_n=6n+32\\,(n\\ge4)$(10) · $b_1,b_2,b_3,b_{50}$ 값(8) · $b_1+3b_2+4b_3-b_{50}=61$(2)<br><b>【1-3】(3)</b> $\\dfrac1{32}\\lim\\dfrac1n\\sum(\\tfrac tn+1)^5$ 제시(15) · $\\dfrac1{32}\\int_1^2 x^5dx$ 제시(15) · $p=64,q=21$(10)</div>"
+ },
+ {
+  "no": "2025 기출 · 자연Ⅱ 2",
+  "topic": "미적분 · 곡선의 길이 · 합성함수 미분",
+  "level": "상",
+  "total": "130점",
+  "stem": "<b>[제시문]</b><br>(가) (치환적분) $\\displaystyle\\int_a^b f(x)\\,dx=\\int_\\alpha^\\beta f(g(t))g'(t)\\,dt$<br>(나) 곡선의 길이 $l=\\displaystyle\\int_a^b\\sqrt{1+\\{f'(x)\\}^2}\\,dx$<br>(다) $f'&gt;0$ 증가, $f'&lt;0$ 감소<br>(라) $f\\le g\\Rightarrow\\displaystyle\\int_a^b f\\le\\int_a^b g$<br><br><b>[문항 · 2-2]</b><br>열린구간 $\\left(-\\tfrac\\pi2,\\tfrac\\pi2\\right)$에서 $f(x)=\\begin{cases}\\ln\\cos x-2\\ln\\cos\\tfrac\\pi6 & \\left(-\\tfrac\\pi2&lt;x&lt;\\tfrac\\pi6\\right)\\\\ -\\ln\\cos\\!\\left(\\tfrac\\pi3-x\\right) & \\left(\\tfrac\\pi6\\le x&lt;\\tfrac\\pi2\\right)\\end{cases}$이다. 닫힌구간 $\\left[0,\\tfrac\\pi3\\right]$의 함수 $L(t),a(t),b(t),c(t)$는 모든 $t$에 대하여 만족:<br>(Ⅰ) $L(t)$는 $x=t$에서 $x=\\tfrac\\pi3$까지 곡선 $y=f(x)$의 길이<br>(Ⅱ) 두 점 $(0,c(t)),(a(t),b(t))$를 지나는 직선은 $(t,f(t))$에서 $y=f(x)$에 접하며 $a(t)\\ge t$<br>(Ⅲ) 두 점 $(t,f(t)),(a(t),b(t))$ 사이 거리는 $L(t)$",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 열린구간 $\\left(-\\tfrac\\pi2,\\tfrac\\pi2\\right)$의 함수 $U(x)=\\ln\\!\\left(\\dfrac{1+\\sin x}{\\cos x}\\right)$에 대하여 $\\{U'(x)\\}^2-1=(\\cos x)^m(\\sin x)^n$이다. 정수 $m,n$의 값을 구하시오.",
+    "10점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> (1) $e^{\\,L(\\pi/6)}$의 값을 구하시오.",
+    "10점"
+   ],
+   [
+    "3",
+    "<b>【2-2】</b> (2) 함수 $e^{\\,c(t)}$의 최댓값과 최솟값을 구하시오.",
+    "25점"
+   ],
+   [
+    "4",
+    "<b>【2-2】</b> (3) $0&lt;t&lt;\\tfrac\\pi3$이고 $t\\ne\\tfrac\\pi6$일 때 함수 $\\dfrac{a'(t)}{b'(t)}$를 구하시오.",
+    "40점"
+   ],
+   [
+    "5",
+    "<b>【2-2】</b> (4) $Q(t)=\\{a(t)\\}^2+\\{b(t)\\}^2$는 $t=p,t=q$에서 각각 최댓값·최솟값을 가진다. $e^{\\,a(p)}+e^{\\,b(p)}+q$의 값을 구하시오.",
+    "45점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> $U(x)=\\ln\\!\\left(\\dfrac{1+\\sin x}{\\cos x}\\right)=\\ln(\\sec x+\\tan x)$ 이므로 $U'(x)=\\sec x$. 따라서 $\\{U'(x)\\}^2-1=\\tan^2x=(\\cos x)^{-2}(\\sin x)^2$ 이므로 <span class=\"ans\">$m=-2,\\ n=2$</span>.</p>\n<p><b>【2-2】(1)</b> $f'(x)=\\begin{cases}-\\tan x & \\left(-\\tfrac\\pi2&lt;x&lt;\\tfrac\\pi6\\right)\\\\ -\\tan\\!\\left(\\tfrac\\pi3-x\\right) & \\left(\\tfrac\\pi6\\le x&lt;\\tfrac\\pi2\\right)\\end{cases}$ 이므로 $L\\!\\left(\\tfrac\\pi6\\right)=\\displaystyle\\int_{\\pi/6}^{\\pi/3}\\!\\sqrt{1+\\{f'(x)\\}^2}\\,dx=\\int_{\\pi/6}^{\\pi/3}\\!\\sec\\!\\left(\\tfrac\\pi3-x\\right)dx=\\int_{0}^{\\pi/6}\\!\\sec x\\,dx=\\ln\\sqrt3$. 따라서 <span class=\"ans\">$e^{\\,L(\\pi/6)}=\\sqrt3$</span>.</p>\n<p><b>【2-2】(2)</b> 접선식에서 $c(t)=f(t)-tf'(t)$, $c'(t)=-tf''(t)$ 는 $\\left(0,\\tfrac\\pi6\\right)$에서 양수, $\\left(\\tfrac\\pi6,\\tfrac\\pi3\\right)$에서 음수이므로 $c$는 $t=\\tfrac\\pi6$에서 최대, $t=\\tfrac\\pi3$에서 최소($c(\\tfrac\\pi3)=0&lt;c(0)$). 따라서 $e^{\\,c(t)}$의 <span class=\"ans\">최솟값 $1$, 최댓값 $\\dfrac{2}{\\sqrt3}\\,e^{\\pi/(6\\sqrt3)}$</span>.</p>\n<p><b>【2-2】(3)</b> $a(t)=t+\\dfrac{L(t)}{\\sqrt{1+\\{f'(t)\\}^2}}$, $b(t)=f(t)+\\dfrac{L(t)f'(t)}{\\sqrt{1+\\{f'(t)\\}^2}}$ 이고 $L'(t)=-\\sqrt{1+\\{f'(t)\\}^2}$. 미분하여 정리하면 <span class=\"ans\">$\\dfrac{a'(t)}{b'(t)}=-f'(t)=\\begin{cases}\\tan t & \\left(0&lt;t&lt;\\tfrac\\pi6\\right)\\\\ \\tan\\!\\left(\\tfrac\\pi3-t\\right) & \\left(\\tfrac\\pi6&lt;t&lt;\\tfrac\\pi3\\right)\\end{cases}$</span>.</p>\n<p><b>【2-2】(4)</b> $Q(t)=\\{a(t)\\}^2+\\{b(t)\\}^2$, $Q'(t)=2b'(t)c(t)$ 는 $\\left(0,\\tfrac\\pi6\\right)$에서 음수, $\\left(\\tfrac\\pi6,\\tfrac\\pi3\\right)$에서 양수이므로 $t=\\tfrac\\pi6$에서 최소($q=\\tfrac\\pi6$). $Q\\!\\left(\\tfrac\\pi3\\right)=\\left(\\tfrac\\pi3\\right)^2$, $Q(0)=(\\ln3)^2+\\left(2\\ln\\tfrac{2}{\\sqrt3}\\right)^2$ 이고 제시문 (라)에서 $L(0)\\ge\\tfrac\\pi3$ 이므로 $Q(0)&gt;Q\\!\\left(\\tfrac\\pi3\\right)$, 즉 최대는 $t=0$($p=0$). 따라서 $e^{\\,a(0)}+e^{\\,b(0)}+q=e^{\\ln3}+e^{\\ln(4/3)}+\\dfrac\\pi6=3+\\dfrac43+\\dfrac\\pi6$, <span class=\"ans\">$=\\dfrac{13}{3}+\\dfrac\\pi6$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> 답을 바르게 계산(10)<br><b>【2-2】(1)</b> 답을 바르게 계산(10, $L(\\tfrac\\pi6)$까지만 5)<br><b>【2-2】(2)</b> $c'(t)$ 계산(5) · 최솟값(10) · 최댓값(10) (exp 취하지 않으면 각 부분점수 5)<br><b>【2-2】(3)</b> $a(t),b(t)$ 식(10) · $\\dfrac{a'(t)}{b'(t)}=-f'(t)$ 계산(30)<br><b>【2-2】(4)</b> $Q'(t)$ 부호 관찰(15) · $L(0)\\ge\\tfrac\\pi3$ 관찰(15) · $e^{a(p)}+e^{b(p)}+q=\\dfrac{13}{3}+\\dfrac\\pi6$(15)</div>"
+ }
+];
+/* ===================================================== */
+const LV={"중하":"easy","중":"easy","중상":"mid","상":"hard"};
+const N=PROBLEMS.length;
+const now=new Date();
+const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+const todayIdx=((doy%N)+N)%N;
+let cur=0;
+function renderProblem(){
+  const p=PROBLEMS[cur];
+  document.getElementById('qsrc').innerHTML=p.no+(cur===todayIdx?' <span class="qtoday">오늘</span>':'');
+  document.getElementById('qtotal').textContent='총 '+p.total;
+  document.getElementById('qtags').innerHTML='<span class="tag">'+p.topic+'</span><span class="tag lv '+(LV[p.level]||'mid')+'">난이도 '+p.level+'</span>';
+  let h='<div class="stem">'+p.stem+'</div>';
+  p.subs.forEach(s=>{h+='<div class="sub"><span class="num">'+s[0]+'</span><span class="stxt">'+s[1]+'</span><span class="pt">'+s[2]+'</span></div>';});
+  if(p.fig) h+='<div class="qfig"><img src="'+p.fig+'" alt="그림"><div class="cap">[그림]</div></div>';
+  if(p.sol) h+='<div class="fold"><button class="foldbtn" type="button">해설 보기</button><div class="foldbox">'+p.sol+'</div></div>';
+  document.getElementById('qbody').innerHTML=h;
+  document.getElementById('qbody').scrollTop=0;
+  document.getElementById('idx').textContent=(cur+1)+' / '+N;
+  document.getElementById('prev').disabled=(cur===0);
+  document.getElementById('next').disabled=(cur===N-1);
+  if(window.renderMathInElement) renderMathInElement(document.getElementById('qbody'),{delimiters:[{left:'$',right:'$',display:false}],throwOnError:false});
+}
+
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.foldbtn'); if(!b) return;
+  var box=b.nextElementSibling;
+  var open=box.classList.toggle('open');
+  b.classList.toggle('open',open);
+  b.textContent=open?'\ud574\uc124 \uc811\uae30':'\ud574\uc124 \ubcf4\uae30';
+});
+
+function go(d){cur=Math.min(N-1,Math.max(0,cur+d));renderProblem();}
+function goToday(){cur=todayIdx;renderProblem();}
+document.addEventListener('DOMContentLoaded',renderProblem);
+window.addEventListener('load',renderProblem);
+</script>
+</body></html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>경북대 논술 기출</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--red:#ff8d76;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);height:100vh;height:100dvh;overflow:hidden;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 14px calc(12px + env(safe-area-inset-bottom));line-height:1.55}
+.app{width:100%;max-width:440px;padding-top:calc(20px + env(safe-area-inset-top));height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{width:38px;height:38px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:20px}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.hsub{font-size:12px;color:var(--muted);margin-top:1px}
+
+/* ===== 문제 카드 ===== */
+.qcard{background:linear-gradient(180deg,#18202f,#121826);border:1px solid var(--line);border-radius:16px;padding:17px 16px 14px;box-shadow:0 12px 34px #0007;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.qhead{flex:none;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}
+.qsrc{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:6px}
+.qtoday{font-size:10px;background:var(--gold);color:#0c1019;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:.02em}
+.qtotal{flex:none;font-size:12px;font-weight:800;color:var(--text);background:#202c44;border:1px solid #30405f;padding:5px 11px;border-radius:999px}
+.qtags{flex:none;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #232e47}
+.tag{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:8px;background:#1b2540;color:#aeb9d4;border:1px solid #2a3754}
+.tag.lv{font-weight:700}
+.tag.easy{color:var(--mint);border-color:#5fd6b455;background:#5fd6b417}
+.tag.mid{color:var(--gold);border-color:#f5b54455;background:var(--gold-soft)}
+.tag.hard{color:var(--red);border-color:#ff8d7655;background:#ff8d7615}
+.qbody{font-size:14.5px;line-height:1.7;color:#e9eef8;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-right:4px;scrollbar-width:thin;scrollbar-color:#2a3754 transparent}
+.qbody::-webkit-scrollbar{width:4px}
+.qbody::-webkit-scrollbar-thumb{background:#2a3754;border-radius:99px}
+.stem{margin-bottom:15px}
+.sub{display:flex;gap:10px;align-items:flex-start;margin:12px 0}
+.sub .num{flex:none;width:23px;height:23px;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.sub .stxt{flex:1}
+.sub .pt{flex:none;font-size:11px;color:var(--muted);font-weight:700;margin-top:4px;white-space:nowrap}
+.qfig{margin-top:15px;background:#fff;border-radius:11px;padding:9px}
+.qfig img{width:100%;display:block;border-radius:5px}
+.qfig .cap{text-align:center;font-size:11px;color:#7d8aa5;margin-top:5px}
+.katex{font-size:1.02em}
+
+.nav{flex:none;display:flex;align-items:center;gap:10px;margin-top:12px}
+.nav button{flex:1;height:46px;border-radius:13px;border:1px solid var(--line);background:var(--ink-2);color:var(--text);font-size:15px;font-weight:600;font-family:inherit}
+.nav button:active{background:var(--ink-3)}
+.nav button:disabled{opacity:.35}
+.idx{flex:none;min-width:50px;text-align:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.todaybtn{margin-top:9px;height:40px;width:100%;border-radius:12px;border:1px solid #f5b54455;background:var(--gold-soft);color:var(--gold);font-size:13px;font-weight:700;font-family:inherit}
+
+.sec{font-size:13px;color:var(--muted);font-weight:700;margin:26px 2px 11px}
+.notice{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;font-size:14px;color:#dbe2f0;line-height:1.6}
+.notice .ndate{font-size:11.5px;color:var(--gold);font-weight:700;margin-bottom:7px}
+.dday{background:linear-gradient(135deg,#2a1f12,#161019);border:1px solid #3a2f1c;border-radius:16px;padding:18px;text-align:center;position:relative;overflow:hidden}
+.dday::after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#f5b54422,transparent 70%)}
+.dday .lab{font-size:12.5px;color:var(--muted)}
+.dday .big{font-size:38px;font-weight:800;color:var(--gold);letter-spacing:-.02em;margin:3px 0;line-height:1.1}
+.dday .sub2{font-size:12px;color:var(--muted)}
+.menu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.mbtn{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center;text-decoration:none;color:inherit;display:block;transition:.15s}
+.mbtn:active{background:var(--ink-3)}
+.mbtn .mi{font-size:22px;display:block;margin-bottom:7px}
+.mbtn b{font-size:13px;font-weight:600;display:block}
+.mbtn.kakao{background:#3b2f0e;border-color:#5a4a16}
+.mbtn.kakao .mi{color:var(--gold)}
+.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:26px;line-height:1.6}
+.ipsibtn{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--gold-soft);border:1px solid #f5b54455;padding:6px 11px;border-radius:99px;text-decoration:none}
+.ipsibtn:active{background:#f5b54333}
+
+/* ===== 해설 토글 ===== */
+.fold{margin-top:16px;border-top:1px solid #232e47;padding-top:14px}
+.foldbtn{width:100%;height:42px;border-radius:12px;border:1px solid #f5b54455;
+  background:var(--gold-soft);color:var(--gold);font-size:13.5px;font-weight:700;
+  font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.foldbtn:active{background:#f5b54333}
+.foldbtn::before{content:'\25B6';font-size:9px;transition:transform .18s}
+.foldbtn.open::before{transform:rotate(90deg)}
+.foldbox{display:none;margin-top:12px;animation:fade .2s ease}
+.foldbox.open{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.foldbox p{margin:9px 0;font-size:13.5px;line-height:1.72;color:#e3e9f6}
+.foldbox p b{color:var(--gold)}
+.foldbox .boxed,.foldbox .ans{color:var(--mint);font-weight:700}
+.gp{margin-top:13px;background:#13233a;border:1px solid #27496e;border-left:3px solid var(--gold);
+  border-radius:10px;padding:11px 13px;font-size:12.8px;line-height:1.7;color:#c7d3ea}
+.gp::before{content:'\1F4CC \00a0\CC44\C810 \D575\C2EC \D3EC\C778\D2B8';display:block;
+  color:var(--gold);font-weight:800;font-size:11.5px;margin-bottom:5px;letter-spacing:.01em}
+.foldbox .katex{font-size:.99em}
+
+
+/* ==== 행간/수식 간격 여유 ==== */
+.qbody{line-height:2.05;font-size:14px}
+.stem{line-height:2.05;margin-bottom:20px}
+.stem br{display:block;content:'';margin-top:6px}
+.sub{margin:20px 0;align-items:flex-start}
+.sub .stxt{line-height:2.05}
+.sub .stxt br{display:block;content:'';margin-top:6px}
+.katex{font-size:1.04em;line-height:1.2}
+.qbody .katex-display{margin:.6em 0}
+.foldbox p{line-height:1.95}
+</style></head><body>
+<div class="app">
+  <div class="top"><a class="back" href="nonsul-univ.html">&#8592;</a>
+    <div><div class="htitle">경북대 논술 기출</div><div class="hsub">2022~2025 논술(AAT) 자연계열Ⅰ 기출 · &#8249; &#8250; 로 넘겨보세요</div></div>
+    <a class="ipsibtn" href="https://ipsi.knu.ac.kr" target="_blank" rel="noopener">&#127963; 입학처</a></div>
+
+  <div class="qcard">
+    <div class="qhead"><div class="qsrc" id="qsrc"></div><div class="qtotal" id="qtotal"></div></div>
+    <div class="qtags" id="qtags"></div>
+    <div class="qbody" id="qbody"></div>
+  </div>
+
+ <div class="nav">
+  <button id="prev" onclick="go(-1)">&#8249; 이전</button>
+  <div class="idx" id="idx">1 / 1</div>
+  <button id="next" onclick="go(1)">다음 &#8250;</button>
+</div>
+<script>
+/* ===== 공지사항: 이 한 줄만 고치면 됨 ===== */
+const NOTICE = "경북대학교 논술(AAT) 자연계열Ⅰ 기출 모음 · 좌우로 넘겨 보세요.";
+/* ===== 문제 등록. 수식은 $…$ 안에 LaTeX. 기하(이차곡선) 문제는 넣지 않음 ===== */
+const PROBLEMS = [
+ {
+  "no": "2022 기출 · 자연Ⅰ 1",
+  "topic": "수학Ⅱ · 접선과 넓이",
+  "level": "중상",
+  "total": "110점",
+  "stem": "<b>[제시문]</b><br>(가) 점 $(x_1,y_1)$과 직선 $ax+by+c=0$ 사이의 거리 $d=\\dfrac{|ax_1+by_1+c|}{\\sqrt{a^2+b^2}}$<br>(나) 곡선 $y=f(x)$와 직선 $\\ell$ 사이의 거리는 곡선 위의 점과 직선 사이 거리의 최솟값이다.<br>(다) $x=a$에서 미분가능한 $f$의 접선: $y-f(a)=f'(a)(x-a)$<br>(라) $[a,b]$에서 두 곡선과 $x=a,x=b$로 둘러싸인 넓이 $S=\\displaystyle\\int_a^b|f(x)-g(x)|\\,dx$<br><br><b>[문항]</b><br>모든 실수 $c$에 대하여 곡선 $y=x^2$ 위의 점 $(c,c^2)$에서의 접선을 $\\ell_c$라 하자. 직선 $\\ell_c$와 곡선 $y=-x^2+4x-3$이 만나지 않도록 하는 모든 실수 $c$의 값의 범위는 $\\alpha&lt;c&lt;\\beta$이다.",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> $\\alpha$와 $\\beta$의 값을 각각 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> $\\alpha&lt;c&lt;\\beta$인 실수 $c$에 대하여 곡선 $y=-x^2+4x-3$과 직선 $\\ell_c$ 사이의 거리를 $f(c)$라 할 때 $f(c)$를 구하시오.",
+    "30점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> 두 곡선 $y=x^2$, $y=-x^2+4x-3$과 두 직선 $x=\\alpha$, $x=\\beta$로 둘러싸인 영역 중 $\\alpha\\le c\\le\\beta$인 각각의 $c$에 대하여 접선 $\\ell_c$가 지나는 모든 점의 집합을 $S$라 하자. 집합 $S$가 나타내는 도형의 넓이를 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> 곡선 $y=x^2$ 위의 점 $(c,c^2)$에서의 접선은 $\\ell_c:\\ y=2cx-c^2$. $\\ell_c$가 곡선 $y=-x^2+4x-3$과 만나지 않을 조건은 $2cx-c^2=-x^2+4x-3$이 실근을 갖지 않는 것이므로 $\\dfrac{D}{4}=(c-2)^2-(-c^2+3)&lt;0$. 이를 풀면 <span class=\"ans\">$\\alpha=\\dfrac{2-\\sqrt2}{2},\\ \\beta=\\dfrac{2+\\sqrt2}{2}$</span>.</p>\n<p><b>【1-2】</b> 곡선 $y=-x^2+4x-3$ 위의 점 $(b,-b^2+4b-3)$에서 $\\ell_c$까지의 거리가 최소가 되는 것은 그 점에서의 접선의 기울기가 $2c$일 때, 즉 $-2b+4=2c$ 이므로 $b=2-c$, 점은 $(2-c,-c^2+1)$. 따라서 <span class=\"ans\">$f(c)=\\dfrac{-2c^2+4c-1}{\\sqrt{4c^2+1}}$</span>.</p>\n<p><b>【1-3】</b> $S$가 나타내는 도형은 곡선 $y=x^2$, 접선들의 포락선과 직선 $x=\\beta$로 둘러싸인 영역이다. 넓이 $A$는 $A=\\displaystyle\\int_\\alpha^\\beta\\{x^2-(2\\beta x-\\beta^2)\\}dx+\\dfrac14(\\beta-\\alpha)^3=\\int_\\alpha^\\beta(x-\\beta)^2dx+\\dfrac14(\\beta-\\alpha)^3=-\\dfrac13(\\alpha-\\beta)^3+\\dfrac14(\\beta-\\alpha)^3$. 여기서 $\\beta-\\alpha=\\sqrt2$이므로 <span class=\"ans\">$A=\\dfrac{7\\sqrt2}{6}$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> 접선 $y=2cx-c^2$ 구함(10) · $\\dfrac{D}{4}=(c-2)^2-(-c^2+3)&lt;0$ 구함(10) · $\\alpha=\\dfrac{2-\\sqrt2}{2},\\beta=\\dfrac{2+\\sqrt2}{2}$ 구함(10)<br><b>【1-2】</b> $(b,-b^2+4b-3)=(2-c,-c^2+1)$일 때 최소임을 구함(15) · $f(c)=\\dfrac{-2c^2+4c-1}{\\sqrt{4c^2+1}}$ 구함(15)<br><b>【1-3】</b> $S$가 나타내는 도형 구함(20) · 넓이 $\\displaystyle\\int_\\alpha^\\beta\\{x^2-(2\\beta x-\\beta^2)\\}dx+\\dfrac14(\\beta-\\alpha)^3$ 구함(20) · $\\dfrac{7\\sqrt2}{6}$ 구함(10)</div>"
+ },
+ {
+  "no": "2022 기출 · 자연Ⅰ 2",
+  "topic": "확률과 통계 · 조합 / 수열",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) ${}_n\\mathrm{C}_r=\\dfrac{{}_n\\mathrm{P}_r}{r!}=\\dfrac{n!}{r!\\,(n-r)!}$<br>(나) 점 $(x_1,y_1)$을 지나고 기울기 $m$인 직선 $y-y_1=m(x-x_1)$<br>(다) $\\log_a b^k=k\\log_a b$, $\\log_a b=\\dfrac{\\log_c b}{\\log_c a}$<br><br><b>[문항]</b><br>모든 자연수 $n$에 대하여 선분 $\\mathrm{XY}$를 지름으로 하는 반원에서, 선분 $\\mathrm{XY}$를 $2^n$등분한 각 분점($\\mathrm{X},\\mathrm{Y}$ 포함)과 호 $\\mathrm{XY}$를 $2^n$등분한 각 분점으로 이루어진 집합을 $S_n$이라 하자. 집합 $S_n$의 원소인 점을 2개 이상 지나는 서로 다른 직선의 개수를 $a_n$, 점 3개를 꼭짓점으로 하는 삼각형의 개수를 $b_n$이라 하자.",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> $a_3$과 $b_3$의 값을 각각 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> 수열 $\\{c_n\\}$의 일반항을 $c_n=\\dfrac{9b_n}{7(a_n-1)}+\\dfrac{5}{7}$라 하자. 세 점 $\\mathrm{A}_n(c_n,0),\\ \\mathrm{B}_n(c_{n+1},0),\\ \\mathrm{C}_n(0,c_{n+2})$에 대하여 직선 $y=d_nx$가 삼각형 $\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n$의 넓이를 이등분한다. 직선 $y=d_nx$와 두 선분 $\\mathrm{A}_n\\mathrm{C}_n,\\ \\mathrm{B}_n\\mathrm{C}_n$의 교점의 $x$좌표를 각각 $p_n,q_n$이라 하자.<br>(1) $\\log_8(q_{100}-p_{100})$의 값을 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-2】</b> (2) $d_{100}$의 값을 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> $S_n$의 점의 총 개수는 $2^{n+1}$, 선분 $\\mathrm{XY}$ 위의 점은 $2^n+1$개이다. 직선의 개수 $a_n={}_{2^{n+1}}\\mathrm{C}_2-{}_{2^n+1}\\mathrm{C}_2+1=3\\cdot2^{n-1}(2^n-1)+1$, 삼각형의 개수 $b_n={}_{2^{n+1}}\\mathrm{C}_3-{}_{2^n+1}\\mathrm{C}_3=\\dfrac{2^{n-1}(2^n-1)(7\\cdot2^n-5)}{3}$. 따라서 <span class=\"ans\">$a_3=85,\\ b_3=476$</span>.</p>\n<p><b>【2-2】(1)</b> $c_n=\\dfrac{9b_n}{7(a_n-1)}+\\dfrac57=2^n$. 직선 $y=d_nx$와 두 선분 $\\mathrm{A}_n\\mathrm{C}_n,\\mathrm{B}_n\\mathrm{C}_n$의 교점을 $\\mathrm{P}_n,\\mathrm{Q}_n$이라 하면 $\\triangle\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n=2^{2n+1}$, $\\triangle\\mathrm{P}_n\\mathrm{Q}_n\\mathrm{C}_n=\\tfrac12\\triangle\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n=2^{2n}=\\tfrac12\\cdot2^{n+2}(q_n-p_n)$ 이므로 $q_n-p_n=2^{n-1}$. 따라서 <span class=\"ans\">$\\log_8(q_{100}-p_{100})=\\log_8 2^{99}=33$</span>.</p>\n<p><b>【2-2】(2)</b> 직선 $\\mathrm{A}_n\\mathrm{C}_n:\\,y=-4x+2^{n+2}$, $\\mathrm{B}_n\\mathrm{C}_n:\\,y=-2x+2^{n+2}$ 이므로 $\\mathrm{P}_n(p_n,-4p_n+2^{n+2}),\\mathrm{Q}_n(q_n,-2q_n+2^{n+2})$. 두 점이 $y=d_nx$ 위에 있으므로 $p_nq_n=2^{2n}$. $q_n-p_n=2^{n-1}$와 연립하면 $p_n=(\\sqrt{17}-1)2^{n-2}$, $d_n=\\dfrac{-4p_n+2^{n+2}}{p_n}=\\sqrt{17}-3$. 따라서 <span class=\"ans\">$d_{100}=\\sqrt{17}-3$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> $a_3=85$(15) · $b_3=476$(15)<br><b>【2-2】</b> $c_n=2^n$ 구함(20) · $\\log_8(q_{100}-p_{100})=33$ 구함(20) · $p_nq_n=2^{2n}$ 구함(20) · $d_{100}=\\sqrt{17}-3$ 구함(30)</div>"
+ },
+ {
+  "no": "2022 기출 · 자연Ⅰ 3",
+  "topic": "수학Ⅱ · 다항식 · 미분",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) $A=BQ+R$ ($R$의 차수는 $B$의 차수보다 낮음)<br>(나) $x=a$에서 정의되고 $\\displaystyle\\lim_{x\\to a}f(x)=f(a)$이면 연속<br>(다) $\\{f(x)g(x)\\}'=f'(x)g(x)+f(x)g'(x)$<br><br><b>[문항]</b><br>최고차항의 계수가 $\\dfrac14$인 사차함수 $f(x)$와 도함수 $f'(x)$가 다음을 모두 만족시킨다.<br>(1) 방정식 $f'(x)=0$은 세 실근 $\\alpha,\\beta,\\gamma\\ (\\alpha\\le\\beta\\le\\gamma)$를 가진다.<br>(2) $f(x)$를 $f'(x)$로 나눈 몫은 $\\dfrac14\\!\\left(x-\\dfrac{\\alpha+\\beta+\\gamma}{3}\\right)$, 나머지는 $-\\dfrac13(x-\\alpha)^2+2$이다.",
+  "subs": [
+   [
+    "1",
+    "<b>【3-1】</b> $\\alpha=\\beta$이고 $\\beta\\ne\\gamma$가 성립함을 증명하시오.",
+    "40점"
+   ],
+   [
+    "2",
+    "<b>【3-2】</b> $\\gamma-\\alpha$의 값을 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【3-3】</b> 실수 전체의 집합에서 정의된 함수 $g(x)=\\begin{cases}\\alpha & (x&lt;k)\\\\ 2\\alpha & (x\\ge k)\\end{cases}$ 라 할 때, $g(x)$는 $x=k$에서 불연속이다.<br>(1) 함수 $(f\\circ g)(x)$가 실수 전체의 집합에서 연속이 되도록 하는 $\\alpha$의 값을 구하시오. (20점)<br>(2) 함수 $(g\\circ f)(x)$가 실수 전체의 집합에서 연속이 되도록 하는 $k$의 최댓값을 구하시오. (20점)",
+    "40점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【3-1】</b> 조건에 의해 $f(x)=\\dfrac14(x-\\alpha)(x-\\beta)(x-\\gamma)\\!\\left(x-\\dfrac{\\alpha+\\beta+\\gamma}{3}\\right)-\\dfrac13(x-\\alpha)^2+2$. 그러면 $f'(\\alpha)=\\dfrac{1}{12}(2\\alpha-\\beta-\\gamma)(\\alpha-\\beta)(\\alpha-\\gamma)=0$ 이므로 (i) $2\\alpha=\\beta+\\gamma$, (ii) $\\alpha=\\beta$, (iii) $\\alpha=\\gamma$ 중 하나이다. (i) 또는 (iii)이면 $\\alpha=\\beta=\\gamma$가 되어 $f'(x)=(x-\\alpha)^3$, $f(x)=\\dfrac14(x-\\alpha)^4+2$ 인데, 이때 $f$를 $f'$로 나눈 나머지가 상수가 되어 주어진 나머지와 모순이다. 따라서 <b>$\\alpha=\\beta$ 이고 $\\beta\\ne\\gamma$</b> 이다.</p>\n<p><b>【3-2】</b> $\\alpha=\\beta,\\,\\beta\\ne\\gamma$ 이므로 $f(x)=\\dfrac14(x-\\alpha)^2(x-\\gamma)\\!\\left(x-\\dfrac{2\\alpha+\\gamma}{3}\\right)-\\dfrac13(x-\\alpha)^2+2$. $f'(x)$를 구해 $x=\\gamma$를 대입하면 $f'(\\gamma)=\\dfrac16(\\gamma-\\alpha)^3-\\dfrac23(\\gamma-\\alpha)=0$, 즉 $(\\gamma-\\alpha)\\{(\\gamma-\\alpha)^2-4\\}=0$. $\\gamma\\ne\\alpha$ 이므로 <span class=\"ans\">$\\gamma-\\alpha=2$</span>.</p>\n<p><b>【3-3】</b> $\\gamma-\\alpha=2$이므로 $f(x)=\\dfrac14(x-\\alpha)^2(x-\\alpha-2)\\!\\left(x-\\alpha-\\dfrac23\\right)-\\dfrac13(x-\\alpha)^2+2$.<br>(1) $g$가 $x=k$에서 불연속이므로 $\\alpha\\ne0$. $(f\\circ g)(x)$가 연속이려면 $f(\\alpha)=f(2\\alpha)$여야 한다. $f(\\alpha)=2$이고 $f(2\\alpha)=\\dfrac14\\alpha^2(\\alpha-2)\\!\\left(\\alpha-\\dfrac23\\right)-\\dfrac13\\alpha^2+2$이므로, $f(\\alpha)=f(2\\alpha)$를 풀면 <span class=\"ans\">$\\alpha=\\dfrac83$</span>.<br>(2) $(g\\circ f)(x)$가 연속이려면 모든 실수 $x$에 대하여 $f(x)\\ge k$여야 한다. 따라서 $k$의 최댓값은 $f(x)$의 최솟값 $f(\\gamma)=f(\\alpha+2)$이고, <span class=\"ans\">$k$의 최댓값 $=\\dfrac23$</span>.</p>\n<div class=\"gp\"><b>【3-1】</b> $f(x)=\\dfrac14(x-\\alpha)(x-\\beta)(x-\\gamma)\\!\\left(x-\\tfrac{\\alpha+\\beta+\\gamma}{3}\\right)-\\dfrac13(x-\\alpha)^2+2$ 성립을 보임(10) · $f'(\\alpha)=\\dfrac1{12}(2\\alpha-\\beta-\\gamma)(\\alpha-\\beta)(\\alpha-\\gamma)=0$ 보임(10) · $2\\alpha=\\beta+\\gamma$ 또는 $\\alpha=\\gamma$인 경우 성립하지 않음을 보임(20)<br><b>【3-2】</b> $f'(x)$ 구함(10) · $x=\\gamma$ 대입 $f'(\\gamma)=\\dfrac16(\\gamma-\\alpha)^3-\\dfrac23(\\gamma-\\alpha)=0$ 구함(20) · $\\gamma-\\alpha=2$ 구함(10)<br><b>【3-3】</b> (1) $(f\\circ g)$ 연속 $\\Rightarrow f(\\alpha)=f(2\\alpha)$ 보임(10) · $\\alpha=\\dfrac83$ 구함(10) · (2) $(g\\circ f)$ 연속 $\\Rightarrow$ 모든 $x$에서 $f(x)\\ge k$ 보임(10) · $k$ 최댓값 $f(\\gamma)=f(\\alpha+2)=\\dfrac23$ 구함(10)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅰ 1",
+  "topic": "수학Ⅱ·미적분 · 함수의 연속·미분계수·치환적분",
+  "level": "중상",
+  "total": "110점",
+  "stem": "<b>[제시문]</b><br>(가) 닫힌구간 $[a,b]$에서 정의된 $f(x)$가 $(a,b)$에서 연속이고 $\\lim_{x\\to a+}f(x)=f(a)$, $\\lim_{x\\to b-}f(x)=f(b)$이면 $[a,b]$에서 연속이라 한다.<br>(나) 미분계수 $f'(a)=\\displaystyle\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}$<br>(다) (치환적분) $f$가 $[a,b]$에서 연속, $a=g(\\alpha),\\,b=g(\\beta)$, $g'$이 연속이면 $\\displaystyle\\int_a^b f(x)\\,dx=\\int_\\alpha^\\beta f(g(t))g'(t)\\,dt$<br>(라) $\\displaystyle\\int_a^b f(x)\\,dx=[F(x)]_a^b=F(b)-F(a)$<br><br><b>[문항]</b><br>두 실수 $a,b$에 대하여, 닫힌구간 $[0,1]$에서 연속인 두 함수 $f(x),g(x)$가 다음 조건을 만족시킨다.<br><b>[조건]</b> $0&lt;x&lt;1$인 모든 실수 $x$에 대하여 $\\dfrac{f(x)-(1-x)^2}{x(1-x)}=a$, $\\dfrac{g(x)-x^2}{x(1-x)}=b$ 이다.",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> $f(0)-g(0)$과 $f(1)-g(1)$의 값을 각각 구하시오.",
+    "20점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> $t=a-b$일 때, $x$에 대한 방정식 $f(x)-g(x)=0$의 근 중 열린구간 $(0,1)$에 속하는 근을 $h(t)$라 하자.<br>(1) $h(t)=\\begin{cases}\\dfrac12 & (t=0)\\\\ \\dfrac{t-2+\\sqrt{t^2+4}}{2t} & (t\\ne0)\\end{cases}$ 임을 보이시오. (40점)<br>(2) $h'(0)$의 값을 구하시오. (20점)<br>(3) $\\displaystyle\\int_1^4 t^2 h(t)\\,dt$의 값을 구하시오. (30점)",
+    "90점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> 조건에서 $f(x)=(1-x)^2+ax(1-x)$, $g(x)=x^2+bx(1-x)$. 두 함수가 $[0,1]$에서 연속이므로 $f(0)=1,\\ f(1)=0,\\ g(0)=0,\\ g(1)=1$. 따라서 <span class=\"ans\">$f(0)-g(0)=1,\\ f(1)-g(1)=-1$</span>.</p>\n<p><b>【1-2】</b> (1) $f(x)-g(x)=-(a-b)x^2+(a-b-2)x+1$이고 $t=a-b$이므로 $tx^2-(t-2)x-1=0$. (i) $t=0$이면 $-2x+1=0$에서 $x=\\dfrac12$. (ii) $t&gt;0$, (iii) $t&lt;0$일 때 근과 계수의 관계로 $(0,1)$에 근이 정확히 하나 존재하고, 근의 공식에서 그 근은 $\\dfrac{t-2+\\sqrt{t^2+4}}{2t}$. 따라서 <span class=\"ans\">$h(t)=\\begin{cases}\\dfrac12 & (t=0)\\\\\\dfrac{t-2+\\sqrt{t^2+4}}{2t} & (t\\ne0)\\end{cases}$</span>.<br>(2) $h'(0)=\\displaystyle\\lim_{t\\to0}\\dfrac{h(t)-h(0)}{t}=\\lim_{t\\to0}\\dfrac{-2+\\sqrt{t^2+4}}{2t^2}=\\lim_{t\\to0}\\dfrac{1}{2(\\sqrt{t^2+4}+2)}=\\dfrac18$. 따라서 <span class=\"ans\">$h'(0)=\\dfrac18$</span>.<br>(3) $\\displaystyle\\int_1^4 t^2h(t)\\,dt=\\dfrac12\\int_1^4\\!\\left(t^2-2t+t\\sqrt{t^2+4}\\right)dt=\\dfrac12\\left[\\dfrac13t^3-t^2+\\dfrac13(t^2+4)^{3/2}\\right]_1^4=$ <span class=\"ans\">$3+\\dfrac{35}{6}\\sqrt5$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> $f(x)=(1-x)^2+ax(1-x),\\ g(x)=x^2+bx(1-x)$ 보임(10) · $f(0)-g(0)=1,\\ f(1)-g(1)=-1$ 구함(10)<br><b>【1-2】(1)</b> $f(x)-g(x)=-tx^2+(t-2)x+1$ 보임(10) · $t=0$일 때 $h=\\dfrac12$(10) · $t&gt;0$일 때 $h(t)=\\dfrac{t-2+\\sqrt{t^2+4}}{2t},\\ 0&lt;h&lt;1$ 보임(10) · $t&lt;0$일 때 동일 보임(10)<br><b>【1-2】(2)</b> $h'(0)=\\lim\\dfrac{-2+\\sqrt{t^2+4}}{2t^2}$ 보임(10) · $=\\dfrac18$ 구함(10)<br><b>【1-2】(3)</b> $\\dfrac12\\int_1^4(t^2-2t+t\\sqrt{t^2+4})dt$로 변형(5) · 부정적분 $\\dfrac13t^3-t^2+\\dfrac13(t^2+4)^{3/2}$ 구함(20) · $3+\\dfrac{35}{6}\\sqrt5$ 구함(5)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅰ 2",
+  "topic": "수학·미적분 · 직선의 방정식·수열의 극한·최대와 최소",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) 두 점 $A(x_1,y_1),B(x_2,y_2)$ ($x_1\\ne x_2$)를 지나는 직선: $y-y_1=\\dfrac{y_2-y_1}{x_2-x_1}(x-x_1)$<br>(나) 두 점 $(a,0),(0,b)$를 지나는 직선은 $\\dfrac xa+\\dfrac yb=1$. 또한 두 직선 $\\dfrac xa+\\dfrac yb=1$, $\\dfrac xc+\\dfrac yd=1$의 교점과 원점을 지나는 직선의 기울기는 $\\dfrac{\\frac1a-\\frac1c}{\\frac1d-\\frac1b}$ (단, $0&lt;a&lt;c$, $0&lt;d&lt;b$)<br>(다) 점 $(x_1,y_1)$과 직선 $ax+by+c=0$ 사이의 거리: $\\dfrac{|ax_1+by_1+c|}{\\sqrt{a^2+b^2}}$<br>(라) $\\left\\{\\dfrac{f(x)}{g(x)}\\right\\}'=\\dfrac{f'(x)g(x)-f(x)g'(x)}{\\{g(x)\\}^2}$<br>(마) $f(x)$가 $[a,b]$에서 연속이면 최대·최소정리에 의해 최댓값·최솟값을 가지며, $(a,b)$에서 극값을 가지면 극값과 $f(a),f(b)$ 중 가장 큰 값이 최댓값, 가장 작은 값이 최솟값이다.<br><br><b>[문항]</b><br>네 수열 $\\{a_n\\},\\{b_n\\},\\{c_n\\},\\{d_n\\}$이 다음 조건을 만족시킨다.<br><b>[조건]</b> 모든 자연수 $n$에 대하여 (ⅰ) $a_n=2n+8,\\ b_n=5n+10,\\ c_n=n+9$, (ⅱ) $d_n$은 $0&lt;d_n&lt;c_n$인 실수이다.<br>자연수 $n$에 대하여 좌표평면 위에 원점 $O$와 네 점 $A_n(a_n,0),\\,B_n(b_n,0),\\,C_n(0,c_n),\\,D_n(0,d_n)$이 있다. 두 직선 $A_nC_n,\\,B_nD_n$의 교점을 $E_n$, 두 직선 $OE_n,\\,A_nD_n$의 교점을 $F_n$, 직선 $C_nF_n$과 $x$축의 교점을 $G_n$이라 하자.",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 직선 $OE_n$의 기울기는 $\\dfrac{(\\boxed{\\text{ㄱ}}\\,n+\\boxed{\\text{ㄴ}})(n+9)d_n}{10(n+2)(n+4)(n+9-d_n)}$ 이다. (ㄱ)과 (ㄴ)에 들어갈 알맞은 자연수를 각각 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{\\overline{A_nG_n}}{\\overline{OG_n}}$의 값을 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-3】</b> 삼각형 $D_1E_1G_1$의 넓이가 최대가 되도록 하는 $d_1$의 값을 구하시오. (단, $1\\le d_1\\le 9$)",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> 제시문 (나)에 의해 $OE_n$의 기울기는 $\\dfrac{(b_n-a_n)c_nd_n}{(c_n-d_n)a_nb_n}=\\dfrac{(3n+2)(n+9)d_n}{10(n+2)(n+4)(n+9-d_n)}$. 따라서 <span class=\"ans\">(ㄱ)=3, (ㄴ)=2</span>.</p>\n<p><b>【2-2】</b> $G_n=(g_n,0)$이라 하면 제시문 (나)로 직선 $OF_n$의 기울기는 $\\dfrac{(a_n-g_n)c_nd_n}{(c_n-d_n)a_ng_n}$. 이것이 $OE_n$의 기울기와 같으므로 $g_n=\\dfrac{a_nb_n}{2b_n-a_n}=\\dfrac{5(n+2)(n+4)}{4n+6}$. 따라서 $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{\\overline{A_nG_n}}{\\overline{OG_n}}=\\lim_{n\\to\\infty}\\dfrac{3n+2}{5n+10}=$ <span class=\"ans\">$\\dfrac35$</span>.</p>\n<p><b>【2-3】</b> $E_1\\!\\left(\\dfrac{15(10-d_1)}{15-d_1},\\dfrac{5d_1}{15-d_1}\\right)$, $\\overline{D_1E_1}=\\dfrac{10-d_1}{15-d_1}\\sqrt{15^2+d_1^2}$. 직선 $B_1D_1:\\ d_1x+15y-15d_1=0$과 점 $G_1\\!\\left(\\dfrac{15}{2},0\\right)$ 사이의 거리가 $\\dfrac{15d_1}{2\\sqrt{15^2+d_1^2}}$이므로 삼각형 넓이는 $f(d_1)=\\dfrac{15d_1(10-d_1)}{4(15-d_1)}$. $f'(d_1)=\\dfrac{15(d_1^2-30d_1+150)}{4(15-d_1)^2}$이고 $f'(15-5\\sqrt3)=0$. $1\\le d_1&lt;15-5\\sqrt3$에서 증가, 이후 감소이며 $f(1),f(9)&lt;f(15-5\\sqrt3)$이므로 <span class=\"ans\">$d_1=15-5\\sqrt3$</span>일 때 넓이가 최대.</p>\n<div class=\"gp\"><b>【2-1】</b> $OE_n$ 기울기 $\\dfrac{(b_n-a_n)c_nd_n}{(c_n-d_n)a_nb_n}$ 구함(10) · (ㄱ)=3,(ㄴ)=2 구함(각 10, 20)<br><b>【2-2】</b> $OF_n$ 기울기 $\\dfrac{(a_n-g_n)c_nd_n}{(c_n-d_n)a_ng_n}$ 구함(15) · $g_n=\\dfrac{5(n+2)(n+4)}{4n+6}$ 구함(15) · $\\lim\\dfrac{3n+2}{5n+10}=\\dfrac35$ 구함(10)<br><b>【2-3】</b> $E_1$ 좌표 구함(5) · $\\overline{D_1E_1}$ 구함(5) · $G_1$과 직선 $B_1D_1$ 사이 거리 구함(10) · 넓이 $f(d_1)=\\dfrac{15d_1(10-d_1)}{4(15-d_1)}$ 구함(10) · $f'(15-5\\sqrt3)=0$ 구함(10) · $d_1=15-5\\sqrt3$일 때 최대 구함(10)</div>"
+ },
+ {
+  "no": "2023 기출 · 자연Ⅰ 3",
+  "topic": "수학Ⅱ·미적분 · 몫의 미분·수열의 합·도형의 넓이·수열의 극한",
+  "level": "상",
+  "total": "120점",
+  "stem": "<b>[제시문]</b><br>(가) 미분가능한 $f(x)$에 대하여 (1) $f'(x)&gt;0$이면 증가, (2) $f'(x)&lt;0$이면 감소.<br>(나) $\\left\\{\\dfrac{f(x)}{g(x)}\\right\\}'=\\dfrac{f'(x)g(x)-f(x)g'(x)}{\\{g(x)\\}^2}$ (단, $g(x)\\ne0$)<br>(다) $\\displaystyle\\sum_{k=1}^n k=\\dfrac{n(n+1)}{2}$, $\\sum_{k=1}^n k^2=\\dfrac{n(n+1)(2n+1)}{6}$, $\\sum_{k=1}^n k^3=\\left\\{\\dfrac{n(n+1)}{2}\\right\\}^2$<br>(라) 반지름 $r$, 중심각 $\\theta$(라디안)인 부채꼴의 넓이는 $\\dfrac12 r^2\\theta$<br>(마) $0\\le\\theta&lt;\\dfrac\\pi2$일 때 $\\sin\\theta\\le\\theta\\le\\tan\\theta$<br>(바) $\\displaystyle\\lim_{n\\to\\infty}a_n=\\alpha$, $\\lim_{n\\to\\infty}b_n=\\beta$이고 모든 자연수 $n$에서 $a_n\\le c_n\\le b_n$이며 $\\alpha=\\beta$이면 $\\displaystyle\\lim_{n\\to\\infty}c_n=\\alpha$<br><br><b>[문항]</b><br>구간 $(-1,\\infty)$에서 정의된 함수 $f(x)=\\dfrac{-x^2+n(n+3)x+n}{n(x+1)}$에 대하여, 함숫값 $f(k)$가 자연수가 되도록 하는 가장 큰 자연수 $k$를 $a_n$이라 하자. 함수 $f(x)$가 $x=b_n$에서 극댓값을 가질 때, 다음 물음에 답하시오. (단, $n$은 자연수)",
+  "subs": [
+   [
+    "1",
+    "<b>【3-1】</b> $\\displaystyle\\sum_{n=1}^{10} a_n$의 값을 구하시오.",
+    "35점"
+   ],
+   [
+    "2",
+    "<b>【3-2】</b> 두 점 $(a_n,f(a_n))$, $(b_n,f(b_n))$을 지나는 직선을 $y=g(x)$라 할 때, 닫힌구간 $[b_n,a_n]$에서 부등식 $f(x)\\ge g(x)$가 성립함을 보이시오.",
+    "35점"
+   ],
+   [
+    "3",
+    "<b>【3-3】</b> 중심이 $\\mathrm{P}(b_n,f(b_n))$인 원 $C$가 $y$축에 접할 때, 점 $\\mathrm{P}$와 점 $\\big((\\sqrt3+1)n+\\sqrt3,\\ 0\\big)$을 지나는 직선과 원 $C$의 두 교점 중 $x$좌표가 큰 점을 $\\mathrm{D}$, 곡선 $y=f(x)$와 원 $C$의 두 교점 중 $x$좌표가 큰 점을 $\\mathrm{E}$라 하자. 두 점 $\\mathrm{P},\\mathrm{E}$ 사이의 곡선 $y=f(x)$의 부분과 부채꼴 $\\mathrm{PDE}$의 호 $\\mathrm{DE}$ 및 선분 $\\mathrm{PD}$로 둘러싸인 도형의 넓이를 $S_n$이라 할 때, $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{S_n}{n^2}$의 값을 구하시오. (단, 부채꼴 $\\mathrm{PDE}$의 중심각의 크기는 $\\dfrac\\pi2$보다 작다.)",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【3-1】</b> $f'(x)=\\dfrac{-(x+1)^2+(n+1)^2}{n(x+1)^2}$. $f'(x)=0$에서 구간 $(-1,\\infty)$ 안의 근은 $x=n$이고 여기서 극대, $x&gt;n$에서 감소하며 $\\lim_{x\\to\\infty}f(x)=-\\infty$이다. $f(x)=1$을 풀면 $x=n^2+2n$이고, 이것이 $f(k)$를 자연수로 만드는 가장 큰 자연수이므로 $a_n=n^2+2n$. 따라서 $\\displaystyle\\sum_{n=1}^{10}(n^2+2n)=$ <span class=\"ans\">$495$</span>.</p>\n<p><b>【3-2】</b> $f(x)$는 $x=n$에서 극댓값 $n+1$을 가지므로 $b_n=n,\\ f(b_n)=n+1$이고 $f(a_n)=1$. 두 점 $(a_n,1),(n,n+1)$을 지나는 직선은 $g(x)=-\\dfrac{1}{n+1}(x-n)+n+1$. $l(x)=f(x)-g(x)$로 두면 $l'(x)=\\dfrac{-(x+1)^2+(n+1)^3}{n(n+1)(x+1)^2}$이고, $n\\le x\\le n^2+2n$에서 증감을 조사하면 $l(x)\\ge0$. 따라서 <span class=\"ans\">$f(x)\\ge g(x)$</span>.</p>\n<p><b>【3-3】</b> 중심 $\\mathrm{P}(n,n+1)$이고 $y$축에 접하므로 반지름은 $n$, 즉 원 $C:(x-n)^2+(y-n-1)^2=n^2$. 부채꼴 $\\mathrm{PDE}$의 중심각을 $\\theta_n$, 넓이를 $T_n$이라 하면 $\\dfrac{\\pi}{12}n^2-T_n\\le S_n\\le\\dfrac{\\pi}{12}n^2$. 또 $\\sin\\theta_n=\\dfrac{n}{\\sqrt{(n^2+n)^2+n^2}}$, $\\tan\\theta_n=\\dfrac{n}{n^2+n}$이고 $\\lim_{n\\to\\infty}\\sin\\theta_n=\\lim_{n\\to\\infty}\\tan\\theta_n=0$이므로 제시문 (마)·(바)에 의해 $\\lim_{n\\to\\infty}\\theta_n=0$, 따라서 $\\lim_{n\\to\\infty}\\dfrac{T_n}{n^2}=\\lim_{n\\to\\infty}\\dfrac12\\theta_n=0$. 그러므로 $\\dfrac{\\pi}{12}-\\dfrac{T_n}{n^2}\\le\\dfrac{S_n}{n^2}\\le\\dfrac{\\pi}{12}$에서 <span class=\"ans\">$\\lim_{n\\to\\infty}\\dfrac{S_n}{n^2}=\\dfrac{\\pi}{12}$</span>.</p>\n<div class=\"gp\"><b>【3-1】</b> $f'(x)=\\dfrac{-(x+1)^2+(n+1)^2}{n(x+1)^2}$ 구함(10) · 증감표와 $\\lim_{x\\to\\infty}f(x)=-\\infty$ 구함(10) · $f(x)=1$에서 $a_n=n^2+2n$ 구함(10) · $\\sum_{n=1}^{10}a_n=495$ 구함(5)<br><b>【3-2】</b> $b_n=n$ 구함(5) · $g(x)=-\\dfrac1{n+1}(x-n)+n+1$ 구함(5) · $l'(x)=\\dfrac{-(x+1)^2+(n+1)^3}{n(n+1)(x+1)^2}$ 구함(10) · 증감표 구함(10) · $l(x)\\ge0$에서 $f(x)\\ge g(x)$ 유도(5)<br><b>【3-3】</b> 원 $C:(x-n)^2+(y-n-1)^2=n^2$ 구함(5) · $\\dfrac{\\pi}{12}n^2-T_n\\le S_n\\le\\dfrac{\\pi}{12}n^2$ 유도(15) · $\\sin\\theta_n,\\ \\tan\\theta_n$ 구함(15) · $\\lim_{n\\to\\infty}\\theta_n=0$ 유도(10) · $\\lim_{n\\to\\infty}\\dfrac{S_n}{n^2}=\\dfrac{\\pi}{12}$ 구함(5)</div>"
+ },
+ {
+  "no": "2024 기출 · 자연Ⅰ 1",
+  "topic": "수학Ⅰ · 수열 · 내분점",
+  "level": "중상",
+  "total": "140점",
+  "stem": "<b>[문항]</b><br>좌표평면 위에 한 변의 길이가 1이고 무게중심이 원점인 정삼각형 $\\mathrm{A}_1\\mathrm{B}_1\\mathrm{C}_1$이 있다. $\\mathrm{A}_1$은 $y$축 위의 점이고 $y$좌표는 양수, $\\mathrm{B}_1$은 제3사분면, $\\mathrm{C}_1$은 제4사분면 위의 점이다. 자연수 $n$에 대하여 (단, $m$은 고정된 자연수):<br>(ㄱ) $\\mathrm{A}_{n+1}$은 선분 $\\mathrm{A}_n\\mathrm{B}_n$을 $1:m$으로 내분<br>(ㄴ) $\\mathrm{B}_{n+1}$은 선분 $\\mathrm{B}_n\\mathrm{C}_n$을 $1:m$으로 내분<br>(ㄷ) $\\mathrm{C}_{n+1}$은 선분 $\\mathrm{C}_n\\mathrm{A}_n$을 $1:m$으로 내분",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> 삼각형 $\\mathrm{A}_{2024}\\mathrm{B}_{2024}\\mathrm{C}_{2024}$의 무게중심의 좌표를 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> 모든 자연수 $n$에 대하여 삼각형 $\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n$이 정삼각형임을 수학적 귀납법으로 증명하시오.",
+    "30점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> $m=2$일 때, 삼각형 $\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n$의 넓이를 $s_n$이라 하자.<br>(1) 급수 $\\displaystyle\\sum_{n=1}^{\\infty}s_n$의 수렴·발산을 조사하고, 수렴하면 그 합을 구하시오.",
+    "40점"
+   ],
+   [
+    "4",
+    "<b>【1-3】</b> (2) 집합 $M=\\{\\mathrm{A}_n\\mid 1\\le n\\le2024\\}$ ($n$은 자연수)의 원소 중 $x$축 위에 있는 점의 개수는 $k$이고 $\\mathrm{A}_{2024}$는 제 $\\ell$ 사분면 위에 있다. 두 자연수 $k,\\ell$의 값을 각각 구하시오.",
+    "40점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> 세 꼭짓점을 $\\mathrm{A}_n(p_n,u_n),\\ \\mathrm{B}_n(q_n,v_n),\\ \\mathrm{C}_n(r_n,w_n)$라 하면 내분 조건에서 $p_{n+1}=\\dfrac{mp_n+q_n}{m+1}$ 등이 성립한다. 이때 $\\dfrac{p_{n+1}+q_{n+1}+r_{n+1}}{3}=\\dfrac{p_n+q_n+r_n}{3}$ 이므로 모든 $n$에서 무게중심이 일치한다. $\\mathrm{A}_1\\mathrm{B}_1\\mathrm{C}_1$의 무게중심이 원점이므로 <span class=\"ans\">$\\mathrm{A}_{2024}\\mathrm{B}_{2024}\\mathrm{C}_{2024}$의 무게중심도 $(0,0)$</span>.</p>\n<p><b>【1-2】</b> 명제 $p(n)$ : \"삼각형 $\\mathrm{A}_n\\mathrm{B}_n\\mathrm{C}_n$은 정삼각형\"을 귀납법으로 증명한다. $n=1$은 조건에서 자명하다. $n=k$에서 성립한다 가정하고 한 변을 $\\mathrm{L}_k$라 하면 $\\overline{\\mathrm{A}_k\\mathrm{A}_{k+1}}=\\dfrac{\\mathrm{L}_k}{m+1}$, $\\overline{\\mathrm{A}_k\\mathrm{C}_{k+1}}=\\dfrac{m\\mathrm{L}_k}{m+1}$, 끼인각 $\\dfrac{\\pi}{3}$ 이다. 세 모서리 삼각형이 <b>SAS 합동</b>(또는 제2코사인법칙으로 세 변이 모두 $\\dfrac{\\sqrt{1-m+m^2}}{1+m}\\mathrm{L}_k$로 같음)이므로 $\\mathrm{A}_{k+1}\\mathrm{B}_{k+1}\\mathrm{C}_{k+1}$도 정삼각형이다. 따라서 $n=k+1$에서도 성립한다.</p>\n<p><b>【1-3】 (1)</b> 한 변 $\\mathrm{L}_n$인 정삼각형의 넓이는 $s_n=\\dfrac{\\sqrt3}{4}\\mathrm{L}_n^2$ 이고 $s_1=\\dfrac{\\sqrt3}{4}$. $m=2$ 이므로 코사인 제2법칙에서 $\\mathrm{L}_{n+1}^2=\\dfrac{\\mathrm{L}_n^2}{3}$, 즉 $s_{n+1}=\\dfrac{s_n}{3}$. 초항 $\\dfrac{\\sqrt3}{4}$, 공비 $\\dfrac13(&lt;1)$인 등비수열이므로 수렴하고 <span class=\"ans\">$\\displaystyle\\sum_{n=1}^{\\infty}s_n=\\dfrac{3\\sqrt3}{8}$</span>.</p>\n<p><b>【1-3】 (2)</b> 삼각형 $\\mathrm{OA}_n\\mathrm{A}_{n+1}$은 밑각이 $\\dfrac{\\pi}{6}$인 이등변삼각형이므로 동경 $\\mathrm{OA}_n$의 각은 $n$이 1 커질 때마다 $\\dfrac{\\pi}{6}$씩 증가한다. $\\mathrm{A}_1$이 $y$축 위의 점이므로 $\\mathrm{A}_{6d-2}$가 $x$축 위의 점이 되고, $1\\le 6d-2\\le 2024$에서 $1\\le d\\le 337$ 이므로 <span class=\"ans\">$k=337$</span>. 또 $\\mathrm{OA}_1$에서 $\\mathrm{OA}_{2024}$까지의 각은 $2023\\times\\dfrac{\\pi}{6}=168\\times2\\pi+\\dfrac{7\\pi}{6}$ 이므로 $\\mathrm{A}_{2024}$는 제4사분면의 점, <span class=\"ans\">$\\ell=4$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> 무게중심 좌표를 바르게 표현(5) · 두 삼각형의 무게중심이 일치함을 증명(20, <i>\"각 변을 같은 비율로 내분하므로 무게중심이 같다\"는 논리는 불인정</i>) · $(0,0)$ 도출(5)<br><b>【1-2】</b> 수학적귀납법을 바르게 제시(10) · 초기조건 확인(5) · 기하적 증명(SAS합동) 또는 제2코사인법칙으로 증명(15, <i>\"같은 비율 내분이므로 정삼각형\"은 불인정</i>)<br><b>【1-3】(1)</b> 초항 $s_1$ 계산(5) · $s_n$이 등비수열임을 보임(20) · 공비 계산·수렴성 확인(10) · 합 계산(10)<br><b>【1-3】(2)</b> 각 $\\mathrm{A}_n\\mathrm{OA}_{n+1}=\\dfrac{\\pi}{6}$ 임을 보임(15) · $\\mathrm{A}_n$이 $x$축 위에 있을 조건을 찾거나 나열(15) · 답이 맞은 경우(10)</div>"
+ },
+ {
+  "no": "2024 기출 · 자연Ⅰ 2",
+  "topic": "미적분 · 도형의 방정식 · 속력",
+  "level": "상",
+  "total": "140점",
+  "stem": "<b>[제시문]</b><br>(가) $f'(a)=0$이고 좌우에서 $f'$의 부호가 양$\\to$음이면 극대, 음$\\to$양이면 극소<br>(나) 위치 $x=f(t),y=g(t)$일 때 속력 $h(t)=\\sqrt{\\{f'(t)\\}^2+\\{g'(t)\\}^2}$, 거리 $s=\\displaystyle\\int_a^b h(t)\\,dt$<br><br><b>[문항]</b><br>수학이가 좌표평면 위 혹성탈출게임을 한다. 점 $\\mathrm{A}(18,0)$에서 단서를 찾았다.<br>(ㄱ) 폭탄 위치 $\\mathrm{B}(0,24)$<br>(ㄴ) 우주선 위치는 제1사분면 위의 점 $\\mathrm{C}$<br>(ㄷ) $\\mathrm{C}$에서 $\\mathrm{AB}$에 내린 수선의 발은 $\\mathrm{AB}$를 $1:3$으로 내분<br>(ㄹ) 네 점 $\\mathrm{O,A,B,C}$가 한 원 위에 있다.<br><br><b>[이동 규칙]</b> 수학이는 $10$보다 작은 자연수 $n$을 택하고, $t=0$에 수학이·폭탄이 각각 $\\mathrm{A,B}$에서 $\\mathrm{C}$를 향해 $\\mathrm{AC,BC}$를 따라 이동. 시각 $t\\,(t\\ge0)$에서 폭탄의 속력은 $n$, 수학이의 속력은 $\\dfrac{n^3 p(t)}{(t^2+n^2)^2}$. $p(x)$는 최고차항 계수가 양수인 다항함수이고 모든 실수 $t$에 대하여 $p(t^2 p(2t))=p(t\\,p(t^2))+121t^3$.",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 선분 $\\mathrm{AC}$와 선분 $\\mathrm{BC}$의 길이를 각각 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> $p(x)$를 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-3】</b> 실수 전체에서 정의된 $f(x)=\\dfrac{p(x)}{(x^2+1)^2}$는 $x=c_1$에서 극소, $x=c_2$에서 극대이다. 두 실수 $c_1,c_2$를 각각 구하시오.",
+    "20점"
+   ],
+   [
+    "4",
+    "<b>【2-4】</b> 수학이가 폭탄보다 먼저 점 $\\mathrm{C}$에 도착하였다. 수학이가 택한 $n$의 값을 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> $\\overline{\\mathrm{AB}}=30$. $\\mathrm{C}$에서 $\\mathrm{AB}$에 내린 수선의 발을 $\\mathrm{H}$라 하면 $\\overline{\\mathrm{AH}}:\\overline{\\mathrm{BH}}=1:3$ 이므로 $\\overline{\\mathrm{AH}}=\\dfrac{15}{2},\\ \\overline{\\mathrm{BH}}=\\dfrac{45}{2}$. $\\angle\\mathrm{AOB}=90^\\circ$ 이므로 $\\mathrm{AB}$는 삼각형 $\\mathrm{OAB}$ 외접원의 지름이고, $\\mathrm{C}$도 같은 원 위에 있으므로 $\\angle\\mathrm{ACB}=90^\\circ$. 삼각형 $\\mathrm{CAH},\\mathrm{BCH},\\mathrm{BAC}$가 닮음이므로 <span class=\"ans\">$\\overline{\\mathrm{AC}}=15,\\ \\overline{\\mathrm{BC}}=15\\sqrt3$</span>.</p>\n<p><b>【2-2】</b> $p$의 차수를 $m$이라 하면 $p(t^2p(2t))$는 $m(m+2)$차, $p(tp(t^2))$는 $m(2m+1)$차, 우변 $121t^3$은 $3$차이다. $m=0$이면 모순이므로 $m=1$. $p(t)=\\beta t+C\\,(\\beta&gt;0)$로 두고 대입하면 $(\\beta^2-121)t^3+\\beta Ct^2-\\beta Ct=0$ 이므로 $C=0,\\ \\beta=11$. 따라서 <span class=\"ans\">$p(x)=11x$</span>.</p>\n<p><b>【2-3】</b> $f(x)=\\dfrac{11x}{(x^2+1)^2}$, $f'(x)=\\dfrac{11(-3x^2+1)}{(x^2+1)^3}$. $f'(x)=0$인 $x=\\pm\\dfrac{1}{\\sqrt3}$. $-\\dfrac{1}{\\sqrt3}$ 좌우에서 $f'$의 부호가 음$\\to$양(극소), $\\dfrac{1}{\\sqrt3}$ 좌우에서 양$\\to$음(극대)이므로 <span class=\"ans\">$c_1=-\\dfrac{1}{\\sqrt3}=-\\dfrac{\\sqrt3}{3},\\ c_2=\\dfrac{1}{\\sqrt3}=\\dfrac{\\sqrt3}{3}$</span>.</p>\n<p><b>【2-4】</b> 폭탄은 $\\overline{\\mathrm{BC}}=15\\sqrt3$를 속력 $n$으로 가므로 도착시각 $T_1=\\dfrac{15\\sqrt3}{n}$. 수학이는 $\\overline{\\mathrm{AC}}=15=\\displaystyle\\int_0^T\\dfrac{11n^3t}{(t^2+n^2)^2}\\,dt$. $t^2+n^2=g(t)$로 치환적분하면 $15=\\dfrac{11nT^2}{2(n^2+T^2)}$, 즉 $(11n-30)T^2=30n^2$ 이므로 $n\\ge3$. 수학이가 먼저 도착($T&lt;T_1$)하므로 $\\dfrac{30n^2}{11n-30}&lt;\\left(\\dfrac{15\\sqrt3}{n}\\right)^2$, 즉 $2n^4-495n+1350&lt;0$. $h(x)=2x^4-495x+1350$은 $h(3)\\ge0,h(4)&lt;0,h(5)\\ge0$이고 $x\\ge5$에서 $h'(x)\\ge0$ 이므로 <span class=\"ans\">$n=4$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> $\\overline{\\mathrm{AC}}=15$(15) · $\\overline{\\mathrm{BC}}=15\\sqrt3$(15)<br><b>【2-2】</b> $p(x)=11x$를 맞게 구함(40)<br><b>【2-3】</b> $c_1=-\\dfrac{\\sqrt3}{3}$(10) · $c_2=\\dfrac{\\sqrt3}{3}$(10) · 부호만 바꾸어 구함(5)<br><b>【2-4】</b> $t^2+n^2=g(t)$로 치환(5) · 적분값을 맞게 도출(10) · $2n^4-3^2\\!\\cdot\\!5\\!\\cdot\\!11\\,n+2\\!\\cdot\\!3^3\\!\\cdot\\!5^2&lt;0$ 유도(15) · $n=4$(15) · $n\\ge5$에서 답 없음 확인(5)</div>"
+ },
+ {
+  "no": "2025 기출 · 자연Ⅰ 1",
+  "topic": "수학 · 도형 · 넓이비",
+  "level": "중상",
+  "total": "120점",
+  "stem": "<b>[문항]</b><br>좌표평면 위의 세 점 $\\mathrm{P,Q,R}$를 꼭짓점으로 하는 삼각형의 넓이를 $S_{\\mathrm{PQR}}$이라 하자. (한 직선 위면 $S_{\\mathrm{PQR}}=0$) 세 점 $\\mathrm{A}(1,4),\\mathrm{B}(-2,-3),\\mathrm{C}(7,2)$를 꼭짓점으로 하는 삼각형 $\\mathrm{ABC}$에 대하여, 점 $\\mathrm{F}$가 삼각형 내부 또는 세 변 위에 있을 때 $\\dfrac{S_{\\mathrm{BCF}}}{S_{\\mathrm{ABC}}}=a,\\ \\dfrac{S_{\\mathrm{CAF}}}{S_{\\mathrm{ABC}}}=b,\\ \\dfrac{S_{\\mathrm{ABF}}}{S_{\\mathrm{ABC}}}=c$라 하자. 점 $\\mathrm{F}$를 지나고 변 $\\mathrm{BC}$에 평행한 직선이 변 $\\mathrm{AB},\\mathrm{AC}$와 만나는 점을 각각 $\\mathrm{D,E}$라 하자.",
+  "subs": [
+   [
+    "1",
+    "<b>【1-1】</b> $a=\\dfrac13,\\ b=\\dfrac12,\\ c=\\dfrac16$일 때 $\\dfrac{\\overline{\\mathrm{DF}}}{\\overline{\\mathrm{EF}}}$의 값을 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【1-2】</b> 점 $\\mathrm{F}(x,y)$가 삼각형 $\\mathrm{ABC}$ 내부를 움직일 때<br>$x=$(ㄱ)$\\times a+$(ㄴ)$\\times b+$(ㄷ)$\\times c$,<br>$y=$(ㄹ)$\\times a+$(ㅁ)$\\times b+$(ㅂ)$\\times c$<br>가 성립한다. 실수 (ㄱ),(ㄴ),(ㄷ),(ㄹ),(ㅁ),(ㅂ)의 값을 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【1-3】</b> 삼각형 내부 또는 세 변 위의 점 $\\mathrm{J,K,L}$에 대하여 $\\mathrm{A,J,K,L}$이 사각형 $\\mathrm{AJKL}$을 이룬다. 점 $\\mathrm{F}$가 $\\mathrm{AJKL}$ 내부에 있을 때 항상 $2a\\ge b,\\ 2a\\ge c$를 만족시킨다. 가능한 $\\mathrm{AJKL}$의 넓이의 최댓값이 $r\\,S_{\\mathrm{ABC}}$일 때 실수 $r$의 값을 구하시오.",
+    "50점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【1-1】</b> $a,b,c\\ne0$ 이므로 $\\mathrm{F}$는 삼각형 내부의 점이다. $\\mathrm{AF}$가 $\\mathrm{BC}$와 만나는 점을 $\\mathrm{P}$라 하면 $\\mathrm{DE}\\parallel\\mathrm{BC}$ 이므로 $\\triangle\\mathrm{ADF}\\sim\\triangle\\mathrm{ABP}$, $\\triangle\\mathrm{AEF}\\sim\\triangle\\mathrm{ACP}$ (닮음비 $\\overline{\\mathrm{AF}}:\\overline{\\mathrm{AP}}$). 따라서 $\\overline{\\mathrm{DF}}:\\overline{\\mathrm{EF}}=\\overline{\\mathrm{BP}}:\\overline{\\mathrm{CP}}$. 한편 $\\triangle\\mathrm{ABF}:\\triangle\\mathrm{CAF}=c:b$ 이고 공통변 $\\mathrm{AF}$의 높이비가 곧 $\\overline{\\mathrm{BP}}:\\overline{\\mathrm{CP}}$ 이므로 제시문 (나)에 의해 $\\overline{\\mathrm{BP}}:\\overline{\\mathrm{CP}}=c:b$. $b=\\dfrac12,c=\\dfrac16$ 이므로 <span class=\"ans\">$\\dfrac{\\overline{\\mathrm{DF}}}{\\overline{\\mathrm{EF}}}=\\dfrac{c}{b}=\\dfrac13$</span>.</p>\n<p><b>【1-2】</b> 점 $\\mathrm{F}$는 무게중심좌표로 $\\mathrm{F}=a\\mathrm{A}+b\\mathrm{B}+c\\mathrm{C}$ 로 표현된다($\\mathrm{D}$는 $\\mathrm{AB}$를 $b{+}c:a$, $\\mathrm{E}$는 $\\mathrm{AC}$를 $b{+}c:a$, $\\mathrm{F}$는 $\\mathrm{DE}$를 $c:b$로 내분). $\\mathrm{A}(1,4),\\mathrm{B}(-2,-3),\\mathrm{C}(7,2)$ 이므로 $x=1\\!\\cdot\\!a+(-2)b+7c,\\ y=4a+(-3)b+2c$. 따라서 <span class=\"ans\">$(\\text{ㄱ})=1,(\\text{ㄴ})=-2,(\\text{ㄷ})=7,(\\text{ㄹ})=4,(\\text{ㅁ})=-3,(\\text{ㅂ})=2$</span>.</p>\n<p><b>【1-3】</b> $\\mathrm{AB}$를 $m:n$ 내분한 점 $\\mathrm{Q}$에 대해 $\\mathrm{F}$가 $\\mathrm{CQ}$ 위면 $b:a=m:n$, $\\mathrm{AC}$를 $k:\\ell$ 내분한 점 $\\mathrm{R}$에 대해 $\\mathrm{F}$가 $\\mathrm{BR}$ 위면 $c:a=k:\\ell$. 조건 $2a\\ge b,\\ 2a\\ge c$는 $\\mathrm{F}$가 $m{:}n=2{:}1$인 $\\mathrm{CQ}$와 $k{:}\\ell=2{:}1$인 $\\mathrm{BR}$의 안쪽에 있을 조건이다. 두 선분의 교점을 $\\mathrm{V}$라 하면 $\\mathrm{F}=\\mathrm{V}$에서 $2a=b=c$, $a+b+c=1$ 이므로 $a=\\dfrac15$. 최대 사각형은 $\\mathrm{AQVR}$($\\mathrm{Q}{=}\\mathrm{J},\\mathrm{R}{=}\\mathrm{L},\\mathrm{V}{=}\\mathrm{K}$)이고 $\\dfrac{\\triangle\\mathrm{BCK}}{\\triangle\\mathrm{ABC}}=\\dfrac15,\\ \\dfrac{\\triangle\\mathrm{AJK}}{\\triangle\\mathrm{ABK}}=\\dfrac{\\triangle\\mathrm{ALK}}{\\triangle\\mathrm{ACK}}=\\dfrac23$ 이므로 $\\dfrac{\\square\\mathrm{AJKL}}{\\triangle\\mathrm{ABC}}=\\left(1-\\dfrac15\\right)\\!\\times\\!\\dfrac23=\\dfrac{8}{15}$. 따라서 <span class=\"ans\">$r=\\dfrac{8}{15}$</span>.</p>\n<div class=\"gp\"><b>【1-1】</b> $\\dfrac{\\overline{\\mathrm{DF}}}{\\overline{\\mathrm{EF}}}=\\dfrac13$ (30, $\\overline{\\mathrm{DE}}:\\overline{\\mathrm{EF}}=1:3$까지만 구하면 10)<br><b>【1-2】</b> 과정 설명이 타당(10) · 답 $(\\text{ㄱ}){=}1,(\\text{ㄴ}){=}{-}2,(\\text{ㄷ}){=}7,(\\text{ㄹ}){=}4,(\\text{ㅁ}){=}{-}3,(\\text{ㅂ}){=}2$ 각 5점(30)<br><b>【1-3】</b> 넓이가 최대인 사각형을 구함(30) · 그 넓이가 $\\dfrac{8}{15}S_{\\mathrm{ABC}}$ 임을 구함(20)</div>"
+ },
+ {
+  "no": "2025 기출 · 자연Ⅰ 2",
+  "topic": "미적분 · 합성함수 미분 · 정적분",
+  "level": "상",
+  "total": "130점",
+  "stem": "<b>[제시문]</b><br>(가) 우극한·좌극한이 모두 $L$이면 $\\displaystyle\\lim_{x\\to a}f(x)=L$ (역도 성립)<br>(나) 연속의 정의, (다) 미분계수의 정의로 미분가능 판정<br>(라) $f'(x)&gt;0$ 증가, $f'(x)&lt;0$ 감소<br>(마) $\\displaystyle\\int_a^b f+\\int_b^c f=\\int_a^c f$<br><br><b>[문항]</b><br>실수 $a,b,c$에 대하여 $f(x)=\\begin{cases}0 & (x\\le0)\\\\ ax^2+bx+c & (0&lt;x\\le1)\\\\ 1 & (x&gt;1)\\end{cases}$는 실수 전체에서 연속이다. (단, $a\\le-2$) $f(x)$의 최댓값이 $\\dfrac{25}{16}$일 때 다음에 답하시오.",
+  "subs": [
+   [
+    "1",
+    "<b>【2-1】</b> 상수 $a,b,c$의 값을 구하시오.",
+    "30점"
+   ],
+   [
+    "2",
+    "<b>【2-2】</b> 제시문 (가),(다)를 이용하여 함수 $(f\\circ f)(x)$가 미분가능하지 않은 점을 모두 구하시오.",
+    "40점"
+   ],
+   [
+    "3",
+    "<b>【2-3】</b> 열린구간 $(0,m)$에서 $(f\\circ f)(x)$가 항상 증가하도록 하는 양수 $m$의 최댓값을 구하시오.",
+    "30점"
+   ],
+   [
+    "4",
+    "<b>【2-4】</b> $\\displaystyle\\int_{-1}^{1}(f\\circ f)(x)\\,dx=\\dfrac{q}{p}$일 때 $p+q$의 값을 구하시오. (단, $p,q$ 서로소인 자연수)",
+    "30점"
+   ]
+  ],
+  "fig": null,
+  "sol": "<p><b>【2-1】</b> 연속이므로 $f(0)=c=0$, $f(1)=a+b+c=1$. $g(x)=ax^2+(1-a)x=a\\!\\left(x-\\dfrac{a-1}{2a}\\right)^2+\\dfrac{(a-1)^2}{-4a}$. $x\\le0$ 또는 $x\\ge1$에서 $f&lt;\\dfrac{25}{16}$ 이므로 $0&lt;x&lt;1$에서 최댓값 $\\dfrac{25}{16}$, 즉 $\\dfrac{(a-1)^2}{-4a}=\\dfrac{25}{16}$. $a\\le-2$ 이므로 <span class=\"ans\">$a=-4,\\ b=5,\\ c=0$</span>.</p>\n<p><b>【2-2】</b> $(f\\circ f)(x)=\\begin{cases}0 & (x\\le0)\\\\ -4(-4x^2+5x)^2+5(-4x^2+5x) & \\left(0&lt;x\\le\\tfrac14\\right)\\\\ 1 & \\left(x&gt;\\tfrac14\\right)\\end{cases}$ 이다. $x=0$에서 우미분계수 $=25$, 좌미분계수 $=0$ 이고, $x=\\dfrac14$에서도 좌·우 미분계수가 다르므로 <span class=\"ans\">$x=0,\\ x=\\dfrac14$</span>에서 미분가능하지 않다.</p>\n<p><b>【2-3】</b> $0&lt;x&lt;\\dfrac14$에서 $(f\\circ f)'(x)$를 계산하면 $(f\\circ f)$는 $\\left(0,\\dfrac{5-\\sqrt{15}}{8}\\right)$에서 증가, $\\left(\\dfrac{5-\\sqrt{15}}{8},\\dfrac14\\right)$에서 감소한다. 따라서 <span class=\"ans\">$m$의 최댓값 $=\\dfrac{5-\\sqrt{15}}{8}$</span>.</p>\n<p><b>【2-4】</b> $\\displaystyle\\int_{-1}^{1}(f\\circ f)\\,dx=\\int_{-1}^{0}\\!0\\,dx+\\int_{0}^{\\frac14}(-64x^4+160x^3-120x^2+25x)\\,dx+\\int_{\\frac14}^{1}\\!1\\,dx=\\dfrac{3}{10}+\\dfrac34=\\dfrac{21}{20}$. 따라서 $p=20,q=21$, <span class=\"ans\">$p+q=41$</span>.</p>\n<div class=\"gp\"><b>【2-1】</b> $c=0$ 구하고 $a+b=1$ 도출(각 5) · $\\dfrac{(a-1)^2}{-4a}=\\dfrac{25}{16}$ 도출(10) · $a=-4,b=5$ 구함(각 5)<br><b>【2-2】</b> 3개의 구간별 함수식 도출(각 5) · $x=0,\\dfrac14$에서만 미분불가 언급(5) · $x=0$ 미분불가 보임(10) · $x=\\dfrac14$ 미분불가 보임(10)<br><b>【2-3】</b> $(f\\circ f)'$ 식 도출(10) · 증가·감소 구간 보임(15) · $m=\\dfrac{5-\\sqrt{15}}{8}$ 도출(5)<br><b>【2-4】</b> 적분 분할(10) · 상수부분 $=\\dfrac34$(5) · $\\int_0^{1/4}=\\dfrac{3}{10}$(10) · $p{=}20,q{=}21,p{+}q{=}41$(5)</div>"
+ }
+];
+/* ===================================================== */
+const LV={"중하":"easy","중":"easy","중상":"mid","상":"hard"};
+const N=PROBLEMS.length;
+const now=new Date();
+const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+const todayIdx=((doy%N)+N)%N;
+let cur=0;
+function renderProblem(){
+  const p=PROBLEMS[cur];
+  document.getElementById('qsrc').innerHTML=p.no+(cur===todayIdx?' <span class="qtoday">오늘</span>':'');
+  document.getElementById('qtotal').textContent='총 '+p.total;
+  document.getElementById('qtags').innerHTML='<span class="tag">'+p.topic+'</span><span class="tag lv '+(LV[p.level]||'mid')+'">난이도 '+p.level+'</span>';
+  let h='<div class="stem">'+p.stem+'</div>';
+  p.subs.forEach(s=>{h+='<div class="sub"><span class="num">'+s[0]+'</span><span class="stxt">'+s[1]+'</span><span class="pt">'+s[2]+'</span></div>';});
+  if(p.fig) h+='<div class="qfig"><img src="'+p.fig+'" alt="그림"><div class="cap">[그림]</div></div>';
+  if(p.sol) h+='<div class="fold"><button class="foldbtn" type="button">해설 보기</button><div class="foldbox">'+p.sol+'</div></div>';
+  document.getElementById('qbody').innerHTML=h;
+  document.getElementById('qbody').scrollTop=0;
+  document.getElementById('idx').textContent=(cur+1)+' / '+N;
+  document.getElementById('prev').disabled=(cur===0);
+  document.getElementById('next').disabled=(cur===N-1);
+  if(window.renderMathInElement) renderMathInElement(document.getElementById('qbody'),{delimiters:[{left:'$',right:'$',display:false}],throwOnError:false});
+}
+
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.foldbtn'); if(!b) return;
+  var box=b.nextElementSibling;
+  var open=box.classList.toggle('open');
+  b.classList.toggle('open',open);
+  b.textContent=open?'\ud574\uc124 \uc811\uae30':'\ud574\uc124 \ubcf4\uae30';
+});
+
+function go(d){cur=Math.min(N-1,Math.max(0,cur+d));renderProblem();}
+function goToday(){cur=todayIdx;renderProblem();}
+document.addEventListener('DOMContentLoaded',renderProblem);
+window.addEventListener('load',renderProblem);
+</script>
+</body></html>
