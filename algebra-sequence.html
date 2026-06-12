@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>등차수열과 등비수열 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅲ. 수열 · 08단원</div>
+        <h1>등차수열과 등비수열</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts":[{"topic":"등차수열","no":1,"title":"수열과 일반항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">수열</div><div class=\"def-body\">차례대로 나열된 수의 열</div></div><div class=\"def-row\"><div class=\"def-label\">항</div><div class=\"def-body\">수열을 이루고 있는 각각의 수</div></div><div class=\"def-row\"><div class=\"def-label\">일반항</div><div class=\"def-body\">수열을 나타낼 때 항에 번호를 붙여 \\(a_1,\\ a_2,\\ a_3,\\ \\cdots,\\ a_n,\\ \\cdots\\)과 같이 나타내고, 제\\(n\\)항 \\(a_n\\)을 이 수열의 <b>일반항</b>이라 한다. 일반항이 \\(a_n\\)인 수열을 간단히 \\(\\{a_n\\}\\)으로 나타낸다.</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">차례대로 나열된 수의 열을 <b>수열</b>이라 하고, 수열을 이루고 있는 각각의 수를 그 수열의 <b>항</b>이라 한다. 일정한 규칙 없이 수를 나열한 것도 수열이지만, 이 단원에서는 규칙이 있는 실수의 수열만 다룬다.</p><p class=\"prose\">예를 들어 짝수를 \\(2\\)부터 차례대로 나열하면 \\(2,\\ 4,\\ 6,\\ 8,\\ 10,\\ 12,\\ \\cdots\\)이다.</p><p class=\"prose\">수열의 각 항을 앞에서부터 차례대로 첫째항, 둘째항, 셋째항, \\(\\cdots\\) 또는 제\\(1\\)항, 제\\(2\\)항, 제\\(3\\)항, \\(\\cdots\\)이라 한다. 자연수 \\(n\\)에 대하여 제\\(n\\)항 \\(a_n\\)을 그 수열의 <b>일반항</b>이라 하고, 일반항이 \\(a_n\\)인 수열을 간단히 \\(\\{a_n\\}\\)으로 나타낸다.</p><div class=\"note\">수열 \\(\\{a_n\\}\\)은 자연수 전체의 집합 \\(N\\)에서 실수 전체의 집합 \\(R\\)로의 함수 \\(f:N \\to R,\\ f(n)=a_n\\)으로 생각할 수 있다. 즉 \\(f(1)=a_1,\\ f(2)=a_2,\\ \\cdots,\\ f(n)=a_n,\\ \\cdots\\)이다. 따라서 일반항 \\(a_n\\)이 \\(n\\)에 대한 식이면 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots\\)을 차례대로 대입하여 모든 항을 구할 수 있다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>수열 \\(\\{a_n\\}\\)의 일반항이 \\(a_n=n^2+1\\)일 때, 제\\(6\\)항은 \\(a_6=6^2+1=37\\)이다.</li><li>수열 \\(\\{a_n\\}\\)의 일반항이 \\(a_n=3n-2\\)이면 \\(a_1=1,\\ a_2=4,\\ a_3=7,\\ a_4=10,\\ \\cdots\\)이므로 \\(\\{a_n\\}\\)은 \\(1,\\ 4,\\ 7,\\ 10,\\ \\cdots\\)이다.</li><li>수열 \\(3,\\ 6,\\ 9,\\ 12,\\ \\cdots\\)의 일반항은 \\(a_1=3\\cdot 1,\\ a_2=3\\cdot 2,\\ \\cdots\\)이므로 \\(a_n=3n\\)이다.</li></ol></div></div>"},{"topic":"등차수열","no":2,"title":"등차수열","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">등차수열</div><div class=\"def-body\">첫째항부터 차례대로 일정한 수를 더하여 만든 수열</div></div><div class=\"def-row\"><div class=\"def-label\">공차</div><div class=\"def-body\">등차수열에서 더하는 일정한 수 (보통 \\(d\\)로 나타낸다)</div></div><div class=\"def-row\"><div class=\"def-label\">이웃하는 두 항의 관계</div><div class=\"def-body\">공차가 \\(d\\)인 등차수열 \\(\\{a_n\\}\\)에서 $$a_{n+1}=a_n+d \\quad\\text{또는}\\quad a_{n+1}-a_n=d \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">첫째항부터 차례대로 일정한 수를 더하여 만든 수열을 <b>등차수열</b>이라 하고, 더하는 일정한 수를 <b>공차</b>라 한다. 공차는 영어로 <i>common difference</i>이고 보통 \\(d\\)로 나타낸다.</p><p class=\"prose\">예를 들어 수열 \\(1,\\ 3,\\ 5,\\ 7,\\ 9,\\ \\cdots\\)는 첫째항 \\(1\\)에 차례대로 \\(2\\)를 더하여 얻은 수열이므로 첫째항이 \\(1\\), 공차가 \\(2\\)인 등차수열이다.</p><p class=\"prose\">공차가 \\(d\\)인 등차수열 \\(\\{a_n\\}\\)에서 제\\(n\\)항에 공차 \\(d\\)를 더하면 제\\((n+1)\\)항이 되므로 다음이 성립한다.</p><div class=\"formula\"><div class=\"formula-math\">\\[a_{n+1}=a_n+d,\\quad\\text{즉}\\quad a_{n+1}-a_n=d \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"note\">등차수열은 이웃하는 두 항의 차가 일정한 수열이다. 거꾸로 위의 등식이 성립하면 수열 \\(\\{a_n\\}\\)은 등차수열이다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>수열 \\(10,\\ 8,\\ 6,\\ 4,\\ \\cdots\\)는 첫째항이 \\(10\\), 공차가 \\(-2\\)인 등차수열이다.</li><li>수열 \\(\\{3n-1\\}\\)은 \\(2,\\ 5,\\ 8,\\ 11,\\ \\cdots\\)이므로 첫째항이 \\(2\\), 공차가 \\(3\\)인 등차수열이다.</li><li>첫째항이 \\(5\\), 공차가 \\(-3\\)인 등차수열은 \\(5,\\ 2,\\ -1,\\ -4,\\ \\cdots\\)이다.</li></ol></div><div class=\"note\">일정한 수를 더해 만든 수열이라 해서 항이 항상 증가하는 것은 아니다. 공차가 음수이면 항들이 점점 감소하는 등차수열이 된다.</div></div>"},{"topic":"등차수열","no":3,"title":"등차수열의 일반항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">일반항</div><div class=\"def-body\">첫째항이 \\(a\\), 공차가 \\(d\\)인 등차수열의 일반항은 $$a_n=a+(n-1)d \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">첫째항이 \\(a\\), 공차가 \\(d\\)인 등차수열의 일반항은 다음 두 가지 방법으로 구할 수 있다.</p><div class=\"derive\"><div class=\"derive-title\">방법 1 ─ 각 항을 차례대로 나열</div><div class=\"derive-line\">\\(\\displaystyle a_1=a\\)</div><div class=\"derive-line\">\\(\\displaystyle a_2=a_1+d=a+d\\)</div><div class=\"derive-line\">\\(\\displaystyle a_3=a_2+d=(a+d)+d=a+2d\\)</div><div class=\"derive-line\">\\(\\displaystyle a_4=a_3+d=(a+2d)+d=a+3d\\)</div><div class=\"derive-line\">\\(\\displaystyle \\ \\vdots\\)</div><div class=\"derive-line\">\\(\\displaystyle a_n=a+(n-1)d\\)</div></div><p class=\"prose\">즉, 각 항은 첫째항 \\(a\\)에 공차 \\(d\\)를 \\((n-1)\\)번 더한 것이므로 \\(a_n=a+(n-1)\\times d\\)이다.</p><div class=\"derive\"><div class=\"derive-title\">방법 2 ─ 이웃하는 두 항의 차를 변끼리 더하기</div><div class=\"derive-line\">\\(\\displaystyle a_2-a_1=d\\)</div><div class=\"derive-line\">\\(\\displaystyle a_3-a_2=d\\)</div><div class=\"derive-line\">\\(\\displaystyle a_4-a_3=d\\)</div><div class=\"derive-line\">\\(\\displaystyle \\ \\vdots \\qquad (n-1)\\text{개}\\)</div><div class=\"derive-line\">\\(\\displaystyle +\\,)\\ \\ a_n-a_{n-1}=d\\)</div><hr class=\"derive-rule\"><div class=\"derive-line\">\\(\\displaystyle a_n-a_1=(n-1)d\\)</div></div><p class=\"prose\">이때 \\(a_1=a\\)이므로 일반항은 \\(a_n=a+(n-1)d\\)이다.</p><div class=\"formula\"><span class=\"formula-tag\">등차수열의 일반항</span><div class=\"formula-math\">\\[a_n=a+(n-1)d \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>첫째항이 \\(3\\), 공차가 \\(4\\)인 등차수열의 일반항은 \\(a_n=3+(n-1)\\times 4=4n-1\\)이다.</li><li>수열 \\(10,\\ 7,\\ 4,\\ 1,\\ -2,\\ \\cdots\\)는 첫째항 \\(10\\), 공차 \\(7-10=-3\\)이므로 \\(a_n=10+(n-1)\\times(-3)=-3n+13\\)이다.</li><li>첫째항이 \\(-2\\), 셋째항이 \\(4\\)인 등차수열에서 \\(a_3=-2+2d=4\\)이므로 \\(d=3\\). 따라서 \\(a_n=-2+(n-1)\\times 3=3n-5\\)이다.</li></ol></div></div>"},{"topic":"등차수열","no":4,"title":"등차수열의 일반항의 특징","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">일차식 꼴</div><div class=\"def-body\">일반항 \\(a_n\\)이 \\(n\\)에 대한 일차식 \\(a_n=An+B\\) (\\(A,\\ B\\)는 상수)인 수열 \\(\\{a_n\\}\\)은 <b>첫째항이 \\(A+B\\)</b>, <b>공차가 \\(A\\)</b>인 등차수열이다.</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">\\(a_n=An+B\\)이면 \\(a_{n+1}=A(n+1)+B\\)이므로 $$a_{n+1}-a_n=A(n+1)+B-(An+B)=A\\ (\\text{일정})$$ 또한 첫째항은 \\(a_1=A\\times 1+B=A+B\\)이다. 따라서 수열 \\(\\{a_n\\}\\)은 첫째항이 \\(A+B\\), 공차가 \\(A\\)인 등차수열이다.</p><div class=\"note\">등차수열의 일반항은 공차가 \\(0\\)이 아닐 때는 \\(n\\)에 대한 일차식으로, 공차가 \\(0\\)일 때는 상수로 나타내어진다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(a_n=2n+1\\) \\((A=2,\\ B=1)\\)이면 첫째항 \\(a_1=3\\), 공차 \\(2\\)인 등차수열이다.</li><li>\\(a_n=-4n\\) \\((A=-4,\\ B=0)\\)이면 첫째항 \\(a_1=-4\\), 공차 \\(-4\\)인 등차수열이다.</li></ol></div></div>"},{"topic":"등차수열","no":5,"title":"등차중항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">등차중항</div><div class=\"def-body\">세 수 \\(a,\\ b,\\ c\\)가 이 순서대로 등차수열을 이룰 때, \\(b\\)를 \\(a\\)와 \\(c\\)의 <b>등차중항</b>이라 한다. 이때 $$b=\\dfrac{a+c}{2}$$</div></div><div class=\"def-row\"><div class=\"def-label\">등차수열의 관계식</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)이 등차수열이면 $$2a_{n+1}=a_n+a_{n+2}\\quad\\text{또는}\\quad a_{n+1}=\\dfrac{a_n+a_{n+2}}{2}$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">세 수 \\(a,\\ b,\\ c\\)가 이 순서대로 등차수열을 이루면 이웃하는 두 항의 차가 일정하므로 \\(b-a=c-b\\)이다. 이것을 정리하면 \\(2b=a+c\\), 즉 \\(b=\\dfrac{a+c}{2}\\)이다.</p><div class=\"note\">등차중항 \\(b=\\dfrac{a+c}{2}\\)는 \\(a\\)와 \\(c\\)의 산술평균이다.</div><p class=\"prose\">수열 \\(\\{a_n\\}\\)이 공차가 \\(d\\)인 등차수열이면 연속하는 세 항에 대하여 \\(a_{n+1}-a_n=a_{n+2}-a_{n+1}=d\\)이므로 \\(2a_{n+1}=a_n+a_{n+2}\\)가 성립한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>세 수 \\(-3,\\ x,\\ 13\\)이 이 순서대로 등차수열을 이루면 \\(x=\\dfrac{-3+13}{2}=5\\)이다.</li><li>네 수 \\(2,\\ a,\\ -8,\\ b\\)가 등차수열을 이룰 때, \\(a=\\dfrac{2+(-8)}{2}=-3\\)이고 공차가 \\(a-2=-5\\)이므로 \\(b=-8+(-5)=-13\\)이다.</li></ol></div></div>"},{"topic":"등차수열","no":6,"title":"등차수열의 합","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">첫째항과 끝항이 주어질 때</div><div class=\"def-body\">첫째항이 \\(a\\), 제\\(n\\)항이 \\(l\\)일 때 $$S_n=\\dfrac{n(a+l)}{2}$$</div></div><div class=\"def-row\"><div class=\"def-label\">첫째항과 공차가 주어질 때</div><div class=\"def-body\">첫째항이 \\(a\\), 공차가 \\(d\\)일 때 $$S_n=\\dfrac{n\\{2a+(n-1)d\\}}{2}$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)으로 나타낸다. 첫째항이 \\(a\\), 공차가 \\(d\\)인 등차수열의 제\\(n\\)항을 \\(l\\)이라 하면</p><div class=\"derive\"><div class=\"derive-title\">합 공식의 유도</div><div class=\"derive-line\">\\(\\displaystyle S_n=a+(a+d)+(a+2d)+\\cdots+(l-d)+l \\qquad \\cdots\\cdots\\ \\text{㉠}\\)</div><div class=\"derive-line\">\\(\\displaystyle S_n=l+(l-d)+(l-2d)+\\cdots+(a+d)+a \\qquad \\cdots\\cdots\\ \\text{㉡}\\)</div></div><p class=\"prose\">\\(\\text{㉠}+\\text{㉡}\\)를 하면 짝지은 각 항의 합이 모두 \\(a+l\\)이고 항이 \\(n\\)개이므로 $$2S_n=n(a+l)\\quad\\therefore\\ S_n=\\dfrac{n(a+l)}{2}$$</p><p class=\"prose\">이때 \\(l\\)은 제\\(n\\)항이므로 \\(l=a+(n-1)d\\)를 대입하여 정리하면 다음을 얻는다.</p><div class=\"formula\"><span class=\"formula-tag\">등차수열의 합</span><div class=\"formula-math\">\\[S_n=\\dfrac{n(a+l)}{2}=\\dfrac{n\\{2a+(n-1)d\\}}{2}\\]</div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>첫째항 \\(3\\), 제\\(10\\)항 \\(48\\)인 등차수열의 합: \\(S_{10}=\\dfrac{10(3+48)}{2}=255\\)</li><li>첫째항 \\(5\\), 공차 \\(2\\)인 등차수열의 첫째항부터 제\\(12\\)항까지의 합: \\(S_{12}=\\dfrac{12\\{2\\times 5+(12-1)\\times 2\\}}{2}=192\\)</li><li>\\(2+4+6+\\cdots+60=\\dfrac{30(2+60)}{2}=930\\)</li></ol></div><div class=\"note\">등차수열의 합은 \\(S_n=\\dfrac{n\\{2a+(n-1)d\\}}{2}=\\dfrac{d}{2}n^2+\\dfrac{2a-d}{2}n\\), 즉 \\(S_n=An^2+Bn\\) 꼴이다. \\(d\\neq 0\\)이면 \\(n^2\\)의 계수가 \\(\\dfrac{d}{2}\\)이고 상수항이 없는 \\(n\\)에 대한 이차식이다.</div></div>"},{"topic":"등차수열","no":7,"title":"수열의 합과 일반항 사이의 관계","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">관계식</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면 $$a_1=S_1,\\qquad a_n=S_n-S_{n-1}\\ (n\\ge 2)$$</div></div></div>\n      <div class=\"concept-body\"><div class=\"note\">이 관계는 등차수열뿐만 아니라 <b>모든 수열</b>에서 성립한다.</div><div class=\"derive\"><div class=\"derive-title\">관계식의 유도</div><div class=\"derive-line\">\\(\\displaystyle n=1\\text{일 때},\\quad S_1=a_1\\)</div><div class=\"derive-line\">\\(\\displaystyle n\\ge 2\\text{일 때},\\)</div><div class=\"derive-line\">\\(\\displaystyle a_1+a_2+\\cdots+a_{n-1}+a_n=S_n \\qquad \\cdots\\cdots\\ \\text{㉠}\\)</div><div class=\"derive-line\">\\(\\displaystyle a_1+a_2+\\cdots+a_{n-1}\\ \\ \\ \\,=S_{n-1} \\quad \\cdots\\cdots\\ \\text{㉡}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{㉠}-\\text{㉡}:\\quad a_n=S_n-S_{n-1}\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">합과 일반항의 관계</span><div class=\"formula-math\">\\[a_1=S_1,\\qquad a_n=S_n-S_{n-1}\\ (n\\ge 2)\\]</div></div><div class=\"note\">\\(a_n=S_n-S_{n-1}\\)에 \\(n=1\\)을 대입하면 \\(S_0\\)이 필요한데 \\(S_0\\)은 정의되지 않으므로, 이 식은 \\(n\\ge 2\\)에서만 성립하고 \\(n=1\\)은 \\(a_1=S_1\\)로 따로 구한다. 다만 \\(a_1=S_1\\)의 값이 \\(a_n=S_n-S_{n-1}\\)에 \\(n=1\\)을 대입한 값과 같으면 \\(a_n\\)은 \\(n=1\\)부터 성립한다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(S_n=n^2+2n\\)이면 \\(a_1=S_1=3\\)이고 \\(n\\ge 2\\)에서 \\(a_n=S_n-S_{n-1}=2n+1\\). \\(a_1=3\\)이 식에 \\(n=1\\)을 넣은 값과 같으므로 \\(a_n=2n+1\\) (첫째항부터 등차).</li><li>\\(S_n=n^2+2n+1\\)이면 \\(a_1=S_1=4\\)이고 \\(n\\ge 2\\)에서 \\(a_n=2n+1\\). \\(a_1=4\\)가 다르므로 \\(a_1=4,\\ a_n=2n+1\\ (n\\ge 2)\\) (제2항부터 등차).</li></ol></div><div class=\"note\">상수 \\(A,\\ B,\\ C\\,(A\\neq 0,\\ C\\neq 0)\\)에 대하여 합 \\(S_n\\)이 ① \\(S_n=An^2+Bn\\) 꼴이면 첫째항부터, ② \\(S_n=An^2+Bn+C\\) 꼴이면 제2항부터 등차수열을 이룬다.</div></div>"},{"topic":"등차수열","no":8,"title":"조화수열과 조화중항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">조화수열</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)의 각 항의 역수로 이루어진 수열 \\(\\left\\{\\dfrac{1}{a_n}\\right\\}\\)이 등차수열을 이룰 때, \\(\\{a_n\\}\\)을 <b>조화수열</b>이라 한다.</div></div><div class=\"def-row\"><div class=\"def-label\">조화중항</div><div class=\"def-body\">\\(0\\)이 아닌 세 수 \\(a,\\ b,\\ c\\)가 이 순서대로 조화수열을 이룰 때, \\(b\\)를 \\(a\\)와 \\(c\\)의 <b>조화중항</b>이라 하고 $$b=\\dfrac{2ac}{a+c}$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">조화수열 \\(\\{a_n\\}\\)의 역수로 이루어진 수열 \\(\\left\\{\\dfrac{1}{a_n}\\right\\}\\)이 공차가 \\(d\\)인 등차수열이면 $$\\dfrac{1}{a_n}=\\dfrac{1}{a_1}+(n-1)d$$ 가 성립한다. (역수가 존재해야 하므로 \\(a_n\\neq 0\\))</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>수열 \\(1,\\ \\dfrac{1}{3},\\ \\dfrac{1}{5},\\ \\dfrac{1}{7},\\ \\dfrac{1}{9},\\ \\cdots\\)은 역수 수열 \\(1,\\ 3,\\ 5,\\ 7,\\ 9,\\ \\cdots\\)가 등차수열이므로 조화수열이다. 역수 수열의 일반항은 \\(\\dfrac{1}{a_n}=1+(n-1)\\times 2=2n-1\\)이므로 \\(a_n=\\dfrac{1}{2n-1}\\)이다.</li></ol></div><p class=\"prose\">조화중항: \\(\\dfrac{1}{a},\\ \\dfrac{1}{b},\\ \\dfrac{1}{c}\\)가 이 순서대로 등차수열을 이루므로 \\(\\dfrac{1}{b}\\)는 \\(\\dfrac{1}{a}\\)과 \\(\\dfrac{1}{c}\\)의 등차중항이다. 따라서 \\(\\dfrac{2}{b}=\\dfrac{1}{a}+\\dfrac{1}{c}=\\dfrac{a+c}{ac}\\)이므로 \\(b=\\dfrac{2ac}{a+c}\\)이다.</p><div class=\"note\">\\(b=\\dfrac{2ac}{a+c}\\)는 \\(a\\)와 \\(c\\)의 조화평균이다.</div></div>"},{"topic":"등비수열","no":1,"title":"등비수열","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">등비수열</div><div class=\"def-body\">첫째항부터 차례대로 일정한 수를 곱하여 만든 수열</div></div><div class=\"def-row\"><div class=\"def-label\">공비</div><div class=\"def-body\">등비수열에서 곱하는 일정한 수 (보통 \\(r\\)로 나타내며 \\(r\\neq 0\\))</div></div><div class=\"def-row\"><div class=\"def-label\">이웃하는 두 항의 관계</div><div class=\"def-body\">공비가 \\(r\\,(r\\neq 0)\\)인 등비수열 \\(\\{a_n\\}\\)에서 $$a_{n+1}=ra_n \\quad\\text{또는}\\quad \\dfrac{a_{n+1}}{a_n}=r \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">첫째항부터 차례대로 일정한 수를 곱하여 만든 수열을 <b>등비수열</b>이라 하고, 곱하는 일정한 수를 <b>공비</b>라 한다. 공비는 영어로 <i>common ratio</i>이고 보통 \\(r\\)로 나타낸다.</p><p class=\"prose\">예를 들어 수열 \\(1,\\ 2,\\ 4,\\ 8,\\ 16,\\ \\cdots\\)은 첫째항 \\(1\\)에 차례대로 \\(2\\)를 곱하여 얻은 수열이므로 첫째항이 \\(1\\), 공비가 \\(2\\)인 등비수열이다.</p><p class=\"prose\">공비가 \\(r\\)인 등비수열 \\(\\{a_n\\}\\)에서 제\\(n\\)항에 공비 \\(r\\)을 곱하면 제\\((n+1)\\)항이 되므로 다음이 성립한다.</p><div class=\"formula\"><div class=\"formula-math\">\\[a_{n+1}=ra_n,\\quad\\text{즉}\\quad \\dfrac{a_{n+1}}{a_n}=r \\quad(r\\neq 0,\\ n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"note\">등비수열은 이웃하는 두 항의 비가 일정한 수열이다. 거꾸로 위의 등식이 성립하면 수열 \\(\\{a_n\\}\\)은 등비수열이다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>수열 \\(16,\\ 8,\\ 4,\\ 2,\\ \\cdots\\)는 첫째항 \\(16\\), 공비 \\(\\dfrac{1}{2}\\)인 등비수열이다.</li><li>수열 \\(\\dfrac{2}{3},\\ -2,\\ 6,\\ -18,\\ \\cdots\\)은 첫째항 \\(\\dfrac{2}{3}\\), 공비 \\(-3\\)인 등비수열이다.</li><li>수열 \\(\\{3\\times 2^{\\,n-1}\\}\\)은 \\(3,\\ 6,\\ 12,\\ 24,\\ \\cdots\\)이므로 첫째항 \\(3\\), 공비 \\(2\\)인 등비수열이다.</li><li>첫째항이 \\(9\\), 공비가 \\(-\\dfrac{1}{3}\\)인 등비수열은 \\(9,\\ -3,\\ 1,\\ -\\dfrac{1}{3},\\ \\dfrac{1}{9},\\ \\cdots\\)이다.</li></ol></div></div>"},{"topic":"등비수열","no":2,"title":"등비수열의 일반항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">일반항</div><div class=\"def-body\">첫째항이 \\(a\\), 공비가 \\(r\\,(r\\neq 0)\\)인 등비수열의 일반항은 $$a_n=ar^{\\,n-1} \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">첫째항이 \\(a\\), 공비가 \\(r\\)인 등비수열의 일반항은 다음 두 가지 방법으로 구할 수 있다.</p><div class=\"derive\"><div class=\"derive-title\">방법 1 ─ 각 항을 차례대로 나열</div><div class=\"derive-line\">\\(\\displaystyle a_1=a=a\\times r^{0}\\)</div><div class=\"derive-line\">\\(\\displaystyle a_2=a_1 r=ar=a\\times r^{1}\\)</div><div class=\"derive-line\">\\(\\displaystyle a_3=a_2 r=(ar)r=ar^2=a\\times r^{2}\\)</div><div class=\"derive-line\">\\(\\displaystyle a_4=a_3 r=(ar^2)r=ar^3=a\\times r^{3}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\ \\vdots\\)</div><div class=\"derive-line\">\\(\\displaystyle a_n=a\\times r^{\\,n-1}\\)</div></div><div class=\"derive\"><div class=\"derive-title\">방법 2 ─ 이웃하는 두 항의 비를 변끼리 곱하기</div><div class=\"derive-line\">\\(\\displaystyle \\dfrac{a_2}{a_1}=r,\\quad \\dfrac{a_3}{a_2}=r,\\quad \\dfrac{a_4}{a_3}=r,\\quad \\cdots,\\quad \\dfrac{a_n}{a_{n-1}}=r\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{변끼리 곱하면}\\quad \\dfrac{a_n}{a_1}=r^{\\,n-1}\\)</div></div><p class=\"prose\">이때 \\(a_1=a\\)이므로 일반항은 \\(a_n=ar^{\\,n-1}\\)이다.</p><div class=\"formula\"><span class=\"formula-tag\">등비수열의 일반항</span><div class=\"formula-math\">\\[a_n=ar^{\\,n-1} \\quad(n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>첫째항 \\(2\\), 공비 \\(7\\)인 등비수열: \\(a_n=2\\times 7^{\\,n-1}\\)</li><li>등비수열 \\(5,\\ -10,\\ 20,\\ -40,\\ \\cdots\\)은 공비 \\(\\dfrac{-10}{5}=-2\\)이므로 \\(a_n=5\\times(-2)^{\\,n-1}\\)이다.</li><li>\\(a_n=4\\times 3^{\\,n}=12\\times 3^{\\,n-1}\\)이면 첫째항 \\(a_1=12\\), 공비 \\(3\\)인 등비수열이다.</li></ol></div><div class=\"note\">첫째항 또는 공비가 \\(0\\)이면 수열이 \\(0,\\ 0,\\ 0,\\ \\cdots\\) 또는 \\(a,\\ 0,\\ 0,\\ \\cdots\\)이 되어 의미가 없으므로, 등비수열의 첫째항과 공비는 \\(0\\)이 아닌 수로 정한다.</div></div>"},{"topic":"등비수열","no":3,"title":"등비중항","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">등비중항</div><div class=\"def-body\">세 수 \\(a,\\ b,\\ c\\)가 이 순서대로 등비수열을 이룰 때, \\(b\\)를 \\(a\\)와 \\(c\\)의 <b>등비중항</b>이라 한다. 이때 $$b^2=ac$$</div></div><div class=\"def-row\"><div class=\"def-label\">등비수열의 관계식</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)이 등비수열이면 $$a_{n+1}^{\\,2}=a_n\\,a_{n+2}\\quad(n=1,\\ 2,\\ 3,\\ \\cdots)$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">세 수 \\(a,\\ b,\\ c\\)가 이 순서대로 등비수열을 이루면 이웃하는 두 항의 비가 일정하므로 \\(\\dfrac{b}{a}=\\dfrac{c}{b}\\), 즉 \\(b^2=ac\\)이다.</p><div class=\"note\">양의 등비중항 \\(b=\\sqrt{ac}\\)는 \\(a\\)와 \\(c\\)의 기하평균이다.</div><p class=\"prose\">수열 \\(\\{a_n\\}\\)이 공비가 \\(r\\)인 등비수열이면 \\(\\dfrac{a_{n+1}}{a_n}=\\dfrac{a_{n+2}}{a_{n+1}}=r\\)이므로 \\(a_{n+1}^{\\,2}=a_n a_{n+2}\\)가 성립한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>세 수 \\(4,\\ x,\\ 16\\)이 이 순서대로 등비수열을 이루면 \\(x^2=4\\times 16=64\\)이므로 \\(x=8\\) 또는 \\(x=-8\\)이다.</li></ol></div></div>"},{"topic":"등비수열","no":4,"title":"등비수열의 합","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">공비가 1이 아닐 때</div><div class=\"def-body\">첫째항이 \\(a\\), 공비가 \\(r\\,(r\\neq 1)\\)일 때 $$S_n=\\dfrac{a(1-r^{\\,n})}{1-r}=\\dfrac{a(r^{\\,n}-1)}{r-1}$$</div></div><div class=\"def-row\"><div class=\"def-label\">공비가 1일 때</div><div class=\"def-body\">\\(r=1\\)일 때 $$S_n=na$$</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">첫째항이 \\(a\\), 공비가 \\(r\\)인 등비수열의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자.</p><div class=\"derive\"><div class=\"derive-title\">합 공식의 유도</div><div class=\"derive-line\">\\(\\displaystyle S_n=a+ar+ar^2+\\cdots+ar^{\\,n-1} \\qquad \\cdots\\cdots\\ \\text{㉠}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{양변에 } r \\text{을 곱하면}\\)</div><div class=\"derive-line\">\\(\\displaystyle rS_n=\\ \\ \\ \\ ar+ar^2+\\cdots+ar^{\\,n-1}+ar^{\\,n} \\quad \\cdots\\cdots\\ \\text{㉡}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{㉠}-\\text{㉡}:\\quad (1-r)S_n=a-ar^{\\,n}=a(1-r^{\\,n})\\)</div></div><p class=\"prose\">따라서 \\(r\\neq 1\\)일 때 \\(S_n=\\dfrac{a(1-r^{\\,n})}{1-r}\\)이고, \\(r=1\\)일 때는 \\(\\text{㉠}\\)에서 \\(S_n=a+a+\\cdots+a=na\\)이다.</p><div class=\"formula\"><span class=\"formula-tag\">등비수열의 합</span><div class=\"formula-math\">\\[S_n=\\dfrac{a(1-r^{\\,n})}{1-r}=\\dfrac{a(r^{\\,n}-1)}{r-1}\\ (r\\neq 1),\\qquad S_n=na\\ (r=1)\\]</div></div><div class=\"note\">\\(r\\lt 1\\)이면 \\(\\dfrac{a(1-r^{\\,n})}{1-r}\\)을, \\(r\\gt 1\\)이면 \\(\\dfrac{a(r^{\\,n}-1)}{r-1}\\)을 이용하는 것이 편리하다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>첫째항 \\(5\\), 공비 \\(2\\)인 등비수열의 제\\(5\\)항까지의 합: \\(S_5=\\dfrac{5(2^{5}-1)}{2-1}=5\\times 31=155\\)</li><li>첫째항 \\(8\\), 공비 \\(\\dfrac{1}{2}\\)인 등비수열의 제\\(5\\)항까지의 합: \\(S_5=\\dfrac{8\\left\\{1-\\left(\\frac{1}{2}\\right)^{5}\\right\\}}{1-\\frac{1}{2}}=\\dfrac{8\\times\\frac{31}{32}}{\\frac{1}{2}}=\\dfrac{31}{2}\\)</li><li>첫째항 \\(5\\), 공비 \\(1\\)인 등비수열의 제\\(10\\)항까지의 합: \\(S_{10}=10\\times 5=50\\)</li></ol></div></div>"},{"topic":"등비수열","no":5,"title":"합 \\(S_n\\)으로 표현된 등비수열","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">판별</div><div class=\"def-body\">상수 \\(A,\\ B,\\ r\\,(A\\neq -B)\\)에 대하여 합 \\(S_n\\)이 <br>① \\(S_n=A\\cdot r^{\\,n}-A\\) 꼴이면 <b>첫째항부터</b> 등비수열,<br>② \\(S_n=A\\cdot r^{\\,n}+B\\) 꼴이면 <b>제2항부터</b> 등비수열을 이룬다.</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">등비수열에서도 합 \\(S_n\\)이 주어질 때 일반항은 \\(a_1=S_1,\\ a_n=S_n-S_{n-1}\\,(n\\ge 2)\\)를 이용해 구한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(S_n=2^{\\,n}-1\\)이면 \\(a_1=S_1=1\\), \\(n\\ge 2\\)에서 \\(a_n=2^{\\,n}-2^{\\,n-1}=2^{\\,n-1}\\). \\(a_1=1\\)이 식에 \\(n=1\\)을 넣은 값과 같으므로 \\(a_n=2^{\\,n-1}\\) (첫째항부터 등비).</li><li>\\(S_n=2^{\\,n}+1\\)이면 \\(a_1=S_1=3\\), \\(n\\ge 2\\)에서 \\(a_n=2^{\\,n-1}\\). \\(a_1=3\\)이 다르므로 \\(a_1=3,\\ a_n=2^{\\,n-1}\\ (n\\ge 2)\\) (제2항부터 등비).</li></ol></div></div>"},{"topic":"등비수열","no":6,"title":"등비수열의 합의 활용 ─ 원리합계","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">단리법</div><div class=\"def-body\">원금에 대해서만 이자를 계산. 원금 \\(a\\)원, 연이율 \\(r\\), \\(n\\)년: $$S=a(1+rn)\\ (\\text{원})$$</div></div><div class=\"def-row\"><div class=\"def-label\">복리법</div><div class=\"def-body\">원금에 이자를 합한 금액을 새 원금으로 보고 이자를 계산. $$S=a(1+r)^{\\,n}\\ (\\text{원})$$</div></div><div class=\"def-row\"><div class=\"def-label\">적립금의 원리합계</div><div class=\"def-body\">연이율 \\(r\\), \\(1\\)년마다 복리로 \\(a\\)원씩 적립할 때 \\(n\\)년째 말의 원리합계 \\(S\\)는<br>① 매년 초: \\(S=\\dfrac{a(1+r)\\{(1+r)^{\\,n}-1\\}}{r}\\)<br>② 매년 말: \\(S=\\dfrac{a\\{(1+r)^{\\,n}-1\\}}{r}\\)</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\">원금과 이자를 합한 금액을 <b>원리합계</b>라 한다. 이자를 계산하는 방법에는 단리법과 복리법이 있다.</p><p class=\"prose\"><b>단리법</b>은 원금에 대해서만 이자를 계산한다. 해마다 붙는 이자가 모두 \\(ar\\)원으로 같으므로 원리합계는 첫째항 \\(a(1+r)\\), 공차 \\(ar\\)인 등차수열을 이룬다.</p><div class=\"tablewrap\"><table class=\"fin\"><thead><tr><th></th><th>원금</th><th>이자</th><th>원리합계</th></tr></thead><tbody><tr><td>1년 후</td><td>\\(a\\)</td><td>\\(ar\\)</td><td>\\(a+ar=a(1+r)\\)</td></tr><tr><td>2년 후</td><td>\\(a(1+r)\\)</td><td>\\(ar\\)</td><td>\\(a(1+2r)\\)</td></tr><tr><td>3년 후</td><td>\\(a(1+2r)\\)</td><td>\\(ar\\)</td><td>\\(a(1+3r)\\)</td></tr><tr><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td></tr><tr><td>\\(n\\)년 후</td><td>\\(a\\{1+(n-1)r\\}\\)</td><td>\\(ar\\)</td><td>\\(a(1+nr)\\)</td></tr></tbody></table></div><div class=\"formula\"><span class=\"formula-tag\">단리법의 원리합계</span><div class=\"formula-math\">\\[S=a(1+rn)\\ (\\text{원})\\]</div></div><p class=\"prose\"><b>복리법</b>은 원금에 이자를 합한 금액을 새로운 원금으로 보고 이자를 계산한다. 원리합계가 첫째항 \\(a(1+r)\\), 공비 \\((1+r)\\)인 등비수열을 이룬다.</p><div class=\"tablewrap\"><table class=\"fin\"><thead><tr><th></th><th>원금</th><th>이자</th><th>원리합계</th></tr></thead><tbody><tr><td>1년 후</td><td>\\(a\\)</td><td>\\(ar\\)</td><td>\\(a(1+r)\\)</td></tr><tr><td>2년 후</td><td>\\(a(1+r)\\)</td><td>\\(a(1+r)r\\)</td><td>\\(a(1+r)^2\\)</td></tr><tr><td>3년 후</td><td>\\(a(1+r)^2\\)</td><td>\\(a(1+r)^2 r\\)</td><td>\\(a(1+r)^3\\)</td></tr><tr><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td><td>\\(\\vdots\\)</td></tr><tr><td>\\(n\\)년 후</td><td>\\(a(1+r)^{n-1}\\)</td><td>\\(a(1+r)^{n-1}r\\)</td><td>\\(a(1+r)^{n}\\)</td></tr></tbody></table></div><div class=\"formula\"><span class=\"formula-tag\">복리법의 원리합계</span><div class=\"formula-math\">\\[S=a(1+r)^{\\,n}\\ (\\text{원})\\]</div></div><div class=\"note\">같은 금액·같은 이율이면 단리보다 복리로 예금했을 때 이자가 더 많이 붙는다. 예) 원금 \\(10000\\)원, 연이율 \\(2\\%\\), \\(10\\)년 → 단리 \\(10000(1+0.02\\times 10)=12000\\)원, 복리 \\(10000\\times 1.02^{10}\\approx 12200\\)원.</div><p class=\"prose\"><b>적립금의 원리합계</b>: 연이율 \\(r\\), \\(1\\)년마다 복리로 \\(a\\)원씩 적립할 때 \\(n\\)년째 말의 원리합계 \\(S\\)는 적립 시점에 따라 다음과 같다. (각 회차 적립금의 원리합계가 등비수열을 이룬다.)</p><div class=\"derive\"><div class=\"derive-title\">매년 초에 적립하는 경우</div><div class=\"derive-line\">\\(\\displaystyle S=a(1+r)+a(1+r)^2+\\cdots+a(1+r)^{\\,n}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\ =\\dfrac{a(1+r)\\{(1+r)^{\\,n}-1\\}}{(1+r)-1}=\\dfrac{a(1+r)\\{(1+r)^{\\,n}-1\\}}{r}\\ (\\text{원})\\)</div></div><div class=\"derive\"><div class=\"derive-title\">매년 말에 적립하는 경우</div><div class=\"derive-line\">\\(\\displaystyle S=a+a(1+r)+a(1+r)^2+\\cdots+a(1+r)^{\\,n-1}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\ =\\dfrac{a\\{(1+r)^{\\,n}-1\\}}{(1+r)-1}=\\dfrac{a\\{(1+r)^{\\,n}-1\\}}{r}\\ (\\text{원})\\)</div></div><div class=\"note\">적립금의 원리합계 문제는 공식을 외우기보다 주어진 조건을 그림으로 나타낸 후 등비수열의 합을 이용해 푸는 것이 좋다. 예) 연이율 \\(5\\%\\), 매년 말 \\(50\\)만 원씩 \\(4\\)년 적립 \\((1.05^3=1.22)\\) → \\(S=\\dfrac{50(1.05^3-1)}{1.05-1}=\\dfrac{50(1.22-1)}{0.05}=220\\)(만 원).</div></div>"},{"topic":"등비수열","no":7,"title":"등비수열의 활용 ─ 상환, 연금의 현가","html":"<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">상환</div><div class=\"def-body\">빌린 금액을 일정 기간마다 일정 금액씩 지불하여 갚는 것. 빌린 금액 \\(S\\)원을 \\(n\\)년 동안 매년 \\(a\\)원씩 갚을 때 $$(S\\text{원을 }n\\text{년 예금한 원리합계})=(a\\text{원을 }n\\text{년 적립한 원리합계})$$</div></div><div class=\"def-row\"><div class=\"def-label\">연금의 현가</div><div class=\"def-body\">미래에 받을 연금을 현재 가치로 환산해 한꺼번에 받는 금액. 매년 \\(a\\)원씩 \\(n\\)년 받을 연금의 현가 \\(S\\)원은 위와 같은 등식으로 구한다.</div></div></div>\n      <div class=\"concept-body\"><p class=\"prose\"><b>상환</b>은 빌린 금액을 일정 기간마다 일정 금액씩 지불하여 빚을 갚는 것이다. 시간에 따라 돈의 가치가 변하므로, 빌린 금액 \\(S\\)원을 \\(n\\)년 동안 매년 \\(a\\)원씩 갚는다면 다음 등식을 이용한다.</p><div class=\"formula\"><div class=\"formula-math\">\\[(S\\text{원을 }n\\text{년 동안 예금할 때의 원리합계})=(a\\text{원을 }n\\text{년 동안 매년 적립할 때의 원리합계})\\]</div></div><div class=\"note\">예) \\(200\\)만 원짜리 노트북을 이달 초 구입하고 이달 말부터 \\(12\\)개월 분할 상환, 월이율 \\(2\\%\\), 월복리 \\((1.02^{12}=1.26)\\). \\(200\\times 1.02^{12}=252\\)(만 원)이고, 매달 \\(a\\)만 원 적립의 원리합계가 \\(\\dfrac{a(1.02^{12}-1)}{1.02-1}=13a\\)이므로 \\(252=13a\\), \\(a\\approx 19\\)(만 원).</div><p class=\"prose\"><b>연금의 현가</b>는 미래에 받을 연금을 현재 가치로 환산하여 한꺼번에 받는 금액이다. 매년 \\(a\\)원씩 \\(n\\)년 받을 연금의 현가 \\(S\\)원도 같은 등식으로 구한다.</p><div class=\"formula\"><div class=\"formula-math\">\\[(S\\text{원을 }n\\text{년 동안 예금할 때의 원리합계})=(a\\text{원을 }n\\text{년 동안 매년 적립할 때의 원리합계})\\]</div></div><div class=\"note\">예) 올해부터 매년 말 \\(200\\)만 원씩 \\(12\\)년 받는 연금을 올해 초 일시불로, 연이율 \\(5\\%\\), 연복리 \\((1.05^{12}=1.8)\\). \\(1.8\\,S=\\dfrac{200(1.05^{12}-1)}{1.05-1}=3200\\)이므로 \\(S=\\dfrac{3200}{1.8}\\approx 1777\\)(만 원).</div></div>"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅲ. 수열 — 08. 등차수열과 등비수열", "source": "대수 (본책, 교사용) · 대표 예제", "count": 18, "examples": [{"no": 1, "topic": "등차수열", "title": "등차수열의 일반항", "problem_intro": "등차수열 \\(\\{a_n\\}\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["첫째항이 \\(-2\\), 공차가 \\(3\\)일 때, \\(a_k=19\\)를 만족시키는 \\(k\\)의 값을 구하시오.", "\\(a_3=5\\), \\(a_7=17\\)일 때, \\(a_{13}\\)의 값을 구하시오."], "approach": ["⑴ 첫째항이 \\(a\\), 공차가 \\(d\\)인 등차수열의 일반항 \\(a_n\\)은 \\(\\Rightarrow a_n=a+(n-1)\\times d\\)", "⑵ \\(a_n=a+(n-1)\\times d\\)임을 이용하여 \\(a_3=5\\), \\(a_7=17\\)을 각각 \\(a\\)와 \\(d\\)에 대한 식으로 나타낸다."], "solution": ["⑴ 등차수열 \\(\\{a_n\\}\\)의 첫째항이 \\(-2\\), 공차가 \\(3\\)이므로 일반항은", "\\(a_n=-2+(n-1)\\times 3=3n-5\\)", "따라서 \\(a_k=19\\)에서 \\(3k-5=19\\)이므로", "\\(3k=24 \\qquad \\therefore k=8\\)", "⑵ 등차수열 \\(\\{a_n\\}\\)의 첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "\\(a_3=a+2d=5\\)", "\\(a_7=a+6d=17\\)", "두 식을 연립하여 풀면", "\\(a=-1,\\ d=3\\)", "\\(\\therefore a_{13}=a+12d=(-1)+12\\times 3=(-1)+36=35\\)"], "alt_solution": [], "answer": "⑴ \\(8\\)　⑵ \\(35\\)", "bible": "⑵와 같이 등차수열의 항 \\(2\\)개가 주어졌을 때, 첫째항을 구하지 않고도 문제를 해결할 수 있다. 공차를 \\(d\\)라 하면 \\(a_7=a_3+4d\\)이므로 \\(17=5+4d\\therefore d=3\\). \\(\\therefore a_{13}=a_7+6d=17+6\\times 3=35\\)"}, {"no": 2, "topic": "등차수열", "title": "대소 관계를 만족시키는 등차수열의 항 구하기", "problem_intro": "등차수열 \\(\\{a_n\\}\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["첫째항은 \\(-30\\), 공차가 \\(4\\)일 때, 처음으로 양수가 되는 항은 제몇 항인지 구하시오.", "\\(a_3=11\\), \\(a_6=23\\)일 때, \\(a_n<99\\)를 만족시키는 자연수 \\(n\\)의 최댓값을 구하시오."], "approach": ["⑴ 일반항에 첫째항과 공차를 대입한 후, \\(a_n>0\\)을 만족시키는 자연수 \\(n\\)의 최솟값을 구한다.", "⑵ 첫째항과 공차를 구하여 일반항을 나타낸 후, \\(a_n<99\\)를 만족시키는 자연수 \\(n\\)의 최댓값을 구한다."], "solution": ["⑴ 등차수열 \\(\\{a_n\\}\\)의 첫째항이 \\(-30\\), 공차가 \\(4\\)이므로 일반항은", "\\(a_n=-30+(n-1)\\times 4=4n-34\\)", "제\\(n\\)항에서 처음으로 양수가 된다고 하면 \\(a_n>0\\)에서", "\\(4n-34>0,\\ 4n>34 \\qquad \\therefore n>8.5\\)", "따라서 처음으로 양수가 되는 항은 제\\(9\\)항이다.", "⑵ 첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "\\(a_3=a+2d=11 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(a_6=a+5d=23 \\quad \\cdots\\cdots \\ ㉡\\)", "㉠, ㉡을 연립하여 풀면 \\(a=3,\\ d=4\\)", "\\(\\therefore a_n=3+(n-1)\\times 4=4n-1\\)", "\\(a_n<99\\)에서 \\(4n-1<99,\\ 4n<100 \\therefore n<25\\)", "따라서 자연수 \\(n\\)의 최댓값은 \\(24\\)이다."], "alt_solution": [], "answer": "⑴ 제\\(9\\)항　⑵ \\(24\\)", "bible": "항의 값이 어떤 수보다 크거나 작을 때를 구하는 경우는 일반항 \\(a_n\\)을 이용한다. ① 처음으로 \\(k\\)보다 커지는 항은 \\(a_n>k\\)를 만족시키는 \\(n\\)의 최솟값, ② 처음으로 \\(k\\)보다 작아지는 항은 \\(a_n<k\\)를 만족시키는 \\(n\\)의 최솟값을 구한다."}, {"no": 3, "topic": "등차수열", "title": "두 수 사이에 수를 넣어서 만든 등차수열", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["등차수열 \\(-1,\\ a_1,\\ a_2,\\ \\cdots,\\ a_n,\\ 34\\)의 공차가 \\(7\\)일 때, 자연수 \\(n\\)의 값을 구하시오.", "\\(7\\)과 \\(47\\) 사이에 \\(7\\)개의 수를 넣어서 등차수열을 만들 때, 이 수열의 공차를 구하시오."], "approach": ["⑴ \\(a_1,\\ a_2,\\ \\cdots,\\ a_n\\)의 항의 개수가 \\(n\\)이므로 \\(34\\)는 주어진 등차수열의 제\\((n+2)\\)항이다.", "⑵ \\(7\\)과 \\(47\\) 사이에 \\(7\\)개의 수를 넣으면 \\(47\\)은 주어진 등차수열의 제\\(9\\)항이다."], "solution": ["⑴ 등차수열 \\(-1,\\ a_1,\\ \\cdots,\\ a_n,\\ 34\\)에서 첫째항은 \\(-1\\), 공차는 \\(7\\)이다.", "\\(34\\)는 제\\((n+2)\\)항이므로", "\\(34=-1+\\{(n+2)-1\\}\\times 7,\\ \\ 34=-1+7(n+1)\\)", "\\(7n=28 \\qquad \\therefore n=4\\)", "⑵ 넣은 \\(7\\)개의 수를 차례대로 \\(a_1,\\ a_2,\\ \\cdots,\\ a_7\\)이라 하면", "수열 \\(7,\\ a_1,\\ \\cdots,\\ a_7,\\ 47\\)은 첫째항이 \\(7\\), 제\\(9\\)항이 \\(47\\)인 등차수열이다.", "공차를 \\(d\\)라 하면 \\(7+8d=47\\)에서 \\(8d=40 \\therefore d=5\\)", "따라서 구하는 수열의 공차는 \\(5\\)이다."], "alt_solution": [], "answer": "⑴ \\(4\\)　⑵ \\(5\\)", "bible": "두 수 \\(a,\\ b\\) 사이에 \\(n\\)개의 수를 넣어서 만든 등차수열의 항은 \\((n+2)\\)개이고 첫째항은 \\(a\\), 제\\((n+2)\\)항은 \\(b\\)이다. 공차를 \\(d\\)라 하면 \\(b=a+(n+1)d\\)가 성립한다."}, {"no": 4, "topic": "등차수열", "title": "등차중항 / 등차수열을 이루는 세 수", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["세 수 \\(7,\\ x^2+2x,\\ 6x+5\\)가 이 순서대로 등차수열을 이룰 때, 양수 \\(x\\)의 값을 구하시오.", "등차수열을 이루는 세 수의 합이 \\(18\\), 곱이 \\(120\\)일 때, 세 수의 제곱의 합을 구하시오."], "approach": ["⑴ \\(x^2+2x\\)는 \\(7\\)과 \\(6x+5\\)의 등차중항이다.", "⑵ 등차수열을 이루는 세 수를 \\(a-d,\\ a,\\ a+d\\)로 놓고 식을 세운다."], "solution": ["⑴ \\(x^2+2x\\)는 \\(7\\)과 \\(6x+5\\)의 등차중항이므로", "\\(\\displaystyle x^2+2x=\\frac{7+(6x+5)}{2}\\)이므로", "\\(2(x^2+2x)=6x+12,\\ \\ 2x^2-2x-12=0\\)", "\\(x^2-x-6=0,\\ \\ (x+2)(x-3)=0\\)", "\\(\\therefore x=3 \\ (\\because x>0)\\)", "⑵ 세 수를 \\(a-d,\\ a,\\ a+d\\)로 놓으면", "합이 \\(18\\)이므로 \\((a-d)+a+(a+d)=18 \\quad \\cdots\\cdots \\ ㉠\\)", "곱이 \\(120\\)이므로 \\((a-d)\\times a\\times (a+d)=120 \\quad \\cdots\\cdots \\ ㉡\\)", "㉠에서 \\(3a=18 \\therefore a=6\\)", "\\(a=6\\)을 ㉡에 대입하면 \\((6-d)\\times 6\\times (6+d)=120\\)", "\\(36-d^2=20,\\ d^2=16 \\therefore d=-4\\) 또는 \\(d=4\\)", "두 경우 세 수는 \\(10,\\ 6,\\ 2\\) 또는 \\(2,\\ 6,\\ 10\\)이므로", "세 수의 제곱의 합은 \\(2^2+6^2+10^2=4+36+100=140\\)"], "alt_solution": [], "answer": "⑴ \\(3\\)　⑵ \\(140\\)", "bible": "네 수가 등차수열을 이룰 때, 네 수를 \\(a,\\ a+d,\\ a+2d,\\ a+3d\\)로 놓을 수도 있지만 공차를 \\(2d\\)로 보고 \\(a-3d,\\ a-d,\\ a+d,\\ a+3d\\)와 같이 대칭형으로 놓으면 계산이 간단해지는 경우가 있다."}, {"no": 5, "topic": "등차수열", "title": "등차수열의 합", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["첫째항이 \\(-3\\)이고 제\\(k\\)항이 \\(25\\)인 등차수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(k\\)항까지의 합이 \\(88\\)일 때, \\(a_4\\)의 값을 구하시오.", "\\(a_5=22,\\ a_9=38\\)인 등차수열 \\(\\{a_n\\}\\)에 대하여 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 할 때, \\(S_9\\)의 값을 구하시오."], "approach": ["첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면", "① 첫째항 \\(a\\), 제\\(n\\)항(끝항) \\(l\\)일 때 \\(\\displaystyle S_n=\\frac{n(a+l)}{2}\\)", "② 첫째항 \\(a\\), 공차 \\(d\\)일 때 \\(\\displaystyle S_n=\\frac{n\\{2a+(n-1)d\\}}{2}\\)"], "solution": ["⑴ 첫째항이 \\(-3\\), 제\\(k\\)항이 \\(25\\), 합이 \\(88\\)이므로", "\\(\\displaystyle \\frac{k(-3+25)}{2}=88\\)", "\\(22k=176 \\qquad \\therefore k=8\\)", "즉 \\(a_8=25\\)이므로 공차를 \\(d\\)라 하면 \\(a_8=-3+7d=25\\)", "\\(7d=28 \\therefore d=4\\)", "\\(\\therefore a_4=-3+3\\times 4=9\\)", "⑵ 첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "\\(a_5=a+4d=22,\\quad a_9=a+8d=38\\)", "두 식을 연립하여 풀면 \\(a=6,\\ d=4 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(\\displaystyle \\therefore S_9=\\frac{9(6+38)}{2}=198\\)　(첫째항과 끝항 이용)"], "alt_solution": ["⑵ ㉠에서 첫째항이 \\(6\\), 공차가 \\(4\\)이므로", "\\(\\displaystyle S_9=\\frac{9\\{2\\times 6+(9-1)\\times 4\\}}{2}=198\\)　(첫째항과 공차 이용)"], "answer": "⑴ \\(9\\)　⑵ \\(198\\)", "bible": "등차수열의 합에 대한 문제도 첫째항, 공차, 일반항을 파악하는 것이 핵심이다."}, {"no": 6, "topic": "등차수열", "title": "부분의 합이 주어진 등차수열의 합", "problem_intro": "등차수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(5\\)항까지의 합이 \\(15\\)이고 첫째항부터 제\\(10\\)항까지의 합이 \\(80\\)일 때, 이 수열의 첫째항부터 제\\(15\\)항까지의 합을 구하시오.", "problem_parts": [], "approach": ["첫째항을 \\(a\\), 공차를 \\(d\\)로 놓고 주어진 합을 이용하여 \\(a,\\ d\\)에 대한 연립방정식을 세운다."], "solution": ["첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "제\\(5\\)항까지의 합이 \\(15\\)이므로", "\\(\\displaystyle \\frac{5\\{2a+(5-1)d\\}}{2}=15 \\therefore a+2d=3 \\quad \\cdots\\cdots \\ ㉠\\)", "제\\(10\\)항까지의 합이 \\(80\\)이므로", "\\(\\displaystyle \\frac{10\\{2a+(10-1)d\\}}{2}=80 \\therefore 2a+9d=16 \\quad \\cdots\\cdots \\ ㉡\\)", "㉠, ㉡을 연립하여 풀면 \\(a=-1,\\ d=2\\)", "따라서 제\\(15\\)항까지의 합은", "\\(\\displaystyle \\frac{15\\{2\\times(-1)+(15-1)\\times 2\\}}{2}=\\frac{15\\times 26}{2}=195\\)"], "alt_solution": ["\\(S_5,\\ S_{10}-S_5,\\ S_{15}-S_{10}\\)은 이 순서대로 등차수열을 이룬다.", "\\(S_5=15,\\ S_{10}=80\\)에서 \\(S_{10}-S_5=65\\)이므로 공차는 \\(65-15=50\\)", "\\(S_{15}-S_{10}=65+50=115\\)", "\\(\\therefore S_{15}=115+80=195\\)"], "answer": "\\(195\\)", "bible": "등차수열에서 같은 개수의 항씩 차례대로 묶어 그 합으로 만든 수열은 다시 등차수열을 이룬다(2개씩·3개씩·4개씩 묶어도 각각 등차수열)."}, {"no": 7, "topic": "등차수열", "title": "등차수열의 합의 최대·최소", "problem_intro": "등차수열 \\(\\{a_n\\}\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["첫째항이 \\(26\\), 공차가 \\(-3\\)일 때, 첫째항부터 제\\(n\\)항까지의 합이 최대가 되도록 하는 자연수 \\(n\\)의 값을 구하시오.", "\\(a_3=-4,\\ a_{11}=20\\)일 때, 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자. \\(S_n\\)의 최솟값을 구하시오."], "approach": ["⑴ \\(a>0,\\ d<0\\)이면 \\(S_n\\)의 최댓값은 첫째항부터 마지막 양수인 항까지의 합이다.", "⑵ \\(a<0,\\ d>0\\)이면 \\(S_n\\)의 최솟값은 첫째항부터 마지막 음수인 항까지의 합이다."], "solution": ["⑴ 첫째항이 \\(26\\), 공차가 \\(-3\\)이므로 일반항은", "\\(a_n=26+(n-1)\\times(-3)=-3n+29\\)", "\\(a_n<0\\)에서 \\(-3n+29<0 \\therefore n>9.6\\cdots\\)", "즉 제\\(10\\)항부터 음수이므로 제\\(9\\)항까지의 합이 최대이다.", "\\(\\therefore n=9\\)", "⑵ 첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "\\(a_3=a+2d=-4,\\quad a_{11}=a+10d=20\\)", "연립하여 풀면 \\(a=-10,\\ d=3\\)", "\\(\\therefore a_n=-10+(n-1)\\times 3=3n-13\\)", "\\(a_n>0\\)에서 \\(3n-13>0 \\therefore n>4.3\\cdots\\)", "즉 제\\(5\\)항부터 양수이므로 제\\(4\\)항까지의 합이 최소이다.", "\\(\\displaystyle \\therefore S_4=\\frac{4\\{2\\times(-10)+(4-1)\\times 3\\}}{2}=\\frac{4\\times(-11)}{2}=-22\\)"], "alt_solution": [], "answer": "⑴ \\(9\\)　⑵ \\(-22\\)", "bible": "⑴은 \\(\\displaystyle S_n=\\frac{n(-3n+55)}{2}=-\\frac{3}{2}\\Big(n-\\frac{55}{6}\\Big)^2+\\frac{3025}{24}\\)로 보고 이차함수의 최대를 이용할 수도 있으나(\\(\\tfrac{55}{6}=9.1\\cdots\\)이므로 \\(n=9\\)) 계산이 복잡하고 비효율적이다."}, {"no": 8, "topic": "등차수열", "title": "수열의 합과 일반항 사이의 관계 (1) − 등차수열", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n=3n^2-4n\\)일 때, \\(a_1+a_4\\)의 값을 구하시오.", "수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n=2n^2+5n-1\\)일 때, \\(a_k=91\\)을 만족시키는 \\(k\\)의 값을 구하시오."], "approach": ["첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면", "\\(a_1=S_1,\\quad a_n=S_n-S_{n-1}\\ (n\\ge 2)\\)"], "solution": ["⑴ \\(S_n=3n^2-4n\\)에서", "\\(n=1\\)일 때 \\(a_1=S_1=3-4=-1\\)", "\\(n\\ge 2\\)일 때 \\(a_n=S_n-S_{n-1}=3n^2-4n-\\{3(n-1)^2-4(n-1)\\}=6n-7 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(a_1=-1\\)은 ㉠에 \\(n=1\\)을 대입한 값과 같으므로 \\(a_n=6n-7\\)", "\\(\\therefore a_1+a_4=-1+(6\\times 4-7)=16\\)", "⑵ \\(S_n=2n^2+5n-1\\)에서", "\\(n=1\\)일 때 \\(a_1=S_1=2+5-1=6\\)", "\\(n\\ge 2\\)일 때 \\(a_n=S_n-S_{n-1}=2n^2+5n-1-\\{2(n-1)^2+5(n-1)-1\\}=4n+3 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(a_1=6\\)은 ㉠에 \\(n=1\\)을 대입한 값과 같지 않으므로", "\\(a_1=6,\\ a_n=4n+3\\ (n\\ge 2)\\)", "\\(a_k=91\\)에서 \\(4k+3=91 \\therefore k=22\\)"], "alt_solution": ["⑴ \\(a_1=S_1,\\ a_4=S_4-S_3\\)이므로", "\\(a_1+a_4=S_1+(S_4-S_3)=(3-4)+\\{48-16-(27-12)\\}=-1+(32-15)=16\\)"], "answer": "⑴ \\(16\\)　⑵ \\(22\\)", "bible": "\\(S_n=An^2+Bn+C\\)일 때 \\(a_n=2An-A+B\\ (n\\ge 2)\\)이고, \\(C=0\\)이면 첫째항부터, \\(C\\ne 0\\)이면 제\\(2\\)항부터 등차수열이다."}, {"no": 9, "topic": "등차수열", "title": "등차수열의 활용", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["연속하는 \\(9\\)개의 자연수의 합이 \\(135\\)일 때, \\(9\\)개의 자연수 중에서 가장 작은 수를 구하시오.", "\\(100\\) 이하의 자연수 중에서 \\(8\\)의 배수의 총합을 구하시오."], "approach": ["주어진 상황에서 첫째항 \\(a\\), 공차 \\(d\\), 항의 개수 \\(n\\)을 찾고 첫째항부터 제\\(n\\)항까지의 합을 구한다."], "solution": ["⑴ 가장 작은 수를 \\(a\\)라 하면 \\(9\\)개의 자연수는", "\\(a,\\ a+1,\\ a+2,\\ \\cdots,\\ a+8\\)", "이므로 첫째항 \\(a\\), 공차 \\(1\\), 항의 개수 \\(9\\)인 등차수열이다.", "합이 \\(135\\)이므로 \\(\\displaystyle \\frac{9\\{2a+(9-1)\\times 1\\}}{2}=135\\)", "\\(9a+36=135,\\ 9a=99 \\therefore a=11\\)", "⑵ \\(8\\)의 배수를 작은 것부터 나열하면", "\\(8,\\ 16,\\ 24,\\ \\cdots,\\ 96\\)", "이므로 첫째항 \\(8\\), 공차 \\(8\\), 항의 개수 \\(12\\)인 등차수열이다.", "\\(\\displaystyle \\therefore \\frac{12\\{2\\times 8+(12-1)\\times 8\\}}{2}=624\\)"], "alt_solution": ["⑴ \\(9\\)개의 자연수를 \\(a,\\ a+1,\\ \\cdots,\\ a+8\\)이라 하면", "\\(\\displaystyle \\frac{9\\{a+(a+8)\\}}{2}=135\\)", "\\(9a+36=135,\\ 9a=99 \\therefore a=11\\)"], "answer": "⑴ \\(11\\)　⑵ \\(624\\)", "bible": "① \\(d\\)의 배수 \\(d,\\ 2d,\\ 3d,\\ \\cdots\\)는 첫째항·공차가 모두 \\(d\\)인 등차수열, ② \\(d\\)로 나눈 나머지가 \\(r\\)인 수 \\(r,\\ r+d,\\ r+2d,\\ \\cdots\\)는 첫째항 \\(r\\), 공차 \\(d\\)인 등차수열이다."}, {"no": 10, "topic": "등비수열", "title": "등비수열의 일반항", "problem_intro": "등비수열 \\(\\{a_n\\}\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["첫째항이 \\(24\\), 공비가 \\(\\dfrac{1}{4}\\)일 때, \\(a_k=\\dfrac{3}{32}\\)을 만족시키는 \\(k\\)의 값을 구하시오.", "\\(a_4=16,\\ a_7=2\\)일 때, \\(a_{11}\\)의 값을 구하시오."], "approach": ["⑴ 첫째항이 \\(a\\), 공비가 \\(r\\)인 등비수열의 일반항 \\(a_n=a\\times r^{\\,n-1}\\)", "⑵ \\(a_n=a\\times r^{\\,n-1}\\)임을 이용하여 \\(a_4=16,\\ a_7=2\\)를 \\(a\\)와 \\(r\\)에 대한 식으로 나타낸다."], "solution": ["⑴ 첫째항이 \\(24\\), 공비가 \\(\\dfrac{1}{4}\\)이므로 일반항은", "\\(\\displaystyle a_n=24\\times\\Big(\\frac{1}{4}\\Big)^{n-1}\\)", "\\(a_k=\\dfrac{3}{32}\\)에서 \\(\\displaystyle 24\\times\\Big(\\frac{1}{4}\\Big)^{k-1}=\\frac{3}{32}\\)", "\\(\\displaystyle \\Big(\\frac{1}{4}\\Big)^{k-1}=\\frac{1}{256},\\quad \\Big(\\frac{1}{2}\\Big)^{2k-2}=\\Big(\\frac{1}{2}\\Big)^{8}\\)", "\\(2k-2=8 \\therefore k=5\\)", "⑵ 첫째항을 \\(a\\), 공비를 \\(r\\)이라 하면", "\\(a_4=a\\times r^3=16 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(a_7=a\\times r^6=2 \\quad \\cdots\\cdots \\ ㉡\\)", "㉡\\(\\div\\)㉠을 하면 \\(r^3=\\dfrac{1}{8} \\therefore r=\\dfrac{1}{2}\\)", "㉠에 대입하면 \\(\\dfrac{1}{8}a=16 \\therefore a=128\\)", "\\(\\displaystyle \\therefore a_{11}=a\\times r^{10}=128\\times\\Big(\\frac{1}{2}\\Big)^{10}=\\frac{1}{8}\\)"], "alt_solution": [], "answer": "⑴ \\(5\\)　⑵ \\(\\dfrac{1}{8}\\)", "bible": "항 \\(2\\)개가 주어졌을 때 첫째항을 구하지 않고도 풀 수 있다. \\(a_7=a_4\\times r^3\\)이므로 \\(2=16r^3,\\ r^3=\\dfrac{1}{8}\\therefore r=\\dfrac{1}{2}\\). \\(\\therefore a_{11}=a_7\\times r^4=2\\times\\big(\\tfrac{1}{2}\\big)^4=\\dfrac{1}{8}\\)"}, {"no": 11, "topic": "등비수열", "title": "대소 관계를 만족시키는 등비수열의 항 구하기", "problem_intro": "등비수열 \\(\\{a_n\\}\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["첫째항은 \\(128\\), 공비가 \\(\\dfrac{1}{2}\\)일 때, \\(a_n<1\\)을 만족시키는 자연수 \\(n\\)의 최솟값을 구하시오.", "공비가 양수이고, \\(a_2=4,\\ a_4=64\\)일 때, \\(a_n>1500\\)을 만족시키는 자연수 \\(n\\)의 최솟값을 구하시오."], "approach": ["⑴ 일반항에 첫째항·공비를 대입한 후 \\(a_n<1\\)을 만족시키는 \\(n\\)의 최솟값을 구한다.", "⑵ 첫째항·공비를 구해 일반항을 나타낸 후 \\(a_n>1500\\)을 만족시키는 \\(n\\)의 최솟값을 구한다."], "solution": ["⑴ 첫째항이 \\(128\\), 공비가 \\(\\dfrac{1}{2}\\)이므로 일반항은", "\\(\\displaystyle a_n=128\\times\\Big(\\frac{1}{2}\\Big)^{n-1}\\)", "\\(a_n<1\\)에서 \\(\\displaystyle 128\\times\\Big(\\frac{1}{2}\\Big)^{n-1}<1\\)", "\\(\\displaystyle \\Big(\\frac{1}{2}\\Big)^{n-1}<\\Big(\\frac{1}{2}\\Big)^{7},\\ \\ n-1>7 \\therefore n>8\\)", "따라서 \\(a_n<1\\)을 만족시키는 \\(n\\)의 최솟값은 \\(9\\)이다.", "⑵ 공비를 \\(r\\)이라 하면 \\(a_4=a_2\\times r^2\\)이므로", "\\(64=4r^2\\)에서 \\(r^2=16 \\therefore r=4\\ (\\because r>0)\\)", "\\(a_2=a_1\\times 4=4\\)에서 \\(a_1=1\\)이므로 일반항은 \\(a_n=1\\times 4^{n-1}=4^{n-1}\\)", "\\(a_n>1500\\)에서 \\(4^{n-1}>1500\\)이고 \\(4^5=1024,\\ 4^6=4096\\)이므로", "\\(n-1\\ge 6 \\therefore n\\ge 7\\)", "따라서 \\(n\\)의 최솟값은 \\(7\\)이다."], "alt_solution": [], "answer": "⑴ \\(9\\)　⑵ \\(7\\)", "bible": "항의 값이 어떤 수보다 크거나 작을 때를 구하는 경우는 일반항 \\(a_n\\)을 이용한다. ① 처음으로 \\(k\\)보다 커지는 항은 \\(a_n>k\\), ② 처음으로 \\(k\\)보다 작아지는 항은 \\(a_n<k\\)를 만족시키는 \\(n\\)의 최솟값을 찾는다."}, {"no": 12, "topic": "등비수열", "title": "두 수 사이에 수를 넣어서 만든 등비수열", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["두 수 \\(3\\)과 \\(48\\) 사이에 \\(7\\)개의 양수 \\(a_1,\\ a_2,\\ \\cdots,\\ a_7\\)을 넣어 만든 수열 \\(3,\\ a_1,\\ \\cdots,\\ a_7,\\ 48\\)이 이 순서대로 등비수열을 이룰 때, \\(a_3+a_5\\)의 값을 구하시오.", "\\(\\dfrac{1}{4}\\)과 \\(32\\) 사이에 \\(n\\)개의 수를 넣어 만든 등비수열 \\(\\dfrac{1}{4},\\ a_1,\\ \\cdots,\\ a_n,\\ 32\\)의 공비가 \\(2\\)일 때, 자연수 \\(n\\)의 값을 구하시오."], "approach": ["⑴ 항의 개수가 \\(9\\)이므로 \\(48\\)은 주어진 등비수열의 제\\(9\\)항이다.", "⑵ 항의 개수가 \\(n+2\\)이므로 \\(32\\)는 주어진 등비수열의 제\\((n+2)\\)항이다."], "solution": ["⑴ 공비를 \\(r\\)이라 하면 첫째항이 \\(3\\), 제\\(9\\)항이 \\(48\\)이므로", "\\(3\\times r^{9-1}=48,\\ r^8=16 \\therefore r=\\sqrt{2}\\ (\\because r>0)\\)", "\\(a_3,\\ a_5\\)는 각각 제\\(4\\)항, 제\\(6\\)항이므로", "\\(a_3=3\\times(\\sqrt{2})^3=6\\sqrt{2},\\quad a_5=3\\times(\\sqrt{2})^5=12\\sqrt{2}\\)", "\\(\\therefore a_3+a_5=6\\sqrt{2}+12\\sqrt{2}=18\\sqrt{2}\\)", "⑵ 첫째항은 \\(\\dfrac{1}{4}\\), 공비는 \\(2\\), \\(32\\)는 제\\((n+2)\\)항이므로", "\\(\\displaystyle 32=\\frac{1}{4}\\times 2^{\\,n+1},\\ \\ 2^{\\,n+1}=2^7\\)", "\\(n+1=7 \\therefore n=6\\)"], "alt_solution": [], "answer": "⑴ \\(18\\sqrt{2}\\)　⑵ \\(6\\)", "bible": "두 수 \\(a,\\ b\\) 사이에 \\(n\\)개의 수를 넣어 만든 등비수열의 항은 \\((n+2)\\)개이고, 공비를 \\(r\\)이라 하면 \\(b=ar^{\\,n+1}\\)이 성립한다."}, {"no": 13, "topic": "등비수열", "title": "등비중항 / 등비수열을 이루는 세 수", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["세 수 \\(x+1,\\ 2x-2,\\ 2x+4\\)가 이 순서대로 등비수열을 이룰 때, 양수 \\(x\\)의 값을 구하시오.", "등비수열을 이루는 세 실수의 합이 \\(13\\), 곱이 \\(27\\)일 때, 세 수 중 가장 큰 수를 구하시오."], "approach": ["⑴ \\(2x-2\\)는 \\(x+1\\)과 \\(2x+4\\)의 등비중항이다.", "⑵ 등비수열을 이루는 세 수를 \\(a,\\ ar,\\ ar^2\\)으로 놓고 식을 세운다. (단, \\(r\\ne 0\\))"], "solution": ["⑴ \\(2x-2\\)는 \\(x+1\\)과 \\(2x+4\\)의 등비중항이므로", "\\((2x-2)^2=(x+1)(2x+4)\\)", "\\(4x^2-8x+4=2x^2+6x+4\\)", "\\(2x^2-14x=0,\\ \\ 2x(x-7)=0\\)", "\\(\\therefore x=7\\ (\\because x>0)\\)", "⑵ 세 수를 \\(a,\\ ar,\\ ar^2\\)으로 놓으면", "합이 \\(13\\)이므로 \\(a+ar+ar^2=13 \\therefore a(1+r+r^2)=13 \\quad \\cdots\\cdots \\ ㉠\\)", "곱이 \\(27\\)이므로 \\(a\\times ar\\times ar^2=27,\\ (ar)^3=27 \\therefore ar=3 \\quad \\cdots\\cdots \\ ㉡\\)", "㉡에서 \\(a=\\dfrac{3}{r}\\)을 ㉠에 대입하면 \\(\\dfrac{3}{r}(1+r+r^2)=13\\)", "양변에 \\(r\\)을 곱하면 \\(3+3r+3r^2=13r,\\ \\ 3r^2-10r+3=0\\)", "\\((3r-1)(r-3)=0 \\therefore r=\\dfrac{1}{3}\\) 또는 \\(r=3\\)", "\\(r=\\dfrac{1}{3}\\)이면 \\(a=9\\)이므로 세 수는 \\(9,\\ 3,\\ 1\\),", "\\(r=3\\)이면 \\(a=1\\)이므로 세 수는 \\(1,\\ 3,\\ 9\\)이다.", "따라서 가장 큰 수는 \\(9\\)이다."], "alt_solution": [], "answer": "⑴ \\(7\\)　⑵ \\(9\\)", "bible": "세 수의 곱이 주어진 경우에는 세 수를 \\(\\dfrac{a}{r},\\ a,\\ ar\\)로 놓으면 곱이 \\(a^3\\)이 되어 \\(r\\)을 소거하기 쉽다."}, {"no": 14, "topic": "등비수열", "title": "등비수열의 합", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_1=5,\\ a_4=40\\)일 때, 첫째항부터 제\\(8\\)항까지의 합을 구하시오.", "등비수열 \\(1,\\ x,\\ x^2,\\ x^3,\\ \\cdots\\)의 첫째항부터 제\\(6\\)항까지의 합을 \\(f(x)\\)라 할 때, \\(f(1)f(3)\\)의 값을 구하시오. (단, \\(x\\ne 0\\))"], "approach": ["첫째항 \\(a\\), 공비 \\(r\\)인 등비수열의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)은", "① \\(r=1\\)일 때 \\(S_n=na\\)", "② \\(r\\ne 1\\)일 때 \\(\\displaystyle S_n=\\frac{a(r^n-1)}{r-1}=\\frac{a(1-r^n)}{1-r}\\)", "⑴ 주어진 항에서 공비를 먼저 구한다.  ⑵ 공비가 문자이면 (공비)\\(=1\\), (공비)\\(\\ne 1\\)로 구분한다."], "solution": ["⑴ 공비를 \\(r\\)이라 하면 \\(a_4=40\\)에서 \\(a_1 r^3=40\\)", "\\(5r^3=40,\\ r^3=8 \\therefore r=2\\)", "첫째항 \\(5\\), 공비 \\(2\\)이므로 제\\(8\\)항까지의 합은", "\\(\\displaystyle \\frac{5(2^8-1)}{2-1}=5\\times 255=1275\\)", "⑵ 첫째항 \\(1\\), 공비 \\(x\\,(x\\ne 0)\\)이므로", "\\(x=1\\)일 때 합은 \\(1+1+\\cdots+1=n\\)", "\\(x\\ne 1\\)일 때 합은 \\(\\displaystyle \\frac{x^n-1}{x-1}\\)", "제\\(6\\)항까지의 합이 \\(f(x)\\)이므로 \\(f(1)=6\\),", "\\(\\displaystyle f(1)f(3)=6\\times\\frac{3^6-1}{3-1}=3\\times 728=2184\\)"], "alt_solution": [], "answer": "⑴ \\(1275\\)　⑵ \\(2184\\)", "bible": "⑵의 수열 \\(1,\\ 1,\\ 1,\\ \\cdots,\\ 1\\)은 첫째항 \\(1\\), 공차 \\(0\\)인 등차수열이면서 첫째항 \\(1\\), 공비 \\(1\\)인 등비수열이기도 하다."}, {"no": 15, "topic": "등비수열", "title": "부분의 합이 주어진 등비수열의 합", "problem_intro": "등비수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(10\\)항까지의 합이 \\(6\\)이고, 첫째항부터 제\\(20\\)항까지의 합이 \\(30\\)일 때, 이 수열의 첫째항부터 제\\(30\\)항까지의 합을 구하시오.", "problem_parts": [], "approach": ["주어진 부분의 합을 계산하여 등비수열의 첫째항 또는 공비를 구한다."], "solution": ["첫째항 \\(a\\), 공비 \\(r\\), 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면", "\\(\\displaystyle S_{10}=\\frac{a(1-r^{10})}{1-r}=6 \\quad \\cdots\\cdots \\ ㉠\\)", "\\(\\displaystyle S_{20}=\\frac{a(1-r^{20})}{1-r}=\\frac{a(1-r^{10})(1+r^{10})}{1-r}=30 \\quad \\cdots\\cdots \\ ㉡\\)", "㉠을 ㉡에 대입하면 \\(6(1+r^{10})=30\\)", "\\(1+r^{10}=5 \\therefore r^{10}=4\\)", "따라서 제\\(30\\)항까지의 합은", "\\(\\displaystyle S_{30}=\\frac{a(1-r^{10})(1+r^{10}+r^{20})}{1-r}=6\\times(1+4+4^2)=126\\)"], "alt_solution": ["\\(S_{10},\\ S_{20}-S_{10},\\ S_{30}-S_{20}\\)은 이 순서대로 등비수열을 이룬다.", "\\(S_{20}-S_{10}=30-6=24\\)이므로 공비는 \\(24\\div 6=4\\)", "\\(S_{30}-S_{20}=24\\times 4=96\\)", "\\(\\therefore S_{30}=96+30=126\\)"], "answer": "\\(126\\)", "bible": "공비 \\(r\\,(r\\ne1)\\)인 등비수열에서 \\(S_n,\\ S_{2n}-S_n,\\ S_{3n}-S_{2n}\\)은 이 순서대로 공비가 \\(r^n\\)인 등비수열을 이룬다."}, {"no": 16, "topic": "등비수열", "title": "수열의 합과 일반항 사이의 관계 (2) − 등비수열", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n=4^{\\,n+1}+k\\)일 때, 수열 \\(\\{a_n\\}\\)이 첫째항부터 등비수열이 되도록 하는 상수 \\(k\\)의 값을 구하시오.", "수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n=2^{\\,n+2}-1\\)일 때, \\(a_1+a_5\\)의 값을 구하시오."], "approach": ["첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면", "\\(a_1=S_1,\\quad a_n=S_n-S_{n-1}\\ (n\\ge 2)\\)"], "solution": ["⑴ \\(S_n=4^{\\,n+1}+k\\)에서", "\\(n=1\\)일 때 \\(a_1=S_1=4^2+k=16+k\\)", "\\(n\\ge 2\\)일 때 \\(a_n=S_n-S_{n-1}=4^{\\,n+1}+k-(4^n+k)=4^{\\,n+1}-4^n=3\\times 4^n \\quad \\cdots\\cdots \\ ㉠\\)", "첫째항부터 등비수열이 되려면 \\(a_1=16+k\\)가 ㉠에 \\(n=1\\)을 대입한 값과 같아야 하므로", "\\(16+k=3\\times 4=12 \\therefore k=-4\\)", "⑵ \\(S_n=2^{\\,n+2}-1\\)에서", "\\(n=1\\)일 때 \\(a_1=S_1=2^3-1=7\\)", "\\(n\\ge 2\\)일 때 \\(a_n=2^{\\,n+2}-1-(2^{\\,n+1}-1)=2^{\\,n+1} \\quad \\cdots\\cdots \\ ㉠\\)", "\\(a_1=7\\)은 ㉠에 \\(n=1\\)을 대입한 값과 같지 않으므로 \\(a_1=7,\\ a_n=2^{\\,n+1}\\,(n\\ge 2)\\)", "\\(\\therefore a_1+a_5=7+64=71\\)"], "alt_solution": ["⑵ \\(a_1=S_1,\\ a_5=S_5-S_4\\)이므로", "\\(a_1+a_5=(2^3-1)+\\{2^7-1-(2^6-1)\\}=7+(127-63)=71\\)"], "answer": "⑴ \\(-4\\)　⑵ \\(71\\)", "bible": "\\(S_n=Ar^n+B\\,(r\\ne0,\\ r\\ne1)\\)일 때 \\(a_n=Ar^{\\,n-1}(r-1)\\,(n\\ge 2)\\)이고, \\(B=-A\\)이면 첫째항부터, \\(B\\ne -A\\)이면 제\\(2\\)항부터 등비수열이다."}, {"no": 17, "topic": "등비수열", "title": "등비수열의 활용", "problem_intro": "한 변의 길이가 \\(12\\)인 정삼각형 \\(A_1B_1C_1\\)이 있다. 각 변의 중점을 이어서 만든 정삼각형을 \\(A_2B_2C_2\\), 그 정삼각형의 각 변의 중점을 이어서 만든 정삼각형을 \\(A_3B_3C_3\\)이라 하자. 같은 방법으로 정삼각형을 계속 만들 때, 정삼각형 \\(A_6B_6C_6\\)의 넓이를 구하시오.", "problem_parts": [], "approach": ["도형의 길이·넓이·부피가 일정한 비율로 변할 때, 처음 몇 개의 항을 나열하여 규칙성을 파악한다."], "solution": ["한 변의 길이가 \\(a\\)인 정삼각형의 넓이는 \\(\\dfrac{\\sqrt{3}}{4}a^2\\)이므로", "\\(\\displaystyle \\triangle A_1B_1C_1=\\frac{\\sqrt{3}}{4}\\times 12^2=36\\sqrt{3}\\)", "중점을 이어 만든 정삼각형의 넓이는 이전 넓이의 \\(\\dfrac{1}{4}\\)이므로", "\\(\\displaystyle \\triangle A_2B_2C_2=36\\sqrt{3}\\times\\frac{1}{4}\\)", "\\(\\displaystyle \\triangle A_3B_3C_3=36\\sqrt{3}\\times\\Big(\\frac{1}{4}\\Big)^{2}\\)", "즉 \\(\\displaystyle \\triangle A_nB_nC_n=36\\sqrt{3}\\times\\Big(\\frac{1}{4}\\Big)^{n-1}\\)", "\\(\\displaystyle \\therefore \\triangle A_6B_6C_6=36\\sqrt{3}\\times\\Big(\\frac{1}{4}\\Big)^{5}=\\frac{9\\sqrt{3}}{256}\\)"], "alt_solution": [], "answer": "\\(\\dfrac{9\\sqrt{3}}{256}\\)", "bible": "처음의 양 \\(a\\)가 매회 일정한 비율로 변할 때, 증가율 \\(r\\)이면 \\(n\\)회 후의 양은 \\(a(1+r)^n\\), 감소율 \\(r\\)이면 \\(a(1-r)^n\\)이다."}, {"no": 18, "topic": "등비수열", "title": "원리합계", "problem_intro": "연이율이 \\(4\\,\\%\\)이고 \\(1\\)년마다 복리로 매년 초에 \\(100\\)만 원씩 \\(10\\)년 동안 적립할 때, \\(10\\)년째 말의 적립금의 원리합계를 구하시오. (단, \\(1.04^{10}=1.5\\)로 계산한다.)", "problem_parts": [], "approach": ["연이율 \\(r\\), \\(1\\)년마다 복리로 \\(n\\)년 동안 적립할 때 \\(n\\)년 말의 원리합계를 \\(S_n\\)이라 하면", "① 매년 초 \\(a\\)원씩 적립: \\(\\displaystyle S_n=\\frac{a(1+r)\\{(1+r)^n-1\\}}{r}\\)　(첫째항 \\(a(1+r)\\), 공비 \\(1+r\\))", "② 매년 말 \\(a\\)원씩 적립: \\(\\displaystyle S_n=\\frac{a\\{(1+r)^n-1\\}}{r}\\)　(첫째항 \\(a\\), 공비 \\(1+r\\))"], "solution": ["매년 초에 적립한 각 금액의 \\(10\\)년째 말까지의 원리합계를 더하면", "\\(100(1+0.04)+100(1+0.04)^2+\\cdots+100(1+0.04)^{10}\\)", "\\(=100\\times 1.04+100\\times 1.04^2+\\cdots+100\\times 1.04^{10}\\)", "첫째항 \\(100\\times 1.04\\), 공비 \\(1.04\\)인 등비수열의 합이므로", "\\(\\displaystyle =\\frac{100\\times 1.04\\times(1.04^{10}-1)}{1.04-1}=\\frac{100\\times 1.04\\times(1.5-1)}{0.04}=1300\\,(\\text{만 원})\\)"], "alt_solution": [], "answer": "\\(1300\\)만 원", "bible": "매년 초에 적립하면 마지막에 넣는 돈도 \\(1\\)년 동안의 이자를 받고, 매년 말에 적립하면 마지막에 넣는 돈은 이자가 없다. 공식 암기보다 조건을 그림으로 나타낸 뒤 등비수열의 합으로 푸는 것이 좋다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '등비수열';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['등차수열','등차수열','ar'],['등비수열','등비수열','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

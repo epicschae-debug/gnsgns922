@@ -10,34 +10,74 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .htitle{font-size:20px;font-weight:800;letter-spacing:-.02em}
 .hsub{font-size:12.5px;color:var(--muted);margin-top:1px}
 .sec{font-size:13px;color:var(--muted);font-weight:600;margin:22px 2px 11px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;text-decoration:none;color:inherit;display:block;transition:.18s;animation:rise .5s ease both}
-.card:active{transform:scale(.97);background:var(--ink-3)}
-@media(hover:hover){.card:hover{background:var(--ink-3);border-color:#3a4660;transform:translateY(-2px)}}
-.ico{width:42px;height:42px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;margin-bottom:12px;font-size:19px;font-weight:700;color:var(--gold)}
-.ico svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.card h4{font-size:16px;letter-spacing:-.02em}
-.card p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
-.list{display:flex;flex-direction:column;gap:10px}
-.row{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;text-decoration:none;color:inherit;transition:.16s;animation:rise .5s ease both}
-.row:active{background:var(--ink-3)}
-@media(hover:hover){.row:hover{border-color:#3a4660}}
-.row .n{width:30px;height:30px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:14px}
-.row .tx{flex:1}.row .tx b{font-size:15px;font-weight:600}.row .tx span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
-.row .arr{color:var(--muted);font-size:16px}
-.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}.card:nth-child(5){animation-delay:.2s}
-.row:nth-child(2){animation-delay:.04s}.row:nth-child(3){animation-delay:.08s}.row:nth-child(4){animation-delay:.12s}.row:nth-child(5){animation-delay:.16s}.row:nth-child(6){animation-delay:.2s}.row:nth-child(7){animation-delay:.24s}.row:nth-child(8){animation-delay:.28s}
+
+/* ── 단원별 세 칸 메뉴 ── */
+.units{display:flex;flex-direction:column;gap:9px}
+.urow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;animation:rise .5s ease both}
+.ucell{position:relative;background:var(--ink-2);border:1px solid var(--line);border-radius:13px;
+  padding:12px 5px 11px;text-decoration:none;color:inherit;text-align:center;transition:.16s;display:block}
+.ucell:active{background:var(--ink-3)}
+@media(hover:hover){.ucell:hover{border-color:#3a4660;transform:translateY(-2px)}}
+.ucell .ut{display:block;font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap;letter-spacing:-.03em;line-height:1.2}
+.ucell b{display:block;font-size:15px;font-weight:700;margin-top:4px;letter-spacing:-.01em}
+/* 연결 완료된 칸 강조 */
+.ucell.ready{border-color:var(--mint);background:#13211d}
+.ucell.ready .ut{color:var(--mint)}
+.ucell.ready::after{content:"";position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--mint)}
+
+/* ── 내신 (단원 무관) ── */
+.naesin{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);
+  border-radius:14px;padding:15px 16px;text-decoration:none;color:inherit;transition:.16s;animation:rise .5s ease both}
+.naesin:active{background:var(--ink-3)}
+@media(hover:hover){.naesin:hover{border-color:#3a4660}}
+.naesin .n{width:30px;height:30px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:15px}
+.naesin .tx{flex:1}.naesin .tx b{font-size:15px;font-weight:600}.naesin .tx span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.naesin .arr{color:var(--muted);font-size:16px}
+
 .foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}</style></head><body>
 <div class="app">
   <div class="top"><a class="back" href="godeung.html">&#8592;</a>
     <!-- 과목명만 바꿔 과목별로 복제 -->
-    <div><div class="htitle">대수</div><div class="hsub">학습 영역을 선택하세요</div></div></div>
-  <div class="grid">
-    <a class="card" href="material-template.html"><div class="ico">&#128214;</div><h4>개념</h4><p>핵심 개념 정리</p></a>
-    <a class="card" href="material-template.html"><div class="ico">&#9999;</div><h4>유형</h4><p>유형별 문제</p></a>
-    <a class="card" href="material-template.html"><div class="ico">&#128293;</div><h4>심화</h4><p>고난도 문항</p></a>
-    <a class="card" href="material-template.html"><div class="ico">&#128221;</div><h4>내신</h4><p>학교별 기출 대비</p></a>
-  </div>
-  <div class="foot">각 영역 안에 교재(HTML)와 유튜브 강의가 연결됩니다</div>
+    <div><div class="htitle">대수</div><div class="hsub">단원과 학습 영역을 선택하세요</div></div></div>
+
+  <div class="sec">단원별 학습 &nbsp;·&nbsp; 개념 / 유형 / 심화</div>
+  <div class="units" id="units"></div>
+
+  <div class="sec">기타</div>
+  <a class="naesin" href="material-template.html">
+    <div class="n">&#128221;</div>
+    <div class="tx"><b>내신</b><span>학교별 기출 대비 (단원 통합)</span></div>
+    <div class="arr">&#8250;</div>
+  </a>
+
+  <div class="foot">각 칸 안에 교재(HTML)와 유튜브 강의가 연결됩니다<br>● 표시는 자료 연결이 완료된 항목</div>
 </div>
+
+<script>
+// 대수 단원 (2022 개정: 지수·로그 / 삼각함수 / 수열)
+const UNITS = ["지수로그","지로함수","삼각함수정의","삼각함수그래프","사인코사인법칙","등차등비수열","수열의합Σ","수학적귀납법"];
+const AREAS = ["개념","유형","심화"];
+// "단원|영역" : 연결할 파일
+const LINKS = {
+  "등차등비수열|개념": "algebra-sequence.html"
+  // 나머지 항목은 준비되는 대로 여기에 추가
+};
+const wrap = document.getElementById("units");
+UNITS.forEach((u, i) => {
+  const row = document.createElement("div");
+  row.className = "urow";
+  row.style.animationDelay = (i * 0.04) + "s";
+  AREAS.forEach(area => {
+    const key = u + "|" + area;
+    const linked = LINKS[key];
+    const a = document.createElement("a");
+    a.className = "ucell" + (linked ? " ready" : "");
+    a.href = linked || "material-template.html";
+    a.innerHTML = `<span class="ut">${u}</span><b>${area}</b>`;
+    row.appendChild(a);
+  });
+  wrap.appendChild(row);
+});
+</script>
+</body></html>
