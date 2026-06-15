@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>로그방정식과 로그부등식 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅰ. 지수함수와 로그함수 · 04단원</div>
+        <h1>로그방정식과 로그부등식</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "로그방정식", "no": 1, "title": "로그방정식과 그 해", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">로그방정식</div><div class=\"def-body\">\\(\\log_2(x-3)=16,\\ \\log_3 x+\\log_x 3=2\\)와 같이 로그의 <b>진수 또는 밑에 미지수</b>가 있는 방정식을 <b>로그방정식</b>이라 한다.</div></div><div class=\"def-row\"><div class=\"def-label\">로그의 정의·성질</div><div class=\"def-body\">\\(a&gt;0,\\ a\\ne 1\\)일 때 $$\\log_a x=p\\iff x=a^p\\ (x&gt;0)$$ $$\\log_a x_1=\\log_a x_2\\iff x_1=x_2\\ (x_1&gt;0,\\ x_2&gt;0)$$</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">로그함수 \\(y=\\log_a x\\ (a&gt;0,\\ a\\ne 1)\\)는 양의 실수 전체의 집합에서 실수 전체의 집합으로의 일대일대응이다. 따라서 임의의 실수 \\(k\\)에 대하여 로그방정식 \\(\\log_a x=k\\)는 <b>단 한 개의 해</b>를 가지며, 그 해는 \\(y=\\log_a x\\)의 그래프와 직선 \\(y=k\\)의 교점의 \\(x\\)좌표와 같다.</p><div class=\"note\">로그방정식을 풀 때는 구한 해가 <b>밑의 조건과 진수의 조건</b>을 만족시키는지 반드시 확인해야 한다. 즉 (밑)\\(&gt;0\\), (밑)\\(\\ne 1\\), (진수)\\(&gt;0\\)이다. 단, 로그의 정의 \\(\\log_a x=p\\iff x=a^p\\)를 이용하는 경우는 진수의 조건이 항상 만족되므로 따로 확인하지 않아도 된다.</div><div class=\"formula\"><span class=\"formula-tag\">로그방정식의 풀이</span><div class=\"formula-math\"><div class=\"derive-line\">① 밑을 같게 할 수 있는 경우 → \\(\\log_a f(x)=\\log_a g(x)\\) 꼴로 변형</div><div class=\"derive-line\">② \\(\\log_a x\\) 꼴이 반복되는 경우 → \\(\\log_a x=t\\)로 치환</div><div class=\"derive-line\">③ 진수가 같은 경우 → 밑을 비교</div><div class=\"derive-line\">④ 지수에 로그가 있는 경우 → 양변에 로그를 취함</div></div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>방정식 \\(\\log_2 x=4\\)는 로그방정식이고, 로그의 정의에서 \\(x=2^4=16\\)이다. (진수의 조건 자동 만족)</li><li>방정식 \\(\\log_{\\frac{1}{5}} x=\\log_{\\frac{1}{5}} 25\\)는 로그방정식이고, 진수가 같으므로 \\(x=25\\)이다.</li></ol></div></div>"}, {"topic": "로그방정식", "no": 2, "title": "밑을 같게 / 진수가 같은 경우", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">밑을 같게</div><div class=\"def-body\">\\(a&gt;0,\\ a\\ne 1,\\ f(x)&gt;0,\\ g(x)&gt;0\\)일 때 $$\\log_a f(x)=\\log_a g(x)\\iff f(x)=g(x)$$</div></div><div class=\"def-row\"><div class=\"def-label\">진수가 같은 경우</div><div class=\"def-body\">\\(a&gt;0,\\ a\\ne 1,\\ b&gt;0,\\ b\\ne 1,\\ f(x)&gt;0\\)일 때 $$\\log_a f(x)=\\log_b f(x)\\iff a=b\\ \\text{또는}\\ f(x)=1$$</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">밑을 같게 할 수 있는 로그방정식은 로그의 성질과 밑의 변환을 이용하여 밑을 같게 한 다음 <b>진수를 비교</b>한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(\\log_3 x=\\log_3(2x-5)\\): 진수의 조건에서 \\(x&gt;\\dfrac{5}{2}\\). 진수를 비교하면 \\(x=2x-5\\)에서 \\(x=5\\).</li><li>\\(\\log_{\\frac{1}{2}}(4-x)=2\\log_{\\frac{1}{4}} x\\): 진수의 조건에서 \\(0&lt;x&lt;4\\). 우변을 \\(\\log_{\\frac{1}{2}} x\\)로 고치면 \\(4-x=x\\)에서 \\(x=2\\).</li><li>\\(\\log_2(x-3)=\\log_4(x-1)\\): 진수의 조건에서 \\(x&gt;3\\). \\(\\log_4(x-3)^2=\\log_4(x-1)\\)에서 \\((x-3)^2=x-1\\), \\(x^2-7x+10=0\\), \\((x-2)(x-5)=0\\). 조건에 의하여 \\(x=5\\).</li></ol></div><p class=\"prose\">진수가 같은 로그방정식은 <b>밑을 비교</b>한다. 이때 \\(\\log_2 1=\\log_3 1=0\\)과 같이 밑이 달라도 진수가 \\(1\\)이면 등식이 성립하므로 <b>진수가 \\(1\\)인 경우</b>도 반드시 고려해야 한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(\\log_x(x-3)=\\log_{2x-5}(x-3)\\): 진수·밑의 조건에서 \\(x&gt;3\\). 밑을 비교하면 \\(x=2x-5\\)에서 \\(x=5\\), 진수가 \\(1\\)이면 \\(x-3=1\\)에서 \\(x=4\\). 따라서 해는 \\(x=4\\) 또는 \\(x=5\\).</li></ol></div></div>"}, {"topic": "로그방정식", "no": 3, "title": "치환 / 지수에 로그가 있는 경우", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">\\(\\log_a x\\) 꼴 반복</div><div class=\"def-body\">\\(\\log_a x\\)가 반복되면 \\(\\log_a x=t\\)로 치환하여 \\(t\\)에 대한 방정식을 푼 다음 \\(x\\)의 값을 구한다.</div></div><div class=\"def-row\"><div class=\"def-label\">지수에 로그</div><div class=\"def-body\">지수에 \\(\\log_a x\\)를 포함한 방정식은 <b>양변에 밑이 \\(a\\)인 로그</b>를 취하여 푼다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">\\(\\log_a x\\) 꼴이 반복되는 로그방정식은 \\(\\log_a x=t\\)로 놓고 \\(t\\)에 대한 방정식을 푼다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\((\\log_2 x)^2-2\\log_2 x-3=0\\): \\(\\log_2 x=t\\)로 놓으면 \\(t^2-2t-3=0\\), \\((t+1)(t-3)=0\\)에서 \\(t=-1\\) 또는 \\(t=3\\). 따라서 \\(\\log_2 x=-1\\) 또는 \\(\\log_2 x=3\\)이므로 \\(x=\\dfrac{1}{2}\\) 또는 \\(x=8\\).</li></ol></div><div class=\"note\">\\(\\log_a f(x)=t\\iff f(x)=a^t\\)에서 \\(a^t&gt;0\\)이므로 \\(f(x)&gt;0\\)이다. 즉 치환하는 경우는 진수의 조건이 항상 만족되므로 따로 확인하지 않아도 된다.</div><p class=\"prose\">지수에 로그가 있으면 양변에 로그를 취하여 차수를 낮춘 뒤 치환한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(x^{\\log_2 x}=16x^3\\): 양변에 밑이 \\(2\\)인 로그를 취하면 \\(\\log_2 x\\times\\log_2 x=\\log_2 16+\\log_2 x^3\\), \\((\\log_2 x)^2=4+3\\log_2 x\\), \\((\\log_2 x)^2-3\\log_2 x-4=0\\). \\(\\log_2 x=t\\)로 놓으면 \\(t=-1\\) 또는 \\(t=4\\)이므로 \\(x=\\dfrac{1}{2}\\) 또는 \\(x=16\\).</li></ol></div></div>"}, {"topic": "로그부등식", "no": 1, "title": "로그부등식과 부등호의 방향", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">로그부등식</div><div class=\"def-body\">\\(\\log_3(x+5)&lt;3,\\ \\log_x 4\\ge 2\\)와 같이 로그의 <b>진수 또는 밑에 미지수</b>가 있는 부등식을 <b>로그부등식</b>이라 한다.</div></div><div class=\"def-row\"><div class=\"def-label\">밑에 따른 성질</div><div class=\"def-body\">\\(x_1&gt;0,\\ x_2&gt;0\\)일 때 $$a&gt;1:\\ \\log_a x_1&lt;\\log_a x_2\\iff x_1&lt;x_2$$ $$0&lt;a&lt;1:\\ \\log_a x_1&lt;\\log_a x_2\\iff x_1&gt;x_2$$</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">로그함수 \\(y=\\log_a x\\ (a&gt;0,\\ a\\ne 1)\\)는 \\(a&gt;1\\)이면 \\(x\\)의 값이 커질 때 \\(y\\)의 값도 커지고(증가), \\(0&lt;a&lt;1\\)이면 \\(x\\)의 값이 커질 때 \\(y\\)의 값은 작아진다(감소). 따라서 로그부등식은 <b>밑이 \\(1\\)보다 큰지 작은지</b>에 따라 부등호의 방향이 달라지는 것에 주의하면서 풀어야 한다.</p><div class=\"note\">즉 (밑)\\(&gt;1\\)이면 진수의 부등호의 방향은 <b>그대로</b>이고, \\(0&lt;\\)(밑)\\(&lt;1\\)이면 진수의 부등호의 방향은 <b>반대로</b> 바뀐다. 로그부등식도 구한 해가 밑의 조건과 진수의 조건을 만족시키는지 반드시 확인한다.</div><div class=\"formula\"><span class=\"formula-tag\">밑을 같게 할 수 있는 경우</span><div class=\"formula-math\"><div class=\"derive-line\">\\((\\text{i})\\ a&gt;1:\\quad \\log_a f(x)&lt;\\log_a g(x)\\iff f(x)&lt;g(x)\\)</div><div class=\"derive-line\">\\((\\text{ii})\\ 0&lt;a&lt;1:\\quad \\log_a f(x)&lt;\\log_a g(x)\\iff f(x)&gt;g(x)\\)</div></div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(\\log_{\\frac{1}{3}} x&gt;\\log_{\\frac{1}{3}} 5\\): 진수의 조건에서 \\(x&gt;0\\). 밑 \\(\\dfrac{1}{3}\\)이 \\(0&lt;\\dfrac{1}{3}&lt;1\\)이므로 부등호의 방향이 바뀌어 \\(x&lt;5\\). 따라서 해는 \\(0&lt;x&lt;5\\).</li></ol></div></div>"}, {"topic": "로그부등식", "no": 2, "title": "로그부등식의 풀이 유형", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">치환</div><div class=\"def-body\">\\(\\log_a x\\)가 반복되면 \\(\\log_a x=t\\)로 치환하여 \\(t\\)에 대한 부등식을 푼 다음 \\(x\\)의 값의 범위를 구한다.</div></div><div class=\"def-row\"><div class=\"def-label\">지수에 로그</div><div class=\"def-body\">지수에 \\(\\log_a x\\)를 포함한 부등식은 양변에 밑이 \\(a\\)인 로그를 취한다. 이때 \\(a&gt;1\\)이면 부등호의 방향이 그대로, \\(0&lt;a&lt;1\\)이면 반대로 바뀐다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">밑을 같게 할 수 있는 로그부등식은 밑을 같게 한 다음, 밑의 범위에 따라 부등호의 방향에 주의하며 진수를 비교한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(\\log_5 x&gt;2\\log_5(x-2)\\): 진수의 조건에서 \\(x&gt;2\\). \\(\\log_5 x&gt;\\log_5(x-2)^2\\)이고 밑 \\(5\\)가 \\(5&gt;1\\)이므로 \\(x&gt;(x-2)^2\\), \\(x^2-5x+4&lt;0\\), \\((x-1)(x-4)&lt;0\\)에서 \\(1&lt;x&lt;4\\). 따라서 해는 \\(2&lt;x&lt;4\\).</li></ol></div><p class=\"prose\">\\(\\log_a x\\) 꼴이 반복되면 치환하여 \\(t\\)에 대한 이차부등식을 푼다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\((\\log_3 x)^2-5\\log_3 x+6&lt;0\\): 진수의 조건에서 \\(x&gt;0\\). \\(\\log_3 x=t\\)로 놓으면 \\(t^2-5t+6&lt;0\\), \\((t-2)(t-3)&lt;0\\)에서 \\(2&lt;t&lt;3\\). 밑 \\(3\\)이 \\(3&gt;1\\)이므로 \\(9&lt;x&lt;27\\).</li></ol></div><p class=\"prose\">지수에 로그가 있으면 양변에 로그를 취한 뒤 치환한다.</p><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(x^{\\log x}&lt;100x\\): 진수의 조건에서 \\(x&gt;0\\). 양변에 상용로그를 취하면(밑 \\(10&gt;1\\)) \\((\\log x)^2&lt;2+\\log x\\), \\((\\log x)^2-\\log x-2&lt;0\\). \\(\\log x=t\\)로 놓으면 \\(-1&lt;t&lt;2\\)이므로 \\(\\dfrac{1}{10}&lt;x&lt;100\\).</li></ol></div></div>"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅰ. 지수함수와 로그함수 — 04. 지수함수와 로그함수의 활용", "source": "수학의 바이블 개념ON 대수 (교사용) · 대표 예제", "count": 10, "examples": [{"no": 1, "topic": "로그방정식", "title": "밑을 같게 / 밑에 미지수가 있는 경우", "problem_intro": "다음 방정식을 푸시오.", "problem_parts": ["\\(\\log_3(2x+1)=\\log_9(x^2+5)\\)", "\\(\\log_{x+2}\\sqrt{x+1}=\\log_{x+8}(x+1)\\)"], "approach": ["⑴ 밑을 같게 할 수 있는 경우: \\(\\log_a f(x)=\\log_a g(x)\\ (a>0,\\ a\\ne1)\\iff f(x)=g(x)\\) （단, \\(f(x)>0,\\ g(x)>0\\)）", "⑵ 밑과 진수에 모두 미지수가 있는 경우: 밑이 같거나 진수가 \\(1\\)임을 이용한다.", "\\(\\log_{a(x)} f(x)=\\log_{b(x)} f(x)\\iff a(x)=b(x)\\ \\text{또는}\\ f(x)=1\\)"], "solution": ["⑴ 진수의 조건에서 \\(2x+1>0,\\ x^2+5>0\\), \\(\\therefore x>-\\dfrac{1}{2}\\) …… ㉠", "\\(\\log_3(2x+1)=\\log_9(x^2+5)\\)에서 \\(\\log_9(2x+1)^2=\\log_9(x^2+5)\\)이므로", "\\((2x+1)^2=x^2+5,\\ 4x^2+4x+1=x^2+5\\)", "\\(3x^2+4x-4=0,\\ (x+2)(3x-2)=0\\)", "\\(\\therefore x=-2\\ \\text{또는}\\ x=\\dfrac{2}{3}\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(x=\\dfrac{2}{3}\\)", "⑵ 밑과 진수의 조건에서 \\(x+2>0,\\ x+2\\ne1,\\ x+8>0,\\ x+8\\ne1,\\ x+1>0\\)", "\\(\\therefore x>-1\\) …… ㉠", "\\(\\log_{x+2}\\sqrt{x+1}=\\log_{x+8}(x+1)\\)에서 \\(\\log_{(x+2)^2}(x+1)=\\log_{x+8}(x+1)\\)", "(ⅰ) \\((x+2)^2=x+8\\)일 때: \\(x^2+3x-4=0,\\ (x+4)(x-1)=0\\)", "\\(\\therefore x=-4\\ \\text{또는}\\ x=1\\), ㉠에 의하여 \\(x=1\\)", "(ⅱ) \\(x+1=1\\)일 때: \\(x=0\\), 이때 \\(x=0\\)은 ㉠을 만족시킨다.", "(ⅰ), (ⅱ)에서 구하는 해는 \\(x=0\\) 또는 \\(x=1\\)"], "alt_solution": [], "answer": "⑴ \\(x=\\dfrac{2}{3}\\)　⑵ \\(x=0\\) 또는 \\(x=1\\)", "bible": "⑴에서는 계산이 가장 간단한 밑을 적당히 잡으면 된다. 밑을 \\(3\\)으로 같게 하면 \\(\\log_3(2x+1)=\\dfrac{1}{2}\\log_3(x^2+5)\\), \\(2\\log_3(2x+1)=\\log_3(x^2+5)\\), \\(\\log_3(2x+1)^2=\\log_3(x^2+5)\\)이므로 \\((2x+1)^2=x^2+5\\)를 얻는다."}, {"no": 2, "topic": "로그방정식", "title": "log x 꼴이 반복되는 경우", "problem_intro": "다음 방정식을 푸시오.", "problem_parts": ["\\((\\log_4 x)^2-2\\log_4 x=\\log_2\\dfrac{\\sqrt{x}}{4}\\)", "\\(2\\log_2 x=\\log_x 2x\\)"], "approach": ["\\(p(\\log_a x)^2+q\\log_a x+r=0\\ (p,q,r\\ \\text{상수},\\ p\\ne0)\\) 꼴은 다음 순서로 푼다.", "❶ \\(\\log_a x=t\\)로 치환하여 \\(pt^2+qt+r=0\\)으로 나타낸다.", "❷ \\(t\\)의 이차방정식의 해를 \\(t_1,\\ t_2\\)라 할 때 \\(\\log_a x=t_1\\) 또는 \\(\\log_a x=t_2\\)의 해를 구한다.", "⑵ 로그의 밑의 변환 공식으로 밑을 \\(2\\)로 같게 한 후 \\(\\log_2 x=t\\)로 치환한다."], "solution": ["⑴ \\(\\log_2\\dfrac{\\sqrt{x}}{4}=\\dfrac{1}{2}\\log_2 x-2=\\log_4 x-2\\)이므로", "\\((\\log_4 x)^2-2\\log_4 x=\\log_4 x-2\\)", "\\(\\therefore (\\log_4 x)^2-3\\log_4 x+2=0\\)", "\\(\\log_4 x=t\\)로 놓으면 \\(t^2-3t+2=0,\\ (t-1)(t-2)=0\\)", "\\(\\therefore t=1\\ \\text{또는}\\ t=2\\)", "따라서 \\(\\log_4 x=1\\) 또는 \\(\\log_4 x=2\\)이므로 \\(x=4\\) 또는 \\(x=16\\)", "⑵ \\(2\\log_2 x=\\log_x 2x\\)에서 \\(2\\log_2 x=\\log_x 2+1\\)이므로", "양변에 \\(\\log_2 x\\)를 곱하면 \\(2(\\log_2 x)^2=1+\\log_2 x\\)", "\\(\\therefore 2(\\log_2 x)^2-\\log_2 x-1=0\\)", "\\(\\log_2 x=t\\)로 놓으면 \\(2t^2-t-1=0,\\ (2t+1)(t-1)=0\\)", "\\(\\therefore t=-\\dfrac{1}{2}\\ \\text{또는}\\ t=1\\)", "따라서 \\(\\log_2 x=-\\dfrac{1}{2}\\) 또는 \\(\\log_2 x=1\\)이므로 \\(x=\\dfrac{\\sqrt{2}}{2}\\) 또는 \\(x=2\\)"], "alt_solution": [], "answer": "⑴ \\(x=4\\) 또는 \\(x=16\\)　⑵ \\(x=\\dfrac{\\sqrt{2}}{2}\\) 또는 \\(x=2\\)", "bible": "방정식 \\(p(\\log_a x)^2+q\\log_a x+r=0\\)의 두 실근을 \\(\\alpha,\\ \\beta\\)라 하면, \\(\\log_a x=t\\)로 치환한 이차방정식 \\(pt^2+qt+r=0\\)의 두 실근은 \\(\\log_a\\alpha,\\ \\log_a\\beta\\)이다. 근과 계수의 관계에서 \\(\\log_a\\alpha+\\log_a\\beta=\\log_a\\alpha\\beta=-\\dfrac{q}{p}\\), 즉 \\(\\alpha\\beta=a^{-\\frac{q}{p}}\\)이므로 두 근의 곱을 바로 구할 수 있다."}, {"no": 3, "topic": "로그방정식", "title": "지수에 로그가 있는 방정식", "problem_intro": "다음 방정식을 푸시오.", "problem_parts": ["\\(x^{\\log_3 x}=27x^2\\)", "\\(2^{\\log_5 x}\\times x^{\\log_5 2}-6\\times 2^{\\log_5 x}+8=0\\)"], "approach": ["\\(a>0,\\ a\\ne1,\\ b>0,\\ b\\ne1\\)인 서로 다른 두 상수 \\(a,\\ b\\)에 대하여", "⑴ \\(x^{\\log_a x}=f(x)\\) 꼴: 양변에 밑이 \\(a\\)인 로그를 취한 후 치환하여 푼다.", "⑵ \\(a^{\\log_b x}\\)과 \\(x^{\\log_b a}\\) 꼴을 포함한 방정식: \\(a^{\\log_b x}=x^{\\log_b a}\\)임을 이용해 변형 후 \\(a^{\\log_b x}=t\\ (t>0)\\)로 치환한다."], "solution": ["⑴ \\(x^{\\log_3 x}=27x^2\\)의 양변에 밑이 \\(3\\)인 로그를 취하면", "\\((\\log_3 x)^2=3+2\\log_3 x\\)", "\\(\\therefore (\\log_3 x)^2-2\\log_3 x-3=0\\)", "\\(\\log_3 x=t\\)로 놓으면 \\(t^2-2t-3=0,\\ (t+1)(t-3)=0\\)", "\\(\\therefore t=-1\\ \\text{또는}\\ t=3\\)", "따라서 \\(\\log_3 x=-1\\) 또는 \\(\\log_3 x=3\\)이므로 \\(x=\\dfrac{1}{3}\\) 또는 \\(x=27\\)", "⑵ \\(x^{\\log_5 2}=2^{\\log_5 x}\\)이므로 \\((2^{\\log_5 x})^2-6\\times 2^{\\log_5 x}+8=0\\)", "\\(2^{\\log_5 x}=t\\ (t>0)\\)로 놓으면 \\(t^2-6t+8=0,\\ (t-2)(t-4)=0\\)", "\\(\\therefore t=2\\ \\text{또는}\\ t=4\\)", "\\(2^{\\log_5 x}=2\\) 또는 \\(2^{\\log_5 x}=4\\)에서 \\(\\log_5 x=1\\) 또는 \\(\\log_5 x=2\\)", "\\(\\therefore x=5\\ \\text{또는}\\ x=25\\)"], "alt_solution": [], "answer": "⑴ \\(x=\\dfrac{1}{3}\\) 또는 \\(x=27\\)　⑵ \\(x=5\\) 또는 \\(x=25\\)", "bible": "⑵에서는 \\(a,\\ b,\\ c\\)가 양수이고 \\(c\\ne1\\)일 때 성립하는 \\(a^{\\log_c b}=b^{\\log_c a}\\)를 이용하였다. 양변에 밑이 \\(c\\)인 로그를 취하면 \\(\\log_c b\\times\\log_c a=\\log_c a\\times\\log_c b\\)로 두 식이 같음을 확인할 수 있다."}, {"no": 4, "topic": "로그방정식", "title": "연립방정식 · 연립부등식", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["연립방정식 \\(\\begin{cases}\\log_2 2x+\\log_3 y^3=4\\\\[2pt]\\log_{\\frac{1}{2}} x-\\log_{\\sqrt{3}} y=-4\\end{cases}\\)의 해를 \\(x=\\alpha,\\ y=\\beta\\)라 할 때, \\(\\alpha-\\dfrac{1}{\\beta}\\)의 값을 구하시오.", "부등식 \\(\\log_{\\frac{1}{3}} x<2<\\log_2\\dfrac{4\\sqrt{2}}{x}\\)의 해를 구하시오."], "approach": ["⑴ \\(\\log_2 x=X,\\ \\log_3 y=Y\\)로 치환하여 미지수가 \\(2\\)개인 연립일차방정식으로 만든 후 푼다.", "⑵ 부등식 \\(A<B<C\\)는 두 부등식 \\(A<B,\\ B<C\\)를 하나로 나타낸 것이므로 두 부등식의 공통인 해를 찾는다."], "solution": ["⑴ 주어진 연립방정식을 정리하면", "\\(\\begin{cases}\\log_2 x+3\\log_3 y=3\\\\[2pt]-\\log_2 x-2\\log_3 y=-4\\end{cases}\\)", "\\(\\log_2 x=X,\\ \\log_3 y=Y\\)로 놓으면 \\(\\begin{cases}X+3Y=3\\\\[2pt]-X-2Y=-4\\end{cases}\\)", "이 연립방정식을 풀면 \\(X=6,\\ Y=-1\\)", "즉 \\(\\log_2 x=6\\)에서 \\(x=64\\), \\(\\log_3 y=-1\\)에서 \\(y=\\dfrac{1}{3}\\)", "따라서 \\(\\alpha=64,\\ \\beta=\\dfrac{1}{3}\\)이므로 \\(\\alpha-\\dfrac{1}{\\beta}=64-3=61\\)", "⑵ 진수의 조건에서 \\(x>0\\)", "(ⅰ) \\(\\log_{\\frac{1}{3}} x<2\\)에서 \\(\\log_{\\frac{1}{3}} x<\\log_{\\frac{1}{3}}\\dfrac{1}{9}\\)", "밑 \\(\\dfrac{1}{3}\\)이 \\(0<\\dfrac{1}{3}<1\\)이므로 \\(x>\\dfrac{1}{9}\\)", "(ⅱ) \\(2<\\log_2\\dfrac{4\\sqrt{2}}{x}\\)에서 \\(\\log_2 4<\\log_2\\dfrac{4\\sqrt{2}}{x}\\)", "밑 \\(2\\)가 \\(2>1\\)이므로 \\(4<\\dfrac{4\\sqrt{2}}{x}\\), \\(4x<4\\sqrt{2}\\ (\\because x>0)\\), \\(\\therefore x<\\sqrt{2}\\)", "(ⅰ), (ⅱ)에 의하여 \\(\\dfrac{1}{9}<x<\\sqrt{2}\\)"], "alt_solution": [], "answer": "⑴ \\(61\\)　⑵ \\(\\dfrac{1}{9}<x<\\sqrt{2}\\)", "bible": "⑴과 같은 꼴에서는 연립방정식의 해가 진수의 조건을 자동으로 만족시키므로 진수의 조건을 따로 따지지 않아도 된다. 하지만 로그방정식 문제 전반에서 진수의 조건을 늘 확인하는 습관을 들이면 실수를 줄일 수 있다."}, {"no": 5, "topic": "로그방정식", "title": "로그방정식과 로그부등식의 응용", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["\\(x\\)에 대한 이차방정식 \\(x^2+2(1-\\log a)x-\\log a+3=0\\)이 중근을 갖도록 하는 양수 \\(a\\)의 값을 모두 구하시오.", "\\(x\\)에 대한 이차방정식 \\(x^2+2(2-\\log_2 a)x-\\log_2 a+2=0\\)이 서로 다른 두 실근을 갖도록 하는 자연수 \\(a\\)의 최솟값을 구하시오."], "approach": ["로그를 포함한 이차방정식에서 근에 대한 조건이 주어지면 판별식을 이용하여 로그방정식 또는 로그부등식을 세운 후 치환하여 푼다.", "이차방정식 \\(ax^2+bx+c=0\\)의 판별식 \\(D=b^2-4ac\\)에 대하여 \\(D=0\\)이면 중근, \\(D>0\\)이면 서로 다른 두 실근을 갖는다."], "solution": ["⑴ 판별식을 \\(D\\)라 하면 중근을 가지므로", "\\(\\dfrac{D}{4}=(1-\\log a)^2-(-\\log a+3)=0\\)", "\\((\\log a)^2-\\log a-2=0\\)", "\\(\\log a=t\\)로 놓으면 \\(t^2-t-2=0,\\ (t+1)(t-2)=0\\)", "\\(\\therefore t=-1\\ \\text{또는}\\ t=2\\)", "즉 \\(\\log a=-1\\) 또는 \\(\\log a=2\\)이므로 \\(a=\\dfrac{1}{10}\\) 또는 \\(a=100\\)", "⑵ 진수의 조건에서 \\(a>0\\) …… ㉠", "판별식을 \\(D\\)라 하면 서로 다른 두 실근을 가지므로", "\\(\\dfrac{D}{4}=(2-\\log_2 a)^2-(-\\log_2 a+2)>0\\)", "\\((\\log_2 a)^2-3\\log_2 a+2>0\\)", "\\(\\log_2 a=t\\)로 놓으면 \\(t^2-3t+2>0,\\ (t-1)(t-2)>0\\)", "\\(\\therefore t<1\\ \\text{또는}\\ t>2\\)", "즉 \\(\\log_2 a<1\\) 또는 \\(\\log_2 a>2\\)이므로 \\(a<2\\) 또는 \\(a>4\\) …… ㉡", "㉠, ㉡에 의하여 \\(0<a<2\\) 또는 \\(a>4\\)", "따라서 자연수 \\(a\\)의 최솟값은 \\(1\\)이다."], "alt_solution": [], "answer": "⑴ \\(a=\\dfrac{1}{10}\\) 또는 \\(a=100\\)　⑵ \\(1\\)", "bible": "계수가 실수인 이차방정식 \\(ax^2+bx+c=0\\)의 판별식 \\(D=b^2-4ac\\)에 대하여 ① \\(D>0\\)이면 서로 다른 두 실근, ② \\(D=0\\)이면 중근, ③ \\(D<0\\)이면 서로 다른 두 허근을 갖는다. 일차항의 계수가 짝수이면 \\(\\dfrac{D}{4}\\)를 이용하면 편리하다."}, {"no": 1, "topic": "로그부등식", "title": "밑을 같게 할 수 있는 경우", "problem_intro": "다음 부등식을 푸시오.", "problem_parts": ["\\(\\log_3(x-2)+2\\log_9 x\\le 3\\log_3 2\\)", "\\(\\log_{\\frac{1}{4}}(x-2)+\\log_{\\frac{1}{4}}(x-3)>-\\dfrac{1}{2}\\)"], "approach": ["밑을 같게 할 수 있는 로그부등식은 다음 순서로 푼다.", "❶ 로그의 성질을 이용하여 밑을 같게 한다.", "❷ \\((\\text{i})\\ a>1:\\ \\log_a f(x)<\\log_a g(x)\\iff f(x)<g(x)\\)", "\\((\\text{ii})\\ 0<a<1:\\ \\log_a f(x)<\\log_a g(x)\\iff f(x)>g(x)\\)"], "solution": ["⑴ 진수의 조건에서 \\(x-2>0,\\ x>0\\), \\(\\therefore x>2\\) …… ㉠", "\\(\\log_3(x-2)+\\log_3 x\\le\\log_3 8\\)이므로 \\(\\log_3 x(x-2)\\le\\log_3 8\\)", "밑 \\(3\\)이 \\(3>1\\)이므로 \\(x(x-2)\\le8\\)", "\\(x^2-2x-8\\le0,\\ (x+2)(x-4)\\le0\\)에서 \\(-2\\le x\\le4\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(2<x\\le4\\)", "⑵ 진수의 조건에서 \\(x-2>0,\\ x-3>0\\), \\(\\therefore x>3\\) …… ㉠", "\\(\\log_{\\frac{1}{4}}(x-2)(x-3)>\\log_{\\frac{1}{4}} 2\\)", "밑 \\(\\dfrac{1}{4}\\)이 \\(0<\\dfrac{1}{4}<1\\)이므로 \\((x-2)(x-3)<2\\)", "\\(x^2-5x+4<0,\\ (x-1)(x-4)<0\\)에서 \\(1<x<4\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(3<x<4\\)"], "alt_solution": [], "answer": "⑴ \\(2<x\\le4\\)　⑵ \\(3<x<4\\)", "bible": "로그부등식의 해를 구할 때는 밑의 범위에 따른 부등호의 방향, 진수의 조건, 등호 포함 여부를 모두 놓치지 않아야 한다. ⑵에서 \\(-\\dfrac{1}{2}=\\log_{\\frac{1}{4}} 2\\)임을 이용하였다. 또 양변에 \\(-1\\)을 곱해 밑을 \\(4\\)로 바꾸어 \\(\\log_4(x-2)(x-3)<\\log_4 2\\)로 풀면 부등호의 방향이 바뀌지 않아 실수를 줄일 수 있다."}, {"no": 2, "topic": "로그부등식", "title": "log x 꼴이 반복되는 경우", "problem_intro": "다음 부등식을 푸시오.", "problem_parts": ["\\((\\log x)^2-\\log x^2-3\\le0\\)", "\\((\\log_2 8x)(\\log_{\\sqrt{2}} x)>8\\)"], "approach": ["\\(p(\\log_a x)^2+q\\log_a x+r<0\\ (p,q,r\\ \\text{상수},\\ p\\ne0)\\) 꼴은 다음 순서로 푼다.", "❶ 진수의 조건 \\(x>0\\)을 구한다.", "❷ \\(\\log_a x=t\\)로 치환하여 \\(pt^2+qt+r<0\\)으로 나타낸다.", "❸ \\(t\\)의 이차부등식의 해 \\(t_1<t<t_2\\)에서 \\(t_1<\\log_a x<t_2\\)와 ❶을 모두 만족시키는 해를 구한다."], "solution": ["⑴ 진수의 조건에서 \\(x>0\\) …… ㉠", "\\((\\log x)^2-2\\log x-3\\le0\\)", "\\(\\log x=t\\)로 놓으면 \\(t^2-2t-3\\le0,\\ (t+1)(t-3)\\le0\\)", "\\(\\therefore -1\\le t\\le3\\)", "\\(-1\\le\\log x\\le3\\)에서 \\(\\log\\dfrac{1}{10}\\le\\log x\\le\\log 1000\\)이고 밑 \\(10\\)이 \\(10>1\\)이므로", "\\(\\dfrac{1}{10}\\le x\\le1000\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(\\dfrac{1}{10}\\le x\\le1000\\)", "⑵ 진수의 조건에서 \\(x>0\\) …… ㉠", "\\((3+\\log_2 x)(2\\log_2 x)>8\\)이므로 \\((\\log_2 x)^2+3\\log_2 x-4>0\\)", "\\(\\log_2 x=t\\)로 놓으면 \\(t^2+3t-4>0,\\ (t+4)(t-1)>0\\)", "\\(\\therefore t<-4\\ \\text{또는}\\ t>1\\)", "\\(\\log_2 x<-4\\) 또는 \\(\\log_2 x>1\\)이고 밑 \\(2\\)가 \\(2>1\\)이므로", "\\(x<\\dfrac{1}{16}\\) 또는 \\(x>2\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(0<x<\\dfrac{1}{16}\\) 또는 \\(x>2\\)"], "alt_solution": [], "answer": "⑴ \\(\\dfrac{1}{10}\\le x\\le1000\\)　⑵ \\(0<x<\\dfrac{1}{16}\\) 또는 \\(x>2\\)", "bible": "부등식 \\(p(\\log_a x)^2+q\\log_a x+r<0\\)의 해가 \\(\\alpha<x<\\beta\\)이면, \\(\\log_a x=t\\)로 치환한 이차부등식 \\(pt^2+qt+r<0\\)의 해는 \\(a>1\\)일 때 \\(\\log_a\\alpha<t<\\log_a\\beta\\), \\(0<a<1\\)일 때 \\(\\log_a\\beta<t<\\log_a\\alpha\\)이다."}, {"no": 3, "topic": "로그부등식", "title": "지수에 로그가 있는 부등식", "problem_intro": "다음 부등식을 푸시오.", "problem_parts": ["\\(x^{\\log_2 x}<16x^3\\)", "\\(3^{\\log x}\\times x^{\\log 3}-4\\times 3^{\\log x}+3<0\\)"], "approach": ["\\(a>0,\\ a\\ne1,\\ b>0,\\ b\\ne1\\)인 서로 다른 두 상수 \\(a,\\ b\\)에 대하여", "⑴ \\(x^{\\log_a x}<f(x)\\) 꼴: 양변에 밑이 \\(a\\)인 로그를 취한 후 치환한다. \\(a>1\\)이면 부등호 방향 그대로, \\(0<a<1\\)이면 반대로 바뀐다.", "⑵ \\(a^{\\log_b x}\\)과 \\(x^{\\log_b a}\\) 꼴을 포함한 부등식: \\(a^{\\log_b x}=x^{\\log_b a}\\)임을 이용해 변형 후 \\(a^{\\log_b x}=t\\ (t>0)\\)로 치환한다."], "solution": ["⑴ 진수의 조건에서 \\(x>0\\) …… ㉠", "양변에 밑이 \\(2\\)인 로그를 취하면 （밑 \\(2>1\\)이므로 부등호 방향 그대로）", "\\((\\log_2 x)^2<4+3\\log_2 x,\\ (\\log_2 x)^2-3\\log_2 x-4<0\\)", "\\(\\log_2 x=t\\)로 놓으면 \\(t^2-3t-4<0,\\ (t+1)(t-4)<0\\)", "\\(\\therefore -1<t<4\\)", "\\(-1<\\log_2 x<4\\)이고 밑 \\(2\\)가 \\(2>1\\)이므로 \\(\\dfrac{1}{2}<x<16\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(\\dfrac{1}{2}<x<16\\)", "⑵ 진수의 조건에서 \\(x>0\\) …… ㉠", "\\(x^{\\log 3}=3^{\\log x}\\)이므로 \\((3^{\\log x})^2-4\\times 3^{\\log x}+3<0\\)", "\\(3^{\\log x}=t\\ (t>0)\\)로 놓으면 \\(t^2-4t+3<0,\\ (t-1)(t-3)<0\\)", "\\(\\therefore 1<t<3\\)", "\\(1<3^{\\log x}<3\\)에서 지수의 밑 \\(3\\)이 \\(3>1\\)이므로 \\(0<\\log x<1\\)", "밑 \\(10\\)이 \\(10>1\\)이므로 \\(1<x<10\\) …… ㉡", "㉠, ㉡에 의하여 구하는 해는 \\(1<x<10\\)"], "alt_solution": [], "answer": "⑴ \\(\\dfrac{1}{2}<x<16\\)　⑵ \\(1<x<10\\)", "bible": "지수에 로그가 있는 부등식은 양변에 적절한 밑의 로그를 취하는 것이 기본이다. ⑴은 지수에 밑 \\(2\\)인 로그가 있어 밑 \\(2\\)인 로그를, ⑵는 \\(a^{\\log_c b}=b^{\\log_c a}\\)를 이용한다. 로그를 취할 때 밑이 \\(1\\)보다 크면 부등호의 방향이 그대로임에 주의한다."}, {"no": 4, "topic": "로그부등식", "title": "로그부등식이 항상 성립할 조건", "problem_intro": "모든 양수 \\(x\\)에 대하여 부등식 \\((\\log_3 x)^2+\\log_9 x+a\\ge0\\)이 성립하도록 하는 실수 \\(a\\)의 최솟값을 구하시오.", "problem_parts": [], "approach": ["모든 양의 실수 \\(x\\)에 대하여 \\(p(\\log_a x)^2+q\\log_a x+r\\ge0\\ (p>0)\\)이 성립할 조건은 다음과 같다.", "❶ \\(\\log_a x=t\\)로 치환하여 \\(pt^2+qt+r\\ge0\\)으로 나타낸다.", "❷ \\(f(t)=pt^2+qt+r\\)이라 할 때 모든 실수 \\(t\\)에 대하여 \\(f(t)\\ge0\\)이 성립한다.", "\\(\\iff\\) 이차방정식 \\(f(t)=0\\)의 판별식 \\(D\\)에 대하여 \\(D\\le0\\)"], "solution": ["\\((\\log_3 x)^2+\\log_9 x+a\\ge0\\)에서 \\(\\log_9 x=\\dfrac{1}{2}\\log_3 x\\)이므로", "\\((\\log_3 x)^2+\\dfrac{1}{2}\\log_3 x+a\\ge0\\)", "\\(\\log_3 x=t\\)로 놓으면 \\(x\\)는 모든 양수이므로 \\(t\\)는 모든 실수이고", "\\(t^2+\\dfrac{1}{2}t+a\\ge0\\)", "이차방정식 \\(t^2+\\dfrac{1}{2}t+a=0\\)의 판별식을 \\(D\\)라 하면 모든 실수 \\(t\\)에서 성립해야 하므로", "\\(D=\\left(\\dfrac{1}{2}\\right)^2-4a\\le0,\\ 4a\\ge\\dfrac{1}{4}\\), \\(\\therefore a\\ge\\dfrac{1}{16}\\)", "따라서 구하는 실수 \\(a\\)의 최솟값은 \\(\\dfrac{1}{16}\\)이다."], "alt_solution": [], "answer": "\\(\\dfrac{1}{16}\\)", "bible": "지수부등식이 항상 성립할 조건에서는 '모든 실수 \\(x\\)'에 대한 부등식을 '모든 양의 실수 \\(t\\)'에 대한 부등식으로 치환한다. 반면 로그부등식이 항상 성립할 조건에서는 '모든 양의 실수 \\(x\\)'에 대한 부등식을 '모든 실수 \\(t\\)'에 대한 부등식으로 치환한다는 점이 다르다."}, {"no": 5, "topic": "로그부등식", "title": "로그함수의 실생활에의 활용", "problem_intro": "빛이 한 번 통과하면 자외선이 \\(\\dfrac{1}{8}\\)만큼 차단되는 유리가 있다. 자외선의 양이 처음 자외선의 양의 \\(5\\,\\%\\) 이하가 되려면 유리를 최소 \\(n\\)번 통과해야 한다. 자연수 \\(n\\)의 값을 구하시오. (단, \\(\\log 2=0.3010,\\ \\log 7=0.8451\\)로 계산한다.)", "problem_parts": [], "approach": ["처음 양을 \\(a\\)라 하면 한 번 통과 후 남는 양은 \\(a\\left(1-\\dfrac{1}{8}\\right)\\), 두 번 통과 후 \\(a\\left(1-\\dfrac{1}{8}\\right)^2\\), …, \\(n\\)번 통과 후 \\(a\\left(1-\\dfrac{1}{8}\\right)^n\\)이다.", "일정한 비율로 \\(n\\)번 변화한 양을 식으로 세운 뒤, 양변에 상용로그를 취하여 \\(n\\)을 구한다."], "solution": ["처음 자외선의 양을 \\(a\\)라 하면 \\(n\\)번 통과한 후 남은 양은 \\(a\\left(1-\\dfrac{1}{8}\\right)^n=\\left(\\dfrac{7}{8}\\right)^n a\\)", "이 양이 처음 양의 \\(5\\,\\%\\) 이하가 되려면", "\\(\\left(\\dfrac{7}{8}\\right)^n a\\le\\dfrac{5}{100}a\\), \\(\\therefore \\left(\\dfrac{7}{8}\\right)^n\\le\\dfrac{5}{100}\\ (\\because a>0)\\)", "양변에 상용로그를 취하면", "\\(n(\\log 7-\\log 8)\\le\\log 5-2\\)", "\\(n(\\log 7-3\\log 2)\\le(1-\\log 2)-2\\)", "\\(n(0.8451-3\\times0.3010)\\le(1-0.3010)-2\\)", "\\(-0.0579\\,n\\le-1.3010\\), \\(\\therefore n\\ge22.4\\cdots\\)", "따라서 유리를 최소한 \\(23\\)번 통과해야 하므로 \\(n=23\\)"], "alt_solution": [], "answer": "\\(23\\)", "bible": "일정한 비율로 증가·감소하는 경우 ① \\(a\\)가 \\(r\\,\\%\\)씩 \\(n\\)번 증가한 값은 \\(a\\left(1+\\dfrac{r}{100}\\right)^n\\), ② \\(a\\)가 \\(r\\,\\%\\)씩 \\(n\\)번 감소한 값은 \\(a\\left(1-\\dfrac{r}{100}\\right)^n\\)이다. 부등식의 양변에 상용로그를 취할 때 음수로 나누면 부등호의 방향이 바뀜에 주의한다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '로그부등식';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['로그방정식','로그방정식','ar'],['로그부등식','로그부등식','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+      if(showSol) requestAnimationFrame(()=>fitMath(sol));   // 펼친 뒤 보이는 상태에서 폭 재맞춤
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) + 폭 맞춤 ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).then(()=>fitMath(node)).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+/* 긴 수식을 박스 폭에 맞춰 자동 축소 → 박스마다 가로로 드래그할 필요 없이 한 번에 다 보이게 */
+function fitMath(node){
+  // ① 줄 박스(인라인 수식+글자 혼합): 줄 글자크기를 줄여 글자·수식을 통째로 폭에 맞춘다
+  const lines = [...node.querySelectorAll('.derive-line, .lines .line')];
+  // ② 디스플레이 수식($$ … $$): 컨테이너만 축소 (줄 박스 안에 든 것은 ①에서 처리하므로 제외)
+  const disp = [...node.querySelectorAll('mjx-container[display="true"]')]
+                 .filter(c => !c.closest('.line') && !c.closest('.derive-line'));
+  const targets = [...lines, ...disp];
+  targets.forEach(el => { el.style.fontSize = ''; });          // 먼저 원래 크기로 리셋
+  targets.forEach(el => {
+    for(let i=0; i<2; i++){                                    // 줄인 뒤 재측정 (2패스)
+      const avail = el.clientWidth, content = el.scrollWidth;
+      if(avail > 0 && content > avail + 1){
+        const s = Math.max(avail / content, 0.5);             // 가독성 위해 50%까지만 축소
+        const cur = parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (cur * s) + 'px';
+      } else break;
+    }
+  });
+}
+let _fitTimer = null;
+window.addEventListener('resize', ()=>{ clearTimeout(_fitTimer); _fitTimer=setTimeout(()=>fitMath(viewer),150); });
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

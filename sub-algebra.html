@@ -56,12 +56,23 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 
 <script>
 // 대수 단원 (2022 개정: 지수·로그 / 삼각함수 / 수열)
-const UNITS = ["지수로그","지로함수","삼각함수정의","삼각함수그래프","사인코사인법칙","등차등비수열","수열의합Σ","수학적귀납법"];
+const UNITS = ["지수","로그","지수함수","로그함수","지수방정식","로그방정식","삼각함수정의","삼각함수그래프","사인코사인법칙","등차등비수열","수열의합Σ","수학적귀납법"];
 const AREAS = ["개념","유형","심화"];
 // "단원|영역" : 연결할 파일
 const LINKS = {
-  "등차등비수열|개념": "algebra-sequence.html"
-  // 나머지 항목은 준비되는 대로 여기에 추가
+  "지수|개념": "algebra-exp.html",
+  "로그|개념": "algebra-log.html",
+  "지수함수|개념": "algebra-exp-function.html",
+  "로그함수|개념": "algebra-log-function.html",
+  "지수방정식|개념": "algebra-exp-equation.html",
+  "로그방정식|개념": "algebra-log-equation.html",
+  "등차등비수열|개념": "algebra-sequence.html",
+  "수열의합Σ|개념": "algebra-series.html",
+  "수학적귀납법|개념": "algebra-induction.html",
+  "삼각함수정의|개념": "algebra-trig-definition.html",
+  "삼각함수그래프|개념": "algebra-trig-graph.html",
+  "사인코사인법칙|개념": "algebra-trig-application.html"
+  // 나머지 항목(지수·로그·지수함수·로그함수 개념/유형/심화 등)은 준비되는 대로 여기에 추가
 };
 const wrap = document.getElementById("units");
 UNITS.forEach((u, i) => {

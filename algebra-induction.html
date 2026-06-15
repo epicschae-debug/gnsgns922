@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>수학적 귀납법 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅲ. 수열 · 10단원</div>
+        <h1>수학적 귀납법</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "수열의 귀납적 정의", "no": 1, "title": "수열의 귀납적 정의", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">귀납적 정의</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)을 <b>(i)</b> 첫째항 \\(a_1\\) 또는 처음 몇 개의 항, <b>(ii)</b> 이웃하는 항들 사이의 관계식으로 정의하는 것을 수열 \\(\\{a_n\\}\\)의 <b>귀납적 정의</b>라 한다. 이때 (ii)의 관계식의 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots\\)을 차례로 대입하면 수열의 모든 항을 구할 수 있다.</div></div><div class=\"def-row\"><div class=\"def-label\">점화식</div><div class=\"def-body\">수열에서 이웃하는 항들 사이의 관계식을 <b>점화식</b>이라 한다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">수열을 정의할 때 \\(a_n=2n-1\\)처럼 일반항을 직접 쓰기도 하지만, 처음 몇 개의 항과 이웃하는 항들 사이의 관계식으로 정의하기도 한다. 예를 들어 수열 \\(1,\\ 3,\\ 5,\\ 7,\\ 9,\\ \\cdots\\)는 첫째항이 \\(1\\)이고 이웃하는 두 항의 차가 항상 \\(2\\)이므로 다음과 같이 정의할 수 있다.</p><div class=\"derive\"><div class=\"derive-title\">관계식에 \\(n=1,\\ 2,\\ 3,\\ \\cdots\\)을 차례로 대입</div><div class=\"derive-line\">\\(\\displaystyle a_1=1,\\quad a_{n+1}=a_n+2\\ \\ (n=1,\\ 2,\\ 3,\\ \\cdots)\\)</div><div class=\"derive-line\">\\(\\displaystyle a_2=a_1+2=1+2=3\\)</div><div class=\"derive-line\">\\(\\displaystyle a_3=a_2+2=3+2=5\\)</div><div class=\"derive-line\">\\(\\displaystyle a_4=a_3+2=5+2=7\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">귀납적 정의</span><div class=\"formula-math\">\\[a_1=(\\text{첫째항}),\\qquad a_{n+1}=(\\text{이웃하는 항들 사이의 관계식})\\]</div></div><div class=\"note\">관계식 \\(a_{n+1}=a_n+2\\)의 \\(n\\)에 차례로 자연수를 대입하면 \\(a_2,\\ a_3,\\ a_4,\\ \\cdots\\)를 모두 구할 수 있다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>수열 \\(\\{a_n\\}\\)이 \\(a_1=2,\\ a_{n+1}=3a_n-1\\)로 정의될 때, \\(a_2=3\\times2-1=5,\\ a_3=3\\times5-1=14,\\ a_4=3\\times14-1=41\\)이다.</li></ol></div></div>"}, {"topic": "수열의 귀납적 정의", "no": 2, "title": "등차수열의 귀납적 정의", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">관계식</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)에 대하여 \\(n=1,\\ 2,\\ 3,\\ \\cdots\\)일 때 등차수열을 나타내는 관계식은 다음과 같다.<br>① \\(a_{n+1}-a_n=d\\) (일정)<br>② \\(a_{n+1}-a_n=a_{n+2}-a_{n+1}\\ \\Longleftrightarrow\\ 2a_{n+1}=a_n+a_{n+2}\\)</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">수열 \\(\\{a_n\\}\\)이 공차가 \\(d\\)인 등차수열이면 \\(a_{n+1}=a_n+d\\), 즉 \\(a_{n+1}-a_n=d\\)가 성립한다. 거꾸로 \\(a_{n+1}-a_n=d\\)가 성립하면 \\(\\{a_n\\}\\)은 공차가 \\(d\\)인 등차수열이다.</p><div class=\"derive\"><div class=\"derive-title\">등차중항 ─ 세 항 사이의 관계</div><div class=\"derive-line\">\\(\\displaystyle \\{a_n\\}\\text{이 등차수열이면}\\ \\ a_{n+1}-a_n=a_{n+2}-a_{n+1}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\therefore\\ 2a_{n+1}=a_n+a_{n+2}\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">등차수열의 귀납적 정의</span><div class=\"formula-math\">\\[a_1=a,\\qquad a_{n+1}=a_n+d\\ \\ (n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"note\">②는 \\(a_{n+1}\\)이 \\(a_n\\)과 \\(a_{n+2}\\)의 <b>등차중항</b>임을 뜻한다. 연속한 세 항이 등차수열을 이룬다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(a_1=4,\\ a_{n+1}=a_n+3\\)이면 첫째항이 \\(4\\), 공차가 \\(3\\)인 등차수열이므로 \\(a_n=4+(n-1)\\times3=3n+1\\)이고, \\(a_2=7,\\ a_3=10,\\ a_4=13\\)이다.</li></ol></div></div>"}, {"topic": "수열의 귀납적 정의", "no": 3, "title": "등비수열의 귀납적 정의", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">관계식</div><div class=\"def-body\">수열 \\(\\{a_n\\}\\)에 대하여 \\(n=1,\\ 2,\\ 3,\\ \\cdots\\)일 때 등비수열을 나타내는 관계식은 다음과 같다.<br>① \\(\\dfrac{a_{n+1}}{a_n}=r\\) (일정)<br>② \\(\\dfrac{a_{n+1}}{a_n}=\\dfrac{a_{n+2}}{a_{n+1}}\\ \\Longleftrightarrow\\ a_{n+1}{}^{2}=a_n a_{n+2}\\)</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">수열 \\(\\{a_n\\}\\)이 공비가 \\(r\\)인 등비수열이면 \\(a_{n+1}=ra_n\\), 즉 \\(\\dfrac{a_{n+1}}{a_n}=r\\)가 성립한다. 거꾸로 \\(\\dfrac{a_{n+1}}{a_n}=r\\)가 성립하면 \\(\\{a_n\\}\\)은 공비가 \\(r\\)인 등비수열이다.</p><div class=\"derive\"><div class=\"derive-title\">등비중항 ─ 세 항 사이의 관계</div><div class=\"derive-line\">\\(\\displaystyle \\{a_n\\}\\text{이 등비수열이면}\\ \\ \\frac{a_{n+1}}{a_n}=\\frac{a_{n+2}}{a_{n+1}}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\therefore\\ a_{n+1}{}^{2}=a_n a_{n+2}\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">등비수열의 귀납적 정의</span><div class=\"formula-math\">\\[a_1=a,\\qquad a_{n+1}=ra_n\\ \\ (r\\ne 0,\\ \\ n=1,\\ 2,\\ 3,\\ \\cdots)\\]</div></div><div class=\"note\">②는 \\(a_{n+1}\\)이 \\(a_n\\)과 \\(a_{n+2}\\)의 <b>등비중항</b>임을 뜻한다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(a_1=3,\\ a_{n+1}=2a_n\\)이면 첫째항이 \\(3\\), 공비가 \\(2\\)인 등비수열이므로 \\(a_n=3\\times2^{n-1}\\)이고, \\(a_2=6,\\ a_3=12,\\ a_4=24\\)이다.</li></ol></div></div>"}, {"topic": "수열의 귀납적 정의", "no": 4, "title": "여러 가지 점화식 ① 합·곱꼴", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">\\(a_{n+1}=a_n+f(n)\\) 꼴</div><div class=\"def-body\">\\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ n-1\\)을 차례로 대입한 후 변끼리 <b>더한다</b>.<br>\\(\\displaystyle a_n=a_1+\\sum_{k=1}^{n-1} f(k)\\)</div></div><div class=\"def-row\"><div class=\"def-label\">\\(a_{n+1}=a_n\\,f(n)\\) 꼴</div><div class=\"def-body\">\\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ n-1\\)을 차례로 대입한 후 변끼리 <b>곱한다</b>.<br>\\(\\displaystyle a_n=a_1\\times f(1)\\times f(2)\\times\\cdots\\times f(n-1)\\)</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">\\(a_{n+1}-a_n\\) 또는 \\(\\dfrac{a_{n+1}}{a_n}\\)이 일정하지 않으면 등차·등비수열이 아니다. 이때는 \\(n-1\\)개의 식을 변끼리 더하거나 곱하면 가운데 항들이 소거되어 일반항을 구할 수 있다.</p><div class=\"derive\"><div class=\"derive-title\">합꼴 예 ─ \\(a_1=3,\\ a_{n+1}=a_n+2n\\)</div><div class=\"derive-line\">\\(\\displaystyle a_n=a_1+2\\{1+2+3+\\cdots+(n-1)\\}\\)</div><div class=\"derive-line\">\\(\\displaystyle =3+2\\times\\frac{(n-1)n}{2}=n^2-n+3\\)</div></div><div class=\"note\">\\(a_{n+1}=a_n+f(n)\\)에서 \\(f(n)\\)이 상수가 아니면 등차수열이 아니므로, 일반항 공식 대신 변끼리 더하는 방법을 쓴다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>곱꼴 예: \\(a_1=5,\\ a_{n+1}=(n+1)a_n\\)이면 \\(a_n=a_1\\times2\\times3\\times\\cdots\\times n=5\\times n!\\)이다.</li></ol></div></div>"}, {"topic": "수열의 귀납적 정의", "no": 5, "title": "여러 가지 점화식 ② \\(a_{n+1}=pa_n+q\\)", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">\\(a_{n+1}=pa_n+q\\) 꼴<br>\\((p\\ne 1,\\ pq\\ne 0)\\)</div><div class=\"def-body\">\\(a_{n+1}-\\alpha=p(a_n-\\alpha)\\) 꼴로 변형한다. 양변을 비교하면 \\(\\alpha=\\dfrac{q}{1-p}\\)이고, 수열 \\(\\{a_n-\\alpha\\}\\)는 첫째항이 \\(a_1-\\alpha\\), 공비가 \\(p\\)인 등비수열이 된다.<br>\\(\\therefore\\ a_n=\\alpha+(a_1-\\alpha)p^{\\,n-1}\\)</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">점화식 \\(a_{n+1}=pa_n+q\\)는 그 자체로는 등비수열이 아니지만, 적당한 상수 \\(\\alpha\\)를 더하고 빼면 등비수열 꼴 \\(a_{n+1}-\\alpha=p(a_n-\\alpha)\\)로 바꿀 수 있다.</p><div class=\"derive\"><div class=\"derive-title\">변형 과정</div><div class=\"derive-line\">\\(\\displaystyle a_{n+1}-\\alpha=p(a_n-\\alpha)\\ \\Rightarrow\\ a_{n+1}=pa_n-p\\alpha+\\alpha\\)</div><div class=\"derive-line\">\\(\\displaystyle -p\\alpha+\\alpha=q\\ \\Rightarrow\\ \\alpha=\\frac{q}{1-p}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\{a_n-\\alpha\\}\\text{는 공비 }p\\text{인 등비수열} \\Rightarrow a_n-\\alpha=(a_1-\\alpha)p^{\\,n-1}\\)</div></div><div class=\"note\">\\(\\alpha\\)는 점화식에서 \\(a_{n+1}\\)과 \\(a_n\\)을 모두 \\(\\alpha\\)로 놓은 방정식 \\(\\alpha=p\\alpha+q\\)의 해와 같다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(a_1=1,\\ a_{n+1}=3a_n+2\\)이면 \\(a_{n+1}+1=3(a_n+1)\\)이므로 \\(\\{a_n+1\\}\\)은 첫째항 \\(2\\), 공비 \\(3\\)인 등비수열이다. 따라서 \\(a_n+1=2\\times3^{n-1}\\), 즉 \\(a_n=2\\times3^{n-1}-1\\)이다.</li></ol></div></div>"}, {"topic": "수열의 귀납적 정의", "no": 6, "title": "여러 가지 점화식 ③ 계차·역수꼴", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">\\(pa_{n+2}+qa_{n+1}+ra_n=0\\)<br>\\((p+q+r=0,\\ pqr\\ne 0)\\)</div><div class=\"def-body\">\\(a_{n+2}-a_{n+1}=\\dfrac{r}{p}(a_{n+1}-a_n)\\) 꼴로 변형한다. 이웃하는 두 항의 차로 이루어진 수열 \\(\\{a_{n+1}-a_n\\}\\)이 공비 \\(\\dfrac{r}{p}\\)인 등비수열이 된다.</div></div><div class=\"def-row\"><div class=\"def-label\">\\(a_{n+1}=\\dfrac{ra_n}{pa_n+q}\\)<br>\\((pqr\\ne 0)\\)</div><div class=\"def-body\">양변의 역수를 취한 후 \\(\\dfrac{1}{a_n}=b_n\\)으로 놓으면 \\(b_{n+1}=\\dfrac{q}{r}b_n+\\dfrac{p}{r}\\)이 되어 \\(b_{n+1}=pb_n+q\\) 꼴로 풀 수 있다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">세 항이 얽힌 점화식이나 분수꼴 점화식은 한 단계 변형하면 앞에서 배운 꼴이 된다.</p><div class=\"derive\"><div class=\"derive-title\">계차꼴 변형 ─ \\(p+q+r=0\\)이면 \\(q=-p-r\\)</div><div class=\"derive-line\">\\(\\displaystyle p(a_{n+2}-a_{n+1})=r(a_{n+1}-a_n)\\)</div><div class=\"derive-line\">\\(\\displaystyle \\therefore\\ a_{n+2}-a_{n+1}=\\frac{r}{p}(a_{n+1}-a_n)\\)</div></div><div class=\"note\">계차꼴은 결국 \\(a_{n+1}=a_n+f(n)\\) 꼴로, 역수꼴은 \\(a_{n+1}=pa_n+q\\) 꼴로 돌아간다. <b>어떤 꼴로 바꿀 수 있는가</b>를 먼저 판단하는 것이 핵심이다.</div></div>"}, {"topic": "수학적 귀납법", "no": 1, "title": "수학적 귀납법", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">수학적 귀납법</div><div class=\"def-body\">자연수 \\(n\\)에 대한 명제 \\(p(n)\\)이 모든 자연수 \\(n\\)에 대하여 성립함을 증명하려면 다음 두 가지를 보이면 된다.<br><b>(i)</b> \\(n=1\\)일 때, 명제 \\(p(1)\\)이 성립한다.<br><b>(ii)</b> \\(n=k\\)일 때 \\(p(k)\\)가 성립한다고 가정하면 \\(n=k+1\\)일 때도 \\(p(k+1)\\)이 성립한다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">몇 개의 자연수에 대하여 성립한다고 해서 모든 자연수에 대하여 성립한다고 할 수는 없다. 또 모든 자연수를 일일이 대입할 수도 없다. 그러나 (i)과 (ii)를 보이면, 마치 도미노가 차례로 넘어지듯 모든 자연수에 대하여 성립함이 보장된다.</p><div class=\"derive\"><div class=\"derive-title\">예 ─ \\(1+3+5+\\cdots+(2n-1)=n^2\\)이 성립할까?</div><div class=\"derive-line\">\\(\\displaystyle n=1:\\ (\\text{좌변})=1,\\ (\\text{우변})=1^2=1\\)</div><div class=\"derive-line\">\\(\\displaystyle n=2:\\ (\\text{좌변})=1+3=4,\\ (\\text{우변})=2^2=4\\)</div><div class=\"derive-line\">\\(\\displaystyle n=3:\\ (\\text{좌변})=1+3+5=9,\\ (\\text{우변})=3^2=9\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">증명의 두 단계</span><div class=\"formula-math\">\\[\\text{(i) }n=1\\text{일 때 성립}\\qquad \\text{(ii) }p(k)\\text{ 성립}\\Rightarrow p(k+1)\\text{ 성립}\\]</div></div><div class=\"note\">(i)은 출발점, (ii)는 한 단계에서 다음 단계로 넘어가는 연결고리이다. <b>둘 중 하나라도 빠지면</b> 모든 자연수에서의 성립을 보장할 수 없다.</div></div>"}, {"topic": "수학적 귀납법", "no": 2, "title": "수학적 귀납법을 이용한 등식의 증명", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">증명 순서</div><div class=\"def-body\"><b>(i)</b> 주어진 등식에 \\(n=1\\)을 대입하여 (좌변)\\(=\\)(우변)임을 확인한다.<br><b>(ii)</b> \\(n=k\\)일 때 등식이 성립한다고 가정한 식의 <b>양변에 적당한 수나 식을 더하여</b>, \\(n=k+1\\)을 대입한 식의 꼴이 나오도록 정리한다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">등식 \\(1+3+5+\\cdots+(2n-1)=n^2\\)을 수학적 귀납법으로 증명해 보자.</p><div class=\"derive\"><div class=\"derive-title\">증명</div><div class=\"derive-line\">\\(\\displaystyle \\text{(i) }n=1:\\ (\\text{좌변})=1,\\ (\\text{우변})=1^2=1\\ \\Rightarrow\\ \\text{성립}\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{(ii) }n=k\\text{ 가정}:\\ 1+3+\\cdots+(2k-1)=k^2\\)</div><div class=\"derive-line\">\\(\\displaystyle \\text{양변에 }(2k+1)\\text{을 더하면}\\)</div><div class=\"derive-line\">\\(\\displaystyle 1+3+\\cdots+(2k-1)+(2k+1)=k^2+(2k+1)=(k+1)^2\\)</div><div class=\"derive-rule\">따라서 \\(n=k+1\\)일 때도 성립하므로 모든 자연수 \\(n\\)에서 성립한다.</div></div><div class=\"note\">명제 \\(p(k)\\)가 성립한다고 가정하고 \\(p(k+1)\\)을 보일 때, \\(p(k)\\)의 양변에 같은 값을 더하거나 곱하여 \\(p(k+1)\\) 꼴로 나타내어지는 식을 만든다.</div></div>"}, {"topic": "수학적 귀납법", "no": 3, "title": "\\(n\\ge m\\)에서의 수학적 귀납법", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">\\(n\\ge m\\)인 경우</div><div class=\"def-body\">명제 \\(p(n)\\)이 \\(n\\ge m\\) (\\(m\\)은 \\(2\\) 이상의 자연수)인 모든 자연수 \\(n\\)에 대하여 성립함을 증명하려면 다음을 보이면 된다.<br><b>(i)</b> \\(n=m\\)일 때, 명제 \\(p(m)\\)이 성립한다.<br><b>(ii)</b> \\(n=k\\,(k\\ge m)\\)일 때 \\(p(k)\\)가 성립한다고 가정하면 \\(n=k+1\\)일 때도 \\(p(k+1)\\)이 성립한다.</div></div></div>\n<div class=\"concept-body\"><p class=\"prose\">수학적 귀납법은 모든 자연수가 아니라 \\(m\\) 이상의 자연수에 대한 명제를 증명할 때에도 쓰인다. 이때는 <b>출발점을 \\(n=1\\)이 아니라 \\(n=m\\)으로</b> 잡는다는 점만 다르다.</p><div class=\"formula\"><span class=\"formula-tag\">출발점이 \\(m\\)</span><div class=\"formula-math\">\\[\\text{(i) }n=m\\text{일 때 성립}\\qquad \\text{(ii) }k\\ge m\\text{에서 }p(k)\\Rightarrow p(k+1)\\]</div></div><div class=\"note\">증명하려는 부등식이 작은 자연수에서는 성립하지 않을 수 있다. 예를 들어 \\(n!>2^n\\)은 \\(n=1,\\ 2,\\ 3\\)에서는 성립하지 않고 \\(n\\ge 4\\)에서만 성립한다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(n\\ge 4\\)에서 \\(n!>2^n\\) 증명: \\(n=4\\)일 때 \\(4!=24>2^4=16\\)이고, \\(n=k\\,(k\\ge 4)\\)에서 \\(k!>2^k\\)을 가정하면 양변에 \\((k+1)\\)을 곱하여 \\((k+1)!>2^k(k+1)>2^k\\times2=2^{k+1}\\) \\(\\bigl(\\)∵ \\(k+1\\ge 5>2\\bigr)\\)이므로 \\(n=k+1\\)일 때도 성립한다.</li></ol></div></div>"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅲ. 수열 — 10. 수학적 귀납법", "source": "대수 (본책, 교사용) · 대표 예제", "count": 9, "examples": [{"no": 1, "topic": "수열의 귀납적 정의", "title": "등차수열의 귀납적 정의", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["수열 \\(\\{a_n\\}\\)이 \\(a_1=20\\)이고 모든 자연수 \\(n\\)에 대하여 \\(a_{n+1}-a_n=2\\)를 만족시킬 때, \\(a_k=40\\)을 만족시키는 자연수 \\(k\\)의 값을 구하시오.", "수열 \\(\\{a_n\\}\\)이 모든 자연수 \\(n\\)에 대하여 \\(a_{n+2}-a_{n+1}=a_{n+1}-a_n\\)이고 \\(a_4=16,\\ a_8=36\\)일 때, \\(a_{10}\\)의 값을 구하시오."], "approach": ["⑴ 두 항 사이의 차가 \\(2\\)로 일정하므로 공차가 \\(2\\)인 등차수열이다.", "⑵ \\(a_{n+2}-a_{n+1}=a_{n+1}-a_n\\)에서 \\(2a_{n+1}=a_n+a_{n+2}\\)이므로 등차수열이다."], "solution": ["⑴ \\(a_{n+1}-a_n=2\\)에서 공차가 \\(2\\), 첫째항이 \\(20\\)인 등차수열이므로", "\\(a_n=20+(n-1)\\times2=2n+18\\)", "\\(a_k=40\\)에서 \\(2k+18=40,\\ 2k=22\\)", "\\(\\therefore\\ k=11\\)", "⑵ \\(a_{n+2}-a_{n+1}=a_{n+1}-a_n\\)에서 \\(\\{a_n\\}\\)은 등차수열이므로", "첫째항을 \\(a\\), 공차를 \\(d\\)라 하면", "\\(a_4=a+3d=16\\)", "\\(a_8=a+7d=36\\)", "두 식을 연립하면 \\(a=1,\\ d=5\\)이므로", "\\(a_n=1+(n-1)\\times5=5n-4\\)", "\\(\\therefore\\ a_{10}=5\\times10-4=46\\)"], "alt_solution": [], "answer": "⑴ \\(11\\)　⑵ \\(46\\)", "bible": "등차수열의 귀납적 정의는 ① \\(a_{n+1}-a_n=d\\) (등차수열의 뜻), ② \\(2a_{n+1}=a_n+a_{n+2}\\) (등차중항) 두 가지다. 두 항의 차가 일정하면 ①, 가운데 항을 이웃 두 항으로 나타낸 식이면 ②로 본다."}, {"no": 2, "topic": "수열의 귀납적 정의", "title": "등비수열의 귀납적 정의", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["수열 \\(\\{a_n\\}\\)이 \\(a_1=\\dfrac{1}{5}\\)이고 모든 자연수 \\(n\\)에 대하여 \\(\\dfrac{a_{n+1}}{a_n}=25\\)를 만족시킬 때, \\(a_k=5^{21}\\)을 만족시키는 자연수 \\(k\\)의 값을 구하시오.", "수열 \\(\\{a_n\\}\\)이 모든 자연수 \\(n\\)에 대하여 \\(\\dfrac{a_{n+2}}{a_{n+1}}=\\dfrac{a_{n+1}}{a_n}\\)이고 \\(a_2=6,\\ a_3=12\\)일 때, \\(\\dfrac{a_{20}}{a_{15}}\\)의 값을 구하시오."], "approach": ["⑴ 두 항 사이의 비가 \\(25\\)로 일정하므로 공비가 \\(25\\)인 등비수열이다.", "⑵ \\(\\dfrac{a_{n+2}}{a_{n+1}}=\\dfrac{a_{n+1}}{a_n}\\)에서 \\(a_{n+1}{}^{2}=a_n a_{n+2}\\)이므로 등비수열이다."], "solution": ["⑴ 공비가 \\(25\\), 첫째항이 \\(\\dfrac{1}{5}\\)인 등비수열이므로", "\\(a_n=\\dfrac{1}{5}\\times25^{\\,n-1}=5^{-1}\\times(5^2)^{n-1}=5^{\\,2n-3}\\)", "\\(a_k=5^{21}\\)에서 \\(5^{\\,2k-3}=5^{21}\\)", "\\(2k-3=21,\\ 2k=24\\)", "\\(\\therefore\\ k=12\\)", "⑵ \\(\\{a_n\\}\\)이 등비수열이므로 공비를 \\(r\\)라 하면", "\\(r=\\dfrac{a_3}{a_2}=\\dfrac{12}{6}=2\\)", "\\(\\therefore\\ \\dfrac{a_{20}}{a_{15}}=\\dfrac{a_1 r^{19}}{a_1 r^{14}}=r^5=2^5=32\\)"], "alt_solution": [], "answer": "⑴ \\(12\\)　⑵ \\(32\\)", "bible": "등비수열의 귀납적 정의는 ① \\(\\dfrac{a_{n+1}}{a_n}=r\\), ② \\(a_{n+1}{}^{2}=a_n a_{n+2}\\) (등비중항)이다. 같은 수열의 두 항의 비 \\(\\dfrac{a_{20}}{a_{15}}\\)는 공비의 거듭제곱 \\(r^{20-15}=r^5\\)으로 정리된다."}, {"no": 3, "topic": "수열의 귀납적 정의", "title": "여러 가지 점화식 ─ 합꼴", "problem_intro": "수열 \\(\\{a_n\\}\\)이 \\(a_1=1\\)이고 모든 자연수 \\(n\\)에 대하여 \\(a_{n+1}=a_n+3n+3\\)을 만족시킬 때, \\(a_{10}\\)의 값을 구하시오.", "problem_parts": [], "approach": ["\\(a_{n+1}=a_n+f(n)\\) 꼴이므로 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ 9\\)를 차례로 대입한 후 변끼리 더한다."], "solution": ["\\(a_{n+1}=a_n+3n+3\\)의 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ 9\\)를 대입한 후 변끼리 더하면", "\\(a_{10}=a_1+3(1+2+\\cdots+9)+3\\times9\\)", "\\(=1+3\\times\\dfrac{9\\times10}{2}+3\\times9\\)", "\\(=1+135+27=163\\)"], "alt_solution": [], "answer": "\\(163\\)", "bible": "\\(a_{n+1}=a_n+f(n)\\) 꼴은 \\(n\\)에 \\(1\\)부터 \\(n-1\\)까지 대입해 변끼리 더하면 \\(a_n=a_1+\\sum_{k=1}^{n-1}f(k)\\)이다. \\(3n+3\\)은 일정하지 않으므로 등차수열이 아님에 주의한다."}, {"no": 4, "topic": "수열의 귀납적 정의", "title": "여러 가지 점화식 ─ 곱꼴", "problem_intro": "수열 \\(\\{a_n\\}\\)이 \\(a_1=3\\)이고 모든 자연수 \\(n\\)에 대하여 \\(a_{n+1}=\\dfrac{n+1}{n}\\,a_n\\)을 만족시킬 때, \\(a_{15}\\)의 값을 구하시오.", "problem_parts": [], "approach": ["\\(a_{n+1}=a_n\\,f(n)\\) 꼴이므로 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ 14\\)를 차례로 대입한 후 변끼리 곱한다."], "solution": ["\\(a_{n+1}=\\dfrac{n+1}{n}\\,a_n\\)의 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots,\\ 14\\)를 대입한 후 변끼리 곱하면", "\\(a_{15}=a_1\\times\\dfrac{2}{1}\\times\\dfrac{3}{2}\\times\\dfrac{4}{3}\\times\\cdots\\times\\dfrac{15}{14}\\)　（분모와 분자가 차례로 약분된다）", "\\(=3\\times15=45\\)"], "alt_solution": [], "answer": "\\(45\\)", "bible": "\\(a_{n+1}=a_n\\,f(n)\\) 꼴은 변끼리 곱하면 \\(a_n=a_1\\times f(1)\\times f(2)\\times\\cdots\\times f(n-1)\\)이다. \\(\\dfrac{n+1}{n}\\)은 일정하지 않으므로 등비수열이 아님에 주의한다."}, {"no": 5, "topic": "수열의 귀납적 정의", "title": "점화식과 \\(S_n\\)", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["수열 \\(\\{a_n\\}\\)이 \\(a_1=3\\)이고 모든 자연수 \\(n\\)에 대하여 \\(a_{n+1}=3a_n-5\\)를 만족시킬 때, \\(a_5\\)의 값을 구하시오.", "수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하면 \\(S_1=1,\\ S_n=2a_n-1\\ (n=1,\\ 2,\\ 3,\\ \\cdots)\\)이 성립한다. \\(a_4\\)의 값을 구하시오."], "approach": ["⑴ 앞의 합·곱꼴이 아니면 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots\\)을 차례로 대입한다.", "⑵ \\(S_1=a_1,\\ S_n-S_{n-1}=a_n\\,(n\\ge 2)\\)임을 이용한다."], "solution": ["⑴ \\(a_{n+1}=3a_n-5\\)의 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ 4\\)를 차례로 대입하면", "\\(a_2=3\\times3-5=4\\)", "\\(a_3=3\\times4-5=7\\)", "\\(a_4=3\\times7-5=16\\)", "\\(\\therefore\\ a_5=3\\times16-5=43\\)", "⑵ \\(S_n=2a_n-1\\)의 \\(n\\)에 \\(n+1\\)을 대입하면 \\(S_{n+1}=2a_{n+1}-1\\)", "\\(S_{n+1}-S_n=2a_{n+1}-2a_n\\)", "이때 \\(S_{n+1}-S_n=a_{n+1}\\)이므로", "\\(a_{n+1}=2a_{n+1}-2a_n\\ \\therefore\\ a_{n+1}=2a_n\\)", "따라서 \\(\\{a_n\\}\\)은 첫째항이 \\(S_1=a_1=1\\), 공비가 \\(2\\)인 등비수열이므로", "\\(a_n=1\\times2^{\\,n-1}=2^{\\,n-1}\\)", "\\(\\therefore\\ a_4=2^3=8\\)"], "alt_solution": [], "answer": "⑴ \\(43\\)　⑵ \\(8\\)", "bible": "\\(S_n\\)과 \\(a_n\\)이 섞인 식은 \\(S_1=a_1,\\ S_n-S_{n-1}=a_n\\,(n\\ge 2)\\)으로 \\(a_n\\) 사이의 관계식으로 바꾼다. ⑵는 \\(n=2,\\ 3,\\ 4\\)를 차례로 대입해 \\(a_2=2,\\ a_3=4,\\ a_4=8\\)로 직접 구할 수도 있다."}, {"no": 6, "topic": "수열의 귀납적 정의", "title": "경우에 따라 정의된 수열", "problem_intro": "수열 \\(\\{a_n\\}\\)은 \\(a_1=5\\)이고 모든 자연수 \\(n\\)에 대하여 \\(a_{n+1}=a_n-3\\) (\\(n\\)이 홀수), \\(a_{n+1}=-a_n+4\\) (\\(n\\)이 짝수)를 만족시킨다. \\(a_{97}\\times a_{99}\\)의 값을 구하시오.", "problem_parts": [], "approach": ["경우에 따라 다르게 정의된 수열은 \\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots\\)을 차례로 대입하여 반복되는 규칙을 찾는다."], "solution": ["\\(n\\)에 \\(1,\\ 2,\\ 3,\\ \\cdots\\)을 차례로 대입하면", "\\(a_2=a_1-3=5-3=2\\)", "\\(a_3=-a_2+4=-2+4=2\\)", "\\(a_4=a_3-3=2-3=-1\\)", "\\(a_5=-a_4+4=-(-1)+4=5\\)", "따라서 \\(\\{a_n\\}\\)은 \\(5,\\ 2,\\ 2,\\ -1\\)이 이 순서로 반복된다.", "\\(97=4\\times24+1\\)이므로 \\(a_{97}=a_1=5\\)", "\\(99=4\\times24+3\\)이므로 \\(a_{99}=a_3=2\\)", "\\(\\therefore\\ a_{97}\\times a_{99}=5\\times2=10\\)"], "alt_solution": [], "answer": "\\(10\\)", "bible": "번호가 큰 항을 구하는 문제는 항이 주기적으로 반복되는 경우가 많다. 규칙이 나올 때까지 차례로 대입한 뒤, 항의 번호를 주기로 나눈 나머지로 같은 항을 찾는다. 여기서는 주기가 \\(4\\)이다."}, {"no": 7, "topic": "수열의 귀납적 정의", "title": "귀납적 정의의 활용", "problem_intro": "어떤 자동차에 \\(32\\,\\text{L}\\)의 휘발유가 들어 있다. 전날 들어 있던 휘발유의 반을 사용하고 \\(8\\,\\text{L}\\)의 휘발유를 새로 넣는 시행을 매일 반복할 때, \\(n\\)일 후 자동차에 들어 있는 휘발유의 양은 \\(a_n\\,\\text{L}\\)이다. \\(a_6\\)의 값을 구하시오.", "problem_parts": [], "approach": ["제\\(n\\)항과 제\\((n+1)\\)항 사이의 관계를 식으로 나타낸 뒤 차례로 대입한다."], "solution": ["\\(1\\)일 후 휘발유의 양은", "\\(a_1=32\\times\\dfrac{1}{2}+8=24\\)", "\\((n+1)\\)일 후 휘발유의 양은", "\\(a_{n+1}=\\dfrac{1}{2}a_n+8\\)", "\\(n\\)에 \\(1,\\ 2,\\ 3,\\ 4,\\ 5\\)를 차례로 대입하면", "\\(a_2=\\dfrac{1}{2}\\times24+8=20\\)", "\\(a_3=\\dfrac{1}{2}\\times20+8=18\\)", "\\(a_4=\\dfrac{1}{2}\\times18+8=17\\)", "\\(a_5=\\dfrac{1}{2}\\times17+8=\\dfrac{33}{2}\\)", "\\(\\therefore\\ a_6=\\dfrac{1}{2}\\times\\dfrac{33}{2}+8=\\dfrac{65}{4}\\)"], "alt_solution": [], "answer": "\\(\\dfrac{65}{4}\\)", "bible": "활용 문제는 ① 첫째항과 \\(a_n,\\ a_{n+1}\\) 사이의 관계식을 세우고 ② 학습한 꼴이면 일반항을, 아니면 차례로 대입해 답을 구한다. ‘반을 쓰고 \\(8\\,\\text{L}\\)를 넣는다’는 조건이 \\(a_{n+1}=\\dfrac{1}{2}a_n+8\\)로 옮겨진다."}, {"no": 1, "topic": "수학적 귀납법", "title": "등식의 증명", "problem_intro": "모든 자연수 \\(n\\)에 대하여 등식 \\(1^3+2^3+3^3+\\cdots+n^3=\\left(\\dfrac{n(n+1)}{2}\\right)^2\\)이 성립함을 수학적 귀납법으로 증명하시오.", "problem_parts": [], "approach": ["① \\(n=1\\)을 대입하여 등식이 성립하는지 확인한다.", "② \\(n=k\\)일 때 성립을 가정하고 양변에 \\((k+1)^3\\)을 더해 \\(n=k+1\\)일 때도 성립함을 보인다."], "solution": ["\\((\\,\\mathrm{i}\\,)\\) \\(n=1\\)일 때", "\\((\\text{좌변})=1^3=1,\\ (\\text{우변})=\\left(\\dfrac{1\\times2}{2}\\right)^2=1\\)", "이므로 \\(n=1\\)일 때 등식이 성립한다.", "\\((\\,\\mathrm{ii}\\,)\\) \\(n=k\\)일 때 등식이 성립한다고 가정하면", "\\(1^3+2^3+\\cdots+k^3=\\left(\\dfrac{k(k+1)}{2}\\right)^2\\)", "양변에 \\((k+1)^3\\)을 더하면", "\\(1^3+2^3+\\cdots+k^3+(k+1)^3\\)", "\\(=\\left(\\dfrac{k(k+1)}{2}\\right)^2+(k+1)^3\\)", "\\(=\\dfrac{(k+1)^2}{4}\\{k^2+4(k+1)\\}\\)", "\\(=\\dfrac{(k+1)^2(k+2)^2}{4}=\\left(\\dfrac{(k+1)(k+2)}{2}\\right)^2\\)", "이므로 \\(n=k+1\\)일 때도 등식이 성립한다.", "\\((\\,\\mathrm{i}\\,),\\ (\\,\\mathrm{ii}\\,)\\)에서 모든 자연수 \\(n\\)에 대하여 등식이 성립한다."], "alt_solution": [], "answer": "풀이 참조", "bible": "\\(n=k\\) 가정식의 양변에 적당한 수나 식을 더하거나 곱하여, \\(n=k+1\\)을 대입한 식의 꼴이 나오도록 정리하는 것이 핵심이다. 목표는 우변에 \\(n=k+1\\)을 넣은 \\(\\left(\\dfrac{(k+1)(k+2)}{2}\\right)^2\\) 꼴이다."}, {"no": 2, "topic": "수학적 귀납법", "title": "부등식의 증명", "problem_intro": "\\(n\\ge 5\\)인 모든 자연수 \\(n\\)에 대하여 부등식 \\(2^n>n^2\\)이 성립함을 수학적 귀납법으로 증명하시오.", "problem_parts": [], "approach": ["① \\(n=5\\)를 대입하여 부등식이 성립하는지 확인한다.", "② \\(n=k\\,(k\\ge 5)\\)일 때 성립을 가정하고 양변에 \\(2\\)를 곱해 \\(n=k+1\\)일 때도 성립함을 보인다."], "solution": ["\\((\\,\\mathrm{i}\\,)\\) \\(n=5\\)일 때", "\\((\\text{좌변})=2^5=32,\\ (\\text{우변})=5^2=25\\)", "\\(32>25\\)이므로 \\(n=5\\)일 때 부등식이 성립한다.", "\\((\\,\\mathrm{ii}\\,)\\) \\(n=k\\,(k\\ge 5)\\)일 때 부등식이 성립한다고 가정하면", "\\(2^k>k^2\\)", "양변에 \\(2\\)를 곱하면", "\\(2^{k+1}>2k^2\\)　⋯⋯ ㉠", "한편 \\(k\\ge 5\\)이면 \\(k^2-2k-1=(k-1)^2-2>0\\)이므로", "\\(k^2>2k+1\\)　⋯⋯ ㉡", "㉠, ㉡에서", "\\(2^{k+1}>2k^2=k^2+k^2\\)", "\\(>k^2+(2k+1)=(k+1)^2\\)", "이므로 \\(n=k+1\\)일 때도 부등식이 성립한다.", "\\((\\,\\mathrm{i}\\,),\\ (\\,\\mathrm{ii}\\,)\\)에서 \\(n\\ge 5\\)인 모든 자연수 \\(n\\)에 대하여 부등식이 성립한다."], "alt_solution": [], "answer": "풀이 참조", "bible": "\\(n\\ge m\\)에서의 증명은 출발점을 \\(n=m\\)으로 한다. 가정식 \\(2^k>k^2\\)의 양변에 \\(2\\)를 곱한 뒤, \\(k\\ge 5\\)에서 성립하는 보조 부등식 \\(k^2>2k+1\\)을 함께 사용해 \\((k+1)^2\\) 꼴을 만든다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '수학적 귀납법';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['수열의 귀납적 정의','수열의 귀납적 정의','ar'],['수학적 귀납법','수학적 귀납법','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

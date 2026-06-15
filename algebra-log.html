@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>로그 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅰ. 지수함수와 로그함수 · 02단원</div>
+        <h1>로그</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "로그의 뜻", "no": 1, "title": "로그의 정의", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">로그의 정의</div>\n    <div class=\"def-body\">\\(a\\gt0,\\ a\\neq1\\)일 때, 양수 \\(N\\)에 대하여 \\(a^{x}=N\\)을 만족시키는 실수 \\(x\\)를 \\(\\log_a N\\)으로 나타내고, \\(a\\)를 밑으로 하는 \\(N\\)의 <b>로그</b>라 한다. 이때 \\(N\\)을 \\(\\log_a N\\)의 <b>진수</b>라 한다.</div>\n  </div>\n  <div class=\"def-row\">\n    <div class=\"def-label\">지수 ↔ 로그</div>\n    <div class=\"def-body\">$$a^{x}=N \\iff x=\\log_a N$$</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <p class=\"prose\">거듭제곱에서 \\(2^{x}=8\\)이면 \\(x=3\\)임을 쉽게 알 수 있다. 그런데 \\(2^{x}=7\\)을 만족시키는 \\(x\\)는 \\(2\\)와 \\(3\\) 사이의 어떤 수임은 알지만 그 값을 정확히 나타낼 수 없다. 이런 \\(x\\)를 나타내기 위해 로그를 쓴다.</p>\n  <div class=\"formula\">\n    <span class=\"formula-tag\">지수꼴 ↔ 로그꼴</span>\n    <div class=\"formula-math\">\\[2^{x}=7 \\iff x=\\log_2 7\\]</div>\n  </div>\n  <div class=\"note\">\\(\\log\\)는 logarithm의 약자이고 '로그'라 읽는다. \\(\\log_a N\\)에서 \\(a\\)는 <b>밑</b>, \\(N\\)은 <b>진수</b>이다. 또 \\(2^{x}=8\\)에서 \\(\\log_2 8=3\\)이다.</div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기 ① 지수꼴 ↔ 로그꼴</span>\n    <ol class=\"example-list\">\n      <li>\\(5^{2}=25 \\iff 2=\\log_5 25\\)</li>\n      <li>\\(2^{-4}=\\dfrac{1}{16} \\iff -4=\\log_2 \\dfrac{1}{16}\\)</li>\n      <li>\\(2=\\log_6 36 \\iff 6^{2}=36\\)</li>\n      <li>\\(-3=\\log_{\\frac{1}{3}} 27 \\iff \\left(\\dfrac{1}{3}\\right)^{-3}=27\\)</li>\n    </ol>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기 ② 로그의 값</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log_2 32=x\\)라 하면 \\(2^{x}=32=2^{5}\\)이므로 \\(x=5\\). 즉 \\(\\log_2 32=5\\)</li>\n      <li>\\(\\log_3 \\dfrac{1}{81}=x\\)라 하면 \\(3^{x}=\\dfrac{1}{81}=3^{-4}\\)이므로 \\(x=-4\\). 즉 \\(\\log_3 \\dfrac{1}{81}=-4\\)</li>\n    </ol>\n  </div>\n</div>\n"}, {"topic": "로그의 뜻", "no": 2, "title": "로그의 밑과 진수의 조건", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">정의 조건</div>\n    <div class=\"def-body\">\\(\\log_a N\\)이 정의되려면 밑 \\(a\\)와 진수 \\(N\\)이 다음 조건을 만족해야 한다.<br>⑴ 밑의 조건: \\(a\\gt0,\\ a\\neq1\\)<br>⑵ 진수의 조건: \\(N\\gt0\\)</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <p class=\"prose\">왜 이런 조건이 필요한지, 등식 \\(a^{x}=N\\)을 만족시키는 \\(x\\)가 존재하는지로 따져 보자.</p>\n  <div class=\"derive\">\n    <div class=\"derive-title\">밑의 조건 \\(a\\gt0,\\ a\\neq1\\)이 필요한 이유</div>\n    <div class=\"derive-line\">\\(a\\lt0\\): \\(\\log_{-2}8=x\\)에서 \\((-2)^{x}=8\\) → 만족하는 \\(x\\) 없음</div>\n    <div class=\"derive-line\">\\(a=0\\): \\(\\log_{0}8=x\\)에서 \\(0^{x}=8\\) → 만족하는 \\(x\\) 없음</div>\n    <div class=\"derive-line\">\\(a=1\\): \\(\\log_{1}8=x\\)에서 \\(1^{x}=8\\) → \\(1^{x}=1\\)이라 불가능</div>\n  </div>\n  <div class=\"derive\">\n    <div class=\"derive-title\">진수의 조건 \\(N\\gt0\\)이 필요한 이유</div>\n    <div class=\"derive-line\">\\(N\\lt0\\): \\(\\log_{2}(-5)=x\\)에서 \\(2^{x}=-5\\) → 불가능</div>\n    <div class=\"derive-line\">\\(N=0\\): \\(\\log_{2}0=x\\)에서 \\(2^{x}=0\\) → 불가능</div>\n    <div class=\"derive-rule\"></div>\n    <div class=\"derive-line\">\\(x\\)가 실수일 때 \\(a^{x}\\gt0\\)이기 때문 (단, \\(a\\gt0\\))</div>\n  </div>\n  <div class=\"note\">앞으로 특별한 말이 없어도 \\(\\log_a N\\)이 나오면 밑의 조건 \\(a\\gt0,\\ a\\neq1\\)과 진수의 조건 \\(N\\gt0\\)을 모두 만족하는 것으로 본다.</div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기 · 정의되기 위한 범위</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log_{x-2}3\\) : 밑에서 \\(x-2\\gt0,\\ x-2\\neq1\\) → \\(2\\lt x\\lt3\\) 또는 \\(x\\gt3\\)</li>\n      <li>\\(\\log_{5}(x+7)\\) : 진수에서 \\(x+7\\gt0\\) → \\(x\\gt-7\\)</li>\n      <li>\\(\\log_{x+2}(4-x)\\) : 밑에서 \\(-2\\lt x\\lt-1\\) 또는 \\(x\\gt-1\\), 진수에서 \\(x\\lt4\\) → \\(-2\\lt x\\lt-1\\) 또는 \\(-1\\lt x\\lt4\\)</li>\n    </ol>\n  </div>\n</div>\n"}, {"topic": "로그의 성질", "no": 1, "title": "로그의 성질", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">기본 성질</div>\n    <div class=\"def-body\">\\(a\\gt0,\\ a\\neq1,\\ M\\gt0,\\ N\\gt0\\)일 때 다음이 성립한다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <div class=\"formula\">\n    <span class=\"formula-tag\">로그의 성질</span>\n    <div class=\"formula-math\">\\[\\begin{aligned}\n      &(1)\\ \\ \\log_a 1=0,\\quad \\log_a a=1\\\\[2pt]\n      &(2)\\ \\ \\log_a MN=\\log_a M+\\log_a N\\\\[2pt]\n      &(3)\\ \\ \\log_a \\dfrac{M}{N}=\\log_a M-\\log_a N\\\\[2pt]\n      &(4)\\ \\ \\log_a M^{k}=k\\log_a M\\quad(k\\text{는 실수})\n    \\end{aligned}\\]</div>\n  </div>\n  <div class=\"derive\">\n    <div class=\"derive-title\">성질의 유도</div>\n    <div class=\"derive-line\">\\((1)\\) \\(a^{0}=1,\\ a^{1}=a\\)이므로 \\(\\log_a 1=0,\\ \\log_a a=1\\)</div>\n    <div class=\"derive-line\">\\((2)(3)\\) \\(\\log_a M=m,\\ \\log_a N=n\\)이라 하면 \\(a^{m}=M,\\ a^{n}=N\\)</div>\n    <div class=\"derive-line\">\\(MN=a^{m+n},\\quad \\dfrac{M}{N}=a^{m-n}\\)이므로</div>\n    <div class=\"derive-line\">\\(\\log_a MN=m+n,\\quad \\log_a \\dfrac{M}{N}=m-n\\)</div>\n    <div class=\"derive-line\">\\((4)\\) \\(M^{k}=(a^{m})^{k}=a^{km}\\)이므로 \\(\\log_a M^{k}=km=k\\log_a M\\)</div>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log_3 3+\\log_7 1=1+0=1\\)</li>\n      <li>\\(\\log_2 6+\\log_2 \\dfrac{1}{24}=\\log_2 \\dfrac{1}{4}=\\log_2 2^{-2}=-2\\)</li>\n      <li>\\(\\log_5 75-\\log_5 3=\\log_5 25=\\log_5 5^{2}=2\\)</li>\n    </ol>\n  </div>\n  <div class=\"note\"><b>자주 하는 실수</b><br>\\(\\log_a 1\\neq1\\) (실제로 \\(=0\\))<br>\\(\\log_a (M+N)\\neq\\log_a M+\\log_a N\\)<br>\\(\\log_a M\\times\\log_a N\\neq\\log_a MN\\)<br>\\((\\log_a M)^{k}\\neq k\\log_a M\\)</div>\n</div>\n"}, {"topic": "로그의 성질", "no": 2, "title": "로그의 밑의 변환", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">밑의 변환</div>\n    <div class=\"def-body\">\\(a\\gt0,\\ a\\neq1,\\ b\\gt0\\)일 때 밑을 다른 수로 바꿀 수 있다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <div class=\"formula\">\n    <span class=\"formula-tag\">밑의 변환</span>\n    <div class=\"formula-math\">\\[\\begin{aligned}\n      &(1)\\ \\ \\log_a b=\\dfrac{\\log_c b}{\\log_c a}\\quad(c\\gt0,\\ c\\neq1)\\\\[4pt]\n      &(2)\\ \\ \\log_a b=\\dfrac{1}{\\log_b a}\\quad(b\\neq1)\n    \\end{aligned}\\]</div>\n  </div>\n  <div class=\"derive\">\n    <div class=\"derive-title\">밑의 변환 유도</div>\n    <div class=\"derive-line\">\\(\\log_a b=m,\\ \\log_c a=n\\)이라 하면 \\(b=a^{m},\\ a=c^{n}\\)</div>\n    <div class=\"derive-line\">\\(b=a^{m}=(c^{n})^{m}=c^{mn}\\)이므로 \\(mn=\\log_c b\\)</div>\n    <div class=\"derive-line\">\\(\\log_a b\\times\\log_c a=\\log_c b\\)</div>\n    <div class=\"derive-line\">양변을 \\(\\log_c a\\,(\\neq0)\\)로 나누면 \\(\\log_a b=\\dfrac{\\log_c b}{\\log_c a}\\)</div>\n    <div class=\"derive-rule\"></div>\n    <div class=\"derive-line\">\\((2)\\)는 \\(c=b\\) 대입: \\(\\log_a b=\\dfrac{\\log_b b}{\\log_b a}=\\dfrac{1}{\\log_b a}\\)</div>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기</span>\n    <ol class=\"example-list\">\n      <li>\\(\\dfrac{\\log_2 49}{\\log_2 7}=\\log_7 49=\\log_7 7^{2}=2\\)</li>\n      <li>\\(\\log_3 6-\\dfrac{1}{\\log_2 3}=\\log_3 6-\\log_3 2=\\log_3 3=1\\)</li>\n      <li>\\(\\log_3 4\\times\\log_4 5\\times\\log_5 3=1\\)</li>\n    </ol>\n  </div>\n</div>\n"}, {"topic": "로그의 성질", "no": 3, "title": "로그의 여러 가지 성질", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">여러 가지 성질</div>\n    <div class=\"def-body\">\\(a\\gt0,\\ a\\neq1,\\ b\\gt0\\)일 때 다음이 성립한다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <div class=\"formula\">\n    <span class=\"formula-tag\">여러 가지 성질</span>\n    <div class=\"formula-math\">\\[\\begin{aligned}\n      &(1)\\ \\ \\log_a b\\times\\log_b a=1\\quad(b\\neq1)\\\\[2pt]\n      &(2)\\ \\ \\log_{a^{m}} b^{n}=\\dfrac{n}{m}\\log_a b\\quad(m\\neq0)\\\\[2pt]\n      &(3)\\ \\ a^{\\log_a b}=b\\\\[2pt]\n      &(4)\\ \\ a^{\\log_c b}=b^{\\log_c a}\\quad(c\\gt0,\\ c\\neq1)\n    \\end{aligned}\\]</div>\n  </div>\n  <div class=\"derive\">\n    <div class=\"derive-title\">성질의 유도</div>\n    <div class=\"derive-line\">\\((1)\\) \\(\\log_a b\\times\\log_b a=\\log_a b\\times\\dfrac{1}{\\log_a b}=1\\)</div>\n    <div class=\"derive-line\">\\((2)\\) \\(\\log_{a^{m}} b^{n}=\\dfrac{\\log_a b^{n}}{\\log_a a^{m}}=\\dfrac{n\\log_a b}{m}=\\dfrac{n}{m}\\log_a b\\)</div>\n    <div class=\"derive-line\">\\((3)\\) \\(x=a^{\\log_a b}\\)에 \\(\\log_a\\)를 취하면 \\(\\log_a x=\\log_a b\\) → \\(x=b\\)</div>\n    <div class=\"derive-line\">\\((4)\\) \\(a=c^{\\log_c a}\\)이므로 \\(a^{\\log_c b}=c^{\\log_c a\\cdot\\log_c b}=b^{\\log_c a}\\)</div>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log_2 9\\times\\log_3 2=2\\log_2 3\\times\\log_3 2=2\\)</li>\n      <li>\\(\\log_4 9=\\log_{2^{2}} 3^{2}=\\log_2 3\\)</li>\n      <li>\\(2^{\\log_2 \\sqrt5}=\\sqrt5\\)</li>\n      <li>\\(8^{\\log_4 5}=5^{\\log_4 8}=5^{\\frac{3}{2}}=5\\sqrt5\\)</li>\n    </ol>\n  </div>\n</div>\n"}, {"topic": "상용로그", "no": 1, "title": "상용로그", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">상용로그</div>\n    <div class=\"def-body\">양수 \\(N\\)에 대하여 \\(10\\)을 밑으로 하는 로그 \\(\\log_{10} N\\)을 <b>상용로그</b>라 하고, 보통 밑 \\(10\\)을 생략하여 \\(\\log N\\)으로 나타낸다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <p class=\"prose\">우리는 수를 일·십·백의 자리처럼 \\(10\\)의 거듭제곱을 자릿수로 나타내므로, \\(10\\)을 밑으로 하는 로그가 편리하다. \\(\\log 10^{n}=n\\)이므로 \\(10^{n}\\) 꼴의 상용로그는 로그의 성질로 쉽게 구한다.</p>\n  <div class=\"example\">\n    <span class=\"example-label\">보기</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log 10=\\log_{10} 10=1\\)</li>\n      <li>\\(\\log 1000=\\log_{10} 10^{3}=3\\)</li>\n      <li>\\(\\log 0.1=\\log_{10} 10^{-1}=-1\\)</li>\n      <li>\\(\\log \\sqrt{10}=\\log_{10} 10^{\\frac{1}{2}}=\\dfrac{1}{2}\\)</li>\n    </ol>\n  </div>\n  <div class=\"note\">진수 \\(N\\)이 \\(10\\)배, \\(100\\)배, \\(1000\\)배, … 씩 커지면 상용로그 \\(\\log N\\)의 값은 \\(1,\\ 2,\\ 3,\\ \\dots\\) 씩 커진다.</div>\n</div>\n"}, {"topic": "상용로그", "no": 2, "title": "상용로그표", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">상용로그표</div>\n    <div class=\"def-body\">\\(0.01\\) 간격으로 \\(1.00\\)부터 \\(9.99\\)까지의 수에 대한 상용로그의 값을 반올림하여 소수점 아래 넷째 자리까지 나타낸 표.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <p class=\"prose\">세로축의 가로줄(소수 첫째 자리까지)과 가로축의 세로줄(소수 둘째 자리)이 만나는 칸의 값을 읽는다. 표의 \\(.4393\\)은 \\(0.4393\\)을 뜻한다.</p>\n  <div class=\"tablewrap\">\n    <table class=\"fin\">\n      <thead><tr><th>수</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>\n      <tbody>\n        <tr><td>1.0</td><td>.0000</td><td>.0043</td><td>.0086</td><td>.0128</td><td>.0170</td><td>.0212</td></tr>\n        <tr><td>2.6</td><td>.4150</td><td>.4166</td><td>.4183</td><td>.4200</td><td>.4216</td><td>.4232</td></tr>\n        <tr><td>2.7</td><td>.4314</td><td>.4330</td><td>.4346</td><td>.4362</td><td>.4378</td><td><b>.4393</b></td></tr>\n        <tr><td>2.8</td><td>.4472</td><td>.4487</td><td>.4502</td><td>.4518</td><td>.4533</td><td>.4548</td></tr>\n        <tr><td>2.9</td><td>.4624</td><td>.4639</td><td>.4654</td><td>.4669</td><td>.4683</td><td>.4698</td></tr>\n      </tbody>\n    </table>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log 2.75=0.4393\\) (\\(2.7\\)행과 \\(5\\)열이 만나는 값)</li>\n      <li>\\(\\log 275=\\log(2.75\\times10^{2})=0.4393+2=2.4393\\)</li>\n      <li>\\(\\log 0.275=\\log(2.75\\times10^{-1})=0.4393-1=-0.5607\\)</li>\n    </ol>\n  </div>\n  <div class=\"note\">상용로그표와 로그의 성질을 함께 쓰면 표에 없는 수, 즉 \\(0\\lt N\\lt1\\) 또는 \\(N\\ge10\\)인 수의 상용로그도 구할 수 있다.</div>\n</div>\n"}, {"topic": "상용로그", "no": 3, "title": "상용로그의 정수 부분과 소수 부분", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">정수·소수 부분</div>\n    <div class=\"def-body\">양수 \\(N=a\\times10^{n}\\) (\\(1\\le a\\lt10\\), \\(n\\)은 정수)에 상용로그를 취하면 \\(\\log N=n+\\log a\\). 이때 \\(n\\)을 <b>정수 부분</b>, \\(\\log a\\,(0\\le\\log a\\lt1)\\)를 <b>소수 부분</b>이라 한다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <div class=\"formula\">\n    <span class=\"formula-tag\">정수·소수 부분</span>\n    <div class=\"formula-math\">\\[\\log N=(\\text{정수 부분})+(\\text{소수 부분})\\]</div>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기 · \\(\\log 4.26=0.6294\\)</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log 4260=\\log(4.26\\times10^{3})=3+0.6294\\) → 정수 \\(3\\), 소수 \\(0.6294\\)</li>\n      <li>\\(\\log 0.0426=\\log(4.26\\times10^{-2})=-2+0.6294\\) → 정수 \\(-2\\), 소수 \\(0.6294\\)</li>\n    </ol>\n  </div>\n  <div class=\"note\"><b>주의</b> \\(\\log 0.0426=-1.3706\\)으로 보고 정수 \\(-1\\), 소수 \\(0.3706\\)으로 구하면 틀린다. 소수 부분은 항상 \\(0\\) 이상 \\(1\\) 미만이어야 한다.</div>\n  <div class=\"note\"><b>정수 부분의 성질</b><br>① 정수 부분이 \\(n\\)자리인 수 → 정수 부분은 \\(n-1\\)<br>② 소수점 아래 \\(n\\)째 자리에서 처음으로 \\(0\\)이 아닌 숫자 → 정수 부분은 \\(-n\\)<br><b>소수 부분의 성질</b><br>숫자의 배열이 같고 소수점 위치만 다른 수들의 소수 부분은 모두 같다.</div>\n  <div class=\"tablewrap\">\n    <table class=\"fin\">\n      <thead><tr><th>수</th><th>정수 부분</th><th>소수 부분</th></tr></thead>\n      <tbody>\n        <tr><td>356</td><td>2</td><td>0.5514</td></tr>\n        <tr><td>35.6</td><td>1</td><td>0.5514</td></tr>\n        <tr><td>3.56</td><td>0</td><td>0.5514</td></tr>\n        <tr><td>0.356</td><td>-1</td><td>0.5514</td></tr>\n        <tr><td>0.0356</td><td>-2</td><td>0.5514</td></tr>\n      </tbody>\n    </table>\n  </div>\n  <div class=\"note\">\\(\\log 3.56=0.5514\\)일 때의 표. 소수 부분은 모두 같고, 정수 부분만 자리에 따라 달라진다.</div>\n</div>\n"}, {"topic": "상용로그", "no": 4, "title": "최고 자리의 숫자 구하기", "html": "\n<div class=\"concept-card\">\n  <div class=\"def-row\">\n    <div class=\"def-label\">최고 자리 숫자</div>\n    <div class=\"def-body\">상용로그의 <b>소수 부분의 성질</b>을 이용하면 \\(a^{n}\\)의 최고 자리 숫자를 구할 수 있다.</div>\n  </div>\n</div>\n<div class=\"concept-body\">\n  <div class=\"derive\">\n    <div class=\"derive-title\">구하는 순서</div>\n    <div class=\"derive-line\">❶ \\(\\log a^{n}\\)의 소수 부분 \\(\\alpha\\)를 구한다.</div>\n    <div class=\"derive-line\">❷ \\(\\log N\\le\\alpha\\lt\\log(N+1)\\)인 한 자리 자연수 \\(N\\)을 찾는다.</div>\n    <div class=\"derive-line\">❸ \\(a^{n}\\)의 최고 자리 숫자는 \\(N\\)이다.</div>\n  </div>\n  <div class=\"example\">\n    <span class=\"example-label\">보기 · \\(\\log 2=0.3010,\\ \\log 3=0.4771\\)</span>\n    <ol class=\"example-list\">\n      <li>\\(\\log 2^{25}=25\\log 2=25\\times0.3010=7.525\\) → 소수 부분 \\(0.525\\)</li>\n      <li>\\(\\log 3=0.4771,\\ \\log 4=2\\log 2=0.602\\)이므로 \\(\\log 3\\lt0.525\\lt\\log 4\\)</li>\n      <li>각 변에 \\(7\\)을 더하면 \\(\\log(3\\times10^{7})\\lt\\log 2^{25}\\lt\\log(4\\times10^{7})\\)</li>\n      <li>\\(3\\times10^{7}\\lt2^{25}\\lt4\\times10^{7}\\) → 최고 자리 숫자는 \\(3\\)</li>\n    </ol>\n  </div>\n</div>\n"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅰ. 지수함수와 로그함수 — 02. 로그", "source": "수학의 바이블 개념ON 대수 · 02. 로그", "count": 8, "examples": [{"no": 1, "topic": "로그의 뜻", "title": "로그의 정의", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["등식 \\(\\log_3(\\log_{64} x)=-1\\)을 만족시키는 \\(x\\)의 값을 구하시오.", "\\(\\log_a \\sqrt8=-3,\\ \\log_{\\frac{1}{16}} b=\\dfrac{3}{8}\\)일 때, \\(ab\\)의 값을 구하시오.", "\\(\\log_a(-2a+10)\\)이 정의되도록 하는 모든 정수 \\(a\\)의 값의 합을 구하시오."], "approach": ["⑴⑵ 로그의 정의 \\(\\log_a N=k \\iff a^{k}=N\\)을 이용한다.", "⑶ \\(\\log_a N\\)이 정의되려면 ① 밑 \\(a>0,\\ a\\neq1\\) ② 진수 \\(N>0\\)을 모두 만족해야 한다."], "solution": ["⑴ \\(\\log_3(\\log_{64} x)=-1\\)에서", "\\(\\log_{64} x=3^{-1}=\\dfrac{1}{3}\\)", "\\(\\therefore x=64^{\\frac{1}{3}}=(4^{3})^{\\frac{1}{3}}=4\\)", "⑵ \\(\\log_a \\sqrt8=-3\\)에서 \\(a^{-3}=\\sqrt8\\)", "\\(\\therefore a=(\\sqrt8)^{-\\frac{1}{3}}=(2^{\\frac{3}{2}})^{-\\frac{1}{3}}=2^{-\\frac{1}{2}}\\)", "\\(\\log_{\\frac{1}{16}} b=\\dfrac{3}{8}\\)에서", "\\(b=\\left(\\dfrac{1}{16}\\right)^{\\frac{3}{8}}=(2^{-4})^{\\frac{3}{8}}=2^{-\\frac{3}{2}}\\)", "\\(\\therefore ab=2^{-\\frac{1}{2}}\\times 2^{-\\frac{3}{2}}=2^{-2}=\\dfrac{1}{4}\\)", "⑶ 밑의 조건에서 \\(0<a<1\\) 또는 \\(a>1\\)　……㉠", "진수의 조건에서 \\(-2a+10>0\\)이므로 \\(a<5\\)　……㉡", "㉠, ㉡의 공통 범위는 \\(0<a<1\\) 또는 \\(1<a<5\\)", "따라서 정수 \\(a\\)는 \\(2,\\ 3,\\ 4\\)이므로 합은 \\(2+3+4=9\\)"], "alt_solution": [], "answer": "⑴ \\(4\\)　⑵ \\(\\dfrac{1}{4}\\)　⑶ \\(9\\)", "bible": "로그의 정의 \\(\\log_a N=k \\iff a^{k}=N\\)을 이용해 미지수를 구할 때 지수법칙이 함께 쓰인다. \\(\\log_a N\\)이 주어지면 특별한 말이 없어도 밑의 조건 \\(a>0,\\ a\\neq1\\)과 진수의 조건 \\(N>0\\)을 모두 만족하는 것으로 본다."}, {"no": 1, "topic": "로그의 성질", "title": "로그의 성질", "problem_intro": "다음 값을 구하시오.", "problem_parts": ["\\(\\log_4 \\sqrt6+\\dfrac{1}{2}\\log_4 \\dfrac{8}{3}\\)", "\\(\\log_3 7\\sqrt3-\\log_3 \\dfrac{7}{27}+\\log_3 \\dfrac{\\sqrt3}{3}\\)"], "approach": ["밑이 같은 로그의 덧셈·뺄셈은 로그의 성질을 이용한다.", "\\(\\log_a MN=\\log_a M+\\log_a N\\)", "\\(\\log_a \\dfrac{M}{N}=\\log_a M-\\log_a N\\)", "\\(\\log_a M^{k}=k\\log_a M\\)"], "solution": ["⑴ \\(\\log_4 \\sqrt6+\\dfrac{1}{2}\\log_4 \\dfrac{8}{3}\\)", "\\(=\\dfrac{1}{2}\\log_4 6+\\dfrac{1}{2}\\log_4 \\dfrac{8}{3}\\)", "\\(=\\dfrac{1}{2}\\left(\\log_4 6+\\log_4 \\dfrac{8}{3}\\right)\\)", "\\(=\\dfrac{1}{2}\\log_4\\!\\left(6\\times\\dfrac{8}{3}\\right)=\\dfrac{1}{2}\\log_4 16\\)", "\\(=\\dfrac{1}{2}\\log_4 4^{2}=\\dfrac{1}{2}\\times2=1\\)", "⑵ \\(\\log_3 7\\sqrt3-\\log_3 \\dfrac{7}{27}+\\log_3 \\dfrac{\\sqrt3}{3}\\)", "\\(=\\log_3\\!\\left(7\\sqrt3\\times\\dfrac{27}{7}\\times\\dfrac{\\sqrt3}{3}\\right)\\)", "\\(=\\log_3 27=\\log_3 3^{3}=3\\)"], "alt_solution": [], "answer": "⑴ \\(1\\)　⑵ \\(3\\)", "bible": "로그의 진수는 항상 양수이므로 \\(\\log_3(-5)^{2}\\)을 \\(2\\log_3(-5)\\)로 계산하면 안 된다. \\(\\log_3(-5)^{2}=\\log_3 5^{2}=2\\log_3 5\\)로 계산해야 한다."}, {"no": 2, "topic": "로그의 성질", "title": "로그의 밑의 변환", "problem_intro": "다음 값을 구하시오.", "problem_parts": ["\\(\\log_3 8\\times\\log_2 25\\times\\log_5 81\\)", "\\(\\dfrac{1}{\\log_4 3}+\\dfrac{1}{\\log_6 3}-\\dfrac{1}{\\log_8 3}\\)", "\\(\\begin{gathered}\\log_2 \\tfrac{1}{3}\\times\\log_3 \\tfrac{1}{4}\\times\\log_4 \\tfrac{1}{5}\\\\ {}+\\log_2 \\sqrt[3]{10}\\end{gathered}\\)"], "approach": ["밑이 서로 다른 로그의 계산은 밑의 변환으로 밑을 통일한다.", "\\(\\log_a b=\\dfrac{\\log_c b}{\\log_c a},\\quad \\log_a b=\\dfrac{1}{\\log_b a}\\)"], "solution": ["⑴ \\(\\log_3 8\\times\\log_2 25\\times\\log_5 81\\)", "\\(=\\log_3 2^{3}\\times\\log_2 5^{2}\\times\\log_5 3^{4}\\)", "\\(=3\\log_3 2\\times2\\log_2 5\\times4\\log_5 3\\)", "\\(=24\\,(\\log_3 2\\times\\log_2 5\\times\\log_5 3)\\)", "\\(=24\\times1=24\\)", "⑵ \\(\\dfrac{1}{\\log_4 3}+\\dfrac{1}{\\log_6 3}-\\dfrac{1}{\\log_8 3}\\)", "\\(=\\log_3 4+\\log_3 6-\\log_3 8\\)", "\\(=\\log_3\\!\\left(\\dfrac{4\\times6}{8}\\right)=\\log_3 3=1\\)", "⑶ \\(\\log_2 \\tfrac{1}{3}\\times\\log_3 \\tfrac{1}{4}\\times\\log_4 \\tfrac{1}{5}\\)", "\\(=(-\\log_2 3)(-\\log_3 4)(-\\log_4 5)\\)", "\\(=-(\\log_2 3\\times\\log_3 4\\times\\log_4 5)=-\\log_2 5\\)", "\\(\\log_2 \\sqrt[3]{10}=\\dfrac{1}{3}\\log_2 10\\)", "\\(=\\dfrac{1}{3}(\\log_2 2+\\log_2 5)=\\dfrac{1}{3}+\\dfrac{1}{3}\\log_2 5\\)", "\\(\\therefore (\\text{주어진 식})=-\\log_2 5+\\dfrac{1}{3}+\\dfrac{1}{3}\\log_2 5\\)", "\\(=\\dfrac{1}{3}-\\dfrac{2}{3}\\log_2 5\\)"], "alt_solution": [], "answer": "⑴ \\(24\\)　⑵ \\(1\\)　⑶ \\(\\dfrac{1}{3}-\\dfrac{2}{3}\\log_2 5\\)", "bible": "① 로그의 밑이 같으면 로그의 성질로 진수를 간단히 한다. ② 로그의 밑이 다르면 밑의 변환으로 밑을 통일한다. 밑은 \\(10\\)이 아닌 다른 수로 정해도 결과는 같다."}, {"no": 3, "topic": "로그의 성질", "title": "로그의 밑의 변환을 활용한 여러 가지 성질", "problem_intro": "다음 값을 구하시오.", "problem_parts": ["\\((\\log_4 3+\\log_{\\frac{1}{2}} 9)(\\log_{\\sqrt3} 8+\\log_{27} 2)\\)", "\\(16^{\\log_2 3}\\times25^{\\log_5 \\frac{1}{9}}\\)", "\\(2^{\\,2\\log_2 \\sqrt7-\\log_2 14+\\log_2 6}\\)"], "approach": ["밑의 변환을 활용한 성질로 식을 간단히 한다.", "\\(\\log_{a^{m}} b^{n}=\\dfrac{n}{m}\\log_a b,\\quad a^{\\log_c b}=b^{\\log_c a}\\)"], "solution": ["⑴ \\(\\log_4 3=\\log_{2^{2}} 3=\\dfrac{1}{2}\\log_2 3\\)", "\\(\\log_{\\frac{1}{2}} 9=\\log_{2^{-1}} 3^{2}=-2\\log_2 3\\)", "\\(\\log_{\\sqrt3} 8=\\log_{3^{\\frac{1}{2}}} 2^{3}=6\\log_3 2\\)", "\\(\\log_{27} 2=\\log_{3^{3}} 2=\\dfrac{1}{3}\\log_3 2\\)", "\\(\\therefore (\\text{주어진 식})\\)", "\\(=\\left(-\\dfrac{3}{2}\\log_2 3\\right)\\!\\left(\\dfrac{19}{3}\\log_3 2\\right)\\)", "\\(=-\\dfrac{3}{2}\\times\\dfrac{19}{3}=-\\dfrac{19}{2}\\)", "⑵ \\(16^{\\log_2 3}=3^{\\log_2 16}=3^{\\log_2 2^{4}}=3^{4}\\)", "\\(25^{\\log_5 \\frac{1}{9}}=\\left(\\dfrac{1}{9}\\right)^{\\log_5 25}=\\left(\\dfrac{1}{9}\\right)^{2}\\)", "\\(\\therefore (\\text{주어진 식})=3^{4}\\times\\dfrac{1}{9^{2}}=81\\times\\dfrac{1}{81}=1\\)", "⑶ \\(2^{\\,2\\log_2 \\sqrt7-\\log_2 14+\\log_2 6}\\)", "\\(=2^{\\log_2 7-\\log_2 14+\\log_2 6}\\)", "\\(=2^{\\log_2\\!\\left(7\\times\\frac{1}{14}\\times6\\right)}\\)", "\\(=2^{\\log_2 3}=3\\)"], "alt_solution": [], "answer": "⑴ \\(-\\dfrac{19}{2}\\)　⑵ \\(1\\)　⑶ \\(3\\)", "bible": "\\(\\log_{a^{m}} b^{n}=\\dfrac{n}{m}\\log_a b\\)와 \\(a^{\\log_c b}=b^{\\log_c a}\\)는 지수·로그가 섞인 식을 간단히 하는 강력한 도구이다. 밑과 진수를 소인수의 거듭제곱 꼴로 고쳐 적용한다."}, {"no": 4, "topic": "로그의 성질", "title": "로그로 변환하여 식의 값 구하기", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["\\(1\\)이 아닌 두 양수 \\(a,\\ b\\)에 대하여 \\(a^{3}b^{2}=1\\)일 때, \\(\\log_a ab+\\log_b a^{9}b^{4}\\)의 값을 구하시오.", "\\(35^{x}=8,\\ 5^{y}=32\\)일 때, \\(\\dfrac{3}{x}-\\dfrac{5}{y}\\)의 값을 구하시오.", "\\(2^{x}=3^{y}=12\\)일 때, \\(\\dfrac{1}{x}+\\dfrac{1}{y}\\)의 값을 구하시오."], "approach": ["등식의 양변에 알맞은 밑의 로그를 취한 뒤 식의 값을 구한다.", "⑴ 양변에 밑이 \\(a\\)인 로그를 취한다.", "⑵ 우변이 \\(2\\)의 거듭제곱이므로 밑이 \\(2\\)인 로그를 취한다.", "⑶ 양변에 각각 밑이 \\(2,\\ 3\\)인 로그를 취한다."], "solution": ["⑴ \\(a^{3}b^{2}=1\\)의 양변에 밑이 \\(a\\)인 로그를 취하면", "\\(3+2\\log_a b=0 \\therefore \\log_a b=-\\dfrac{3}{2}\\)", "\\(\\left(\\log_b a=\\dfrac{1}{\\log_a b}=-\\dfrac{2}{3}\\right)\\)", "\\(\\log_a ab+\\log_b a^{9}b^{4}\\)", "\\(=(\\log_a a+\\log_a b)+(9\\log_b a+\\log_b b^{4})\\)", "\\(=\\left\\{1-\\dfrac{3}{2}\\right\\}+\\left\\{9\\times\\left(-\\dfrac{2}{3}\\right)+4\\right\\}\\)", "\\(=-\\dfrac{1}{2}+(-2)=-\\dfrac{5}{2}\\)", "⑵ \\(35^{x}=8\\)의 양변에 밑이 \\(2\\)인 로그를 취하면", "\\(x\\log_2 35=3 \\therefore \\dfrac{3}{x}=\\log_2 35\\)", "\\(5^{y}=32\\)의 양변에 밑이 \\(2\\)인 로그를 취하면", "\\(y\\log_2 5=5 \\therefore \\dfrac{5}{y}=\\log_2 5\\)", "\\(\\therefore \\dfrac{3}{x}-\\dfrac{5}{y}=\\log_2 35-\\log_2 5\\)", "\\(=\\log_2 \\dfrac{35}{5}=\\log_2 7\\)", "⑶ \\(2^{x}=12\\)에서 \\(x=\\log_2 12\\)이므로 \\(\\dfrac{1}{x}=\\log_{12} 2\\)", "\\(3^{y}=12\\)에서 \\(y=\\log_3 12\\)이므로 \\(\\dfrac{1}{y}=\\log_{12} 3\\)", "\\(\\therefore \\dfrac{1}{x}+\\dfrac{1}{y}=\\log_{12} 2+\\log_{12} 3=\\log_{12} 6\\)"], "alt_solution": [], "answer": "⑴ \\(-\\dfrac{5}{2}\\)　⑵ \\(\\log_2 7\\)　⑶ \\(\\log_{12} 6\\)", "bible": "등식 \\(X=Y\\)를 \\(\\log_a X=\\log_a Y\\)로 바꾸는 것을 '양변에 밑이 \\(a\\)인 로그를 취한다'고 한다. \\(a^{x}=k\\) 꼴이 주어지면 \\(\\dfrac{1}{x}=\\log_k a\\)임을 이용하면 편리하다."}, {"no": 5, "topic": "로그의 성질", "title": "로그와 이차방정식", "problem_intro": "이차방정식 \\(x^{2}+5x-10=0\\)의 두 근이 \\(\\log_2 a,\\ \\log_2 b\\)일 때, \\(\\log_a b+\\log_b a\\)의 값을 구하시오.", "problem_parts": [], "approach": ["❶ 근과 계수의 관계로 두 근의 합과 곱을 구한다.", "❷ 밑의 변환과 곱셈 공식의 변형으로 정리한 뒤 ❶을 대입한다."], "solution": ["두 근이 \\(\\log_2 a,\\ \\log_2 b\\)이므로 근과 계수의 관계에서", "\\(\\log_2 a+\\log_2 b=-5\\)", "\\(\\log_2 a\\times\\log_2 b=-10\\)", "\\(\\log_a b+\\log_b a=\\dfrac{\\log_2 b}{\\log_2 a}+\\dfrac{\\log_2 a}{\\log_2 b}\\)", "\\(=\\dfrac{(\\log_2 b)^{2}+(\\log_2 a)^{2}}{\\log_2 a\\times\\log_2 b}\\)", "\\(=\\dfrac{(\\log_2 a+\\log_2 b)^{2}-2\\log_2 a\\times\\log_2 b}{\\log_2 a\\times\\log_2 b}\\)", "\\(=\\dfrac{(-5)^{2}-2\\times(-10)}{-10}\\)", "\\(=\\dfrac{45}{-10}=-\\dfrac{9}{2}\\)"], "alt_solution": [], "answer": "\\(-\\dfrac{9}{2}\\)", "bible": "두 근의 합·곱이 주어지면 구하는 식을 합과 곱으로 나타내는 곱셈 공식의 변형을 이용한다. 특히 \\(p^{2}+q^{2}=(p+q)^{2}-2pq\\)를 자주 쓴다. 두 근을 직접 구해 대입할 수도 있으나 계산이 복잡하다."}, {"no": 1, "topic": "상용로그", "title": "상용로그의 값", "problem_intro": "\\(\\log 2=0.3010,\\ \\log 3=0.4771\\)임을 이용하여 다음 값을 구하시오.", "problem_parts": ["\\(\\log 48\\)", "\\(\\log 15\\)"], "approach": ["\\(\\log a\\,(1\\le a<10)\\)가 주어지면 진수를 소인수분해해 로그의 성질로 분해한다.", "\\(N=\\dfrac{10}{a}\\) 꼴이면 \\(\\log N=1-\\log a\\)를 이용한다."], "solution": ["⑴ \\(\\log 48=\\log(2^{4}\\times3)\\)", "\\(=\\log 2^{4}+\\log 3=4\\log 2+\\log 3\\)", "\\(=4\\times0.3010+0.4771\\)", "\\(=1.2040+0.4771=1.6811\\)", "⑵ \\(\\log 15=\\log(3\\times5)=\\log 3+\\log 5\\)", "\\(=\\log 3+\\log \\dfrac{10}{2}\\)", "\\(=\\log 3+(\\log 10-\\log 2)\\)", "\\(=0.4771+(1-0.3010)\\)", "\\(=0.4771+0.6990=1.1761\\)"], "alt_solution": [], "answer": "⑴ \\(1.6811\\)　⑵ \\(1.1761\\)", "bible": "\\(\\log 5=\\log \\dfrac{10}{2}=1-\\log 2\\)와 같이 \\(5\\)는 \\(\\dfrac{10}{2}\\)로 바꾸면 \\(\\log 2\\)만으로 나타낼 수 있다. 진수를 \\(2,\\ 3,\\ 10\\)의 곱·몫으로 분해하는 것이 핵심이다."}, {"no": 2, "topic": "상용로그", "title": "상용로그의 실생활에의 활용", "problem_intro": "임의의 두 별 \\(A,\\ B\\)의 절대 등급과 광도를 각각 \\(M_A,\\ L_A\\)와 \\(M_B,\\ L_B\\)라 하면 \\(M_A-M_B=-2.5\\log\\dfrac{L_A}{L_B}\\)가 성립한다고 한다. 절대 등급이 \\(4.8\\)인 별의 광도가 \\(L\\)일 때, 절대 등급이 \\(1.3\\)인 별의 광도는 \\(kL\\)이다. 상수 \\(k\\)의 값을 구하시오.", "problem_parts": [], "approach": ["주어진 조건을 관계식의 알맞은 위치에 대입한 뒤 로그의 정의로 \\(k\\)를 구한다."], "solution": ["절대 등급이 \\(4.8\\)인 별을 \\(A\\)라 하면 \\(M_A=4.8,\\ L_A=L\\)", "절대 등급이 \\(1.3\\)인 별을 \\(B\\)라 하면 \\(M_B=1.3,\\ L_B=kL\\)", "이를 관계식에 대입하면", "\\(4.8-1.3=-2.5\\log\\dfrac{L}{kL}\\)", "\\(3.5=-2.5\\log \\dfrac{1}{k}=2.5\\log k\\)", "\\(\\log k=\\dfrac{3.5}{2.5}=\\dfrac{7}{5}\\)", "\\(\\therefore k=10^{\\frac{7}{5}}\\)"], "alt_solution": [], "answer": "\\(10^{\\frac{7}{5}}\\)", "bible": "상용로그를 활용한 실생활 문제는 복잡해 보여도 주어진 값을 올바른 위치에 대입하는 것이 먼저다. 지진의 규모, 용액의 산성도(pH), 소리의 크기(dB) 등이 로그로 수치화한 예이다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '상용로그';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['로그의 뜻','로그의 뜻','ar'],['로그의 성질','로그의 성질','ar'],['상용로그','상용로그','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

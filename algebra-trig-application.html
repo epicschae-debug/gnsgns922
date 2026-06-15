@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>삼각함수의 활용 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅱ. 삼각함수 · 07단원</div>
+        <h1>삼각함수의 활용</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "사인법칙과 코사인법칙", "no": 1, "title": "사인법칙", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">삼각형의 6요소</div><div class=\"def-body\">삼각형 \\(ABC\\)에서 세 내각 \\(A\\), \\(B\\), \\(C\\)의 크기와 그 대변 \\(\\overline{BC}\\), \\(\\overline{CA}\\), \\(\\overline{AB}\\)의 길이를 각각 \\(a\\), \\(b\\), \\(c\\)로 나타낼 때, 이 세 각과 세 변을 삼각형 \\(ABC\\)의 <b>6요소</b>라 한다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">사인법칙</span>삼각형 \\(ABC\\)의 외접원의 반지름의 길이를 \\(R\\)라 하면$$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$$<figure style=\"margin:16px 0 2px;text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"sine\" style=\"display:block;width:100%;max-width:230px;height:auto;margin:0 auto;border-radius:8px;\"/></figure></div><p class=\"prose\">한 호에 대한 원주각의 크기는 모두 같고 반원에 대한 원주각의 크기는 \\(90°\\)임을 이용하면, \\(\\angle A\\)가 \\(90°\\)보다 작거나 같거나 클 때 모두 \\(\\dfrac{a}{\\sin A}=2R\\)가 성립함을 보일 수 있다. 같은 방법으로 \\(\\dfrac{b}{\\sin B}=2R\\), \\(\\dfrac{c}{\\sin C}=2R\\)도 성립한다.</p><div class=\"note\">사인법칙은 <b>한 변의 길이와 두 각의 크기</b>가 주어졌을 때 나머지 변을 구하거나, <b>두 변의 길이와 그 끼인각이 아닌 한 각</b>이 주어졌을 때 다른 각을 구할 때 쓴다.</div><div class=\"formula\"><span class=\"formula-tag\">변의 비 = 사인의 비</span>\\(a=2R\\sin A\\), \\(b=2R\\sin B\\), \\(c=2R\\sin C\\)이므로$$a:b:c=\\sin A:\\sin B:\\sin C$$이때 \\(a:b:c\\neq A:B:C\\)임에 주의한다.</div><div class=\"example\"><span class=\"example-label\">예시</span><div class=\"prose\">삼각형 \\(ABC\\)에서 \\(a=2\\sqrt{3}\\), \\(b=2\\), \\(A=120°\\)일 때 \\(B\\)를 구해 보자.</div><div class=\"derive\"><div class=\"derive-line\">사인법칙에 의하여 \\(\\dfrac{2\\sqrt{3}}{\\sin 120°}=\\dfrac{2}{\\sin B}\\)</div><div class=\"derive-line\">\\(2\\sqrt{3}\\sin B=2\\sin 120°=2\\times\\dfrac{\\sqrt{3}}{2}\\)</div><div class=\"derive-line\">\\(\\therefore \\sin B=\\dfrac{1}{2}\\)</div><hr class=\"derive-rule\"><div class=\"derive-line\">\\(A=120°\\)이므로 \\(0°<B<60°\\)　\\(\\therefore B=30°\\)</div></div></div></div>"}, {"topic": "사인법칙과 코사인법칙", "no": 2, "title": "코사인법칙", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">코사인법칙</div><div class=\"def-body\">삼각형의 세 변의 길이와 한 각의 코사인 사이에는 일정한 관계가 성립한다. <b>두 변과 그 끼인각</b>을 알 때 나머지 변을, <b>세 변</b>을 알 때 각의 크기를 구할 수 있다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">코사인법칙</span>삼각형 \\(ABC\\)에서$$a^2=b^2+c^2-2bc\\cos A$$$$b^2=c^2+a^2-2ca\\cos B$$$$c^2=a^2+b^2-2ab\\cos C$$<figure style=\"margin:16px 0 2px;text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"cos\" style=\"display:block;width:100%;max-width:250px;height:auto;margin:0 auto;border-radius:8px;\"/></figure></div><div class=\"formula\"><span class=\"formula-tag\">코사인법칙의 변형</span>세 변의 길이로 각의 코사인을 나타내면$$\\cos A=\\frac{b^2+c^2-a^2}{2bc},\\quad \\cos B=\\frac{c^2+a^2-b^2}{2ca},\\quad \\cos C=\\frac{a^2+b^2-c^2}{2ab}$$</div><div class=\"note\">세 변의 길이를 알 때 <b>가장 긴 변의 대각</b>이 최대각, <b>가장 짧은 변의 대각</b>이 최소각이다. \\(c\\)가 가장 긴 변일 때 \\(c^2=a^2+b^2\\)이면 직각, \\(c^2>a^2+b^2\\)이면 둔각, \\(c^2<a^2+b^2\\)이면 예각삼각형이다.</div><div class=\"example\"><span class=\"example-label\">예시</span><div class=\"prose\">⑴ \\(a=4\\), \\(b=3\\), \\(C=60°\\)일 때 \\(c\\)를 구해 보자.</div><div class=\"derive\"><div class=\"derive-line\">\\(c^2=4^2+3^2-2\\times4\\times3\\times\\cos 60°\\)</div><div class=\"derive-line\">\\(=16+9-2\\times4\\times3\\times\\dfrac{1}{2}=25-12=13\\)</div><div class=\"derive-line\">\\(\\therefore c=\\sqrt{13}\\)　（∵ \\(c>0\\)）</div></div><div class=\"prose\">⑵ \\(a=8\\), \\(b=5\\), \\(c=7\\)일 때 \\(\\cos C\\)를 구해 보자.</div><div class=\"derive\"><div class=\"derive-line\">\\(\\cos C=\\dfrac{8^2+5^2-7^2}{2\\times8\\times5}=\\dfrac{64+25-49}{80}=\\dfrac{1}{2}\\)</div><div class=\"derive-line\">\\(\\therefore C=60°\\)</div></div></div></div>"}, {"topic": "삼각형의 넓이", "no": 1, "title": "삼각형의 넓이", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">삼각형의 넓이</div><div class=\"def-body\">두 변의 길이와 그 끼인각의 크기를 알면 삼각함수를 이용하여 삼각형의 넓이를 구할 수 있다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">두 변과 끼인각</span>삼각형 \\(ABC\\)의 넓이를 \\(S\\)라 하면$$S=\\frac{1}{2}bc\\sin A=\\frac{1}{2}ca\\sin B=\\frac{1}{2}ab\\sin C$$<figure style=\"margin:16px 0 2px;text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"area\" style=\"display:block;width:100%;max-width:260px;height:auto;margin:0 auto;border-radius:8px;\"/></figure></div><p class=\"prose\">꼭짓점 \\(A\\)에서 변 \\(BC\\)(또는 그 연장선)에 내린 수선의 발을 \\(H\\), \\(\\overline{AH}=h\\)라 하면 \\(\\angle B\\)의 크기에 관계없이 \\(h=c\\sin B\\)이다. 따라서 \\(S=\\dfrac{1}{2}ah=\\dfrac{1}{2}ac\\sin B\\)가 성립한다.</p><div class=\"formula\"><span class=\"formula-tag\">외접원·내접원 이용</span>외접원의 반지름을 \\(R\\), 내접원의 반지름을 \\(r\\)라 하면$$S=\\frac{abc}{4R}=2R^2\\sin A\\sin B\\sin C=\\frac{1}{2}r(a+b+c)$$</div><div class=\"note\"><b>헤론의 공식</b> &nbsp; 세 변의 길이가 주어지면 \\(S=\\sqrt{s(s-a)(s-b)(s-c)}\\)　\\(\\left(\\text{단, } s=\\dfrac{a+b+c}{2}\\right)\\)</div><div class=\"example\"><span class=\"example-label\">예시</span><div class=\"prose\">세 변이 \\(a=14\\), \\(b=10\\), \\(c=6\\)인 삼각형의 넓이를 헤론의 공식으로 구해 보자.</div><div class=\"derive\"><div class=\"derive-line\">\\(s=\\dfrac{14+10+6}{2}=15\\)</div><div class=\"derive-line\">\\(S=\\sqrt{15\\times(15-14)\\times(15-10)\\times(15-6)}\\)</div><div class=\"derive-line\">\\(=\\sqrt{15\\times1\\times5\\times9}=15\\sqrt{3}\\)</div></div></div></div>"}, {"topic": "삼각형의 넓이", "no": 2, "title": "사각형의 넓이", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">사각형의 넓이</div><div class=\"def-body\">다각형은 여러 개의 삼각형으로 나누어 넓이의 합으로 구한다. 평행사변형과 사각형의 넓이도 삼각형의 넓이로부터 얻을 수 있다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">평행사변형</span>이웃하는 두 변의 길이가 \\(a\\), \\(b\\)이고 그 끼인각이 \\(\\theta\\)인 평행사변형 \\(ABCD\\)의 넓이를 \\(S\\)라 하면$$S=ab\\sin\\theta$$<figure style=\"margin:16px 0 2px;text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"para\" style=\"display:block;width:100%;max-width:250px;height:auto;margin:0 auto;border-radius:8px;\"/></figure></div><div class=\"formula\"><span class=\"formula-tag\">사각형(두 대각선)</span>두 대각선의 길이가 \\(a\\), \\(b\\)이고 두 대각선이 이루는 각이 \\(\\theta\\)인 사각형 \\(ABCD\\)의 넓이를 \\(S\\)라 하면$$S=\\frac{1}{2}ab\\sin\\theta$$<figure style=\"margin:16px 0 2px;text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"quad\" style=\"display:block;width:100%;max-width:250px;height:auto;margin:0 auto;border-radius:8px;\"/></figure></div><p class=\"prose\">평행사변형은 대각선으로 나눈 두 삼각형이 합동이므로 \\(S=2\\times\\dfrac{1}{2}ab\\sin\\theta=ab\\sin\\theta\\)이고, 두 대각선이 이루는 각을 이용한 사각형의 넓이는 네 개의 작은 삼각형으로 나누어 정리하면 \\(S=\\dfrac{1}{2}ab\\sin\\theta\\)가 된다.</p><div class=\"example\"><span class=\"example-label\">예시</span><div class=\"prose\">⑴ 두 변이 \\(6\\), \\(9\\)이고 끼인각이 \\(120°\\)인 평행사변형 \\(\\;\\Rightarrow\\; S=6\\times9\\times\\sin 120°=54\\times\\dfrac{\\sqrt{3}}{2}=27\\sqrt{3}\\)</div><div class=\"prose\">⑵ 두 대각선이 \\(3\\sqrt{2}\\), \\(5\\)이고 이루는 각이 \\(45°\\)인 사각형 \\(\\;\\Rightarrow\\; S=\\dfrac{1}{2}\\times3\\sqrt{2}\\times5\\times\\sin 45°=\\dfrac{15}{2}\\)</div></div></div>"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅱ. 삼각함수 — 07. 삼각함수의 활용", "source": "수학의 바이블 개념ON 대수", "count": 9, "examples": [{"no": 1, "topic": "사인법칙과 코사인법칙", "title": "사인법칙", "problem_intro": "삼각형 \\(ABC\\)에서 다음을 구하시오.", "problem_parts": ["\\(b=4\\), \\(A=75°\\), \\(C=60°\\)일 때, \\(c\\)와 외접원의 반지름의 길이 \\(R\\)", "\\(b=3\\sqrt{3}\\), \\(c=3\\), \\(C=30°\\)일 때, \\(A\\)와 \\(B\\)　（단, \\(90°<B<180°\\)）"], "approach": ["삼각형 \\(ABC\\)에서", "\\(\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R\\)　（단, \\(R\\)는 외접원의 반지름의 길이）"], "solution": ["⑴ \\(A+B+C=180°\\)이므로 \\(B=180°-(75°+60°)=45°\\)", "사인법칙에 의하여 \\(\\dfrac{4}{\\sin 45°}=\\dfrac{c}{\\sin 60°}\\)이므로", "\\(c\\sin 45°=4\\sin 60°\\), \\(c\\times\\dfrac{\\sqrt{2}}{2}=4\\times\\dfrac{\\sqrt{3}}{2}\\)　\\(\\therefore c=2\\sqrt{6}\\)", "또한 사인법칙에 의하여 \\(\\dfrac{4}{\\sin 45°}=2R\\)", "\\(\\therefore R=\\dfrac{1}{2}\\times\\dfrac{4}{\\frac{\\sqrt{2}}{2}}=2\\sqrt{2}\\)", "⑵ 사인법칙에 의하여 \\(\\dfrac{3}{\\sin 30°}=\\dfrac{3\\sqrt{3}}{\\sin B}\\)이므로", "\\(3\\sin B=3\\sqrt{3}\\sin 30°=3\\sqrt{3}\\times\\dfrac{1}{2}\\)　\\(\\therefore \\sin B=\\dfrac{\\sqrt{3}}{2}\\)", "\\(\\therefore B=120°\\)　（∵ \\(90°<B<180°\\)）", "\\(A+B+C=180°\\)이므로 \\(A=180°-(120°+30°)=30°\\)"], "alt_solution": [], "answer": "⑴ \\(c=2\\sqrt{6}\\), \\(R=2\\sqrt{2}\\)　⑵ \\(A=30°\\), \\(B=120°\\)", "bible": "다음과 같은 경우 사인법칙을 이용하여 구한다. 삼각형 \\(ABC\\)에서 ① 한 변의 길이와 두 각의 크기가 주어질 때, 나머지 두 변의 길이 ② 두 변의 길이와 그 끼인각이 아닌 한 각의 크기가 주어질 때, 나머지 두 각의 크기 ③ 외접원의 반지름의 길이와 한 변의 길이가 주어질 때, 대각의 크기 ④ 외접원의 반지름의 길이와 한 각의 크기가 주어질 때, 대변의 길이"}, {"no": 2, "topic": "사인법칙과 코사인법칙", "title": "사인법칙의 변형", "problem_intro": "삼각형 \\(ABC\\)에 대하여 다음 물음에 답하시오.", "problem_parts": ["\\((a+b):(b+c):(c+a)\\)가 \\(5:8:7\\)일 때, \\(\\sin A:\\sin B:\\sin C\\)를 구하시오.", "\\(A:B:C=1:1:4\\)일 때, \\(a:b:c\\)를 구하시오."], "approach": ["\\(\\sin A:\\sin B:\\sin C=a:b:c\\)임을 이용한다.", "⑴ 조건으로 \\(a\\), \\(b\\), \\(c\\)를 비례상수 \\(k\\)에 대한 식으로 나타낸다.", "⑵ \\(A+B+C=180°\\)로 \\(A\\), \\(B\\), \\(C\\)를 먼저 구한다."], "solution": ["⑴ \\(a+b=5k\\), \\(b+c=8k\\), \\(c+a=7k\\)　（단, \\(k>0\\)）로 놓고", "세 식을 변끼리 더하면 \\(2(a+b+c)=20k\\)　\\(\\therefore a+b+c=10k\\)", "\\(\\therefore a=2k\\), \\(b=3k\\), \\(c=5k\\)", "\\(\\sin A:\\sin B:\\sin C=a:b:c\\)", "\\(=2:3:5\\)", "⑵ \\(A+B+C=180°\\)이므로", "\\(A=180°\\times\\dfrac{1}{6}=30°\\), \\(B=30°\\), \\(C=180°\\times\\dfrac{4}{6}=120°\\)", "\\(a:b:c=\\sin A:\\sin B:\\sin C\\)", "\\(=\\sin 30°:\\sin 30°:\\sin 120°\\)", "\\(=\\dfrac{1}{2}:\\dfrac{1}{2}:\\dfrac{\\sqrt{3}}{2}=1:1:\\sqrt{3}\\)"], "alt_solution": [], "answer": "⑴ \\(2:3:5\\)　⑵ \\(1:1:\\sqrt{3}\\)", "bible": "삼각형 \\(ABC\\)의 세 변의 길이의 비는 사인법칙에 의하여 \\(a:b:c=\\sin A:\\sin B:\\sin C\\)이다. 이때 \\(a:b:c\\neq A:B:C\\)인 것에 주의하자."}, {"no": 3, "topic": "사인법칙과 코사인법칙", "title": "코사인법칙", "problem_intro": "삼각형 \\(ABC\\)에서 \\(C=30°\\), \\(a=4\\), \\(b=2\\sqrt{3}\\)일 때, \\(A\\), \\(B\\), \\(c\\)를 각각 구하시오.", "problem_parts": [], "approach": ["삼각형 \\(ABC\\)에서", "\\(c^2=a^2+b^2-2ab\\cos C\\)로 \\(c\\)를 먼저 구한다."], "solution": ["코사인법칙에 의하여", "\\(c^2=4^2+(2\\sqrt{3})^2\\)", "\\(\\quad-\\,2\\times4\\times2\\sqrt{3}\\times\\cos 30°\\)", "\\(=16+12-2\\times4\\times2\\sqrt{3}\\times\\dfrac{\\sqrt{3}}{2}=4\\)", "\\(c>0\\)이므로 \\(c=2\\)", "사인법칙에 의하여 \\(\\dfrac{4}{\\sin A}=\\dfrac{2}{\\sin 30°}\\)이므로 \\(2\\sin A=4\\sin 30°\\)", "\\(2\\sin A=4\\times\\dfrac{1}{2}\\)　\\(\\therefore \\sin A=1\\)", "\\(\\therefore A=90°\\)　（∵ \\(0°<A<180°\\)）", "\\(\\therefore B=180°-(90°+30°)=60°\\)"], "alt_solution": [], "answer": "\\(A=90°\\), \\(B=60°\\), \\(c=2\\)", "bible": "다음과 같은 경우 코사인법칙을 이용하여 구한다. 삼각형 \\(ABC\\)에서 ① 두 변의 길이와 그 끼인각의 크기가 주어질 때, 나머지 한 변의 길이 ② 세 변의 길이가 주어질 때, 세 각의 크기"}, {"no": 4, "topic": "사인법칙과 코사인법칙", "title": "코사인법칙의 변형", "problem_intro": "삼각형 \\(ABC\\)에서 \\(a=1+\\sqrt{3}\\), \\(b=2\\), \\(c=\\sqrt{2}\\)일 때, \\(B\\), \\(C\\)를 각각 구하시오.", "problem_parts": [], "approach": ["코사인법칙의 변형을 이용한다.", "\\(\\cos B=\\dfrac{c^2+a^2-b^2}{2ca}\\), \\(\\cos C=\\dfrac{a^2+b^2-c^2}{2ab}\\)"], "solution": ["코사인법칙에 의하여", "\\(\\cos B=\\dfrac{(\\sqrt{2})^2+(1+\\sqrt{3})^2-2^2}{2\\times\\sqrt{2}\\times(1+\\sqrt{3})}\\)", "\\(=\\dfrac{2+4+2\\sqrt{3}-4}{2\\sqrt{2}(1+\\sqrt{3})}\\)", "\\(=\\dfrac{2(1+\\sqrt{3})}{2\\sqrt{2}(1+\\sqrt{3})}=\\dfrac{\\sqrt{2}}{2}\\)", "\\(\\therefore B=45°\\)　（∵ \\(0°<B<180°\\)）", "사인법칙에 의하여 \\(\\dfrac{2}{\\sin 45°}=\\dfrac{\\sqrt{2}}{\\sin C}\\)이므로 \\(2\\sin C=\\sqrt{2}\\sin 45°\\)", "\\(2\\sin C=\\sqrt{2}\\times\\dfrac{\\sqrt{2}}{2}\\)　\\(\\therefore \\sin C=\\dfrac{1}{2}\\)", "\\(\\therefore C=30°\\)　（∵ \\(0°<C<135°\\)）"], "alt_solution": ["코사인법칙에 의하여", "\\(\\cos C=\\dfrac{(1+\\sqrt{3})^2+2^2-(\\sqrt{2})^2}{2\\times(1+\\sqrt{3})\\times2}\\)", "\\(=\\dfrac{4+2\\sqrt{3}+4-2}{4(1+\\sqrt{3})}\\)", "\\(=\\dfrac{2\\sqrt{3}(1+\\sqrt{3})}{4(1+\\sqrt{3})}=\\dfrac{\\sqrt{3}}{2}\\)", "\\(\\therefore C=30°\\)　（∵ \\(0°<C<135°\\)）"], "answer": "\\(B=45°\\), \\(C=30°\\)", "bible": "삼각형의 세 변의 길이를 알 때 코사인법칙으로 최대각·최소각을 구할 수 있다. 최대각은 길이가 가장 긴 변의 대각, 최소각은 길이가 가장 짧은 변의 대각이다."}, {"no": 5, "topic": "사인법칙과 코사인법칙", "title": "삼각형의 모양 결정", "problem_intro": "다음 등식을 만족시키는 삼각형 \\(ABC\\)는 어떤 삼각형인지 구하시오.", "problem_parts": ["\\(b\\sin B=c\\sin C\\)", "\\(a\\cos B-c=b\\cos A\\)"], "approach": ["\\(\\sin\\)에 대한 식은 \\(\\sin A=\\dfrac{a}{2R}\\) 등을, \\(\\cos\\)에 대한 식은 코사인법칙의 변형을 대입한다.", "세 변의 길이는 양수이므로 \\(a>0\\), \\(b>0\\), \\(c>0\\)임에 주의한다."], "solution": ["⑴ 외접원의 반지름을 \\(R\\)라 하면 \\(\\sin B=\\dfrac{b}{2R}\\), \\(\\sin C=\\dfrac{c}{2R}\\)", "대입하면 \\(b\\times\\dfrac{b}{2R}=c\\times\\dfrac{c}{2R}\\)　\\(\\therefore b^2=c^2\\)", "\\(\\therefore b=c\\)　（∵ \\(b>0\\), \\(c>0\\)）", "따라서 \\(b=c\\)인 이등변삼각형이다.", "⑵ \\(\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}\\), \\(\\cos B=\\dfrac{c^2+a^2-b^2}{2ca}\\)를 대입하면", "\\(a\\times\\dfrac{c^2+a^2-b^2}{2ca}-c\\)", "\\(\\qquad=b\\times\\dfrac{b^2+c^2-a^2}{2bc}\\)", "\\(\\dfrac{c^2+a^2-b^2}{2c}-c=\\dfrac{b^2+c^2-a^2}{2c}\\)", "\\(c^2+a^2-b^2-2c^2=b^2+c^2-a^2\\)　\\(\\therefore a^2=b^2+c^2\\)", "따라서 \\(A=90°\\)인 직각삼각형이다."], "alt_solution": [], "answer": "⑴ \\(b=c\\)인 이등변삼각형　⑵ \\(A=90°\\)인 직각삼각형", "bible": "세 변의 길이 \\(a\\), \\(b\\), \\(c\\)에 대하여 ① \\(c^2=a^2+b^2\\)이면 \\(C=90°\\)인 직각삼각형 ② \\(c^2>a^2+b^2\\)이면 둔각삼각형 ③ \\(c^2<a^2+b^2\\)（\\(c\\)가 가장 긴 변）이면 예각삼각형 ④ \\(a=b\\)이면 \\(a=b\\)인 이등변삼각형"}, {"no": 6, "topic": "사인법칙과 코사인법칙", "title": "사인법칙과 코사인법칙의 활용", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["\\(90\\,\\mathrm{m}\\)만큼 떨어진 \\(A\\), \\(B\\) 지점에서 하늘에 떠 있는 열기구를 올려다본 각의 크기가 각각 \\(45°\\), \\(75°\\)일 때, 열기구와 \\(B\\) 지점 사이의 거리를 구하시오.　（단, 열기구의 크기는 무시한다.）", "세 지점 \\(A\\), \\(B\\), \\(C\\)를 측정하였더니 \\(\\overline{AC}=8\\sqrt{2}\\,\\mathrm{km}\\), \\(\\overline{BC}=12\\,\\mathrm{km}\\), \\(\\angle C=45°\\)이었다. 두 지점 \\(A\\), \\(B\\) 사이를 직선으로 잇는 다리의 길이를 구하시오."], "figure": "<div style=\"display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-start;margin-top:12px;\"><figure style=\"margin:0;text-align:center;flex:0 1 auto;\"><img src=\"data:image/png;base64,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\" alt=\"⑴ 열기구\" style=\"display:block;width:100%;max-width:220px;height:auto;margin:0 auto;border-radius:8px;\"/><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:3px;\">⑴ 열기구</figcaption></figure><figure style=\"margin:0;text-align:center;flex:0 1 auto;\"><img src=\"data:image/png;base64,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\" alt=\"⑵ 다리\" style=\"display:block;width:100%;max-width:290px;height:auto;margin:0 auto;border-radius:8px;\"/><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:3px;\">⑵ 다리</figcaption></figure></div>", "approach": ["⑴ 세 내각의 합이 \\(180°\\)임을 이용해 남은 각을 구한 뒤 사인법칙을 쓴다.", "⑵ 두 변의 길이와 그 끼인각이 주어졌으므로 코사인법칙을 쓴다."], "solution": ["⑴ 열기구의 위치를 \\(C\\)라 하면 \\(C=180°-(75°+45°)=60°\\)", "사인법칙에 의하여 \\(\\dfrac{\\overline{BC}}{\\sin 45°}=\\dfrac{90}{\\sin 60°}\\)이므로 \\(\\overline{BC}\\sin 60°=90\\sin 45°\\)", "\\(\\overline{BC}\\times\\dfrac{\\sqrt{3}}{2}=90\\times\\dfrac{\\sqrt{2}}{2}\\)　\\(\\therefore \\overline{BC}=30\\sqrt{6}\\,\\mathrm{m}\\)", "⑵ 코사인법칙에 의하여", "\\(\\overline{AB}^2=12^2+(8\\sqrt{2})^2\\)", "\\(\\qquad-\\,2\\times12\\times8\\sqrt{2}\\times\\cos 45°\\)", "\\(=144+128-2\\times12\\times8\\sqrt{2}\\times\\dfrac{\\sqrt{2}}{2}\\)", "\\(=144+128-192=80\\)", "\\(\\therefore \\overline{AB}=4\\sqrt{5}\\,\\mathrm{km}\\)　（∵ \\(\\overline{AB}>0\\)）"], "alt_solution": [], "answer": "⑴ \\(30\\sqrt{6}\\,\\mathrm{m}\\)　⑵ \\(4\\sqrt{5}\\,\\mathrm{km}\\)", "bible": "외접원의 반지름의 길이(또는 외접원의 넓이)를 구할 때는 \\(\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R\\)를 이용하여 식을 변형한다."}, {"no": 1, "topic": "삼각형의 넓이", "title": "삼각형의 넓이 ⑴", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["삼각형 \\(ABC\\)에서 \\(a=4\\), \\(b=8\\)이고 넓이가 \\(8\\)일 때, \\(C\\)를 구하시오.", "삼각형 \\(ABC\\)에서 \\(a=\\sqrt{21}\\), \\(c=4\\), \\(A=60°\\)일 때, 삼각형 \\(ABC\\)의 넓이를 구하시오."], "approach": ["두 변의 길이와 그 끼인각을 알 때 \\(S=\\dfrac{1}{2}bc\\sin A=\\dfrac{1}{2}ca\\sin B=\\dfrac{1}{2}ab\\sin C\\)", "⑵ 끼인각이 아닌 각이 주어졌으므로 코사인법칙으로 나머지 변을 먼저 구한다."], "solution": ["⑴ 넓이가 \\(8\\)이므로 \\(8=\\dfrac{1}{2}\\times4\\times8\\times\\sin C\\)　\\(\\therefore \\sin C=\\dfrac{1}{2}\\)", "\\(0°<C<180°\\)이므로 \\(C=30°\\) 또는 \\(C=150°\\)", "⑵ 코사인법칙에 의하여 \\((\\sqrt{21})^2=b^2+4^2-2\\times b\\times4\\times\\cos 60°\\)", "\\(21=b^2+16-8b\\times\\dfrac{1}{2}\\), \\(b^2-4b-5=0\\), \\((b+1)(b-5)=0\\)", "\\(\\therefore b=5\\)　（∵ \\(b>0\\)）", "따라서 넓이는 \\(\\dfrac{1}{2}\\times5\\times4\\times\\sin 60°=10\\times\\dfrac{\\sqrt{3}}{2}=5\\sqrt{3}\\)"], "alt_solution": [], "answer": "⑴ \\(C=30°\\) 또는 \\(150°\\)　⑵ \\(5\\sqrt{3}\\)", "bible": "삼각형의 넓이를 이용하여 사각형의 넓이를 구할 때는 ➊ 사각형을 두 개의 삼각형으로 나누고 ➋ 사인법칙 또는 코사인법칙으로 변의 길이나 각의 크기를 구한 뒤 ➌ 각 삼각형의 넓이를 구해 더한다."}, {"no": 2, "topic": "삼각형의 넓이", "title": "삼각형의 넓이 ⑵ — 여러 가지 방법", "problem_intro": "삼각형 \\(ABC\\)에서 \\(a=5\\), \\(b=7\\), \\(c=8\\)일 때, 다음을 구하시오.", "problem_parts": ["삼각형 \\(ABC\\)의 넓이", "외접원의 반지름의 길이", "내접원의 반지름의 길이"], "approach": ["세 변을 알 때 ➊ 코사인법칙으로 한 각의 코사인을 구하고 ➋ \\(\\sin^2\\theta+\\cos^2\\theta=1\\)로 사인을 구한 뒤 ➌ \\(S=\\dfrac{1}{2}ab\\sin C\\)로 넓이를 구한다.", "외접원은 \\(S=\\dfrac{abc}{4R}\\), 내접원은 \\(S=\\dfrac{1}{2}r(a+b+c)\\)를 이용한다."], "solution": ["⑴ 코사인법칙에 의하여 \\(\\cos C=\\dfrac{5^2+7^2-8^2}{2\\times5\\times7}=\\dfrac{1}{7}\\)", "\\(0°<C<180°\\)이므로 \\(\\sin C=\\sqrt{1-\\left(\\dfrac{1}{7}\\right)^2}=\\dfrac{4\\sqrt{3}}{7}\\)", "\\(\\therefore S=\\dfrac{1}{2}\\times5\\times7\\times\\dfrac{4\\sqrt{3}}{7}=10\\sqrt{3}\\)", "⑵ \\(S=\\dfrac{abc}{4R}\\)에서 \\(10\\sqrt{3}=\\dfrac{5\\times7\\times8}{4R}\\)　\\(\\therefore R=\\dfrac{7\\sqrt{3}}{3}\\)", "⑶ \\(S=\\dfrac{1}{2}r(a+b+c)\\)에서 \\(10\\sqrt{3}=\\dfrac{1}{2}r(5+7+8)\\)　\\(\\therefore r=\\sqrt{3}\\)"], "alt_solution": ["⑴ 헤론의 공식에서 \\(s=\\dfrac{5+7+8}{2}=10\\)이므로", "\\(s-a=5\\), \\(s-b=3\\), \\(s-c=2\\)", "\\(S=\\sqrt{10\\times5\\times3\\times2}=\\sqrt{300}\\)", "\\(=10\\sqrt{3}\\)"], "answer": "⑴ \\(10\\sqrt{3}\\)　⑵ \\(\\dfrac{7\\sqrt{3}}{3}\\)　⑶ \\(\\sqrt{3}\\)", "bible": "헤론의 공식 — 세 변의 길이가 주어질 때 \\(S=\\sqrt{s(s-a)(s-b)(s-c)}\\)　（단, \\(s=\\dfrac{a+b+c}{2}\\)）"}, {"no": 3, "topic": "삼각형의 넓이", "title": "사각형의 넓이", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["\\(\\overline{AB}=4\\), \\(\\overline{BC}=6\\), \\(\\overline{AC}=8\\)인 평행사변형 \\(ABCD\\)의 넓이를 구하시오.", "두 대각선 \\(\\overline{AC}\\), \\(\\overline{BD}\\)가 이루는 예각의 크기가 \\(45°\\)이고 넓이가 \\(16\\sqrt{2}\\)인 등변사다리꼴 \\(ABCD\\)의 대각선의 길이를 구하시오."], "figure": "<div style=\"display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-start;margin-top:12px;\"><figure style=\"margin:0;text-align:center;flex:0 1 auto;\"><img src=\"data:image/png;base64,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\" alt=\"⑴ 평행사변형\" style=\"display:block;width:100%;max-width:280px;height:auto;margin:0 auto;border-radius:8px;\"/><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:3px;\">⑴ 평행사변형</figcaption></figure><figure style=\"margin:0;text-align:center;flex:0 1 auto;\"><img src=\"data:image/png;base64,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\" alt=\"⑵ 등변사다리꼴\" style=\"display:block;width:100%;max-width:300px;height:auto;margin:0 auto;border-radius:8px;\"/><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:3px;\">⑵ 등변사다리꼴</figcaption></figure></div>", "approach": ["⑴ 평행사변형의 넓이 \\(S=ab\\sin\\theta\\)", "⑵ 두 대각선이 이루는 각을 이용한 사각형의 넓이 \\(S=\\dfrac{1}{2}ab\\sin\\theta\\)"], "solution": ["⑴ 삼각형 \\(ABC\\)에서 코사인법칙에 의하여", "\\(\\cos B=\\dfrac{4^2+6^2-8^2}{2\\times4\\times6}=-\\dfrac{1}{4}\\)", "\\(0°<B<180°\\)이므로 \\(\\sin B=\\sqrt{1-\\left(-\\dfrac{1}{4}\\right)^2}=\\dfrac{\\sqrt{15}}{4}\\)", "\\(\\therefore S=4\\times6\\times\\dfrac{\\sqrt{15}}{4}=6\\sqrt{15}\\)", "⑵ 대각선의 길이를 \\(x\\)라 하면 두 대각선의 길이가 같으므로 \\(\\overline{AC}=\\overline{BD}=x\\)", "\\(16\\sqrt{2}=\\dfrac{1}{2}\\times x\\times x\\times\\sin 45°\\)", "\\(=\\dfrac{1}{2}x^2\\times\\dfrac{\\sqrt{2}}{2}\\)", "\\(x^2=64\\)　\\(\\therefore x=8\\)　（∵ \\(x>0\\)）"], "alt_solution": [], "answer": "⑴ \\(6\\sqrt{15}\\)　⑵ \\(8\\)", "bible": "등변사다리꼴의 성질 ① 평행하지 않은 두 변의 길이가 같다. ② 두 밑각의 크기가 같다. ③ 두 대각선의 길이가 같다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '삼각형의 넓이';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['사인·코사인','사인법칙과 코사인법칙','ar'],['삼각형 넓이','삼각형의 넓이','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    if(x.figure){ const fg=document.createElement('div'); fg.className='prob-figs'; fg.innerHTML=x.figure; prob.appendChild(fg); }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

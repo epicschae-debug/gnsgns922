@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>로그함수의 뜻과 그래프 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅰ. 지수함수와 로그함수 · 03단원</div>
+        <h1>로그함수의 뜻과 그래프</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "로그함수의 그래프", "no": 1, "title": "로그함수의 뜻", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">로그함수</div><div class=\"def-body\">\\(a&gt;0,\\ a\\neq1\\)일 때 지수함수 \\(y=a^{x}\\)의 역함수 $$y=\\log_{a}x \\quad(a&gt;0,\\ a\\neq1)$$ 를 \\(a\\)를 밑으로 하는 <b>로그함수</b>라 한다.</div></div></div><div class=\"concept-body\"><p class=\"prose\">지수함수 \\(y=a^{x}\\)는 일대일대응이므로 역함수가 존재한다. \\(y=a^{x}\\)에서 로그의 정의로 \\(x\\)에 대하여 풀면 \\(x=\\log_{a}y\\)가 되고, \\(x\\)와 \\(y\\)를 서로 바꾸면 역함수 \\(y=\\log_{a}x\\)를 얻는다.</p><div class=\"derive\"><div class=\"derive-title\">역함수를 구하는 과정</div><div class=\"derive-line\">\\(y=a^{x}\\iff x=\\log_{a}y\\)</div><div class=\"derive-line\">\\(x,\\ y\\)를 서로 바꾸면 \\(\\;y=\\log_{a}x\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">밑과 진수 조건</span><div class=\"formula-math\">\\[\\log_{a}x\\ \\text{에서}\\ a&gt;0,\\ a\\neq1,\\ x&gt;0\\]</div></div><figure style=\"margin:14px 0 4px;text-align:center;\"><img src=\"data:image/png;base64,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\" style=\"max-width:100%;height:auto;border-radius:8px;\" alt=\"y=aˣ와 y=logₐx는 직선 y=x에 대하여 대칭 (왼쪽 a&gt;1, 오른쪽 0&lt;a&lt;1)\"><figcaption style=\"font-size:12px;color:#667085;margin-top:4px;\">y=aˣ와 y=logₐx는 직선 y=x에 대하여 대칭 (왼쪽 a&gt;1, 오른쪽 0&lt;a&lt;1)</figcaption></figure><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(y=2^{x}\\)의 역함수는 \\(y=\\log_{2}x\\), \\(\\;y=\\left(\\dfrac12\\right)^{x}\\)의 역함수는 \\(y=\\log_{\\frac12}x\\)이다.</li><li>\\(f(x)=\\log_{3}x\\)이면 \\(f(1)=0,\\ f(3)=1,\\ f\\!\\left(\\dfrac13\\right)=-1\\)이다.</li></ol></div></div>"}, {"topic": "로그함수의 그래프", "no": 2, "title": "로그함수 \\(y=\\log_{a}x\\)의 그래프와 성질", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">그래프의 성질</div><div class=\"def-body\">로그함수 \\(y=\\log_{a}x\\ (a&gt;0,\\ a\\neq1)\\)는 다음 성질을 가진다.<br>① 정의역은 \\(\\{x\\,|\\,x&gt;0\\}\\), 치역은 실수 전체이다.<br>② 그래프는 점 \\((1,\\,0)\\)과 \\((a,\\,1)\\)을 지난다.<br>③ \\(a&gt;1\\)이면 증가, \\(0&lt;a&lt;1\\)이면 감소한다.<br>④ \\(y\\)축(직선 \\(x=0\\))을 점근선으로 한다.</div></div></div><div class=\"concept-body\"><p class=\"prose\">\\(y=\\log_{a}x\\)는 \\(y=a^{x}\\)의 역함수이므로, 그래프는 직선 \\(y=x\\)에 대하여 \\(y=a^{x}\\)와 대칭이다. 밑 \\(a\\)의 크기에 따라 증가·감소가 갈린다.</p><div class=\"derive\"><div class=\"derive-title\">밑에 따른 그래프</div><div class=\"derive-line\">\\(a&gt;1\\)일 때 : 오른쪽 위로 <b>증가</b>, 점 \\((1,0)\\)·\\((a,1)\\)을 지난다.</div><div class=\"derive-line\">\\(0&lt;a&lt;1\\)일 때 : 오른쪽 아래로 <b>감소</b>한다.</div></div><div class=\"note\">\\(y=\\log_{a}x\\)와 \\(y=\\log_{\\frac1a}x\\)의 그래프는 \\(x\\)축에 대하여 서로 대칭이다. (\\(\\log_{\\frac1a}x=-\\log_{a}x\\))</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>밑이 \\(1\\)보다 클 때, 밑이 클수록 \\(x&gt;1\\)에서 그래프는 \\(x\\)축에 더 가까워진다. 즉 \\(x&gt;1\\)에서 \\(\\log_{2}x&gt;\\log_{3}x&gt;\\log_{4}x\\).</li><li>\\(y=\\log_{a}x^{2}=2\\log_{a}|x|\\)의 정의역은 \\(\\{x\\,|\\,x\\neq0\\}\\)이지만, \\(y=2\\log_{a}x\\)의 정의역은 \\(\\{x\\,|\\,x&gt;0\\}\\)으로 서로 다르다.</li></ol></div></div>"}, {"topic": "로그함수의 그래프", "no": 3, "title": "로그함수의 평행이동과 대칭이동", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">평행·대칭이동</div><div class=\"def-body\">\\(y=\\log_{a}x\\)를<br>① \\(x\\)축으로 \\(m\\), \\(y\\)축으로 \\(n\\)만큼 평행이동 \\(\\Rightarrow\\ y=\\log_{a}(x-m)+n\\)<br>② \\(x\\)축에 대하여 대칭이동 \\(\\Rightarrow\\ y=-\\log_{a}x\\)<br>③ \\(y\\)축에 대하여 대칭이동 \\(\\Rightarrow\\ y=\\log_{a}(-x)\\)<br>④ 원점에 대하여 대칭이동 \\(\\Rightarrow\\ y=-\\log_{a}(-x)\\)</div></div></div><div class=\"concept-body\"><p class=\"prose\">평행이동은 식의 \\(x\\)에 \\(x-m\\)을, \\(y\\)에 \\(y-n\\)을 대입하여 얻는다.</p><div class=\"derive\"><div class=\"derive-title\">평행이동의 유도</div><div class=\"derive-line\">\\(y-n=\\log_{a}(x-m)\\)</div><div class=\"derive-line\">\\(\\iff y=\\log_{a}(x-m)+n\\)</div></div><div class=\"formula\"><span class=\"formula-tag\">평행이동 결과</span><div class=\"formula-math\">\\[y=\\log_{a}(x-m)+n\\]</div></div><p class=\"prose\">이때 점 \\((1,0)\\)은 \\((1+m,\\,n)\\)으로 옮겨지고, 점근선 \\(x=0\\)은 \\(x=m\\)으로, 정의역 \\(\\{x\\,|\\,x&gt;0\\}\\)은 \\(\\{x\\,|\\,x&gt;m\\}\\)으로 바뀐다.</p><figure style=\"margin:14px 0 4px;text-align:center;\"><img src=\"data:image/png;base64,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\" style=\"max-width:100%;height:auto;border-radius:8px;\" alt=\"y=logₐx를 x축으로 m, y축으로 n 평행이동\"><figcaption style=\"font-size:12px;color:#667085;margin-top:4px;\">y=logₐx를 x축으로 m, y축으로 n 평행이동</figcaption></figure><figure style=\"margin:14px 0 4px;text-align:center;\"><img src=\"data:image/png;base64,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\" style=\"max-width:100%;height:auto;border-radius:8px;\" alt=\"대칭이동 : (왼쪽) x축 대칭, (가운데) y축 대칭, (오른쪽) 원점 대칭\"><figcaption style=\"font-size:12px;color:#667085;margin-top:4px;\">대칭이동 : (왼쪽) x축 대칭, (가운데) y축 대칭, (오른쪽) 원점 대칭</figcaption></figure><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(y=\\log_{2}(x-2)+3\\)은 \\(y=\\log_{2}x\\)를 \\(x\\)축으로 \\(2\\), \\(y\\)축으로 \\(3\\)만큼 평행이동한 것이다. 정의역은 \\(\\{x\\,|\\,x&gt;2\\}\\), 점근선은 \\(x=2\\)이다.</li><li>\\(x\\)축 대칭은 \\(-\\log_{a}x=\\log_{a}\\dfrac1x\\)와 같다.</li></ol></div></div>"}, {"topic": "로그함수의 그래프", "no": 4, "title": "로그함수의 대소 관계", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">대소 관계</div><div class=\"def-body\">로그함수 \\(y=\\log_{a}x\\)에서 \\(0&lt;x_{1}&lt;x_{2}\\)일 때<br>① \\(a&gt;1\\)이면 \\(\\log_{a}x_{1}&lt;\\log_{a}x_{2}\\) (대소가 그대로)<br>② \\(0&lt;a&lt;1\\)이면 \\(\\log_{a}x_{1}&gt;\\log_{a}x_{2}\\) (대소가 뒤바뀜)</div></div></div><div class=\"concept-body\"><p class=\"prose\">로그의 대소를 비교할 때는 밑을 같게 만든 뒤 진수의 크기를 비교한다. 밑이 \\(1\\)보다 크면 증가함수이므로 진수가 클수록 로그값도 크고, 밑이 \\(1\\)보다 작으면 감소함수이므로 진수가 클수록 로그값은 작아진다.</p><div class=\"derive\"><div class=\"derive-title\">비교 순서</div><div class=\"derive-line\">①\\ 밑을 통일한다. (\\(k\\log_{a}M=\\log_{a}M^{k}\\), \\(\\log_{a^{k}}M=\\tfrac1k\\log_{a}M\\))</div><div class=\"derive-line\">②\\ 진수의 크기를 비교한다.</div><div class=\"derive-line\">③\\ 밑이 \\(a&gt;1\\)인지 \\(0&lt;a&lt;1\\)인지로 대소를 정한다.</div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(2\\log_{5}3=\\log_{5}9,\\ 3\\log_{5}2=\\log_{5}8\\)이고 밑 \\(5&gt;1\\), \\(9&gt;8\\)이므로 \\(2\\log_{5}3&gt;3\\log_{5}2\\).</li><li>\\(\\dfrac12\\log_{\\frac13}16=\\log_{\\frac13}4,\\ 2\\log_{\\frac13}\\sqrt{10}=\\log_{\\frac13}10\\)이고 밑이 \\(0&lt;\\tfrac13&lt;1\\), \\(4&lt;10\\)이므로 \\(\\dfrac12\\log_{\\frac13}16&gt;2\\log_{\\frac13}\\sqrt{10}\\).</li></ol></div></div>"}, {"topic": "로그함수의 최대·최소", "no": 1, "title": "로그함수의 최대·최소", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">최대·최소</div><div class=\"def-body\">닫힌구간 \\(\\{x\\,|\\,m\\le x\\le n\\}\\)에서 \\(f(x)=\\log_{a}x\\)는<br>① \\(a&gt;1\\)이면 \\(x=m\\)에서 최솟값 \\(f(m)\\), \\(x=n\\)에서 최댓값 \\(f(n)\\)<br>② \\(0&lt;a&lt;1\\)이면 \\(x=m\\)에서 최댓값 \\(f(m)\\), \\(x=n\\)에서 최솟값 \\(f(n)\\)</div></div></div><div class=\"concept-body\"><p class=\"prose\">로그함수는 정해진 구간에서 단조증가 또는 단조감소이므로, 최댓값과 최솟값은 항상 <b>구간의 양 끝</b>에서 나타난다. 따라서 양 끝 \\(x=m,\\ x=n\\)의 함숫값만 비교하면 된다.</p><div class=\"derive\"><div class=\"derive-title\">증감에 따른 양 끝값</div><div class=\"derive-line\">\\(a&gt;1\\) (증가) : 최솟값 \\(f(m)\\), 최댓값 \\(f(n)\\)</div><div class=\"derive-line\">\\(0&lt;a&lt;1\\) (감소) : 최댓값 \\(f(m)\\), 최솟값 \\(f(n)\\)</div></div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(4\\le x\\le16\\)에서 \\(y=\\log_{4}x\\)는 밑 \\(4&gt;1\\)이므로 최댓값 \\(\\log_{4}16=2\\), 최솟값 \\(\\log_{4}4=1\\).</li><li>\\(\\dfrac15\\le x\\le125\\)에서 \\(y=\\log_{\\frac15}x\\)는 밑이 \\(0&lt;\\tfrac15&lt;1\\)이므로 최댓값 \\(\\log_{\\frac15}\\dfrac15=1\\), 최솟값 \\(\\log_{\\frac15}125=-3\\).</li></ol></div></div>"}, {"topic": "로그함수의 최대·최소", "no": 2, "title": "합성·치환 꼴의 최대·최소", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">합성함수 꼴</div><div class=\"def-body\">\\(y=\\log_{a}f(x)\\) 꼴은 진수 \\(f(x)\\)의 값의 범위를 먼저 구한 뒤, 밑 \\(a\\)에 따른 증감을 이용해 최대·최소를 정한다. (단, 항상 \\(f(x)&gt;0\\))</div></div></div><div class=\"concept-body\"><p class=\"prose\">로그가 여러 번 나오거나 \\((\\log_{a}x)^{2}\\) 꼴이면 \\(\\log_{a}x=t\\)로 <b>치환</b>하여 \\(t\\)에 대한 이차함수로 바꾼다. 이때 \\(x\\)의 범위로부터 \\(t\\)의 범위를 정확히 구해야 한다.</p><div class=\"derive\"><div class=\"derive-title\">치환의 흐름</div><div class=\"derive-line\">\\(\\log_{a}x=t\\)로 놓는다.</div><div class=\"derive-line\">\\(m\\le x\\le n\\Rightarrow t\\)의 범위를 구한다.</div><div class=\"derive-line\">\\(t\\)에 대한 이차함수의 최대·최소를 구한다.</div></div><div class=\"formula\"><span class=\"formula-tag\">산술·기하 평균</span><div class=\"formula-math\">\\[A&gt;0,\\ B&gt;0 \\Rightarrow A+B\\ge 2\\sqrt{AB}\\ \\ (\\text{등호는 } A=B)\\]</div></div><div class=\"note\">두 양수의 합의 최솟값을 구할 때는 산술·기하평균의 관계를 이용하면 편리하다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(y=(\\log_{2}x)^{2}+4\\log_{2}x-3\\)에서 \\(\\log_{2}x=t\\)로 놓으면 \\(y=t^{2}+4t-3=(t+2)^{2}-7\\).</li><li>\\(x&gt;0\\)에서 \\(3x+\\dfrac3x\\ge2\\sqrt{3x\\cdot\\dfrac3x}=6\\) (등호는 \\(x=1\\)).</li></ol></div></div>"}]}</script>
+<script id="examples" type="application/json">{"examples": [{"no": 1, "topic": "로그함수의 그래프", "title": "로그함수의 성질 — 참·거짓 판별", "problem_intro": "함수 \\(f(x)=-\\log_{4}x\\)에 대하여 <보기>에서 옳은 것만을 있는 대로 고르시오.", "problem_parts": ["ㄱ. \\(0<x_{1}<x_{2}\\)이면 \\(f(x_{1})>f(x_{2})\\)이다.", "ㄴ. \\(f(1)+f(3)<2f(2)\\)이다.", "ㄷ. \\(y=\\dfrac14\\log_{2}x^{2}\\)의 그래프는 \\(x>0\\)에서 \\(y=f(x)\\)의 그래프와 \\(x\\)축에 대하여 대칭이다."], "approach": ["\\(f(x)=-\\log_{4}x=\\log_{\\frac14}x\\)이므로 밑이 \\(0<\\tfrac14<1\\)인 감소함수임을 먼저 파악한다.", "ㄴ은 그래프의 볼록성(현과 곡선의 위치)으로, ㄷ은 식을 정리해 정의역과 함께 비교한다."], "solution": ["ㄱ. \\(f(x)=\\log_{\\frac14}x\\)는 밑이 \\(0<\\tfrac14<1\\)이므로 감소함수이다.", "따라서 \\(0<x_{1}<x_{2}\\)이면 \\(f(x_{1})>f(x_{2})\\). (참)", "ㄴ. \\(y=f(x)\\)의 그래프는 아래로 볼록하므로 두 점 \\((1,f(1)),(3,f(3))\\)을 잇는 현의 중점이 곡선보다 위에 있다.", "즉 \\(\\dfrac{f(1)+f(3)}{2}>f(2)\\)이므로 \\(f(1)+f(3)>2f(2)\\). (거짓)", "ㄷ. \\(\\dfrac14\\log_{2}x^{2}=\\dfrac14\\cdot2\\log_{2}|x|=\\dfrac12\\log_{2}|x|=\\log_{4}|x|\\)", "이므로 \\(x>0\\)에서는 \\(y=\\log_{4}x\\)이다. 한편 \\(f(x)=-\\log_{4}x\\)이므로 두 그래프는 \\(x>0\\)에서 \\(x\\)축에 대하여 대칭이다. (참)"], "alt_solution": [], "answer": "ㄱ, ㄷ", "bible": "\\(-\\log_{a}x=\\log_{\\frac1a}x=\\log_{a}\\dfrac1x\\). 밑이 \\(0<a<1\\)이면 로그함수는 감소하고, 그래프는 아래로 볼록하다."}, {"no": 2, "topic": "로그함수의 그래프", "title": "평행이동과 점근선으로 상수 구하기", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["함수 \\(y=\\log_{3}(x+a)+b\\)의 그래프의 점근선이 직선 \\(x=4\\)이고 \\(f(7)=8\\)일 때, 상수 \\(a,\\ b\\)에 대하여 \\(a+b\\)의 값을 구하시오.", "\\(y=\\log_{2}(8x-24)+3\\)의 그래프는 \\(y=\\log_{2}x\\)의 그래프를 \\(x\\)축으로 \\(a\\), \\(y\\)축으로 \\(b\\)만큼 평행이동한 것이다. \\(a,\\ b\\)의 값을 구하시오."], "approach": ["⑴ 점근선이 \\(x=4\\)이면 \\(x+a=0\\)이 \\(x=4\\)에서 성립하므로 \\(a\\)를 정한다.", "⑵ 식을 \\(\\log_{2}(x-m)+n\\) 꼴로 변형하면 \\(m,\\ n\\)이 곧 평행이동량이다."], "solution": ["⑴ 점근선이 \\(x=4\\)이므로 \\(a=-4\\).", "\\(f(x)=\\log_{3}(x-4)+b\\)에서 \\(f(7)=\\log_{3}3+b=1+b=8\\)이므로 \\(b=7\\).", "\\(\\therefore a+b=(-4)+7=3\\)", "⑵ \\(y=\\log_{2}(8x-24)+3=\\log_{2}8(x-3)+3\\)", "\\(=\\log_{2}8+\\log_{2}(x-3)+3=\\log_{2}(x-3)+6\\)", "따라서 \\(y=\\log_{2}x\\)를 \\(x\\)축으로 \\(3\\), \\(y\\)축으로 \\(6\\)만큼 평행이동한 것이므로 \\(a=3,\\ b=6\\)."], "alt_solution": [], "answer": "⑴ \\(3\\)　⑵ \\(a=3,\\ b=6\\)", "bible": "\\(y=\\log_{a}(px+q)\\)는 \\(\\log_{a}p(x+\\tfrac{q}{p})\\)로 묶어 \\(\\log_{a}p\\)를 분리하면 평행이동 꼴 \\(\\log_{a}(x-m)+n\\)으로 정리된다."}, {"no": 3, "topic": "로그함수의 그래프", "title": "절댓값 기호를 포함한 그래프", "problem_intro": "함수 \\(f(x)=\\log_{3}x\\)에 대하여 다음 그래프를 그리고 점근선을 구하시오.", "problem_parts": ["\\(y=|f(x-2)+1|\\)", "\\(y=f(|x+1|)\\)"], "approach": ["\\(y=|g(x)|\\) : \\(y=g(x)\\)를 그린 뒤 \\(x\\)축 아래 부분만 위로 접어 올린다.", "\\(y=g(|x|)\\) : \\(x\\ge0\\) 부분을 그린 뒤 \\(y\\)축에 대하여 대칭이 되도록 왼쪽에 복사한다."], "solution": ["⑴ 먼저 \\(y=f(x-2)+1=\\log_{3}(x-2)+1\\)은 \\(y=\\log_{3}x\\)를 \\(x\\)축으로 \\(2\\), \\(y\\)축으로 \\(1\\)만큼 평행이동한 것이다. (점근선 \\(x=2\\))", "여기서 \\(y<0\\)인 부분을 \\(x\\)축에 대하여 위로 접어 올리면 \\(y=|f(x-2)+1|\\)의 그래프가 된다. 점근선은 \\(x=2\\).", "⑵ \\(y=f(x+1)=\\log_{3}(x+1)\\)은 \\(y=\\log_{3}x\\)를 \\(x\\)축으로 \\(-1\\)만큼 평행이동한 것이다.", "이 그래프의 \\(x\\ge-1\\)인 부분을 직선 \\(x=-1\\)에 대하여 대칭이 되도록 왼쪽에 복사하면 \\(y=f(|x+1|)\\)의 그래프가 된다. 정의역은 \\(x\\neq-1\\)."], "alt_solution": [], "answer": "⑴ 점근선 \\(x=2\\)　⑵ 직선 \\(x=-1\\)에 대하여 대칭인 그래프", "bible": "그래프 변형 순서는 ‘평행이동 → 절댓값(접기/대칭)’ 순으로 처리한다. \\(y=|f(x)|\\)는 \\(x\\)축 아래를 접고, \\(y=f(|x|)\\)는 \\(y\\)축 기준으로 복사한다."}, {"no": 4, "topic": "로그함수의 그래프", "title": "두 로그곡선이 둘러싼 부분의 넓이", "problem_intro": "두 곡선 \\(y=\\log_{2}x\\), \\(y=2\\log_{4}x-3\\)과 두 직선 \\(x=4\\), \\(x=10\\)으로 둘러싸인 부분의 넓이를 구하시오.", "problem_parts": [], "approach": ["\\(2\\log_{4}x\\)를 밑이 \\(2\\)인 로그로 바꾸어 두 곡선의 관계를 살핀다.", "두 곡선이 평행이동 관계이면 둘러싸인 부분이 평행사변형이 됨을 이용한다."], "solution": ["\\(2\\log_{4}x-3=2\\cdot\\dfrac{\\log_{2}x}{\\log_{2}4}-3=2\\cdot\\dfrac{\\log_{2}x}{2}-3=\\log_{2}x-3\\)", "즉 \\(y=2\\log_{4}x-3\\)은 \\(y=\\log_{2}x\\)를 \\(y\\)축으로 \\(-3\\)만큼 평행이동한 곡선이다.", "두 곡선은 \\(y\\)축 방향으로 \\(3\\)만큼 떨어진 합동인 곡선이므로, 두 직선 \\(x=4,\\ x=10\\) 사이의 부분은 평행사변형이다.", "밑변(가로) \\(=10-4=6\\), 높이(세로 거리) \\(=3\\)", "\\(\\therefore\\) 넓이 \\(=6\\times3=18\\)"], "alt_solution": [], "answer": "\\(18\\)", "bible": "\\(y=f(x)\\)와 \\(y=f(x)+k\\)처럼 평행이동 관계인 두 곡선과 두 수직선으로 둘러싸인 부분은 평행사변형이며, 넓이는 (가로)\\(\\times|k|\\)이다."}, {"no": 5, "topic": "로그함수의 그래프", "title": "로그함수의 역함수", "problem_intro": "함수 \\(y=\\log_{5}(x+a)-2\\)의 역함수가 \\(y=5^{x+b}-7\\)일 때, 상수 \\(a,\\ b\\)의 값을 구하시오.", "problem_parts": [], "approach": ["\\(y=\\log_{5}(x+a)-2\\)를 \\(x\\)에 대하여 풀고 \\(x,\\ y\\)를 바꾸어 역함수를 구한다.", "구한 역함수를 \\(y=5^{x+b}-7\\)과 계수 비교한다."], "solution": ["\\(y=\\log_{5}(x+a)-2\\)에서 \\(\\log_{5}(x+a)=y+2\\)", "\\(x+a=5^{\\,y+2}\\)이므로 \\(x=5^{\\,y+2}-a\\)", "\\(x\\)와 \\(y\\)를 서로 바꾸면 역함수는 \\(y=5^{\\,x+2}-a\\)", "이것이 \\(y=5^{x+b}-7\\)과 같으므로 \\(b=2,\\ -a=-7\\)", "\\(\\therefore a=7,\\ b=2\\)"], "alt_solution": [], "answer": "\\(a=7,\\ b=2\\)", "bible": "\\(f(x)=\\log_{a}(x-p)+q\\)와 그 역함수 \\(f^{-1}(x)=a^{\\,x-q}+p\\)의 그래프는 직선 \\(y=x\\)에 대하여 대칭이다."}, {"no": 6, "topic": "로그함수의 그래프", "title": "로그의 대소 비교", "problem_intro": "다음 세 수의 대소를 비교하시오.", "problem_parts": ["\\(\\log_{3}2,\\quad \\log_{\\frac13}\\dfrac25,\\quad \\log_{\\sqrt3}\\sqrt5\\)", "\\(\\log_{\\frac1{25}}15,\\quad \\log_{\\frac15}\\sqrt{11},\\quad \\log_{\\frac15}\\dfrac13\\)"], "approach": ["밑을 통일한 뒤 진수의 크기와 밑의 범위(증가·감소)로 대소를 정한다."], "solution": ["⑴ \\(\\log_{\\frac13}\\dfrac25=\\log_{3}\\dfrac52,\\quad \\log_{\\sqrt3}\\sqrt5=\\log_{3}5\\)", "밑이 \\(3>1\\)이고 \\(2<\\dfrac52<5\\)이므로", "\\(\\log_{3}2<\\log_{3}\\dfrac52<\\log_{3}5\\)", "\\(\\therefore \\log_{3}2<\\log_{\\frac13}\\dfrac25<\\log_{\\sqrt3}\\sqrt5\\)", "⑵ \\(\\log_{\\frac1{25}}15=\\dfrac12\\log_{\\frac15}15=\\log_{\\frac15}\\sqrt{15}\\)", "밑이 \\(0<\\dfrac15<1\\)이고 \\(\\dfrac13<\\sqrt{11}<\\sqrt{15}\\)이므로 (감소)", "\\(\\log_{\\frac15}\\sqrt{15}<\\log_{\\frac15}\\sqrt{11}<\\log_{\\frac15}\\dfrac13\\)", "\\(\\therefore \\log_{\\frac1{25}}15<\\log_{\\frac15}\\sqrt{11}<\\log_{\\frac15}\\dfrac13\\)"], "alt_solution": [], "answer": "⑴ \\(\\log_{3}2<\\log_{\\frac13}\\dfrac25<\\log_{\\sqrt3}\\sqrt5\\)　⑵ \\(\\log_{\\frac1{25}}15<\\log_{\\frac15}\\sqrt{11}<\\log_{\\frac15}\\dfrac13\\)", "bible": "\\(k\\log_{a}M=\\log_{a}M^{k}\\), \\(\\log_{a^{k}}M=\\dfrac1k\\log_{a}M\\)로 밑과 진수를 정리한 뒤, 밑이 \\(1\\)보다 큰지 작은지에 따라 대소를 판정한다."}, {"no": 1, "topic": "로그함수의 최대·최소", "title": "로그함수의 최대·최소", "problem_intro": "다음 함수의 최댓값과 최솟값을 구하시오.", "problem_parts": ["\\(y=\\log_{2}(x+4)-3\\quad(-2\\le x\\le4)\\)", "\\(y=\\log_{\\frac13}(6x-15)\\quad(4\\le x\\le7)\\)"], "approach": ["밑이 \\(1\\)보다 크면 증가, 작으면 감소하므로 구간의 양 끝에서 최대·최소가 나온다.", "진수가 일차식이면 \\(x\\)의 양 끝값을 바로 대입한다."], "solution": ["⑴ 밑이 \\(2>1\\)이므로 증가함수이다.", "\\(x=4\\)일 때 최댓값 \\(\\log_{2}8-3=3-3=0\\)", "\\(x=-2\\)일 때 최솟값 \\(\\log_{2}2-3=1-3=-2\\)", "⑵ 밑이 \\(0<\\dfrac13<1\\)이므로 감소함수이다.", "\\(x=4\\)일 때 최댓값 \\(\\log_{\\frac13}9=-2\\)", "\\(x=7\\)일 때 최솟값 \\(\\log_{\\frac13}27=-3\\)"], "alt_solution": [], "answer": "⑴ 최댓값 \\(0\\), 최솟값 \\(-2\\)　⑵ 최댓값 \\(-2\\), 최솟값 \\(-3\\)", "bible": "닫힌구간에서 단조함수의 최대·최소는 항상 구간의 양 끝점에서 생긴다. 진수가 일차식이면 양 끝 \\(x\\)값을 바로 대입하면 된다."}, {"no": 2, "topic": "로그함수의 최대·최소", "title": "진수가 이차식인 합성함수의 최대", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["\\(y=\\log_{2}(-x^{2}+6x-8)\\)의 최댓값을 구하시오.", "\\(\\{x\\,|\\,1\\le x\\le6\\}\\)에서 \\(y=\\log_{3}(-x^{2}+6x+3)\\)의 최댓값이 \\(1+\\log_{3}k\\)일 때, \\(3^{k}\\)의 값을 구하시오."], "approach": ["진수 \\(f(x)\\)의 최대·최소(꼭짓점·구간 끝)를 먼저 구한 뒤 밑의 증감을 적용한다.", "⑴은 진수가 양수인 \\(x\\)의 범위에서, ⑵는 주어진 구간에서 \\(f(x)\\)의 범위를 구한다."], "solution": ["⑴ 진수 조건 \\(-x^{2}+6x-8>0\\Rightarrow x^{2}-6x+8<0\\Rightarrow(x-2)(x-4)<0\\Rightarrow 2<x<4\\)", "\\(f(x)=-x^{2}+6x-8=-(x-3)^{2}+1\\)은 \\(x=3\\)에서 최댓값 \\(1\\).", "밑이 \\(2>1\\)이므로 \\(x=3\\)에서 \\(y\\)의 최댓값 \\(\\log_{2}1=0\\).", "⑵ \\(f(x)=-x^{2}+6x+3=-(x-3)^{2}+12\\)에서 \\(1\\le x\\le6\\)이면", "\\(f(1)=8,\\ f(3)=12,\\ f(6)=3\\)이므로 \\(3\\le f(x)\\le12\\).", "밑이 \\(3>1\\)이므로 \\(x=3\\)에서 최댓값 \\(\\log_{3}12=\\log_{3}(4\\times3)=1+\\log_{3}4\\).", "따라서 \\(k=4\\)이므로 \\(3^{k}=3^{4}=81\\). (한편 \\(3^{\\log_{3}4}=4\\))"], "alt_solution": [], "answer": "⑴ \\(0\\)　⑵ \\(81\\) (단, \\(k=4\\))", "bible": "\\(y=\\log_{a}f(x)\\)는 ‘진수 \\(f(x)\\)의 범위 → 밑의 증감’ 순으로 최대·최소를 정한다. 진수는 항상 \\(f(x)>0\\)이어야 한다."}, {"no": 3, "topic": "로그함수의 최대·최소", "title": "\\(\\log_{a}x=t\\) 치환에 의한 최대·최소", "problem_intro": "다음 함수의 최댓값과 최솟값을 구하시오.", "problem_parts": ["\\(y=(\\log_{2}x)^{2}+\\log_{2}x^{4}-3\\quad\\left(\\dfrac18\\le x\\le8\\right)\\)", "\\(y=\\log_{\\frac12}4x\\times\\log_{\\frac12}\\dfrac{x}{16}\\quad\\left(\\dfrac12\\le x\\le16\\right)\\)"], "approach": ["\\(\\log_{a}x=t\\)로 치환하여 \\(t\\)에 대한 이차함수로 바꾼다.", "\\(x\\)의 범위로부터 \\(t\\)의 범위를 정확히 구한 뒤 이차함수의 최대·최소를 구한다."], "solution": ["⑴ \\(y=(\\log_{2}x)^{2}+4\\log_{2}x-3\\). \\(\\log_{2}x=t\\)로 놓으면 \\(y=t^{2}+4t-3=(t+2)^{2}-7\\).", "\\(\\dfrac18\\le x\\le8\\Rightarrow -3\\le t\\le3\\)", "\\(t=3\\)일 때 최댓값 \\((3+2)^{2}-7=18\\), \\(t=-2\\)일 때 최솟값 \\(-7\\).", "⑵ \\(\\log_{\\frac12}4x=\\log_{\\frac12}x-2,\\ \\log_{\\frac12}\\dfrac{x}{16}=\\log_{\\frac12}x+4\\)", "\\(\\log_{\\frac12}x=t\\)로 놓으면 \\(y=(t-2)(t+4)=t^{2}+2t-8=(t+1)^{2}-9\\).", "\\(\\dfrac12\\le x\\le16\\Rightarrow -4\\le t\\le1\\)", "\\(t=-4\\)일 때 최댓값 \\((-4+1)^{2}-9=0\\), \\(t=-1\\)일 때 최솟값 \\(-9\\)."], "alt_solution": [], "answer": "⑴ 최댓값 \\(18\\), 최솟값 \\(-7\\)　⑵ 최댓값 \\(0\\), 최솟값 \\(-9\\)", "bible": "치환 후에는 반드시 \\(t\\)의 범위를 다시 구해야 한다. 이차함수의 최대·최소는 꼭짓점이 범위 안에 있는지로 판단한다."}, {"no": 4, "topic": "로그함수의 최대·최소", "title": "산술·기하평균을 이용한 최소", "problem_intro": "다음 함수의 최솟값을 구하시오.", "problem_parts": ["\\(x>0\\)에서 \\(y=\\log_{2}(x+3)+\\log_{2}\\left(\\dfrac1x+3\\right)\\)", "\\(x>1\\)에서 \\(y=\\log_{5}25x+\\log_{x}625\\)"], "approach": ["로그의 합을 하나의 로그(곱)로 모으거나 같은 꼴로 정리한다.", "두 양수의 합이 나오면 산술·기하평균의 관계 \\(A+B\\ge2\\sqrt{AB}\\)를 이용한다."], "solution": ["⑴ \\(y=\\log_{2}(x+3)\\left(\\dfrac1x+3\\right)=\\log_{2}\\left(3x+\\dfrac3x+10\\right)\\)", "\\(x>0\\)에서 \\(3x+\\dfrac3x\\ge2\\sqrt{3x\\cdot\\dfrac3x}=6\\) (등호는 \\(3x=\\dfrac3x\\), 즉 \\(x=1\\))", "진수 \\(\\ge16\\)이고 밑이 \\(2>1\\)이므로 \\(y\\ge\\log_{2}16=4\\). 최솟값 \\(4\\).", "⑵ \\(y=(\\log_{5}5^{2}+\\log_{5}x)+\\log_{x}5^{4}=\\log_{5}x+\\dfrac{4}{\\log_{5}x}+2\\)", "\\(x>1\\)이면 \\(\\log_{5}x>0\\)이므로 \\(\\log_{5}x+\\dfrac{4}{\\log_{5}x}\\ge2\\sqrt{4}=4\\) (등호는 \\(\\log_{5}x=2\\), 즉 \\(x=25\\))", "\\(\\therefore y\\ge4+2=6\\). 최솟값 \\(6\\)."], "alt_solution": [], "answer": "⑴ \\(4\\)　⑵ \\(6\\)", "bible": "\\(A>0,\\ B>0\\)이면 \\(A+B\\ge2\\sqrt{AB}\\) (등호는 \\(A=B\\)). 밑변환 \\(\\log_{x}625=\\dfrac{4}{\\log_{5}x}\\)처럼 같은 변수로 통일하면 적용하기 쉽다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '로그함수의 최대·최소';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['그래프·성질','로그함수의 그래프','ar'],['최대·최소','로그함수의 최대·최소','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+      if(showSol) requestAnimationFrame(()=>fitMath(sol));
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── 긴 수식 자동 축소(드래그 제거) ── */
+function fitMath(scope){
+  const root = scope || viewer;
+  const conts = root.querySelectorAll('mjx-container');
+  // 1) 이전 축소 초기화
+  conts.forEach(c=>{ c.style.fontSize = ''; });
+  // 2) 넘치는 것만 줄여서 박스 안에 맞춤
+  conts.forEach(c=>{
+    const parent = c.parentElement;
+    if(!parent) return;
+    const cs = getComputedStyle(parent);
+    const padL = parseFloat(cs.paddingLeft) || 0;
+    const padR = parseFloat(cs.paddingRight) || 0;
+    const avail = parent.clientWidth - padL - padR - 4;   // content-box - 여유
+    if(avail <= 1) return;                 // 접혀있거나 레이아웃 전 → 건너뜀
+    const w = c.getBoundingClientRect().width;
+    if(w > avail){
+      let s = avail / w;
+      if(s < 0.5) s = 0.5;                  // 너무 작아지지 않도록 하한
+      const base = parseFloat(getComputedStyle(c).fontSize) || 16;
+      c.style.fontSize = (base * s) + 'px';
+    }
+  });
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node])
+      .then(()=>{ requestAnimationFrame(()=>fitMath(node)); })
+      .catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+let _rz=null;
+window.addEventListener('resize', ()=>{
+  clearTimeout(_rz);
+  _rz=setTimeout(()=>fitMath(viewer), 150);
+});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>

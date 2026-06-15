@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지수방정식과 지수부등식 · 개념 + 예제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#23262e; --muted:#6f7480;
+    --navy:#22356f; --navy2:#33489a; --blue:#2f5fb0; --blue-soft:#eef5fd; --blue-line:#cfe2f7;
+    --approach-bg:#e9f1fc; --approach-ink:#1f56a6;
+    --solve-bg:#f3e9fb; --solve-ink:#7a3aa0;
+    --alt:#9aa0ad;
+    --orange:#e08327; --orange-bg:#fff8ef; --orange-line:#f1d8b4;
+    --card:#ffffff; --hair:#e7e2d6;
+    --geo:#197a6b; --geo-bg:#e6f4f0; --geo-line:#bfe4db;
+    /* 개념 본문용 (예제 톤에 맞춤) */
+    --arith:#22356f; --arith-tint:#eef5fd; --arith-edge:#cfe2f7;
+    --geom:#197a6b; --geom-tint:#e6f4f0; --geom-edge:#bfe4db;
+    --amber:#B7791F; --amber-tint:#FBF3E2;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100dvh; max-width:780px; margin:0 auto; background:var(--paper);}
+
+  /* ── 상단바 ── */
+  .topbar{flex:none; padding:11px 16px 10px; border-bottom:1px solid var(--hair); background:var(--paper); position:relative; z-index:5;}
+  .top-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px;}
+  .ttl .eyebrow{font-size:.72rem; font-weight:700; color:var(--blue); letter-spacing:.03em;}
+  .ttl h1{margin:.05em 0 0; font-size:1.08rem; font-weight:800; letter-spacing:-.02em;}
+  /* 모드 탭 */
+  .mode-tabs{display:inline-flex; background:#eee9dc; border-radius:11px; padding:3px; gap:2px; flex:none;}
+  .mode-tab{
+    border:none; background:transparent; color:var(--muted); font-family:inherit;
+    font-weight:800; font-size:.86rem; padding:7px 16px; border-radius:9px; cursor:pointer; transition:.12s;
+  }
+  .mode-tab.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+  .grid-nav{display:flex; flex-direction:column; gap:7px;}
+  .gn-row{display:grid; grid-template-columns:54px 1fr; align-items:center; gap:9px;}
+  .gn-label{font-size:.7rem; font-weight:800; text-align:center; padding:4px 0; border-radius:7px;}
+  .gn-label.ar{background:var(--blue-soft); color:var(--navy);}
+  .gn-label.ge{background:var(--geo-bg); color:var(--geo);}
+  .gn-nums{display:flex; gap:5px; flex-wrap:wrap;}
+  .gn-num{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--hair);
+    background:#fff; color:var(--ink); font-weight:800; font-size:.8rem;
+    font-variant-numeric:tabular-nums; cursor:pointer; display:grid; place-items:center;
+    transition:.12s; padding:0; line-height:1;
+  }
+  .gn-num:hover{border-color:var(--blue);}
+  .gn-num.ar.active{background:var(--navy); color:#fff; border-color:var(--navy); box-shadow:0 2px 6px rgba(34,53,111,.3);}
+  .gn-num.ge.active{background:var(--geo); color:#fff; border-color:var(--geo); box-shadow:0 2px 6px rgba(25,122,107,.3);}
+
+  /* ── 뷰어 ── */
+  .viewer{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px;}
+  .card{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:20px 20px 18px; margin:0;
+    box-shadow:0 1px 2px rgba(40,40,60,.04), 0 8px 24px rgba(40,40,60,.04);}
+  .card-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge{display:inline-flex; align-items:center; gap:9px;
+    background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff;
+    padding:6px 8px 6px 13px; border-radius:999px; font-weight:800; font-size:.8rem;
+    box-shadow:0 3px 8px rgba(34,53,111,.22);}
+  .badge.geo{background:linear-gradient(135deg,#15695c,#1f8f7d);}
+  .badge .num{background:#fff; color:var(--navy); width:24px; height:24px; border-radius:50%;
+    display:grid; place-items:center; font-size:.88rem; font-variant-numeric:tabular-nums;}
+  .badge.geo .num{color:#15695c;}
+  .topic-tag{font-size:.72rem; font-weight:800; padding:3px 9px; border-radius:6px; background:var(--blue-soft); color:var(--blue);}
+  .topic-tag.geo{background:var(--geo-bg); color:var(--geo);}
+  .ex-title{font-size:1.04rem; font-weight:800; color:var(--blue); flex:1 1 100%; line-height:1.35;}
+  .ex-title.geo{color:var(--geo);}
+
+  /* 예제 문제 */
+  .problem{background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:14px; padding:15px 17px;}
+  .problem.geo{background:var(--geo-bg); border-color:var(--geo-line);}
+  .problem .intro{font-weight:600;}
+  ol.parts{margin:.5em 0 0; padding-left:0; list-style:none; counter-reset:p;}
+  ol.parts li{counter-increment:p; padding-left:1.9em; position:relative; margin:.4em 0;}
+  ol.parts li::before{content:"(" counter(p) ")"; position:absolute; left:0; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
+  .problem.geo ol.parts li::before{color:var(--geo);}
+
+  /* 해설 토글 */
+  .sol-bar{display:flex; align-items:center; gap:12px; margin:18px 2px 4px;}
+  .sol-bar .lbl{font-weight:800; font-size:.9rem; color:var(--muted);}
+  .switch{position:relative; display:inline-block; width:50px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; cursor:pointer; background:#cfcabb; border-radius:999px; transition:.2s;}
+  .slider::before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .switch input:checked + .slider{background:var(--navy);}
+  .card.geo .switch input:checked + .slider{background:var(--geo);}
+  .switch input:checked + .slider::before{transform:translateX(22px);}
+  .sol-state{font-size:.82rem; color:var(--muted); font-weight:700;}
+  .solution{display:none; margin-top:6px;}
+  .solution.open{display:block;}
+
+  .block{margin-top:18px;}
+  .label{display:inline-block; font-weight:800; font-size:.8rem; padding:4px 12px; border-radius:8px; margin-bottom:8px;}
+  .label.approach{background:var(--approach-bg); color:var(--approach-ink);}
+  .label.solve{background:var(--solve-bg); color:var(--solve-ink);}
+  .label.alt{background:#fff; color:var(--alt); border:1px solid #e2e0da; font-size:.74rem; padding:3px 10px;}
+  .lines{padding-left:4px;}
+  .lines .line{margin:.18em 0;}
+  .lines .line.eq{padding-left:1.1em; margin:.28em 0;}
+  .note{color:var(--muted); font-size:.9em;}
+  .answer{display:inline-flex; align-items:center; gap:10px; margin-top:18px; border:1.5px solid var(--navy); border-radius:10px; padding:6px 14px 6px 6px; font-weight:700;}
+  .answer .k{background:var(--navy); color:#fff; padding:3px 10px; border-radius:6px; font-size:.8rem;}
+  .card.geo .answer{border-color:var(--geo);} .card.geo .answer .k{background:var(--geo);}
+  .bible{margin-top:20px; background:var(--orange-bg); border:1px solid var(--orange-line); border-radius:14px; padding:16px 18px; position:relative;}
+  .bible .tag{position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff; font-weight:800; font-size:.72rem; padding:3px 11px; border-radius:7px;}
+  .bible .body{margin-top:6px; font-size:.93rem; color:#5a4a36;}
+
+  /* ── 개념 본문 (concept-view) ── */
+  .cv .concept-card{border-radius:14px; padding:10px 20px; margin-bottom:18px;}
+  .cv.ar .concept-card{background:var(--arith-tint); border:1px solid var(--arith-edge);}
+  .cv.ge .concept-card{background:var(--geom-tint); border:1px solid var(--geom-edge);}
+  .cv .def-row{display:grid; grid-template-columns:130px 1fr; gap:14px; padding:13px 0; align-items:start;}
+  .cv .def-row+.def-row{border-top:1px dashed var(--hair);}
+  .cv .def-label{font-weight:700; font-size:14px;}
+  .cv.ar .def-label{color:var(--arith);}
+  .cv.ge .def-label{color:var(--geom);}
+  .cv .def-body{font-size:15px;}
+  .cv .concept-body{padding-left:2px;}
+  .cv .prose{margin:14px 0;}
+  .cv .formula{position:relative; margin:20px 0; padding:20px 20px 14px; border-radius:12px; background:var(--card); border:1px solid var(--hair);}
+  .cv.ar .formula{border-left:4px solid var(--arith);}
+  .cv.ge .formula{border-left:4px solid var(--geom);}
+  .cv .formula-tag{position:absolute; top:-11px; left:18px; font-size:11.5px; font-weight:700; padding:3px 11px; border-radius:999px; color:#fff;}
+  .cv.ar .formula-tag{background:var(--arith);}
+  .cv.ge .formula-tag{background:var(--geom);}
+  .cv .formula-math{overflow-x:auto;}
+  .cv .note{margin:16px 0; padding:13px 18px; border-radius:10px; background:var(--amber-tint); border-left:3px solid var(--amber); font-size:14px; color:#5a4517;}
+  .cv .note b{color:#3d2e0d;}
+  .cv .example{margin:18px 0; padding:18px 20px 16px; border-radius:12px; background:var(--card); border:1px dashed var(--hair);}
+  .cv .example-label{display:inline-block; font-weight:700; font-size:12.5px; letter-spacing:.08em; padding:3px 12px; border-radius:6px; margin-bottom:8px; color:var(--ink); background:#F0ECE0;}
+  .cv .example-list{margin:6px 0 0; padding-left:1.4em;}
+  .cv .example-list li{margin:9px 0; font-size:14.5px;}
+  .cv .derive{margin:18px 0; padding:18px 20px; border-radius:12px; background:#FAF9F4; border:1px solid var(--hair);}
+  .cv .derive-title{font-weight:700; font-size:14px; color:var(--muted); margin-bottom:10px;}
+  .cv .derive-line{padding:3px 0; overflow-x:auto;}
+  .cv .derive-rule{border:none; border-top:1.5px solid var(--ink); margin:6px 0;}
+  .cv .tablewrap{overflow-x:auto; margin:18px 0;}
+  .cv table.fin{border-collapse:collapse; width:100%; font-size:14px; background:var(--card);}
+  .cv table.fin th, .cv table.fin td{border:1px solid var(--hair); padding:8px 10px; text-align:center;}
+  .cv.ar table.fin thead th{background:var(--arith-tint); color:var(--arith); font-weight:700;}
+  .cv.ge table.fin thead th{background:var(--geom-tint); color:var(--geom); font-weight:700;}
+  .cv table.fin td:first-child, .cv table.fin th:first-child{font-weight:600; background:#FAFAF6;}
+  mjx-container{overflow-x:auto; overflow-y:visible; max-width:100%;}
+  /* 개념 정의칸 안의 display 수식이 윗줄/카드 경계에 가려지지 않도록 여백 확보 */
+  .cv .def-body mjx-container[display="true"]{margin:.45em 0 .25em;}
+
+  /* ── 페이저 ── */
+  .pager{flex:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--hair); background:var(--paper);}
+  .pager button{border:1.5px solid var(--navy); background:#fff; color:var(--navy); padding:9px 18px; border-radius:11px;
+    font-size:.92rem; font-weight:800; cursor:pointer; font-family:inherit; transition:.12s; flex:1; max-width:160px;}
+  .pager button:hover:not(:disabled){background:var(--navy); color:#fff;}
+  .pager button:disabled{opacity:.32; cursor:default; border-color:var(--hair); color:var(--muted);}
+  .pager .counter{font-weight:800; font-variant-numeric:tabular-nums; color:var(--muted); font-size:.9rem; white-space:nowrap;}
+
+  @media (max-width:430px){
+    .gn-num{width:28px; height:28px; font-size:.76rem;}
+    .gn-row{grid-template-columns:48px 1fr; gap:7px;}
+    .ttl h1{font-size:.98rem;}
+    .mode-tab{padding:6px 13px; font-size:.82rem;}
+    .viewer{padding:13px;}
+    .card{padding:17px 15px 16px;}
+    .pager button{padding:9px 10px;}
+    .cv .def-row{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="ttl">
+        <div class="eyebrow">Ⅰ. 지수함수와 로그함수 · 04단원</div>
+        <h1>지수방정식과 지수부등식</h1>
+      </div>
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="concept">개념</button>
+        <button class="mode-tab" data-mode="example">예제</button>
+      </div>
+    </div>
+    <div class="grid-nav" id="gridNav"></div>
+  </header>
+  <main class="viewer" id="viewer"></main>
+  <nav class="pager">
+    <button id="prevBtn">◀ 이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn">다음 ▶</button>
+  </nav>
+</div>
+
+<script id="concepts" type="application/json">{"concepts": [{"topic": "지수방정식", "no": 1, "title": "지수방정식과 그 해", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">지수방정식</div><div class=\"def-body\">\\(2^{x-1}=4,\\ 3^{x+2}=9^{2x}\\)과 같이 <b>지수에 미지수가 있는 방정식</b>을 지수방정식이라 한다.</div></div><div class=\"def-row\"><div class=\"def-label\">해의 개수</div><div class=\"def-body\">지수함수 \\(y=a^x\\ (a&gt;0,\\ a\\ne 1)\\)은 실수 전체의 집합에서 양의 실수 전체의 집합으로의 일대일대응이므로, 임의의 양수 \\(k\\)에 대하여 방정식 \\(a^x=k\\)는 <b>단 한 개의 해</b>를 갖는다.</div></div></div><div class=\"concept-body\"><p class=\"prose\">방정식 \\(a^x=k\\)의 해는 지수함수 \\(y=a^x\\)의 그래프와 직선 \\(y=k\\)의 교점의 \\(x\\)좌표와 같다. 곡선이 증가하든 감소하든 가로선 \\(y=k\\)와는 꼭 한 점에서 만난다.</p><figure style=\"margin:16px 0 6px;text-align:center;\"><svg viewBox=\"0 0 458 186\" xmlns=\"http://www.w3.org/2000/svg\" style=\"display:block;width:100%;max-width:460px;height:auto;margin:0 auto;\" font-family=\"Pretendard,system-ui,sans-serif\"><line x1=\"18.0\" y1=\"160.0\" x2=\"208.0\" y2=\"160.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><line x1=\"113.0\" y1=\"164.0\" x2=\"113.0\" y2=\"16.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><text x=\"210.0\" y=\"164.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\">x</text><text x=\"109.0\" y=\"14.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\" text-anchor=\"end\">y</text><text x=\"108.0\" y=\"173.0\" font-size=\"10.5\" fill=\"#8a8f9a\" text-anchor=\"end\">O</text><line x1=\"22.0\" y1=\"99.1\" x2=\"204.0\" y2=\"99.1\" stroke=\"#d98a3a\" stroke-width=\"1.6\" stroke-dasharray=\"1 0\"/><text x=\"204.0\" y=\"94.1\" font-size=\"11\" fill=\"#d98a3a\" text-anchor=\"end\">y=k</text><path d=\"M 22.0,153.4 L 25.0,153.0 L 28.1,152.7 L 31.1,152.3 L 34.1,151.9 L 37.2,151.5 L 40.2,151.0 L 43.2,150.5 L 46.3,150.1 L 49.3,149.5 L 52.3,149.0 L 55.4,148.4 L 58.4,147.8 L 61.4,147.2 L 64.5,146.5 L 67.5,145.8 L 70.5,145.1 L 73.6,144.3 L 76.6,143.5 L 79.6,142.6 L 82.7,141.7 L 85.7,140.7 L 88.7,139.7 L 91.8,138.7 L 94.8,137.6 L 97.8,136.4 L 100.9,135.2 L 103.9,133.9 L 106.9,132.5 L 110.0,131.1 L 113.0,129.6 L 116.0,128.0 L 119.1,126.3 L 122.1,124.6 L 125.1,122.7 L 128.2,120.8 L 131.2,118.7 L 134.2,116.6 L 137.3,114.3 L 140.3,111.9 L 143.3,109.4 L 146.4,106.8 L 149.4,104.0 L 152.4,101.1 L 155.5,98.0 L 158.5,94.8 L 161.5,91.4 L 164.6,87.8 L 167.6,84.0 L 170.6,80.1 L 173.7,75.9 L 176.7,71.5 L 179.7,66.9 L 182.8,62.0 L 185.8,56.9 L 188.8,51.5 L 191.9,45.9 L 194.9,39.9 L 197.9,33.7 L 201.0,27.1 L 204.0,20.2\" fill=\"none\" stroke=\"#22356f\" stroke-width=\"2.3\"/><circle cx=\"113.0\" cy=\"129.6\" r=\"2\" fill=\"#8a8f9a\"/><text x=\"108.0\" y=\"133.6\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"end\">1</text><line x1=\"154.4\" y1=\"99.1\" x2=\"154.4\" y2=\"160.0\" stroke=\"#22356f\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\"0.7\"/><circle cx=\"154.4\" cy=\"99.1\" r=\"3.4\" fill=\"#22356f\"/><text x=\"154.4\" y=\"174.0\" font-size=\"11\" fill=\"#22356f\" text-anchor=\"middle\">&#945;</text><text x=\"177.1\" y=\"64.9\" font-size=\"11.5\" fill=\"#22356f\">y=a<tspan font-size=\"8\" dy=\"-4\">x</tspan></text><rect x=\"22.0\" y=\"6\" rx=\"3\" ry=\"3\" width=\"46\" height=\"16\" fill=\"#22356f\" opacity=\"0.12\"/><text x=\"45.0\" y=\"17.5\" font-size=\"10.5\" fill=\"#22356f\" text-anchor=\"middle\">a&gt;1</text><text x=\"110.0\" y=\"183.0\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"middle\">a<tspan font-size=\"7\" dy=\"-3\">x</tspan><tspan dy=\"3\">=k의 해 x=&#945;</tspan></text><line x1=\"256.0\" y1=\"160.0\" x2=\"446.0\" y2=\"160.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><line x1=\"351.0\" y1=\"164.0\" x2=\"351.0\" y2=\"16.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><text x=\"448.0\" y=\"164.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\">x</text><text x=\"347.0\" y=\"14.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\" text-anchor=\"end\">y</text><text x=\"346.0\" y=\"173.0\" font-size=\"10.5\" fill=\"#8a8f9a\" text-anchor=\"end\">O</text><line x1=\"260.0\" y1=\"99.1\" x2=\"442.0\" y2=\"99.1\" stroke=\"#d98a3a\" stroke-width=\"1.6\" stroke-dasharray=\"1 0\"/><text x=\"442.0\" y=\"94.1\" font-size=\"11\" fill=\"#d98a3a\" text-anchor=\"end\">y=k</text><path d=\"M 260.0,20.2 L 263.0,27.1 L 266.1,33.7 L 269.1,39.9 L 272.1,45.9 L 275.2,51.5 L 278.2,56.9 L 281.2,62.0 L 284.3,66.9 L 287.3,71.5 L 290.3,75.9 L 293.4,80.1 L 296.4,84.0 L 299.4,87.8 L 302.5,91.4 L 305.5,94.8 L 308.5,98.0 L 311.6,101.1 L 314.6,104.0 L 317.6,106.8 L 320.7,109.4 L 323.7,111.9 L 326.7,114.3 L 329.8,116.6 L 332.8,118.7 L 335.8,120.8 L 338.9,122.7 L 341.9,124.6 L 344.9,126.3 L 348.0,128.0 L 351.0,129.6 L 354.0,131.1 L 357.1,132.5 L 360.1,133.9 L 363.1,135.2 L 366.2,136.4 L 369.2,137.6 L 372.2,138.7 L 375.3,139.7 L 378.3,140.7 L 381.3,141.7 L 384.4,142.6 L 387.4,143.5 L 390.4,144.3 L 393.5,145.1 L 396.5,145.8 L 399.5,146.5 L 402.6,147.2 L 405.6,147.8 L 408.6,148.4 L 411.7,149.0 L 414.7,149.5 L 417.7,150.1 L 420.8,150.5 L 423.8,151.0 L 426.8,151.5 L 429.9,151.9 L 432.9,152.3 L 435.9,152.7 L 439.0,153.0 L 442.0,153.4\" fill=\"none\" stroke=\"#22356f\" stroke-width=\"2.3\"/><circle cx=\"351.0\" cy=\"129.6\" r=\"2\" fill=\"#8a8f9a\"/><text x=\"346.0\" y=\"133.6\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"end\">1</text><line x1=\"309.6\" y1=\"99.1\" x2=\"309.6\" y2=\"160.0\" stroke=\"#22356f\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\"0.7\"/><circle cx=\"309.6\" cy=\"99.1\" r=\"3.4\" fill=\"#22356f\"/><text x=\"309.6\" y=\"174.0\" font-size=\"11\" fill=\"#22356f\" text-anchor=\"middle\">&#945;</text><text x=\"415.1\" y=\"143.6\" font-size=\"11.5\" fill=\"#22356f\">y=a<tspan font-size=\"8\" dy=\"-4\">x</tspan></text><rect x=\"260.0\" y=\"6\" rx=\"3\" ry=\"3\" width=\"46\" height=\"16\" fill=\"#22356f\" opacity=\"0.12\"/><text x=\"283.0\" y=\"17.5\" font-size=\"10.5\" fill=\"#22356f\" text-anchor=\"middle\">0&lt;a&lt;1</text><text x=\"348.0\" y=\"183.0\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"middle\">a<tspan font-size=\"7\" dy=\"-3\">x</tspan><tspan dy=\"3\">=k의 해 x=&#945;</tspan></text></svg><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:6px;\">y=aˣ의 그래프와 직선 y=k의 교점 → 방정식 aˣ=k의 해</figcaption></figure><div class=\"formula\"><span class=\"formula-tag\">밑이 같을 때</span><div class=\"formula-math\">\\[a&gt;0,\\ a\\ne 1\\text{일 때}\\quad a^{x_1}=a^{x_2}\\Longleftrightarrow x_1=x_2\\]</div></div><div class=\"note\">지수방정식·로그방정식은 인수분해나 근의 공식 같은 풀이 도구가 없으므로 두 그래프의 교점을 이용해 해를 구한다. 그래서 함수의 성질을 먼저 배운 뒤 방정식을 다룬다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(2^x=2^5\\)은 지수방정식이고 해는 \\(x=5\\)이다.</li><li>\\(\\left(\\dfrac{1}{3}\\right)^x=\\left(\\dfrac{1}{3}\\right)^2\\)은 지수방정식이고 해는 \\(x=2\\)이다.</li></ol></div></div>"}, {"topic": "지수방정식", "no": 2, "title": "지수방정식의 풀이", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">풀이의 세 유형</div><div class=\"def-body\">지수방정식은 ① 밑을 같게 할 수 있는 경우, ② \\(a^x\\) 꼴이 반복되는 경우, ③ 지수가 같은 경우로 나누어 푼다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">① 밑을 같게</span><div class=\"formula-math\">\\[a^{f(x)}=a^{g(x)}\\ (a&gt;0,\\ a\\ne 1)\\Longleftrightarrow f(x)=g(x)\\]</div></div><div class=\"formula\"><span class=\"formula-tag\">② 치환</span><div class=\"formula-math\">\\[a^x=t\\ (t&gt;0)\\text{로 치환하여 }t\\text{에 대한 방정식을 푼다.}\\]</div></div><p class=\"prose\">\\(a^x&gt;0\\)이므로 치환했을 때 \\(t&gt;0\\)인 해만 택한다. \\(t\\)의 값을 구한 뒤 반드시 처음 변수 \\(x\\)로 되돌려 해를 구해야 한다.</p><div class=\"formula\"><span class=\"formula-tag\">③ 지수가 같을 때</span><div class=\"formula-math\">\\[a^{f(x)}=b^{f(x)}\\Longleftrightarrow a=b\\ \\text{또는}\\ f(x)=0\\quad(a&gt;0,\\ b&gt;0)\\]</div></div><div class=\"note\">\\(2^0=3^0=1\\)과 같이 밑이 달라도 <b>지수가 \\(0\\)</b>이면 등식이 성립한다. 따라서 지수가 같은 경우에는 \\(f(x)=0\\)인 경우도 반드시 함께 고려한다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(3^{x+1}=81\\)에서 \\(3^{x+1}=3^4,\\ x+1=4\\)이므로 \\(x=3\\)</li><li>\\(2^{2x}-3\\cdot 2^x-4=0\\)에서 \\(2^x=t\\,(t&gt;0)\\)로 놓으면 \\(t^2-3t-4=0,\\ (t-4)(t+1)=0\\), 즉 \\(t=4\\)이므로 \\(2^x=2^2\\)에서 \\(x=2\\)</li></ol></div></div>"}, {"topic": "지수부등식", "no": 1, "title": "지수부등식과 부등호의 방향", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">지수부등식</div><div class=\"def-body\">\\(2^{x+1}\\le 8,\\ 5^{x-3}&gt;25^{x}\\)과 같이 <b>지수에 미지수가 있는 부등식</b>을 지수부등식이라 한다.</div></div><div class=\"def-row\"><div class=\"def-label\">증가와 감소</div><div class=\"def-body\">지수함수 \\(y=a^x\\)에서 \\(a&gt;1\\)이면 \\(x\\)가 커질 때 \\(y\\)도 커지고(증가), \\(0&lt;a&lt;1\\)이면 \\(x\\)가 커질 때 \\(y\\)는 작아진다(감소).</div></div></div><div class=\"concept-body\"><p class=\"prose\">따라서 지수부등식은 밑이 \\(1\\)보다 큰지 작은지에 따라 부등호의 방향이 달라지는 것에 주의하며 풀어야 한다.</p><figure style=\"margin:16px 0 6px;text-align:center;\"><svg viewBox=\"0 0 458 186\" xmlns=\"http://www.w3.org/2000/svg\" style=\"display:block;width:100%;max-width:460px;height:auto;margin:0 auto;\" font-family=\"Pretendard,system-ui,sans-serif\"><line x1=\"18.0\" y1=\"160.0\" x2=\"208.0\" y2=\"160.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><line x1=\"113.0\" y1=\"164.0\" x2=\"113.0\" y2=\"16.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><text x=\"210.0\" y=\"164.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\">x</text><text x=\"109.0\" y=\"14.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\" text-anchor=\"end\">y</text><text x=\"108.0\" y=\"173.0\" font-size=\"10.5\" fill=\"#8a8f9a\" text-anchor=\"end\">O</text><path d=\"M 22.0,153.4 L 25.0,153.0 L 28.1,152.7 L 31.1,152.3 L 34.1,151.9 L 37.2,151.5 L 40.2,151.0 L 43.2,150.5 L 46.3,150.1 L 49.3,149.5 L 52.3,149.0 L 55.4,148.4 L 58.4,147.8 L 61.4,147.2 L 64.5,146.5 L 67.5,145.8 L 70.5,145.1 L 73.6,144.3 L 76.6,143.5 L 79.6,142.6 L 82.7,141.7 L 85.7,140.7 L 88.7,139.7 L 91.8,138.7 L 94.8,137.6 L 97.8,136.4 L 100.9,135.2 L 103.9,133.9 L 106.9,132.5 L 110.0,131.1 L 113.0,129.6 L 116.0,128.0 L 119.1,126.3 L 122.1,124.6 L 125.1,122.7 L 128.2,120.8 L 131.2,118.7 L 134.2,116.6 L 137.3,114.3 L 140.3,111.9 L 143.3,109.4 L 146.4,106.8 L 149.4,104.0 L 152.4,101.1 L 155.5,98.0 L 158.5,94.8 L 161.5,91.4 L 164.6,87.8 L 167.6,84.0 L 170.6,80.1 L 173.7,75.9 L 176.7,71.5 L 179.7,66.9 L 182.8,62.0 L 185.8,56.9 L 188.8,51.5 L 191.9,45.9 L 194.9,39.9 L 197.9,33.7 L 201.0,27.1 L 204.0,20.2\" fill=\"none\" stroke=\"#197a6b\" stroke-width=\"2.3\"/><circle cx=\"113.0\" cy=\"129.6\" r=\"2\" fill=\"#8a8f9a\"/><text x=\"108.0\" y=\"133.6\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"end\">1</text><line x1=\"84.0\" y1=\"160.0\" x2=\"84.0\" y2=\"141.3\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"22.0\" y1=\"141.3\" x2=\"84.0\" y2=\"141.3\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><circle cx=\"84.0\" cy=\"141.3\" r=\"3\" fill=\"#197a6b\"/><text x=\"84.0\" y=\"174.0\" font-size=\"10.5\" fill=\"#3a3f4a\" text-anchor=\"middle\">x<tspan font-size=\"8\" dy=\"2\">1</tspan></text><text x=\"20.0\" y=\"144.8\" font-size=\"9.5\" fill=\"#197a6b\" text-anchor=\"end\">a<tspan font-size=\"7\" dy=\"-3\">x1</tspan></text><line x1=\"150.2\" y1=\"160.0\" x2=\"150.2\" y2=\"103.2\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"22.0\" y1=\"103.2\" x2=\"150.2\" y2=\"103.2\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><circle cx=\"150.2\" cy=\"103.2\" r=\"3\" fill=\"#197a6b\"/><text x=\"150.2\" y=\"174.0\" font-size=\"10.5\" fill=\"#3a3f4a\" text-anchor=\"middle\">x<tspan font-size=\"8\" dy=\"2\">2</tspan></text><text x=\"20.0\" y=\"106.7\" font-size=\"9.5\" fill=\"#197a6b\" text-anchor=\"end\">a<tspan font-size=\"7\" dy=\"-3\">x2</tspan></text><text x=\"166.0\" y=\"44.0\" font-size=\"15\" fill=\"#197a6b\">&#8599;</text><text x=\"183.0\" y=\"45.0\" font-size=\"10.5\" fill=\"#197a6b\">증가</text><text x=\"175.0\" y=\"67.9\" font-size=\"11.5\" fill=\"#197a6b\">y=a<tspan font-size=\"8\" dy=\"-4\">x</tspan></text><rect x=\"22.0\" y=\"6\" rx=\"3\" ry=\"3\" width=\"46\" height=\"16\" fill=\"#197a6b\" opacity=\"0.12\"/><text x=\"45.0\" y=\"17.5\" font-size=\"10.5\" fill=\"#197a6b\" text-anchor=\"middle\">a&gt;1</text><line x1=\"256.0\" y1=\"160.0\" x2=\"446.0\" y2=\"160.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><line x1=\"351.0\" y1=\"164.0\" x2=\"351.0\" y2=\"16.0\" stroke=\"#c9cdd6\" stroke-width=\"1.2\"/><text x=\"448.0\" y=\"164.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\">x</text><text x=\"347.0\" y=\"14.0\" font-size=\"11\" fill=\"#8a8f9a\" font-style=\"italic\" text-anchor=\"end\">y</text><text x=\"346.0\" y=\"173.0\" font-size=\"10.5\" fill=\"#8a8f9a\" text-anchor=\"end\">O</text><path d=\"M 260.0,20.2 L 263.0,27.1 L 266.1,33.7 L 269.1,39.9 L 272.1,45.9 L 275.2,51.5 L 278.2,56.9 L 281.2,62.0 L 284.3,66.9 L 287.3,71.5 L 290.3,75.9 L 293.4,80.1 L 296.4,84.0 L 299.4,87.8 L 302.5,91.4 L 305.5,94.8 L 308.5,98.0 L 311.6,101.1 L 314.6,104.0 L 317.6,106.8 L 320.7,109.4 L 323.7,111.9 L 326.7,114.3 L 329.8,116.6 L 332.8,118.7 L 335.8,120.8 L 338.9,122.7 L 341.9,124.6 L 344.9,126.3 L 348.0,128.0 L 351.0,129.6 L 354.0,131.1 L 357.1,132.5 L 360.1,133.9 L 363.1,135.2 L 366.2,136.4 L 369.2,137.6 L 372.2,138.7 L 375.3,139.7 L 378.3,140.7 L 381.3,141.7 L 384.4,142.6 L 387.4,143.5 L 390.4,144.3 L 393.5,145.1 L 396.5,145.8 L 399.5,146.5 L 402.6,147.2 L 405.6,147.8 L 408.6,148.4 L 411.7,149.0 L 414.7,149.5 L 417.7,150.1 L 420.8,150.5 L 423.8,151.0 L 426.8,151.5 L 429.9,151.9 L 432.9,152.3 L 435.9,152.7 L 439.0,153.0 L 442.0,153.4\" fill=\"none\" stroke=\"#197a6b\" stroke-width=\"2.3\"/><circle cx=\"351.0\" cy=\"129.6\" r=\"2\" fill=\"#8a8f9a\"/><text x=\"346.0\" y=\"133.6\" font-size=\"10\" fill=\"#8a8f9a\" text-anchor=\"end\">1</text><line x1=\"322.0\" y1=\"160.0\" x2=\"322.0\" y2=\"110.6\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"260.0\" y1=\"110.6\" x2=\"322.0\" y2=\"110.6\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><circle cx=\"322.0\" cy=\"110.6\" r=\"3\" fill=\"#197a6b\"/><text x=\"322.0\" y=\"174.0\" font-size=\"10.5\" fill=\"#3a3f4a\" text-anchor=\"middle\">x<tspan font-size=\"8\" dy=\"2\">1</tspan></text><text x=\"258.0\" y=\"114.1\" font-size=\"9.5\" fill=\"#197a6b\" text-anchor=\"end\">a<tspan font-size=\"7\" dy=\"-3\">x1</tspan></text><line x1=\"388.2\" y1=\"160.0\" x2=\"388.2\" y2=\"143.7\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"260.0\" y1=\"143.7\" x2=\"388.2\" y2=\"143.7\" stroke=\"#197a6b\" stroke-width=\"0.9\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><circle cx=\"388.2\" cy=\"143.7\" r=\"3\" fill=\"#197a6b\"/><text x=\"388.2\" y=\"174.0\" font-size=\"10.5\" fill=\"#3a3f4a\" text-anchor=\"middle\">x<tspan font-size=\"8\" dy=\"2\">2</tspan></text><text x=\"258.0\" y=\"147.2\" font-size=\"9.5\" fill=\"#197a6b\" text-anchor=\"end\">a<tspan font-size=\"7\" dy=\"-3\">x2</tspan></text><text x=\"404.0\" y=\"44.0\" font-size=\"15\" fill=\"#197a6b\">&#8600;</text><text x=\"421.0\" y=\"45.0\" font-size=\"10.5\" fill=\"#197a6b\">감소</text><text x=\"413.0\" y=\"143.2\" font-size=\"11.5\" fill=\"#197a6b\">y=a<tspan font-size=\"8\" dy=\"-4\">x</tspan></text><rect x=\"260.0\" y=\"6\" rx=\"3\" ry=\"3\" width=\"46\" height=\"16\" fill=\"#197a6b\" opacity=\"0.12\"/><text x=\"283.0\" y=\"17.5\" font-size=\"10.5\" fill=\"#197a6b\" text-anchor=\"middle\">0&lt;a&lt;1</text></svg><figcaption style=\"font-size:.72rem;color:#8a8f9a;margin-top:6px;\">밑의 범위에 따라 달라지는 y=aˣ의 증가·감소</figcaption></figure><div class=\"formula\"><span class=\"formula-tag\">부등호의 방향</span><div class=\"formula-math\">\\[\\begin{aligned}a&gt;1\\ &:\\ a^{x_1}&lt;a^{x_2}\\Longleftrightarrow x_1&lt;x_2\\\\ 0&lt;a&lt;1\\ &:\\ a^{x_1}&lt;a^{x_2}\\Longleftrightarrow x_1&gt;x_2\\end{aligned}\\]</div></div><div class=\"note\">(밑)\\(&gt;1\\)이면 지수의 부등호 방향이 <b>그대로</b>, \\(0&lt;\\)(밑)\\(&lt;1\\)이면 부등호 방향이 <b>반대로</b> 바뀐다. 등호(\\(\\le,\\ \\ge\\)) 포함 여부는 그대로 옮겨진다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(3^x\\ge 3^2\\)은 밑 \\(3&gt;1\\)이므로 해는 \\(x\\ge 2\\) (부등호 방향 그대로)</li><li>\\(\\left(\\dfrac{1}{2}\\right)^x&lt;\\left(\\dfrac{1}{2}\\right)^{-5}\\)은 밑 \\(0&lt;\\dfrac{1}{2}&lt;1\\)이므로 해는 \\(x&gt;-5\\) (부등호 방향 반대)</li></ol></div></div>"}, {"topic": "지수부등식", "no": 2, "title": "지수부등식의 풀이", "html": "<div class=\"concept-card\"><div class=\"def-row\"><div class=\"def-label\">풀이의 두 유형</div><div class=\"def-body\">지수부등식도 방정식과 마찬가지로 ① 밑을 같게 할 수 있는 경우, ② \\(a^x\\) 꼴이 반복되는 경우로 나누어 푼다.</div></div></div><div class=\"concept-body\"><div class=\"formula\"><span class=\"formula-tag\">① 밑을 같게</span><div class=\"formula-math\">\\[\\begin{aligned}a&gt;1\\ &:\\ a^{f(x)}&lt;a^{g(x)}\\Longleftrightarrow f(x)&lt;g(x)\\\\ 0&lt;a&lt;1\\ &:\\ a^{f(x)}&lt;a^{g(x)}\\Longleftrightarrow f(x)&gt;g(x)\\end{aligned}\\]</div></div><p class=\"prose\">밑을 같게 한 다음 지수를 비교하되, 밑이 \\(1\\)보다 작으면 부등호의 방향을 반대로 바꾼다.</p><div class=\"formula\"><span class=\"formula-tag\">② 치환</span><div class=\"formula-math\">\\[a^x=t\\ (t&gt;0)\\text{로 치환하여 }t\\text{에 대한 부등식을 푼다.}\\]</div></div><div class=\"note\">치환할 때 \\(a^x&gt;0\\)이므로 \\(t&gt;0\\)이라는 조건을 반드시 함께 사용한다. \\(t\\)의 범위를 구한 뒤 밑의 범위에 주의하며 \\(x\\)의 범위로 되돌린다.</div><div class=\"example\"><span class=\"example-label\">보기</span><ol class=\"example-list\"><li>\\(2^{x+1}&gt;\\dfrac{1}{8}\\)에서 \\(2^{x+1}&gt;2^{-3}\\), 밑 \\(2&gt;1\\)이므로 \\(x+1&gt;-3\\), 즉 \\(x&gt;-4\\)</li><li>\\(3^{2x}-8\\cdot 3^x-9&lt;0\\)에서 \\(3^x=t\\,(t&gt;0)\\)로 놓으면 \\((t+1)(t-9)&lt;0\\), 즉 \\(0&lt;t&lt;9\\)이고 \\(0&lt;3^x&lt;3^2\\)이므로 \\(x&lt;2\\)</li></ol></div></div>"}]}</script>
+<script id="examples" type="application/json">{"unit": "Ⅰ. 지수함수와 로그함수 — 04. 지수함수와 로그함수의 활용", "source": "대수 (본책, 교사용) · 대표 예제", "count": 8, "examples": [{"no": 1, "topic": "지수방정식", "title": "밑을 같게 할 수 있는 경우", "problem_intro": "다음 방정식을 푸시오.", "problem_parts": ["\\(\\left(\\dfrac{2}{5}\\right)^{2x}=\\left(\\dfrac{5}{2}\\right)^{7x+3}\\)", "\\(3^{x^2+2x}=9^{\\frac{5}{2}x+2}\\)"], "approach": ["밑을 같게 할 수 있는 지수방정식은 양변의 밑을 같게 한 뒤 지수를 비교한다.", "\\(a^{f(x)}=a^{g(x)}\\ (a>0,\\ a\\ne 1)\\) 꼴로 고친 후 \\(a^{f(x)}=a^{g(x)}\\Longleftrightarrow f(x)=g(x)\\)를 이용한다."], "solution": ["⑴ 밑을 \\(\\dfrac{5}{2}\\)로 같게 변형하면", "\\(\\left(\\dfrac{5}{2}\\right)^{-2x}=\\left(\\dfrac{5}{2}\\right)^{7x+3}\\)", "이므로 \\(-2x=7x+3\\)", "\\(9x=-3 \\therefore x=-\\dfrac{1}{3}\\)", "⑵ 밑을 \\(3\\)으로 같게 변형하면", "\\(3^{x^2+2x}=3^{2\\left(\\frac{5}{2}x+2\\right)}=3^{5x+4}\\)", "이므로 \\(x^2+2x=5x+4\\)", "\\(x^2-3x-4=0,\\ (x+1)(x-4)=0\\)", "\\(\\therefore x=-1\\) 또는 \\(x=4\\)"], "alt_solution": [], "answer": "⑴ \\(x=-\\dfrac{1}{3}\\)　⑵ \\(x=-1\\) 또는 \\(x=4\\)", "bible": "지수방정식은 지수법칙으로 밑을 같게 만드는 것이 출발점이다. \\(a^x a^y=a^{x+y},\\ a^x\\div a^y=a^{x-y},\\ (a^x)^y=a^{xy},\\ (ab)^x=a^x b^x\\)를 자유롭게 쓸 수 있어야 한다. 밑을 \\(\\dfrac{2}{5}\\)로 잡든 \\(\\dfrac{5}{2}\\)로 잡든 결과는 같으므로 계산이 간단한 쪽을 택한다."}, {"no": 2, "topic": "지수방정식", "title": "aˣ 꼴이 반복되는 경우", "problem_intro": "다음 방정식을 푸시오.", "problem_parts": ["\\(4^{x}-2^{x+2}-60=0\\)", "\\(2^{x+1}=2^{2-x}-7\\)"], "approach": ["\\(p\\,(a^x)^2+q\\,a^x+r=0\\) 꼴은 \\(a^x=t\\)로 치환하여 \\(t\\)에 대한 이차방정식 \\(pt^2+qt+r=0\\)으로 바꾼다.", "이때 \\(a^x>0\\)이므로 \\(t>0\\)인 해만 택한다.", "⑵처럼 음의 지수가 섞이면 양변에 \\(2^x\\)을 곱한 뒤 치환한다."], "solution": ["⑴ \\(4^x=(2^x)^2\\)이므로 \\((2^x)^2-4\\times 2^x-60=0\\)", "\\(2^x=t\\ (t>0)\\)으로 놓으면", "\\(t^2-4t-60=0,\\ (t+6)(t-10)=0\\)", "\\(\\therefore t=10\\ (\\because t>0)\\)", "따라서 \\(2^x=10\\)에서 \\(x=\\log_2 10\\)", "⑵ 양변에 \\(2^x\\)을 곱하면", "\\(2(2^x)^2=4-7\\times 2^x\\)", "\\(2(2^x)^2+7\\times 2^x-4=0\\)", "\\(2^x=t\\ (t>0)\\)으로 놓으면", "\\(2t^2+7t-4=0,\\ (t+4)(2t-1)=0\\)", "\\(\\therefore t=\\dfrac{1}{2}\\ (\\because t>0)\\)", "따라서 \\(2^x=\\dfrac{1}{2}\\)에서 \\(x=-1\\)"], "alt_solution": [], "answer": "⑴ \\(x=\\log_2 10\\)　⑵ \\(x=-1\\)", "bible": "방정식 \\(p(a^x)^2+q\\,a^x+r=0\\)의 두 실근을 \\(\\alpha,\\ \\beta\\)라 하면 치환한 이차방정식 \\(pt^2+qt+r=0\\)의 두 근은 \\(a^\\alpha,\\ a^\\beta\\)이다. 근과 계수의 관계에서 \\(a^\\alpha\\times a^\\beta=a^{\\alpha+\\beta}=\\dfrac{r}{p}\\)이므로 \\(\\alpha+\\beta=\\log_a\\dfrac{r}{p}\\)로 두 근의 합을 바로 구할 수 있다."}, {"no": 3, "topic": "지수방정식", "title": "연립방정식과 연립부등식", "problem_intro": "다음 물음에 답하시오.", "problem_parts": ["연립방정식 \\(\\begin{cases}2^{x}+3^{y-1}=11\\\\ 2^{x+1}-3^{y}=7\\end{cases}\\)의 해를 \\(x=\\alpha,\\ y=\\beta\\)라 할 때, \\(\\alpha^2-\\beta^2\\)의 값을 구하시오.", "부등식 \\(5^{-x}<25\\sqrt5<\\left(\\dfrac{1}{5}\\right)^{2x-1}\\)의 해가 \\(\\alpha<x<\\beta\\)일 때, \\(\\beta-\\alpha\\)의 값을 구하시오."], "approach": ["⑴ \\(2^x=X,\\ 3^y=Y\\ (X>0,\\ Y>0)\\)으로 치환하여 \\(X,\\ Y\\)에 대한 연립일차방정식으로 만든다.", "⑵ \\(A<B<C\\)는 두 부등식 \\(A<B,\\ B<C\\)의 공통인 해를 찾는 것이다."], "solution": ["⑴ 주어진 식을 정리하면", "\\(\\begin{cases}2^{x}+\\dfrac{1}{3}\\cdot 3^{y}=11\\\\ 2\\cdot 2^{x}-3^{y}=7\\end{cases}\\)", "\\(2^x=X,\\ 3^y=Y\\ (X>0,\\ Y>0)\\)로 놓으면", "\\(\\begin{cases}X+\\dfrac{1}{3}Y=11\\\\ 2X-Y=7\\end{cases}\\)", "이 연립방정식을 풀면 \\(X=8,\\ Y=9\\)", "\\(2^x=8,\\ 3^y=9\\)에서 \\(x=3,\\ y=2\\)", "따라서 \\(\\alpha=3,\\ \\beta=2\\)이므로", "\\(\\alpha^2-\\beta^2=3^2-2^2=5\\)", "⑵ \\(25\\sqrt5=5^{\\frac{5}{2}}\\)이므로 밑을 \\(5\\)로 같게 하면", "\\(5^{-x}<5^{\\frac{5}{2}}<5^{1-2x}\\)", "밑 \\(5\\)가 \\(5>1\\)이므로", "(ⅰ) \\(-x<\\dfrac{5}{2}\\)에서 \\(x>-\\dfrac{5}{2}\\)", "(ⅱ) \\(\\dfrac{5}{2}<1-2x\\)에서 \\(x<-\\dfrac{3}{4}\\)", "(ⅰ), (ⅱ)에서 \\(-\\dfrac{5}{2}<x<-\\dfrac{3}{4}\\)", "따라서 \\(\\alpha=-\\dfrac{5}{2},\\ \\beta=-\\dfrac{3}{4}\\)이므로", "\\(\\beta-\\alpha=-\\dfrac{3}{4}-\\left(-\\dfrac{5}{2}\\right)=\\dfrac{7}{4}\\)"], "alt_solution": [], "answer": "⑴ \\(5\\)　⑵ \\(\\dfrac{7}{4}\\)", "bible": "지수가 섞인 연립방정식은 \\(2^x=X,\\ 3^y=Y\\)와 같이 치환하면 익숙한 연립일차방정식이 된다. 이때 \\(X>0,\\ Y>0\\)을 잊지 않는다. \\(25\\sqrt5=5^2\\cdot 5^{\\frac{1}{2}}=5^{\\frac{5}{2}}\\)처럼 주어진 수를 한 밑의 거듭제곱으로 고치는 연습이 필요하다."}, {"no": 4, "topic": "지수방정식", "title": "밑에 미지수가 있는 경우", "problem_intro": "다음 방정식 또는 부등식의 해를 구하시오. (단, \\(x>0\\))", "problem_parts": ["\\(x^{x+3}=x^{-x+7}\\)", "\\((x+8)^{x-2}=(3x)^{x-2}\\)", "\\(x^{x^2-16}>x^{6x}\\)"], "approach": ["⑴ 밑과 지수에 미지수가 있는 \\(x^{g(x)}=x^{h(x)}\\) 꼴은 (ⅰ) 밑이 \\(1\\)인 경우 (ⅱ) 지수가 같은 경우로 나눈다.", "⑵ 지수가 같은 \\(f(x)^{m}=g(x)^{m}\\) 꼴은 (ⅰ) 밑이 같은 경우 (ⅱ) 지수가 \\(0\\)인 경우로 나눈다.", "⑶ 밑에 미지수가 있는 지수부등식은 밑의 범위를 나누어 부등호의 방향에 주의하며 푼다."], "solution": ["⑴ (ⅰ) 밑이 \\(1\\)일 때, \\(x=1\\)이면 \\(1^{4}=1^{6}\\)이므로 성립한다.", "(ⅱ) 지수가 같을 때, \\(x+3=-x+7,\\ 2x=4\\)에서 \\(x=2\\)", "따라서 \\(x=1\\) 또는 \\(x=2\\)", "⑵ (ⅰ) 밑이 같을 때, \\(x+8=3x\\)에서 \\(x=4\\)", "(ⅱ) 지수가 \\(0\\)일 때, \\(x-2=0\\)에서 \\(x=2\\)이고 \\(10^{0}=6^{0}\\)이므로 성립한다.", "따라서 \\(x=2\\) 또는 \\(x=4\\)", "⑶ (ⅰ) \\(x>1\\)일 때, \\(x^2-16>6x\\)에서 \\((x+2)(x-8)>0\\)", "\\(x<-2\\) 또는 \\(x>8\\)인데 \\(x>1\\)이므로 \\(x>8\\)", "(ⅱ) \\(x=1\\)일 때, (좌변)\\(=\\)(우변)\\(=1\\)이므로 성립하지 않는다.", "(ⅲ) \\(0<x<1\\)일 때, \\(x^2-16<6x\\)에서 \\((x+2)(x-8)<0\\)", "\\(-2<x<8\\)인데 \\(0<x<1\\)이므로 \\(0<x<1\\)", "따라서 \\(0<x<1\\) 또는 \\(x>8\\)"], "alt_solution": [], "answer": "⑴ \\(x=1\\) 또는 \\(x=2\\)　⑵ \\(x=2\\) 또는 \\(x=4\\)　⑶ \\(0<x<1\\) 또는 \\(x>8\\)", "bible": "밑과 지수에 모두 미지수가 있으면 ① 지수가 같은 경우는 밑을 비교하되 지수가 \\(0\\)이면 밑이 달라도 성립함을, ② 밑이 같은 경우는 지수를 비교하되 밑이 \\(1\\)이면 지수가 달라도 성립함을 빠뜨리지 않는다. 부등식은 밑의 범위를 \\(f(x)>1,\\ f(x)=1,\\ 0<f(x)<1\\)로 나누어 따진다."}, {"no": 5, "topic": "지수방정식", "title": "지수함수의 실생활에의 활용", "problem_intro": "어느 호수의 수면에서 빛의 세기를 \\(I_0\\ \\text{W/m}^2\\,(I_0>0)\\), 수심이 \\(x\\ \\text{m}\\)인 곳에서 빛의 세기를 \\(I\\ \\text{W/m}^2\\)라 하면 \\(I=I_0\\left(\\dfrac{1}{2}\\right)^{\\frac{x}{4}}\\)이라고 한다. 빛의 세기가 수면에서의 빛의 세기의 \\(\\dfrac{1}{32}\\)이 되는 곳의 수심은 \\(k\\ \\text{m}\\)이다. 상수 \\(k\\)의 값을 구하시오.", "problem_parts": [], "approach": ["실생활 문제는 주어진 조건을 식의 알맞은 자리에 대입하여 지수방정식을 세운 뒤 푼다.", "수심이 \\(k\\ \\text{m}\\)일 때 빛의 세기가 \\(\\dfrac{1}{32}I_0\\)임을 식에 대입한다."], "solution": ["빛의 세기가 \\(I_0\\)의 \\(\\dfrac{1}{32}\\)이 되는 곳의 수심이 \\(k\\ \\text{m}\\)이므로", "\\(\\dfrac{1}{32}I_0=I_0\\left(\\dfrac{1}{2}\\right)^{\\frac{k}{4}}\\)", "\\(\\dfrac{1}{32}=\\left(\\dfrac{1}{2}\\right)^{\\frac{k}{4}}\\ (\\because I_0>0)\\)", "\\(\\left(\\dfrac{1}{2}\\right)^{5}=\\left(\\dfrac{1}{2}\\right)^{\\frac{k}{4}}\\)", "\\(5=\\dfrac{k}{4} \\therefore k=20\\)"], "alt_solution": [], "answer": "\\(20\\)", "bible": "식이 주어지지 않고 '수심 \\(4\\ \\text{m}\\)마다 빛의 세기가 반으로 줄어든다'처럼 말로 제시될 수도 있다. 이때 수심 \\(x\\ \\text{m}\\)에서의 세기는 \\(I=I_0\\left(\\dfrac{1}{2}\\right)^{\\frac{x}{4}}\\)로 직접 식을 세운다. 일정한 비율로 증가·감소하는 현상은 지수함수로 모형화된다."}, {"no": 1, "topic": "지수부등식", "title": "밑을 같게 할 수 있는 경우", "problem_intro": "다음 부등식을 푸시오.", "problem_parts": ["\\((1.5)^{x^2-3x}<(2.25)^{2x-3}\\)", "\\(\\left(\\dfrac{1}{25}\\right)^{x^2-2x}\\le\\left(\\dfrac{1}{125}\\right)^{x}\\)"], "approach": ["밑을 같게 한 뒤 지수를 비교하되, 밑의 범위에 따라 부등호의 방향이 달라짐에 주의한다.", "\\(a>1\\)이면 부등호 방향 그대로, \\(0<a<1\\)이면 부등호 방향이 반대로 바뀐다."], "solution": ["⑴ \\(2.25=1.5^2\\)이므로 밑을 \\(1.5\\)로 같게 하면", "\\((1.5)^{x^2-3x}<(1.5)^{4x-6}\\)", "밑 \\(1.5\\)가 \\(1.5>1\\)이므로 \\(x^2-3x<4x-6\\)", "\\(x^2-7x+6<0,\\ (x-1)(x-6)<0\\)", "\\(\\therefore 1<x<6\\)", "⑵ 밑을 \\(\\dfrac{1}{5}\\)로 같게 하면", "\\(\\left(\\dfrac{1}{5}\\right)^{2x^2-4x}\\le\\left(\\dfrac{1}{5}\\right)^{3x}\\)", "밑 \\(\\dfrac{1}{5}\\)이 \\(0<\\dfrac{1}{5}<1\\)이므로 \\(2x^2-4x\\ge 3x\\)", "\\(2x^2-7x\\ge 0,\\ x(2x-7)\\ge 0\\)", "\\(\\therefore x\\le 0\\) 또는 \\(x\\ge\\dfrac{7}{2}\\)"], "alt_solution": [], "answer": "⑴ \\(1<x<6\\)　⑵ \\(x\\le 0\\) 또는 \\(x\\ge\\dfrac{7}{2}\\)", "bible": "지수부등식의 흔한 실수는 ① 밑이 \\(0<a<1\\)일 때 부등호 방향을 그대로 두는 것과 ② 등호 포함 여부(\\(<\\)인지 \\(\\le\\)인지)를 놓치는 것이다. \\(\\left(\\dfrac{1}{25}\\right)^{\\square}\\le\\left(\\dfrac{1}{125}\\right)^{\\square}\\)을 밑이 \\(25,\\ 125\\)인 형태로 고쳐 풀면 밑이 \\(1\\)보다 커져 부등호가 그대로 유지되므로 실수를 줄일 수 있다."}, {"no": 2, "topic": "지수부등식", "title": "aˣ 꼴이 반복되는 경우", "problem_intro": "다음 부등식을 푸시오.", "problem_parts": ["\\(\\dfrac{2}{4^{x}}-\\dfrac{5}{2^{x}}-3>0\\)", "\\(6\\times 3^{x}-15\\le 3^{2-x}\\)"], "approach": ["\\(p\\,(a^x)^2+q\\,a^x+r\\) 꼴은 \\(a^x=t\\,(t>0)\\)로 치환하여 \\(t\\)에 대한 이차부등식으로 바꾼다.", "\\(t\\)의 범위를 구한 뒤 \\(t>0\\)과 함께 따지고, 밑의 범위에 주의하며 \\(x\\)의 범위로 되돌린다.", "⑵처럼 음의 지수가 섞이면 양변에 \\(3^x\\)을 곱한 뒤 치환한다."], "solution": ["⑴ \\(\\dfrac{2}{4^x}-\\dfrac{5}{2^x}-3>0\\)을 변형하면", "\\(2\\left(\\dfrac{1}{2^x}\\right)^2-5\\cdot\\dfrac{1}{2^x}-3>0\\)", "\\(2\\left\\{\\left(\\dfrac{1}{2}\\right)^{x}\\right\\}^2-5\\left(\\dfrac{1}{2}\\right)^{x}-3>0\\)", "\\(\\left(\\dfrac{1}{2}\\right)^{x}=t\\ (t>0)\\)으로 놓으면", "\\(2t^2-5t-3>0,\\ (2t+1)(t-3)>0\\)", "\\(\\therefore t>3\\ (\\because t>0)\\)", "즉 \\(\\left(\\dfrac{1}{2}\\right)^{x}>3\\)이고 밑 \\(\\dfrac{1}{2}\\)이 \\(0<\\dfrac{1}{2}<1\\)이므로", "\\(x<\\log_{\\frac{1}{2}}3 \\therefore x<-\\log_2 3\\)", "⑵ 양변에 \\(3^x\\)을 곱하면", "\\(6(3^x)^2-15\\cdot 3^x\\le 9\\)", "\\(6(3^x)^2-15\\cdot 3^x-9\\le 0\\)", "\\(3^x=t\\ (t>0)\\)으로 놓으면", "\\(6t^2-15t-9\\le 0,\\ 3(2t+1)(t-3)\\le 0\\)", "\\(\\therefore 0<t\\le 3\\ (\\because t>0)\\)", "즉 \\(0<3^x\\le 3\\)이고 밑 \\(3\\)이 \\(3>1\\)이므로 \\(x\\le 1\\)"], "alt_solution": [], "answer": "⑴ \\(x<-\\log_2 3\\)　⑵ \\(x\\le 1\\)", "bible": "부등식 \\(p(a^x)^2+q\\,a^x+r<0\\)의 해가 \\(\\alpha<x<\\beta\\)이면, \\(a^x=t\\,(t>0)\\)로 치환한 이차부등식의 해는 \\(a>1\\)일 때 \\(a^\\alpha<t<a^\\beta\\)이고 \\(0<a<1\\)일 때 \\(a^\\beta<t<a^\\alpha\\)이다. \\(t\\)의 범위에서 \\(x\\)로 되돌릴 때 밑의 범위에 따라 부등호 방향이 바뀜에 주의한다."}, {"no": 3, "topic": "지수부등식", "title": "지수부등식이 항상 성립할 조건", "problem_intro": "모든 실수 \\(x\\)에 대하여 다음 부등식이 성립하도록 하는 실수 \\(k\\)의 값의 범위를 구하시오.", "problem_parts": ["\\(2^{2x-1}-3\\times 2^{x}+k\\ge 0\\)", "\\(\\left(\\dfrac{1}{2}\\right)^{2x}+\\left(\\dfrac{1}{2}\\right)^{x-2}+k+3\\ge 0\\)"], "approach": ["\\(a^x=t\\,(t>0)\\)로 치환하여 \\(t\\)에 대한 이차부등식 \\(f(t)\\ge 0\\)으로 바꾼다.", "\\(t>0\\)인 모든 \\(t\\)에서 \\(f(t)\\ge 0\\)이 성립하려면, 대칭축 \\(t=\\alpha\\)에 대하여 \\(\\alpha>0\\)이면 \\(f(\\alpha)\\ge 0\\), \\(\\alpha\\le 0\\)이면 \\(f(0)\\ge 0\\)이어야 한다."], "solution": ["⑴ \\(2^{2x-1}-3\\times 2^{x}+k\\ge 0\\)을 변형하면", "\\(\\dfrac{1}{2}(2^x)^2-3\\cdot 2^x+k\\ge 0\\)", "\\(2^x=t\\ (t>0)\\)으로 놓으면 \\(\\dfrac{1}{2}t^2-3t+k\\ge 0\\)", "\\(f(t)=\\dfrac{1}{2}t^2-3t+k\\)라 하면 \\(f(t)=\\dfrac{1}{2}(t-3)^2+k-\\dfrac{9}{2}\\)", "대칭축 \\(t=3>0\\)이므로 \\(t>0\\)인 모든 \\(t\\)에서 성립하려면 \\(f(3)\\ge 0\\)이어야 한다.", "\\(k-\\dfrac{9}{2}\\ge 0 \\therefore k\\ge\\dfrac{9}{2}\\)", "⑵ \\(\\left(\\dfrac{1}{2}\\right)^{2x}+\\left(\\dfrac{1}{2}\\right)^{x-2}+k+3\\ge 0\\)을 변형하면", "\\(\\left\\{\\left(\\dfrac{1}{2}\\right)^{x}\\right\\}^2+4\\left(\\dfrac{1}{2}\\right)^{x}+k+3\\ge 0\\)", "\\(\\left(\\dfrac{1}{2}\\right)^{x}=t\\ (t>0)\\)으로 놓으면 \\(t^2+4t+k+3\\ge 0\\)", "\\(f(t)=t^2+4t+k+3\\)이라 하면 \\(f(t)=(t+2)^2+k-1\\)", "대칭축 \\(t=-2\\le 0\\)이므로 \\(t>0\\)인 모든 \\(t\\)에서 성립하려면 \\(f(0)\\ge 0\\)이어야 한다.", "\\(k+3\\ge 0 \\therefore k\\ge -3\\)"], "alt_solution": [], "answer": "⑴ \\(k\\ge\\dfrac{9}{2}\\)　⑵ \\(k\\ge -3\\)", "bible": "모든 실수 \\(x\\)에 대하여 \\(ax^2+bx+c>0\\)이 항상 성립 \\(\\Longleftrightarrow\\) \\(a>0,\\ b^2-4ac<0\\) \\(\\Longleftrightarrow\\) (최솟값)\\(>0\\)이다. 다만 치환 후에는 \\(t>0\\)이라는 제한이 붙으므로, 전체 실수가 아니라 \\(t>0\\) 범위에서의 최솟값을 따져야 한다. 대칭축이 \\(t>0\\) 안에 있으면 꼭짓점에서, 밖(\\(t\\le 0\\))에 있으면 \\(t=0\\)에서의 값으로 판정한다."}]}</script>
+<script>
+const CONCEPTS = JSON.parse(document.getElementById('concepts').textContent).concepts;
+const EXAMPLES = JSON.parse(document.getElementById('examples').textContent).examples;
+const isGeo = x => x.topic === '지수부등식';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let mode = 'concept';          // 'concept' | 'example'
+let idx = { concept:0, example:0 };  // 모드별 현재 위치 기억
+let showSol = false;           // 예제 해설 펼침 여부
+
+function list(){ return mode === 'concept' ? CONCEPTS : EXAMPLES; }
+
+/* ── 라인/블록 (예제 해설용) ── */
+function lineEl(text){
+  const t = text.trim();
+  const div = document.createElement('div');
+  const isEq = t.startsWith('\\(') || t.startsWith('\\[');
+  div.className = 'line' + (isEq ? ' eq' : '');
+  div.innerHTML = esc(text).replace(/(（[^）]*）|\([^()]*이용[^()]*\))\s*$/u, '<span class="note">$1</span>');
+  return div;
+}
+function blockEl(labelText, labelClass, lines){
+  const wrap = document.createElement('div'); wrap.className = 'block';
+  const lab = document.createElement('span'); lab.className = 'label ' + labelClass; lab.textContent = labelText;
+  wrap.appendChild(lab);
+  const box = document.createElement('div'); box.className = 'lines';
+  lines.forEach(l => box.appendChild(lineEl(l)));
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── 번호 그리드 ── */
+const gridNav = document.getElementById('gridNav');
+function buildGrid(){
+  gridNav.innerHTML = '';
+  const data = list();
+  [['지수방정식','지수방정식','ar'],['지수부등식','지수부등식','ge']].forEach(([label,topic,cls])=>{
+    const row = document.createElement('div'); row.className = 'gn-row';
+    const lab = document.createElement('div'); lab.className = 'gn-label ' + cls; lab.textContent = label;
+    const nums = document.createElement('div'); nums.className = 'gn-nums';
+    data.forEach((x,i)=>{
+      if(x.topic !== topic) return;
+      const b = document.createElement('button');
+      b.className = 'gn-num ' + cls;
+      b.textContent = x.no;
+      b.dataset.idx = i;
+      b.addEventListener('click', ()=> goTo(i));
+      nums.appendChild(b);
+    });
+    row.appendChild(lab); row.appendChild(nums);
+    gridNav.appendChild(row);
+  });
+  updateGrid();
+}
+function updateGrid(){
+  document.querySelectorAll('.gn-num').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.idx) === idx[mode]);
+  });
+}
+
+/* ── 렌더 ── */
+const viewer = document.getElementById('viewer');
+function render(){
+  const data = list();
+  const cur = idx[mode];
+  const x = data[cur];
+  const geo = isGeo(x);
+  viewer.innerHTML = '';
+
+  if(mode === 'concept'){
+    const card = document.createElement('section');
+    card.className = 'card cv ' + (geo ? 'ge geo' : 'ar');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">개념 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${x.title}</span>`;
+    card.appendChild(head);
+    const body = document.createElement('div');
+    body.innerHTML = x.html;   // 개념 본문은 완성된 HTML 그대로
+    card.appendChild(body);
+    viewer.appendChild(card);
+  } else {
+    const card = document.createElement('section');
+    card.className = 'card' + (geo ? ' geo':'');
+    const head = document.createElement('div'); head.className = 'card-head';
+    head.innerHTML =
+      `<span class="badge${geo?' geo':''}">대표 예제 <span class="num">${String(x.no).padStart(2,'0')}</span></span>`+
+      `<span class="topic-tag${geo?' geo':''}">${x.topic}</span>`+
+      `<span class="ex-title${geo?' geo':''}">${esc(x.title)}</span>`;
+    card.appendChild(head);
+
+    const prob = document.createElement('div'); prob.className = 'problem' + (geo?' geo':'');
+    prob.appendChild(Object.assign(document.createElement('div'),{className:'intro',innerHTML:esc(x.problem_intro)}));
+    if(x.problem_parts && x.problem_parts.length){
+      const ol = document.createElement('ol'); ol.className='parts';
+      x.problem_parts.forEach(p=>{ const li=document.createElement('li'); li.innerHTML=esc(p); ol.appendChild(li); });
+      prob.appendChild(ol);
+    }
+    card.appendChild(prob);
+
+    const bar = document.createElement('div'); bar.className = 'sol-bar';
+    bar.innerHTML =
+      `<span class="lbl">풀이·해설</span>`+
+      `<label class="switch"><input type="checkbox" id="solSwitch"${showSol?' checked':''}><span class="slider"></span></label>`+
+      `<span class="sol-state" id="solState">${showSol?'펼침':'접힘'}</span>`;
+    card.appendChild(bar);
+
+    const sol = document.createElement('div'); sol.className = 'solution' + (showSol?' open':'');
+    if(x.approach && x.approach.length) sol.appendChild(blockEl('바로 접근','approach',x.approach));
+    if(x.solution && x.solution.length) sol.appendChild(blockEl('바른 풀이','solve',x.solution));
+    if(x.alt_solution && x.alt_solution.length) sol.appendChild(blockEl('다른 풀이','alt',x.alt_solution));
+    const ans = document.createElement('div'); ans.className='answer';
+    ans.innerHTML = `<span class="k">정답</span><span>${esc(x.answer)}</span>`;
+    sol.appendChild(ans);
+    if(x.bible){
+      const b = document.createElement('div'); b.className='bible';
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      sol.appendChild(b);
+    }
+    card.appendChild(sol);
+    viewer.appendChild(card);
+
+    const sw = document.getElementById('solSwitch');
+    sw.addEventListener('change', ()=>{
+      showSol = sw.checked;
+      sol.classList.toggle('open', showSol);
+      document.getElementById('solState').textContent = showSol ? '펼침' : '접힘';
+      if(showSol) requestAnimationFrame(()=> fitMath(sol));
+    });
+  }
+
+  updateGrid();
+  document.getElementById('counter').textContent = `${cur+1} / ${data.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === data.length - 1;
+  viewer.scrollTop = 0;
+  typesetNode(viewer);
+}
+
+function goTo(i){
+  const data = list();
+  idx[mode] = Math.max(0, Math.min(data.length-1, i));
+  render();
+}
+function setMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+  buildGrid();
+  render();
+}
+
+/* ── MathJax typeset (해당 노드만) ── */
+function typesetNode(node){
+  if(window.MathJax && window.MathJax.typesetPromise){
+    window.MathJax.typesetClear && window.MathJax.typesetClear([node]);
+    window.MathJax.typesetPromise([node]).then(()=>fitMath(node)).catch(e=>console.error('MathJax:', e));
+  } else {
+    setTimeout(()=>typesetNode(node), 50);
+  }
+}
+/* ── 긴 수식·표를 박스 폭에 맞춰 자동 축소 (박스 내부 가로 드래그 제거) ── */
+function fitOne(c, avail){
+  c.style.fontSize = '';
+  const inner = c.querySelector('mjx-math') || c;
+  const w = inner.getBoundingClientRect().width;
+  if(avail > 0 && w > avail + 0.5){
+    let r = avail / w; const MIN = 0.56;
+    if(r < MIN) r = MIN;
+    c.style.fontSize = (r * 100).toFixed(1) + '%';
+  }
+}
+function fitMath(node){
+  node.querySelectorAll('mjx-container').forEach(c=>{
+    let p = c.parentElement, avail = 0;
+    while(p && p !== node){
+      if(p.clientWidth > 0){ avail = p.clientWidth; break; }
+      p = p.parentElement;
+    }
+    if(!avail) avail = node.clientWidth;
+    fitOne(c, avail);
+  });
+  node.querySelectorAll('.tablewrap').forEach(wrap=>{
+    const t = wrap.querySelector('table'); if(!t) return;
+    fitOne(t, wrap.clientWidth);
+  });
+}
+let _fitTimer;
+window.addEventListener('resize', ()=>{
+  clearTimeout(_fitTimer);
+  _fitTimer = setTimeout(()=>{ const v = document.getElementById('viewer'); if(v) fitMath(v); }, 150);
+});
+
+/* ── 컨트롤 ── */
+document.getElementById('modeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.mode-tab'); if(b) setMode(b.dataset.mode);
+});
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx[mode]-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx[mode]+1));
+document.addEventListener('keydown', ev=>{
+  if(ev.key === 'ArrowLeft') goTo(idx[mode]-1);
+  else if(ev.key === 'ArrowRight') goTo(idx[mode]+1);
+});
+let tx=null, ty=null;
+viewer.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+viewer.addEventListener('touchend', e=>{
+  if(tx===null) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+    if(dx < 0) goTo(idx[mode]+1); else goTo(idx[mode]-1);
+  }
+  tx=ty=null;
+}, {passive:true});
+
+buildGrid();
+render();
+</script>
+</body>
+</html>
