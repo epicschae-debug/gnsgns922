@@ -181,12 +181,18 @@ window.MathJax = {
     .pager button{padding:9px 10px;}
     .cv .def-row{grid-template-columns:1fr; gap:4px;}
   }
+
+  /* 뒤로가기 */
+  .topbar .backbtn{flex:none;width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:#eee9dc;color:var(--ink);text-decoration:none;font-size:18px;line-height:1;}
+  .topbar .backbtn:active{background:#e0dac9;}
+  .top-row .ttl{flex:1 1 auto;min-width:0;}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="top-row">
+      <a class="backbtn" href="sub-algebra.html" aria-label="뒤로">&#8592;</a>
       <div class="ttl">
         <div class="eyebrow">Ⅲ. 수열 · 08단원</div>
         <h1>등차수열과 등비수열</h1>
@@ -325,7 +331,7 @@ function render(){
     sol.appendChild(ans);
     if(x.bible){
       const b = document.createElement('div'); b.className='bible';
-      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible)}</div>`;
+      b.innerHTML = `<span class="tag">Bible Says</span><div class="body">${esc(x.bible).replace(/\n/g,'<br>')}</div>`;
       sol.appendChild(b);
     }
     card.appendChild(sol);
@@ -395,5 +401,5 @@ viewer.addEventListener('touchend', e=>{
 buildGrid();
 render();
 </script>
-</body>
+<script>if(location.hash.indexOf('embed')>=0){var s=document.createElement('style');s.textContent='.topbar .backbtn,.topbar .mode-tabs{display:none!important}.topbar{padding-top:6px!important}';document.head.appendChild(s);}</script></body>
 </html>

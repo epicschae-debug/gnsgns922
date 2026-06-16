@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>등차수열과 등비수열 · 기본유형</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root{--ink:#0c1019;--ink2:#141a26;--ink3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--mint:#5fd6b4;--red:#ff8d76;--blue:#6db6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);line-height:1.62;padding:18px 14px 120px}
+.wrap{max-width:840px;margin:0 auto}
+h1{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12.5px;color:var(--muted);margin:4px 0 12px}
+.stat{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--ink3);border:1px solid var(--line)}
+.chip b{color:var(--gold)}
+/* 번호판 */
+.padwrap{background:var(--ink2);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.padh{display:flex;align-items:center;gap:8px;padding:9px 13px;cursor:pointer;user-select:none;font-size:12.5px;font-weight:700}
+.padh .ar{margin-left:auto;color:var(--muted);transition:.2s}
+.padh.open .ar{transform:rotate(180deg)}
+.pad{display:none;flex-wrap:wrap;gap:5px;padding:0 12px 13px}
+.pad.show{display:flex}
+.pad .dot{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;cursor:pointer;color:#0a0e16;opacity:.86;transition:.1s}
+.pad .dot:hover{opacity:1;transform:scale(1.12);outline:2px solid #fff3}
+.pad .dot.cur{outline:2px solid #fff;opacity:1}
+.legend{display:flex;gap:11px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding:0 12px 11px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* 카드 */
+.card{display:none;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:18px 18px 20px}
+.card.show{display:block}
+.ctop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+.no{font-size:25px;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+.utag{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;color:#0a0e16}
+.badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.badge.bin{color:var(--red)}.badge.seo{color:var(--mint)}
+.sub2{font-size:11.5px;color:var(--muted);font-weight:600}
+.topic{font-size:10.5px;color:#6d7890;margin-left:auto;font-weight:600}
+.q{font-size:15.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all;overflow-wrap:anywhere}
+.qimg{display:block;max-width:min(100%,340px);margin:14px auto 6px;background:#fbfbf8;border-radius:10px;padding:12px;border:1px solid #2a3550}
+.qimg.wide{max-width:min(100%,540px)}
+.boki{background:#101725;border:1px solid #233150;border-radius:11px;padding:12px 14px;margin:12px 0}
+.boki .bttl{font-size:11px;font-weight:800;color:var(--gold);text-align:center;margin-bottom:7px;letter-spacing:.08em}
+.bk{display:block;font-size:14.5px;margin:5px 0;word-break:keep-all;overflow-wrap:anywhere}
+.choices{display:flex;flex-direction:column;gap:7px;margin:14px 0 2px}
+.choices .ch{font-size:14.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#101725;display:flex;gap:9px;align-items:flex-start;overflow-wrap:anywhere}
+.choices .ch .cn{color:var(--blue);font-weight:800;flex:none}
+.revbtn{margin-top:16px;font-size:13px;font-weight:700;padding:10px 16px;border-radius:10px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;width:100%}
+.revbtn:hover{background:rgba(245,181,68,.1)}
+.rev{display:none;margin-top:14px;border-top:1px dashed var(--line);padding-top:14px}
+.rev.show{display:block}
+.ansline{font-size:15px;font-weight:800;margin-bottom:10px}
+.ansline .lab{color:var(--muted);font-weight:700;font-size:12px;margin-right:8px}
+.ansline .v{color:var(--mint)}
+.solttl{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.06em;margin-bottom:6px}
+.sol{font-size:14px;line-height:1.85;color:#d7deec}
+.sol .st{display:block;margin:6px 0;padding-left:14px;border-left:2px solid #2a3550;word-break:keep-all;overflow-wrap:anywhere}
+/* 페이저 */
+.pager{position:fixed;left:0;right:0;bottom:0;background:rgba(12,16,25,.97);border-top:1px solid var(--line);backdrop-filter:blur(8px);padding:10px 12px;z-index:50}
+.pinner{max-width:840px;margin:0 auto;display:flex;align-items:center;gap:7px}
+.pbtn{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;white-space:nowrap}
+.pbtn:hover{border-color:var(--gold);color:var(--gold)}
+.pbtn:active{transform:scale(.96)}
+.pbtn.wide{flex:1}
+select{font-family:inherit;font-size:13px;font-weight:700;padding:9px 8px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;max-width:46%}
+.hint{font-size:10.5px;color:#6d7890;text-align:center;margin-top:6px}
+@media(max-width:560px){.q{font-size:15px}.no{font-size:22px}.hint{display:none}}
+
+/* 개념/문제 모드 탭 */
+.modes{display:flex;gap:8px;margin:2px 0 14px}
+.modes button{padding:8px 18px;border-radius:11px;border:1px solid var(--line);background:var(--ink2);color:var(--text);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.modes button.on{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+#conceptPane{display:none;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin-bottom:14px}
+#conceptPane iframe{width:100%;height:80vh;border:0;display:block}
+body.cmode .stat,body.cmode .padwrap,body.cmode #cards,body.cmode .pager{display:none}
+body.cmode #conceptPane{display:block}
+</style></head>
+<body><div class="wrap">
+<h1>등차수열과 등비수열 — 기본유형 <span style="color:var(--gold)">S1</span> · 등차·등비·수열의 합</h1>
+<div class="sub">STEP 1 · 등차수열·등비수열·수열의 합 기본 (객관식·주관식)</div>
+<div class="modes"><button id="mC" onclick="setM('c')">개념</button><button id="mP" class="on" onclick="setM('p')">문제</button></div>
+<div id="conceptPane"><iframe id="cFrame" data-src="algebra-sequence.html#embed" title="개념" loading="lazy"></iframe></div>
+<div class="stat">
+  <span class="chip"><b id="cTot">36</b> 문항</span>
+  <span class="chip">유형 <b>4</b>개</span>
+  <span class="chip">그림 <b id="cImg">17</b>개 내장</span>
+  <span class="chip" id="cCur">현재 <b>—</b></span>
+</div>
+<div class="padwrap">
+  <div class="padh" id="padh" onclick="togglePad()">번호판 <span style="color:var(--muted);font-weight:600">(유형 색으로 구분)</span><span class="ar">▾</span></div>
+  <div class="legend" id="legend"></div>
+  <div class="pad" id="pad"></div>
+</div>
+<div id="cards"></div>
+</div>
+<div class="pager"><div class="pinner">
+  <button class="pbtn" onclick="jump(-10)">≪</button>
+  <button class="pbtn wide" onclick="step(-1)">‹ 이전</button>
+  <button class="pbtn" onclick="goBack()">↩</button>
+  <button class="pbtn wide" onclick="step(1)">다음 ›</button>
+  <button class="pbtn" onclick="jump(10)">≫</button>
+  <select id="sel" onchange="showP(this.value)"></select>
+</div><div class="hint">← → 키로 이동 · ↩ 되돌리기 · 번호 선택으로 점프</div></div>
+
+<script>
+const UNITS=[{"u":"등차","t":"등차수열"},{"u":"등비","t":"등비수열"},{"u":"활용","t":"활용·도형"},{"u":"종합","t":"종합·합"}];
+const UNITCOL=["#2f5fb0","#197a6b","#e08327","#c792ea"];
+const IMG={};
+const P=[{"no":1,"unit":3,"sub":"일반항으로 특정 항 구하기","topic":"","flag":"빈출","q":"수열 \\(\\{a_n\\}\\)의 일반항이 \\(a_n = n^2 - 2\\)일 때, \\(a_3 + a_5\\)의 값은?","row":false,"ans":"②","sol":["\\(a_n = n^2 - 2\\)이므로 \\(a_3 = 3^2 - 2 = 7\\), \\(a_5 = 5^2 - 2 = 23\\)이다.","\\(\\therefore a_3 + a_5 = 30\\)"],"choices":["\\(28\\)","\\(30\\)","\\(32\\)","\\(34\\)","\\(36\\)"]},{"no":2,"unit":3,"sub":"수열의 규칙성 파악","topic":"","flag":"빈출","q":"다음 중 주어진 수열의 일반항을 바르게 추측한 것은? (단, \\(n = 1,\\ 2,\\ 3,\\ \\cdots\\))","row":false,"ans":"④","sol":["① \\(2^n\\)에 \\(n = 3\\)을 대입하면 \\(2^3 = 8\\)이고 주어진 수열의 제3항은 \\(6\\)이므로 제\\(n\\)항은 \\(2^n\\)이 아니다.","② \\((-1)^{n+1}\\)에 \\(n = 1\\)을 대입하면 \\((-1)^2 = 1\\)이고 주어진 수열의 제1항은 \\(-1\\)이므로 제\\(n\\)항은 \\((-1)^{n+1}\\)이 아니다.","③ \\(2n + 1\\)에 \\(n = 1\\)을 대입하면 \\(2 \\times 1 + 1 = 3\\)이고 주어진 수열의 제1항은 \\(1\\)이므로 제\\(n\\)항은 \\(2n + 1\\)이 아니다.","④ \\(1 = 1^2,\\ 4 = 2^2,\\ 9 = 3^2,\\ 16 = 4^2,\\ \\cdots\\)이므로 자연수 \\(n\\)에 대하여 제\\(n\\)항은 \\(n^2\\)이다.","⑤ \\(\\dfrac{1}{n^3+n}\\)에 \\(n = 2\\)를 대입하면 \\(\\dfrac{1}{2^3+2} = \\dfrac{1}{10}\\)이고 주어진 수열의 제2항은 \\(\\dfrac{1}{2^2+2} = \\dfrac{1}{6}\\)이므로 제\\(n\\)항은 \\(\\dfrac{1}{n^3+n}\\)이 아니다.","따라서 일반항을 바르게 추측한 것은 ④이다."],"choices":["수열 \\(2,\\ 4,\\ 6,\\ 8,\\ \\cdots\\)의 제\\(n\\)항은 \\(2^n\\)이다.","수열 \\(-1,\\ 1,\\ -1,\\ 1,\\ -1,\\ \\cdots\\)의 제\\(n\\)항은 \\((-1)^{n+1}\\)이다.","수열 \\(1,\\ 3,\\ 5,\\ 7,\\ \\cdots\\)의 제\\(n\\)항은 \\(2n + 1\\)이다.","수열 \\(1,\\ 4,\\ 9,\\ 16,\\ 25,\\ \\cdots\\)의 제\\(n\\)항은 \\(n^2\\)이다.","수열 \\(\\dfrac{1}{1^2+1},\\ \\dfrac{1}{2^2+2},\\ \\dfrac{1}{3^2+3},\\ \\dfrac{1}{4^2+4},\\ \\cdots\\)의 제\\(n\\)항은 \\(\\dfrac{1}{n^3+n}\\)이다."]},{"no":3,"unit":0,"sub":"등차수열의 특정 항","topic":"","flag":"","q":"첫째항이 \\(3\\)이고, 공차가 \\(-2\\)인 등차수열의 제15항은?","row":false,"ans":"②","sol":["주어진 수열을 \\(\\{a_n\\}\\), 공차를 \\(d\\)라 하면 첫째항이 \\(3\\)이고 공차가 \\(-2\\)이므로 제15항은","\\(a_{15} = a_1 + 14d = 3 + 14 \\times (-2) = -25\\)"],"choices":["\\(-27\\)","\\(-25\\)","\\(-23\\)","\\(-21\\)","\\(-19\\)"]},{"no":4,"unit":0,"sub":"등차수열의 특정 항","topic":"","flag":"서술형","q":"다음 등차수열의 제10항을 구하시오.\\(\\)(1) \\(-1,\\ 2,\\ 5,\\ 8,\\ \\cdots\\)\\(\\)(2) \\(42,\\ 38,\\ 34,\\ 30,\\ \\cdots\\)","row":false,"ans":"(1) \\(26\\)　(2) \\(6\\)","sol":["(1) 첫째항이 \\(-1\\)이고 공차가 \\(2 - (-1) = 3\\)이므로 제10항은 \\(a_{10} = a_1 + 9d = (-1) + 9 \\times 3 = 26\\)","(2) 첫째항이 \\(42\\)이고 공차가 \\(38 - 42 = -4\\)이므로 제10항은 \\(a_{10} = a_1 + 9d = 42 + 9 \\times (-4) = 6\\)"]},{"no":5,"unit":3,"sub":"두 항으로 특정 항 구하기","topic":"","flag":"빈출","q":"등차수열 \\(\\{a_n\\}\\)에 대하여 \\(a_4 = 7\\), \\(a_{12} = -17\\)일 때, \\(a_{17}\\)의 값은?","row":false,"ans":"④","sol":["등차수열 \\(\\{a_n\\}\\)의 공차를 \\(d\\)라 하면 \\(a_{12} - a_4 = 8d = -24\\)이므로 \\(d = -3\\)이다.","\\(\\therefore a_{17} = a_{12} + 5d = (-17) + 5 \\times (-3) = -32\\)"],"choices":["\\(-26\\)","\\(-28\\)","\\(-30\\)","\\(-32\\)","\\(-34\\)"]},{"no":6,"unit":0,"sub":"등차수열의 일반항·특정 항","topic":"","flag":"","q":"\\(4\\)로 나눈 나머지가 \\(1\\)인 자연수를 작은 수부터 차례대로 나열한 수열을 \\(\\{a_n\\}\\)이라 할 때, \\(a_{20}\\)의 값은?","row":false,"ans":"④","sol":["\\(4\\)로 나눈 나머지가 \\(1\\)인 자연수를 작은 수부터 차례대로 나열하면 \\(1,\\ 5,\\ 9,\\ 13,\\ \\cdots\\)이다.","즉, 수열 \\(\\{a_n\\}\\)이 첫째항이 \\(1\\)이고 공차가 \\(4\\)인 등차수열이므로 일반항은 \\(a_n = 1 + 4(n - 1) = 4n - 3\\)","\\(\\therefore a_{20} = 4 \\times 20 - 3 = 77\\)"],"choices":["\\(65\\)","\\(69\\)","\\(73\\)","\\(77\\)","\\(81\\)"]},{"no":7,"unit":3,"sub":"처음으로 음수가 되는 항","topic":"","flag":"","q":"등차수열 \\(\\{a_n\\}\\)에 대하여 \\(a_3 + a_5 = 27\\), \\(a_4 + a_6 = 25\\)일 때, 처음으로 음수가 되는 항은 제몇 항인가?","row":false,"ans":"④","sol":["등차수열 \\(\\{a_n\\}\\)의 공차를 \\(d\\)라 하면 \\((a_4 + a_6) - (a_3 + a_5) = (a_4 - a_3) + (a_6 - a_5) = d + 3d = 4d\\)","\\(4d = 25 - 27 = -2\\)에서 \\(d = -\\dfrac{1}{2}\\)이다.","이때 \\(a_3 + a_5 = (a_1 + 2d) + (a_1 + 4d) = 2a_1 - 3\\) \\(\\left(\\because d = -\\dfrac{1}{2}\\right)\\)이므로 \\(2a_1 - 3 = 27\\), \\(a_1 = 15\\)","수열 \\(\\{a_n\\}\\)의 일반항은 \\(a_n = 15 - \\dfrac{1}{2}(n - 1) = -\\dfrac{n}{2} + \\dfrac{31}{2}\\)이고","\\(-\\dfrac{n}{2} + \\dfrac{31}{2} < 0\\), \\(\\dfrac{n}{2} > \\dfrac{31}{2}\\)에서 \\(n > 31\\)이므로 처음으로 음수가 되는 항은 제32항이다."],"choices":["\\(29\\)","\\(30\\)","\\(31\\)","\\(32\\)","\\(33\\)"]},{"no":8,"unit":0,"sub":"등차중항","topic":"","flag":"","q":"세 양수 \\(a - 3\\), \\(2a - 1\\), \\(a^2 - 3\\)이 이 순서대로 등차수열을 이룰 때, 이 세 수의 합은?","row":false,"ans":"②","sol":["\\(2a - 1\\)은 \\(a - 3\\)과 \\(a^2 - 3\\)의 등차중항이므로 \\(2a - 1 = \\dfrac{(a-3)+(a^2-3)}{2}\\)","\\(4a - 2 = a^2 + a - 6\\)","\\(a^2 - 3a - 4 = (a + 1)(a - 4) = 0\\)에서 \\(a = -1\\) 또는 \\(a = 4\\)이다.","이때 \\(a - 3\\), \\(2a - 1\\), \\(a^2 - 3\\)이 모두 양수가 되기 위해서는 \\(a = 4\\)이다.","따라서 세 양수는 \\(1,\\ 7,\\ 13\\)이므로 세 수의 합은 \\(21\\)이다."],"choices":["\\(18\\)","\\(21\\)","\\(24\\)","\\(27\\)","\\(30\\)"]},{"no":9,"unit":0,"sub":"등차수열의 공차","topic":"","flag":"","q":"두 등차수열 \\(\\{a_n\\}\\), \\(\\{b_n\\}\\)의 공차가 각각 \\(3\\), \\(-2\\)일 때, 등차수열 \\(\\{3a_n - 4b_n - 5\\}\\)의 공차는?","row":false,"ans":"④","sol":["두 등차수열 \\(\\{a_n\\}\\), \\(\\{b_n\\}\\)의 공차가 각각 \\(3\\), \\(-2\\)이므로 \\(a_{n+1} - a_n = 3\\), \\(b_{n+1} - b_n = -2\\)이다.","따라서 등차수열 \\(\\{3a_n - 4b_n - 5\\}\\)의 공차는","\\((3a_{n+1} - 4b_{n+1} - 5) - (3a_n - 4b_n - 5) = 3(a_{n+1} - a_n) - 4(b_{n+1} - b_n) = 3 \\times 3 - 4 \\times (-2) = 17\\)"],"choices":["\\(2\\)","\\(7\\)","\\(12\\)","\\(17\\)","\\(22\\)"]},{"no":10,"unit":0,"sub":"등차수열의 합","topic":"","flag":"","q":"첫째항이 \\(2\\)이고, 제5항이 \\(14\\)인 등차수열의 첫째항부터 제10항까지의 합은?","row":false,"ans":"③","sol":["주어진 등차수열을 \\(\\{a_n\\}\\)이라 하고, 공차를 \\(d\\)라 하자.","\\(a_1 = 2\\), \\(a_5 = 14\\)에서 \\(a_5 - a_1 = 4d = 12\\)이므로 \\(d = 3\\)이다.","따라서 첫째항부터 제10항까지의 합은 \\(\\dfrac{10(2 \\times 2 + 9 \\times 3)}{2} = 155\\)"],"choices":["\\(145\\)","\\(150\\)","\\(155\\)","\\(160\\)","\\(165\\)"]},{"no":11,"unit":0,"sub":"등차수열의 합과 항","topic":"","flag":"","q":"등차수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자. \\(a_{10} = 11\\), \\(S_{10} = 20\\)일 때, \\(a_{20}\\)의 값은?","row":false,"ans":"④","sol":["\\(a_{10} = 11\\)이므로 \\(S_{10} = \\dfrac{10(a_1 + a_{10})}{2} = 5(a_1 + 11)\\)이다.","\\(5(a_1 + 11) = 20\\)에서 \\(a_1 = -7\\)이다.","이때 공차를 \\(d\\)라 하면 \\(a_{10} - a_1 = 9d\\)이므로 \\(9d = 11 - (-7) = 18\\)에서 \\(d = 2\\)이다.","\\(\\therefore a_{20} = a_1 + 19d = (-7) + 38 = 31\\)"],"choices":["\\(25\\)","\\(27\\)","\\(29\\)","\\(31\\)","\\(33\\)"]},{"no":12,"unit":0,"sub":"등차수열의 합과 항","topic":"","flag":"","q":"등차수열 \\(\\{a_n\\}\\)에 대하여 첫째항부터 제6항까지의 합이 \\(21\\)이고, 첫째항부터 제12항까지의 합이 \\(150\\)일 때, \\(a_{12}\\)의 값은?","row":false,"ans":"①","sol":["공차를 \\(d\\)라 하고, 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자.","\\(S_6 = \\dfrac{6(2a_1 + 5d)}{2} = 21\\)에서 \\(2a_1 + 5d = 7\\) \\(\\cdots\\cdots\\) ㉠","\\(S_{12} = \\dfrac{12(2a_1 + 11d)}{2} = 150\\)에서 \\(2a_1 + 11d = 25\\) \\(\\cdots\\cdots\\) ㉡","㉠, ㉡을 연립하여 풀면 \\(d = 3\\), \\(a_1 = -4\\)이다.","\\(\\therefore a_{12} = a_1 + 11d = (-4) + 33 = 29\\)"],"choices":["\\(29\\)","\\(28\\)","\\(27\\)","\\(26\\)","\\(25\\)"]},{"no":13,"unit":2,"sub":"등차수열의 합 활용","topic":"","flag":"서술형","q":"연속하는 \\(20\\)개의 짝수의 총합이 \\(500\\)일 때, 이 \\(20\\)개의 짝수 중에서 가장 큰 수를 구하시오.","row":false,"ans":"\\(44\\)","sol":["연속하는 \\(20\\)개의 짝수를 크기가 큰 수부터 차례대로 나열하면 공차가 \\(-2\\)인 등차수열을 이룬다.","가장 큰 수, 즉 첫째항을 \\(k\\)라 하면 가장 작은 수인 제20항은 \\(k - 38\\)이므로 등차수열의 합에 의하여","\\(\\dfrac{20(k + k - 38)}{2} = 500\\), \\(2k - 38 = 50\\)","\\(\\therefore k = 44\\)"]},{"no":14,"unit":2,"sub":"등차수열의 합 활용","topic":"","flag":"","q":"어느 공연장의 관람석은 첫 번째 줄이 \\(12\\)석이고, 그 다음 줄부터 앞줄보다 \\(3\\)석씩 늘어나는 규칙으로 \\(20\\)번째 줄까지 배치되어 있다. 이 공연장의 총 관람석의 수는?","row":false,"ans":"①","sol":["공연장의 \\(n\\)번째 줄의 관람석의 수를 \\(a_n\\)이라 하면 수열 \\(\\{a_n\\}\\)은 첫째항이 \\(12\\)이고 공차가 \\(3\\)인 등차수열을 이룬다.","따라서 구하는 총 관람석의 수는 첫째항부터 제20항까지의 합과 같으므로 \\(\\dfrac{20(2 \\times 12 + 19 \\times 3)}{2} = 810\\)이다."],"choices":["\\(810\\)","\\(830\\)","\\(850\\)","\\(870\\)","\\(890\\)"]},{"no":15,"unit":3,"sub":"S_n으로 특정 항 구하기","topic":"","flag":"빈출","q":"수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n = 3n - 2\\)일 때, \\(a_1 + a_7\\)의 값을 구하시오.","row":false,"ans":"\\(4\\)","sol":["\\(a_1 = S_1 = 3 - 2 = 1\\)이고","\\(n \\geq 2\\)일 때 수열의 합과 일반항 사이의 관계에 의하여 \\(a_7 = S_7 - S_6 = (3 \\times 7 - 2) - (3 \\times 6 - 2) = 3\\)","\\(\\therefore a_1 + a_7 = 1 + 3 = 4\\)"]},{"no":16,"unit":3,"sub":"S_n으로 특정 항 구하기","topic":"","flag":"","q":"수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 할 때, \\(S_n = n^2 + 3n\\)이다. \\(a_8\\)의 값은?","row":false,"ans":"④","sol":["\\(n \\geq 2\\)일 때 수열의 합과 일반항 사이의 관계에 의하여","\\(a_8 = S_8 - S_7 = (64 + 24) - (49 + 21) = 18\\)"],"choices":["\\(12\\)","\\(14\\)","\\(16\\)","\\(18\\)","\\(20\\)"]},{"no":17,"unit":3,"sub":"S_n으로 일반항 구하기","topic":"","flag":"서술형","q":"수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자. \\(S_n\\)이 다음과 같을 때, 수열의 일반항 \\(a_n\\)을 구하시오.\\(\\)(1) \\(S_n = 2n^2 - n\\)\\(\\)(2) \\(S_n = n^2 + n + 2\\)","row":false,"ans":"(1) \\(a_n = 4n - 3\\ (n \\geq 1)\\)　(2) \\(a_1 = 4,\\ a_n = 2n\\ (n \\geq 2)\\)","sol":["(1) \\(n \\geq 2\\)일 때 \\(a_n = S_n - S_{n-1} = (2n^2 - n) - \\{2(n-1)^2 - (n-1)\\} = 4n - 3\\)","\\(a_1 = S_1 = 1\\)이므로 \\(a_n = 4n - 3\\ (n \\geq 1)\\)이다.","(2) \\(n \\geq 2\\)일 때 \\(a_n = S_n - S_{n-1} = (n^2 + n + 2) - \\{(n-1)^2 + (n-1) + 2\\} = 2n\\)","\\(S_1 = 4\\)이므로 \\(a_1 = 4\\), \\(a_n = 2n\\ (n \\geq 2)\\)이다."]},{"no":18,"unit":1,"sub":"등비수열의 특정 항","topic":"","flag":"빈출","q":"제5항이 \\(-12\\)이고 제8항이 \\(96\\)인 등비수열의 제6항은?","row":false,"ans":"②","sol":["주어진 등비수열을 \\(\\{a_n\\}\\)이라 하고, 공비를 \\(r\\)이라 하자.","\\(\\dfrac{a_8}{a_5} = \\dfrac{a_1 r^7}{a_1 r^4} = r^3 = \\dfrac{96}{-12} = -8\\)이므로 \\(r = -2\\)","\\(\\therefore a_6 = a_5 \\times r = (-12) \\times (-2) = 24\\)","따라서 제6항은 \\(24\\)이다."],"choices":["\\(18\\)","\\(24\\)","\\(30\\)","\\(36\\)","\\(42\\)"]},{"no":19,"unit":1,"sub":"등비수열의 공비","topic":"","flag":"","q":"두 등비수열 \\(\\{a_n\\}\\), \\(\\{b_n\\}\\)이 다음과 같다.<br>\\(\\{a_n\\}:\\ 48,\\ 24,\\ 12,\\ 6,\\ \\cdots\\)<br>\\(\\{b_n\\}:\\ \\dfrac{1}{27},\\ \\dfrac{1}{9},\\ \\dfrac{1}{3},\\ \\cdots\\)<br>수열 \\(\\{a_n b_n\\}\\)의 공비는?","row":false,"ans":"①","sol":["수열 \\(\\{a_n\\}\\)은 첫째항이 \\(48\\)이고 공비가 \\(\\dfrac{1}{2}\\)인 등비수열이므로 일반항은 \\(a_n = 48 \\times \\left(\\dfrac{1}{2}\\right)^{n-1}\\)이다.","수열 \\(\\{b_n\\}\\)은 첫째항이 \\(\\dfrac{1}{27}\\)이고 공비가 \\(3\\)인 등비수열이므로 일반항은 \\(b_n = \\dfrac{1}{27} \\times 3^{n-1}\\)이다.","\\(a_n b_n = 48 \\times \\left(\\dfrac{1}{2}\\right)^{n-1} \\times \\dfrac{1}{27} \\times 3^{n-1} = \\dfrac{16}{9} \\times \\left(\\dfrac{3}{2}\\right)^{n-1}\\)이므로 수열 \\(\\{a_n b_n\\}\\)의 공비는 \\(\\dfrac{3}{2}\\)이다."],"choices":["\\(\\dfrac{3}{2}\\)","\\(\\dfrac{5}{2}\\)","\\(\\dfrac{7}{2}\\)","\\(\\dfrac{9}{2}\\)","\\(\\dfrac{11}{2}\\)"]},{"no":20,"unit":1,"sub":"등비수열의 항 위치","topic":"","flag":"","q":"등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_1 = \\dfrac{1}{6}\\), \\(\\dfrac{a_4}{a_3} = 3\\)일 때, \\(\\dfrac{81}{2}\\)은 제몇 항인가?","row":false,"ans":"②","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\)이라 하면 \\(\\dfrac{a_4}{a_3} = 3\\)에서 \\(r = 3\\)이므로 일반항은 \\(a_n = \\dfrac{1}{6} \\times 3^{n-1}\\)이다.","이때 \\(a_k = \\dfrac{81}{2}\\)이라 하면 \\(a_k = \\dfrac{1}{6} \\times 3^{k-1} = \\dfrac{81}{2}\\), \\(3^{k-1} = 243 = 3^5\\)에서 \\(k - 1 = 5\\), \\(k = 6\\)","따라서 \\(\\dfrac{81}{2}\\)은 제6항이다."],"choices":["\\(5\\)","\\(6\\)","\\(7\\)","\\(8\\)","\\(9\\)"]},{"no":21,"unit":1,"sub":"등비수열의 특정 항","topic":"","flag":"","q":"공비가 양수인 등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_1 = 12\\), \\(\\dfrac{a_3 + a_4}{a_5 + a_6} = 9\\)일 때, \\(a_2\\)의 값은?","row":false,"ans":"③","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\ (r > 0)\\)이라 하면","\\(\\dfrac{a_3 + a_4}{a_5 + a_6} = \\dfrac{a_3 + a_4}{a_3 r^2 + a_4 r^2} = \\dfrac{a_3 + a_4}{(a_3 + a_4)r^2} = \\dfrac{1}{r^2} = 9\\)이므로 \\(r^2 = \\dfrac{1}{9}\\), \\(r = \\dfrac{1}{3}\\ (\\because r > 0)\\)","\\(\\therefore a_2 = a_1 r = 12 \\times \\dfrac{1}{3} = 4\\)"],"choices":["\\(2\\)","\\(3\\)","\\(4\\)","\\(5\\)","\\(6\\)"]},{"no":22,"unit":1,"sub":"등비수열의 특정 항","topic":"","flag":"","q":"모든 항이 양수인 등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_3 = 9a_1\\), \\(a_6 = (a_5)^2\\)일 때, \\(a_1\\)의 값은?","row":false,"ans":"①","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\ (r > 0)\\)이라 하면 \\(a_3 = 9a_1\\)에서 \\(\\dfrac{a_3}{a_1} = \\dfrac{a_1 r^2}{a_1} = r^2 = 9\\)이므로 \\(r = 3\\ (\\because r > 0)\\)","이때 \\(a_6 = (a_5)^2\\)에서 \\(\\dfrac{a_6}{a_5} = a_5\\), \\(r = a_1 r^4\\), \\(a_1 = \\dfrac{1}{r^3}\\)이므로 \\(a_1 = \\dfrac{1}{27}\\ (\\because r = 3)\\)"],"choices":["\\(\\dfrac{1}{27}\\)","\\(\\dfrac{2}{27}\\)","\\(\\dfrac{1}{9}\\)","\\(\\dfrac{4}{27}\\)","\\(\\dfrac{5}{27}\\)"]},{"no":23,"unit":1,"sub":"등비수열 항의 합 관계","topic":"","flag":"빈출","q":"등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_2 + a_3 + a_4 = 5\\), \\(a_5 + a_6 + a_7 = 40\\)일 때, \\(a_8 + a_9 + a_{10}\\)의 값을 구하시오.","row":false,"ans":"\\(320\\)","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\)이라 하면 \\(a_2 r^3 = a_5\\), \\(a_3 r^3 = a_6\\), \\(a_4 r^3 = a_7\\)이므로","\\(a_5 + a_6 + a_7 = r^3(a_2 + a_3 + a_4) = 40\\)","\\(r^3 = 8\\ (\\because a_2 + a_3 + a_4 = 5)\\)","\\(\\therefore a_8 + a_9 + a_{10} = r^3(a_5 + a_6 + a_7) = 8 \\times 40 = 320\\)"]},{"no":24,"unit":1,"sub":"등비수열의 항 위치","topic":"","flag":"빈출","q":"첫째항이 \\(\\dfrac{1}{16}\\)이고 공비가 \\(2\\)인 등비수열 \\(\\{a_n\\}\\)에서 \\(a_m > 2000\\)을 만족시키는 자연수 \\(m\\)의 최솟값은?","row":false,"ans":"②","sol":["등비수열 \\(\\{a_n\\}\\)의 일반항은 \\(a_n = \\dfrac{1}{16} \\times 2^{n-1} = 2^{-4} \\times 2^{n-1} = 2^{n-5}\\)이다.","\\(a_{15} = 2^{10} = 1024 < 2000\\)이고 \\(a_{16} = 2^{11} = 2048 > 2000\\)이므로 \\(a_m > 2000\\)을 만족시키는 자연수 \\(m\\)의 최솟값은 \\(16\\)이다."],"choices":["\\(15\\)","\\(16\\)","\\(17\\)","\\(18\\)","\\(19\\)"]},{"no":25,"unit":1,"sub":"등비중항","topic":"","flag":"","q":"다음은 모든 항이 양수인 등비수열을 나타낸 것이다. 실수 \\(x\\), \\(y\\)에 대하여 \\(x + y\\)의 값은?<br>\\(162,\\ x,\\ 18,\\ y,\\ 2,\\ \\cdots\\)","row":false,"ans":"②","sol":["\\(x\\)는 \\(162\\)와 \\(18\\)의 등비중항이므로 \\(x^2 = 162 \\times 18 = 2916 = 54^2\\)에서 \\(x = 54\\ (\\because x > 0)\\)","\\(y\\)는 \\(18\\)과 \\(2\\)의 등비중항이므로 \\(y^2 = 18 \\times 2 = 36 = 6^2\\)에서 \\(y = 6\\ (\\because y > 0)\\)","\\(\\therefore x + y = 54 + 6 = 60\\)"],"choices":["\\(54\\)","\\(60\\)","\\(66\\)","\\(72\\)","\\(78\\)"]},{"no":26,"unit":1,"sub":"등비중항","topic":"","flag":"빈출","q":"두 수 \\(5\\)와 \\(80\\) 사이에 세 양의 실수 \\(x\\), \\(y\\), \\(z\\)를 넣어서 \\(5,\\ x,\\ y,\\ z,\\ 80\\)이 이 순서대로 등비수열을 이루도록 할 때, \\(x + y + z\\)의 값은?","row":false,"ans":"⑤","sol":["등비수열 \\(5,\\ x,\\ y,\\ z,\\ 80\\)의 공비를 \\(r\\ (r > 0)\\)이라 하자.","\\(80 = 5r^4\\)에서 \\(r^4 = 16\\)이므로 \\(r = 2\\ (\\because r > 0)\\)이다.","따라서 \\(x = 5 \\times 2 = 10\\), \\(y = 2x = 20\\), \\(z = 2y = 40\\)이므로 \\(x + y + z = 10 + 20 + 40 = 70\\)"],"choices":["\\(50\\)","\\(55\\)","\\(60\\)","\\(65\\)","\\(70\\)"]},{"no":27,"unit":1,"sub":"등차·등비 혼합","topic":"","flag":"빈출","q":"두 실수 \\(x\\), \\(y\\)에 대하여 세 수 \\(x\\), \\(5\\), \\(y - 1\\)이 이 순서대로 등차수열을 이루고, 세 수 \\(x + 1\\), \\(y\\), \\(2\\)가 이 순서대로 등비수열을 이루도록 하는 모든 \\(x\\)의 값의 합을 구하시오.","row":false,"ans":"\\(24\\)","sol":["세 수 \\(x\\), \\(5\\), \\(y - 1\\)에서 \\(10 = x + y - 1\\), \\(y = 11 - x\\) \\(\\cdots\\cdots\\) ㉠","세 수 \\(x + 1\\), \\(y\\), \\(2\\)에서 \\(y^2 = (x + 1) \\times 2\\), \\(y^2 = 2x + 2\\) \\(\\cdots\\cdots\\) ㉡","㉠을 ㉡에 대입하면 \\((11 - x)^2 = 2x + 2\\), \\(x^2 - 22x + 121 = 2x + 2\\)","\\(x^2 - 24x + 119 = (x - 7)(x - 17) = 0\\)","\\(\\therefore x = 7\\) 또는 \\(x = 17\\)","따라서 모든 \\(x\\)의 값의 합은 \\(7 + 17 = 24\\)이다."]},{"no":28,"unit":1,"sub":"등비수열의 특정 항 (교육청 기출)","topic":"","flag":"서술형","q":"첫째항이 \\(\\dfrac{1}{4}\\)이고 공비가 양수인 등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_3 + a_5 = \\dfrac{1}{a_3} + \\dfrac{1}{a_5}\\)일 때, \\(a_{10}\\)의 값을 구하시오.","row":false,"ans":"\\(16\\)","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\ (r > 0)\\)이라 하면 \\(a_3 + a_5 = \\dfrac{1}{a_3} + \\dfrac{1}{a_5}\\)에서 \\(a_3 + a_5 = \\dfrac{a_3 + a_5}{a_3 a_5}\\)","즉, \\(a_3 a_5 = 1\\)이므로 \\(\\dfrac{1}{4}r^2 \\times \\dfrac{1}{4}r^4 = 1\\ \\left(\\because a_1 = \\dfrac{1}{4}\\right)\\)","\\(r^6 = 16\\), \\(r^3 = 4\\ (\\because r > 0)\\)","\\(\\therefore a_{10} = \\dfrac{1}{4}r^9 = \\dfrac{1}{4}(r^3)^3 = \\dfrac{1}{4} \\times 4^3 = 16\\)"]},{"no":29,"unit":1,"sub":"등비수열의 합","topic":"","flag":"","q":"첫째항이 \\(3\\)이고 공비가 \\(-2\\)인 등비수열 \\(\\{a_n\\}\\)의 첫째항부터 제10항까지의 합은?","row":false,"ans":"③","sol":["첫째항이 \\(3\\)이고 공비가 \\(-2\\)인 등비수열 \\(\\{a_n\\}\\)의 첫째항부터 제10항까지의 합은","\\(\\dfrac{3\\{1 - (-2)^{10}\\}}{1 - (-2)} = 1 - (-2)^{10} = 1 - 1024 = -1023\\)"],"choices":["\\(-511\\)","\\(513\\)","\\(-1023\\)","\\(1025\\)","\\(-2047\\)"]},{"no":30,"unit":1,"sub":"등비수열의 합","topic":"","flag":"","q":"등비수열 \\(2^3,\\ 2^5,\\ 2^7,\\ \\cdots,\\ 2^{25}\\)의 합은?","row":false,"ans":"③","sol":["주어진 수열은 첫째항이 \\(2^3\\)이고 공비가 \\(2^2\\)인 등비수열이다.","이때 \\(2^3 = 2^{2 \\times 1 + 1}\\), \\(2^{25} = 2^{2 \\times 12 + 1}\\)이므로 등비수열 \\(2^3,\\ 2^5,\\ 2^7,\\ \\cdots,\\ 2^{25}\\)의 합은","\\(\\dfrac{2^3\\{(2^2)^{12} - 1\\}}{4 - 1} = \\dfrac{2^3(2^{24} - 1)}{3} = \\dfrac{2^{27} - 8}{3}\\)"],"choices":["\\(\\dfrac{2^{15} - 8}{3}\\)","\\(\\dfrac{2^{16} - 8}{3}\\)","\\(\\dfrac{2^{27} - 8}{3}\\)","\\(2^{15} - 8\\)","\\(2^{27} - 8\\)"]},{"no":31,"unit":1,"sub":"등비수열의 합 관계","topic":"","flag":"빈출","q":"첫째항부터 제5항까지의 합이 \\(4\\), 첫째항부터 제10항까지의 합이 \\(-20\\)인 등비수열의 첫째항부터 제15항까지의 합을 구하고, 그 과정을 서술하시오.","row":false,"ans":"풀이 참조 (\\(124\\))","sol":["주어진 등비수열을 \\(\\{a_n\\}\\)이라 하고, 공비를 \\(r\\)이라 하자.","\\(\\dfrac{a_1(r^5 - 1)}{r - 1} = 4\\) \\(\\cdots\\cdots\\) ㉠","\\(\\dfrac{a_1(r^{10} - 1)}{r - 1} = \\dfrac{a_1(r^5 - 1)(r^5 + 1)}{r - 1} = -20\\) \\(\\cdots\\cdots\\) ㉡","㉠을 ㉡에 대입하면 \\(\\dfrac{a_1(r^5 - 1)(r^5 + 1)}{r - 1} = 4(r^5 + 1) = -20\\)에서 \\(r^5 + 1 = -5\\)이므로 \\(r^5 = -6\\)이다. \\(\\cdots\\cdots\\) ㉢","따라서 첫째항부터 제15항까지의 합은","\\(\\dfrac{a_1(r^{15} - 1)}{r - 1} = \\dfrac{a_1(r^5 - 1)(r^{10} + r^5 + 1)}{r - 1} = 4 \\times \\{(-6)^2 + (-6) + 1\\} = 124\\ (\\because ㉠,\\ ㉢)\\)"]},{"no":32,"unit":1,"sub":"등비수열의 합과 공비","topic":"","flag":"서술형","q":"등비수열 \\(\\{a_n\\}\\)에 대하여 \\(a_1 + a_2 + a_3 + \\cdots + a_{20} = 18\\), \\(a_1 + a_3 + a_5 + \\cdots + a_{19} = 15\\)일 때, 수열 \\(\\{a_n\\}\\)의 공비를 구하시오.","row":false,"ans":"\\(\\dfrac{1}{5}\\)","sol":["등비수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\)이라 하면 \\(a_1 + a_2 + \\cdots + a_{20} = \\dfrac{a_1(r^{20} - 1)}{r - 1} = 18\\) \\(\\cdots\\cdots\\) ㉠","이때 \\(a_1,\\ a_3,\\ a_5,\\ \\cdots,\\ a_{19}\\)는 첫째항이 \\(a_1\\)이고 공비가 \\(r^2\\)인 등비수열을 이루므로","\\(a_1 + a_3 + \\cdots + a_{19} = \\dfrac{a_1\\{(r^2)^{10} - 1\\}}{r^2 - 1} = \\dfrac{a_1(r^{20} - 1)}{(r - 1)(r + 1)} = 15\\) \\(\\cdots\\cdots\\) ㉡","㉠을 ㉡에 대입하면 \\(\\dfrac{18}{r + 1} = 15\\)에서 \\(r + 1 = \\dfrac{6}{5}\\)이므로 \\(r = \\dfrac{1}{5}\\)이다.","따라서 수열 \\(\\{a_n\\}\\)의 공비는 \\(\\dfrac{1}{5}\\)이다."]},{"no":33,"unit":1,"sub":"S_n과 등비수열 조건","topic":"","flag":"빈출","q":"수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합 \\(S_n\\)이 \\(S_n = 3^{n+2} + k\\)이다. 수열 \\(\\{a_n\\}\\)이 등비수열이 되기 위한 상수 \\(k\\)의 값은?","row":false,"ans":"③","sol":["\\(n \\geq 2\\)일 때 수열의 합과 일반항 사이의 관계에 의하여","\\(S_n - S_{n-1} = (3^{n+2} + k) - (3^{n+1} + k) = (3 - 1)3^{n+1} = 2 \\times 3^{n+1}\\)","\\(n \\geq 2\\)일 때 \\(a_n = 2 \\times 3^{n+1}\\)이므로 수열 \\(\\{a_n\\}\\)이 등비수열이 되려면 \\(S_1 = a_1\\)을 만족시켜야 한다.","\\(S_1 = 3^3 + k\\), \\(a_1 = 2 \\times 3^2\\)이므로 \\(27 + k = 18\\)","\\(\\therefore k = -9\\)"],"choices":["\\(-1\\)","\\(-3\\)","\\(-9\\)","\\(-27\\)","\\(-81\\)"]},{"no":34,"unit":1,"sub":"등비수열의 합과 항","topic":"","flag":"","q":"첫째항이 \\(3\\)이고 공비가 \\(1\\)보다 큰 등비수열 \\(\\{a_n\\}\\)의 첫째항부터 제\\(n\\)항까지의 합을 \\(S_n\\)이라 하자. \\(\\dfrac{S_4}{S_2} = \\dfrac{6a_3}{a_5}\\)일 때, \\(a_7\\)의 값은?","row":false,"ans":"①","sol":["수열 \\(\\{a_n\\}\\)의 공비를 \\(r\\ (r > 1)\\)이라 하자.","\\(\\dfrac{S_4}{S_2} = \\dfrac{\\frac{3(r^4 - 1)}{r - 1}}{\\frac{3(r^2 - 1)}{r - 1}} = r^2 + 1\\)","\\(\\dfrac{6a_3}{a_5} = \\dfrac{18r^2}{3r^4} = \\dfrac{6}{r^2}\\)이므로 \\(r^2 + 1 = \\dfrac{6}{r^2}\\), \\(r^4 + r^2 - 6 = 0\\)","\\((r^2 - 2)(r^2 + 3) = 0\\), \\(r^2 = 2\\)","따라서 \\(a_7 = 3 \\times r^6 = 3 \\times 2^3 = 24\\)"],"choices":["\\(24\\)","\\(27\\)","\\(30\\)","\\(33\\)","\\(36\\)"]},{"no":35,"unit":2,"sub":"원리합계(복리)","topic":"","flag":"빈출","q":"월이율이 \\(0.5\\%\\)이고 \\(1\\)개월마다 복리로 계산하는 은행에 매월 초에 \\(10\\)만 원씩 적립했을 때, \\(3\\)년 후 적립금의 원리합계는? (단, \\(1.005^{36} = 1.2\\)로 계산한다.)","row":false,"ans":"②","sol":["\\(1\\)개월째 초에 적립한 \\(10\\)만 원은 \\(36\\)개월 동안 예금되므로 원리합계는 \\(10(1 + 0.005)^{36}\\)만 원이고, 같은 방법으로 매월 초 적립금의 \\(36\\)개월째 말의 원리합계를 모두 더한다.","구하는 원리합계는 첫째항이 \\(10(1 + 0.005)\\)이고 공비가 \\(1 + 0.005\\)인 등비수열의 첫째항부터 제36항까지의 합과 같으므로","\\(\\dfrac{10(1 + 0.005)\\{(1 + 0.005)^{36} - 1\\}}{(1 + 0.005) - 1} = \\dfrac{10 \\times 1.005 \\times 0.2}{0.005} = 402\\)(만 원) \\((\\because 1.005^{36} = 1.2)\\)","따라서 구하는 적립금의 원리합계는 \\(402\\)만 원이다."],"choices":["\\(398\\)만 원","\\(402\\)만 원","\\(406\\)만 원","\\(410\\)만 원","\\(414\\)만 원"]},{"no":36,"unit":2,"sub":"원리합계(복리)","topic":"","flag":"","q":"매년 초에 일정한 금액 \\(a\\)원을 연이율 \\(5\\%\\)로 매년 복리로 계산하는 은행에 적립하였더니 \\(12\\)년 후 연말에 \\(840\\)만 원을 수령하였다. \\(a\\)의 값은? (단, \\(1.05^{12} = 1.8\\)로 계산한다.)","row":false,"ans":"③","sol":["첫 해 연초에 적립한 \\(a\\)원은 \\(12\\)년 동안 예금되므로 원리합계는 \\(a(1 + 0.05)^{12}\\)원이고, 같은 방법으로 매년 초 적립금의 \\(12\\)년 후 연말의 원리합계를 모두 더한다.","적립금의 원리합계는 첫째항이 \\(a(1 + 0.05)\\)이고 공비가 \\(1 + 0.05\\)인 등비수열의 첫째항부터 제12항까지의 합과 같으므로","\\(\\dfrac{a(1 + 0.05)\\{(1 + 0.05)^{12} - 1\\}}{(1 + 0.05) - 1} = \\dfrac{1.05a(1.05^{12} - 1)}{1.05 - 1} = \\dfrac{1.05a \\times 0.8}{0.05} = 21a \\times 0.8 = 8400000\\)","\\(\\therefore a = 500000\\)"],"choices":["\\(400000\\)","\\(450000\\)","\\(500000\\)","\\(550000\\)","\\(600000\\)"]}];
+const WIDE=new Set();
+
+/* ---- 출력 파이프라인: fmt = brk(wrapLong(esc(s))) ---- */
+function esc(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    return "\\("+inner.replace(/</g,"&lt;").replace(/>/g,"&gt;")+"\\)";
+  });
+}
+function wrapLong(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    if(inner.length<=60) return m;
+    var marked=inner.replace(/ (=|\+|-) /g,"\u0001$1 ");
+    var parts=marked.split("\u0001").filter(function(x){return x.length});
+    if(parts.length<=1) return m;
+    return parts.map(function(p){return "\\("+p.trim()+"\\)";}).join("<wbr>");
+  });
+}
+function brk(s){
+  return String(s).replace(/\s*(\([1-9]\)|[⑴⑵⑶⑷⑸])/g,function(m,g,off){
+    return (off===0?"":"<br>")+g;
+  });
+}
+function fmt(s){return brk(wrapLong(esc(s)));}
+
+/* ---- 카드 빌드 ---- */
+function build(){
+  let html="";
+  P.forEach((p,i)=>{
+    const col=UNITCOL[p.unit]||"#888";
+    const U=UNITS[p.unit]||{u:"",t:""};
+    let badge="";
+    if(p.flag==="빈출") badge=`<span class="badge bin">빈출</span>`;
+    else if(p.flag==="서술형") badge=`<span class="badge seo">서술형</span>`;
+    let top=`<div class="ctop"><span class="no">${p.no}</span>`+
+      `<span class="utag" style="background:${col}">${U.u}</span>`+
+      (badge||"")+
+      `<span class="sub2">${p.sub?fmt(p.sub):""}</span>`+
+      (p.topic?`<span class="topic">${p.topic}</span>`:"")+`</div>`;
+    let body=`<div class="q">${fmt(p.q)}</div>`;
+    if(IMG[p.no]) body+=`<img class="qimg${WIDE.has(p.no)?' wide':''}" src="${IMG[p.no]}" loading="lazy" alt="문제 ${p.no} 그림">`;
+    if(p.boki){
+      body+=`<div class="boki"><div class="bttl">＜ 보 기 ＞</div>`+
+        p.boki.map(b=>`<span class="bk">${fmt(b)}</span>`).join("")+`</div>`;
+    }
+    if(p.choices){
+      const cn=["①","②","③","④","⑤"];
+      body+=`<div class="choices">`+
+        p.choices.map((c,k)=>`<div class="ch"><span class="cn">${cn[k]}</span><span>${fmt(c)}</span></div>`).join("")+
+        `</div>`;
+    }
+    let rev=`<div class="rev" id="rev${p.no}"><div class="ansline"><span class="lab">정답</span><span class="v">${fmt(p.ans)}</span></div>`;
+    if(p.sol&&p.sol.length){
+      rev+=`<div class="solttl">풀이</div><div class="sol">`+
+        p.sol.map(s=>`<span class="st">${fmt(s)}</span>`).join("")+`</div>`;
+    }
+    rev+=`</div>`;
+    html+=`<div class="card" id="card${p.no}" data-i="${i}">${top}${body}`+
+      `<button class="revbtn" onclick="rev(${p.no})" id="rb${p.no}">정답 · 풀이 보기</button>`+rev+`</div>`;
+  });
+  document.getElementById("cards").innerHTML=html;
+  // 번호판
+  let pad="", leg="";
+  P.forEach(p=>{ pad+=`<div class="dot" style="background:${UNITCOL[p.unit]}" data-no="${p.no}" onclick="showP(${p.no})">${p.no}</div>`; });
+  document.getElementById("pad").innerHTML=pad;
+  UNITS.forEach((u,i)=>{ leg+=`<span><i style="background:${UNITCOL[i]}"></i>${u.u} ${u.t}</span>`; });
+  document.getElementById("legend").innerHTML=leg;
+  // 드롭다운
+  let sel="";
+  P.forEach(p=>{ sel+=`<option value="${p.no}">${p.no}. ${UNITS[p.unit].t}${p.flag?(" · "+p.flag):""}</option>`; });
+  document.getElementById("sel").innerHTML=sel;
+  document.getElementById("cImg").textContent=Object.keys(IMG).length;
+}
+
+/* ---- 네비게이션 ---- */
+let curIdx=0, hist=[];
+function renderCur(scroll, pushHist){
+  P.forEach(p=>{document.getElementById("card"+p.no).classList.remove("show");});
+  document.querySelectorAll(".pad .dot").forEach(d=>d.classList.remove("cur"));
+  const p=P[curIdx];
+  const card=document.getElementById("card"+p.no);
+  card.classList.add("show");
+  const dot=document.querySelector('.pad .dot[data-no="'+p.no+'"]'); if(dot)dot.classList.add("cur");
+  document.getElementById("sel").value=p.no;
+  document.querySelector("#cCur b").textContent=p.no+"번";
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([card]);
+  if(scroll) window.scrollTo({top:0,behavior:"smooth"});
+}
+function showP(no){
+  const i=P.findIndex(p=>p.no==no);
+  if(i<0) return;
+  if(i!==curIdx) hist.push(curIdx);
+  curIdx=i; renderCur(true);
+}
+function step(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function jump(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function goBack(){ if(hist.length){ curIdx=hist.pop(); renderCur(true);} }
+function rev(no){
+  const r=document.getElementById("rev"+no), b=document.getElementById("rb"+no);
+  const on=r.classList.toggle("show");
+  b.textContent=on?"정답 · 풀이 숨기기":"정답 · 풀이 보기";
+  if(on&&window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([r]);
+}
+function togglePad(){
+  document.getElementById("pad").classList.toggle("show");
+  document.getElementById("padh").classList.toggle("open");
+}
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="SELECT")return;
+  if(e.key==="ArrowLeft")step(-1);
+  else if(e.key==="ArrowRight")step(1);
+});
+build();
+curIdx=0; renderCur(false);
+</script>
+
+<script>
+function setM(m){var c=(m==='c');
+  document.getElementById('mC').classList.toggle('on',c);
+  document.getElementById('mP').classList.toggle('on',!c);
+  document.body.classList.toggle('cmode',c);
+  if(c){var f=document.getElementById('cFrame'); if(!f.getAttribute('src')) f.setAttribute('src',f.dataset.src);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body></html>

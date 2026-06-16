@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>삼각함수의 활용 · 기본유형</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root{--ink:#0c1019;--ink2:#141a26;--ink3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--mint:#5fd6b4;--red:#ff8d76;--blue:#6db6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);line-height:1.62;padding:18px 14px 120px}
+.wrap{max-width:840px;margin:0 auto}
+h1{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12.5px;color:var(--muted);margin:4px 0 12px}
+.stat{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--ink3);border:1px solid var(--line)}
+.chip b{color:var(--gold)}
+/* 번호판 */
+.padwrap{background:var(--ink2);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.padh{display:flex;align-items:center;gap:8px;padding:9px 13px;cursor:pointer;user-select:none;font-size:12.5px;font-weight:700}
+.padh .ar{margin-left:auto;color:var(--muted);transition:.2s}
+.padh.open .ar{transform:rotate(180deg)}
+.pad{display:none;flex-wrap:wrap;gap:5px;padding:0 12px 13px}
+.pad.show{display:flex}
+.pad .dot{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;cursor:pointer;color:#0a0e16;opacity:.86;transition:.1s}
+.pad .dot:hover{opacity:1;transform:scale(1.12);outline:2px solid #fff3}
+.pad .dot.cur{outline:2px solid #fff;opacity:1}
+.legend{display:flex;gap:11px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding:0 12px 11px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* 카드 */
+.card{display:none;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:18px 18px 20px}
+.card.show{display:block}
+.ctop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+.no{font-size:25px;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+.utag{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;color:#0a0e16}
+.badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.badge.bin{color:var(--red)}.badge.seo{color:var(--mint)}
+.sub2{font-size:11.5px;color:var(--muted);font-weight:600}
+.topic{font-size:10.5px;color:#6d7890;margin-left:auto;font-weight:600}
+.q{font-size:15.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all;overflow-wrap:anywhere}
+.qimg{display:block;max-width:min(100%,340px);margin:14px auto 6px;background:#fbfbf8;border-radius:10px;padding:12px;border:1px solid #2a3550}
+.qimg.wide{max-width:min(100%,540px)}
+.boki{background:#101725;border:1px solid #233150;border-radius:11px;padding:12px 14px;margin:12px 0}
+.boki .bttl{font-size:11px;font-weight:800;color:var(--gold);text-align:center;margin-bottom:7px;letter-spacing:.08em}
+.bk{display:block;font-size:14.5px;margin:5px 0;word-break:keep-all;overflow-wrap:anywhere}
+.choices{display:flex;flex-direction:column;gap:7px;margin:14px 0 2px}
+.choices .ch{font-size:14.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#101725;display:flex;gap:9px;align-items:flex-start;overflow-wrap:anywhere}
+.choices .ch .cn{color:var(--blue);font-weight:800;flex:none}
+.revbtn{margin-top:16px;font-size:13px;font-weight:700;padding:10px 16px;border-radius:10px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;width:100%}
+.revbtn:hover{background:rgba(245,181,68,.1)}
+.rev{display:none;margin-top:14px;border-top:1px dashed var(--line);padding-top:14px}
+.rev.show{display:block}
+.ansline{font-size:15px;font-weight:800;margin-bottom:10px}
+.ansline .lab{color:var(--muted);font-weight:700;font-size:12px;margin-right:8px}
+.ansline .v{color:var(--mint)}
+.solttl{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.06em;margin-bottom:6px}
+.sol{font-size:14px;line-height:1.85;color:#d7deec}
+.sol .st{display:block;margin:6px 0;padding-left:14px;border-left:2px solid #2a3550;word-break:keep-all;overflow-wrap:anywhere}
+/* 페이저 */
+.pager{position:fixed;left:0;right:0;bottom:0;background:rgba(12,16,25,.97);border-top:1px solid var(--line);backdrop-filter:blur(8px);padding:10px 12px;z-index:50}
+.pinner{max-width:840px;margin:0 auto;display:flex;align-items:center;gap:7px}
+.pbtn{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;white-space:nowrap}
+.pbtn:hover{border-color:var(--gold);color:var(--gold)}
+.pbtn:active{transform:scale(.96)}
+.pbtn.wide{flex:1}
+select{font-family:inherit;font-size:13px;font-weight:700;padding:9px 8px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;max-width:46%}
+.hint{font-size:10.5px;color:#6d7890;text-align:center;margin-top:6px}
+@media(max-width:560px){.q{font-size:15px}.no{font-size:22px}.hint{display:none}}
+
+/* 개념/문제 모드 탭 */
+.modes{display:flex;gap:8px;margin:2px 0 14px}
+.modes button{padding:8px 18px;border-radius:11px;border:1px solid var(--line);background:var(--ink2);color:var(--text);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.modes button.on{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+#conceptPane{display:none;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin-bottom:14px}
+#conceptPane iframe{width:100%;height:80vh;border:0;display:block}
+body.cmode .stat,body.cmode .padwrap,body.cmode #cards,body.cmode .pager{display:none}
+body.cmode #conceptPane{display:block}
+</style></head>
+<body><div class="wrap">
+<h1>삼각함수의 활용 — 기본유형 <span style="color:var(--gold)">S1</span> · 사인법칙·코사인법칙·넓이</h1>
+<div class="sub">STEP 1 · 사인법칙·코사인법칙·삼각형의 넓이 기본 (객관식·주관식)</div>
+<div class="modes"><button id="mC" onclick="setM('c')">개념</button><button id="mP" class="on" onclick="setM('p')">문제</button></div>
+<div id="conceptPane"><iframe id="cFrame" data-src="algebra-trig-application.html#embed" title="개념" loading="lazy"></iframe></div>
+<div class="stat">
+  <span class="chip"><b id="cTot">25</b> 문항</span>
+  <span class="chip">유형 <b>4</b>개</span>
+  <span class="chip">그림 <b id="cImg">17</b>개 내장</span>
+  <span class="chip" id="cCur">현재 <b>—</b></span>
+</div>
+<div class="padwrap">
+  <div class="padh" id="padh" onclick="togglePad()">번호판 <span style="color:var(--muted);font-weight:600">(유형 색으로 구분)</span><span class="ar">▾</span></div>
+  <div class="legend" id="legend"></div>
+  <div class="pad" id="pad"></div>
+</div>
+<div id="cards"></div>
+</div>
+<div class="pager"><div class="pinner">
+  <button class="pbtn" onclick="jump(-10)">≪</button>
+  <button class="pbtn wide" onclick="step(-1)">‹ 이전</button>
+  <button class="pbtn" onclick="goBack()">↩</button>
+  <button class="pbtn wide" onclick="step(1)">다음 ›</button>
+  <button class="pbtn" onclick="jump(10)">≫</button>
+  <select id="sel" onchange="showP(this.value)"></select>
+</div><div class="hint">← → 키로 이동 · ↩ 되돌리기 · 번호 선택으로 점프</div></div>
+
+<script>
+const UNITS=[{"u":"사인","t":"사인법칙"},{"u":"코사인","t":"코사인법칙"},{"u":"넓이","t":"삼각형의 넓이"},{"u":"종합","t":"사인·코사인 종합"}];
+const UNITCOL=["#2f5fb0","#197a6b","#e08327","#c792ea"];
+const IMG={};
+const P=[{"no":1,"unit":0,"sub":"사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(A=60^\\circ\\), \\(\\overline{BC}=12\\)일 때, 삼각형 ABC의 외접원의 반지름의 길이는?","row":false,"ans":"④  \\(4\\sqrt3\\)","sol":["외접원의 반지름을 \\(R\\)이라 하면 사인법칙에 의하여 \\(\\dfrac{12}{\\sin 60^\\circ}=2R\\)","\\(\\therefore R=\\dfrac{12}{2\\cdot\\frac{\\sqrt3}{2}}=4\\sqrt3\\)"],"choices":["\\(3\\)","\\(3\\sqrt3\\)","\\(6\\)","\\(4\\sqrt3\\)","\\(7\\)"]},{"no":2,"unit":0,"sub":"사인법칙","topic":"","flag":"빈출","q":"삼각형 ABC에서 \\(A=75^\\circ\\), \\(B=45^\\circ\\), \\(b=4\\)일 때, \\(c\\)의 값과 외접원의 반지름 \\(R\\)의 값을 각각 구하시오.","row":false,"ans":"\\(c=2\\sqrt6,\\ R=2\\sqrt2\\)","sol":["\\(A+B+C=180^\\circ\\)이므로 \\(C=60^\\circ\\)","사인법칙: \\(\\dfrac{4}{\\sin 45^\\circ}=\\dfrac{c}{\\sin 60^\\circ}=2R\\)","\\(\\therefore c=2\\sqrt6,\\quad R=2\\sqrt2\\)"]},{"no":3,"unit":0,"sub":"사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(a=2\\), \\(b=2\\sqrt3\\), \\(A=30^\\circ\\)일 때, \\(B\\), \\(C\\)의 값을 각각 구하시오.","row":false,"ans":"\\(B=60^\\circ,C=90^\\circ\\) 또는 \\(B=120^\\circ,C=30^\\circ\\)","sol":["사인법칙: \\(\\dfrac{2}{\\sin 30^\\circ}=\\dfrac{2\\sqrt3}{\\sin B}\\) 이므로 \\(\\sin B=\\dfrac{\\sqrt3}{2}\\)","\\(0^\\circ<B<180^\\circ\\)이므로 \\(B=60^\\circ\\) 또는 \\(B=120^\\circ\\)","\\(B=60^\\circ\\)이면 \\(C=90^\\circ\\), &nbsp;\\(B=120^\\circ\\)이면 \\(C=30^\\circ\\)"]},{"no":4,"unit":0,"sub":"사인법칙","topic":"","flag":"","q":"반지름의 길이가 \\(2\\)인 원 O에 내접하는 삼각형 ABC에서 \\(A=60^\\circ\\), \\(B=45^\\circ\\)일 때, \\(a^2+b^2\\)의 값을 구하시오.","row":false,"ans":"\\(20\\)","sol":["외접원의 반지름이 \\(2\\)이므로 \\(2R=4\\)","\\(\\dfrac{a}{\\sin 60^\\circ}=4 \\Rightarrow a=2\\sqrt3\\), &nbsp;\\(\\dfrac{b}{\\sin 45^\\circ}=4 \\Rightarrow b=2\\sqrt2\\)","\\(\\therefore a^2+b^2=12+8=20\\)"]},{"no":5,"unit":0,"sub":"사인법칙","topic":"","flag":"빈출","q":"삼각형 ABC가 다음 조건을 만족시킬 때, 선분 BC의 길이는? <div class=\"figure-note\">㈎ \\(9\\sin A\\cdot\\sin(B+C)=4\\) &nbsp;&nbsp; ㈏ 외접원의 지름의 길이는 \\(12\\)이다.","row":false,"ans":"③  \\(8\\)","sol":["\\(\\sin(B+C)=\\sin(\\pi-A)=\\sin A\\)이므로 ㈎에서 \\(9\\sin^2 A=4\\)","\\(\\sin A=\\dfrac23\\ (\\because 0<A<\\pi)\\)","사인법칙: \\(\\dfrac{\\overline{BC}}{\\sin A}=12 \\Rightarrow \\overline{BC}=12\\cdot\\dfrac23=8\\)"],"choices":["\\(4\\)","\\(6\\)","\\(8\\)","\\(10\\)","\\(12\\)"]},{"no":6,"unit":0,"sub":"사인법칙","topic":"","flag":"빈출","q":"반지름의 길이가 \\(3\\)인 원에 내접하는 삼각형 ABC의 둘레의 길이가 \\(12\\)일 때, \\(\\sin A+\\sin B+\\sin C\\)의 값을 구하시오.","row":false,"ans":"\\(2\\)","sol":["\\(R=3\\), \\(a+b+c=12\\)이고 사인법칙에서 \\(\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R\\)","\\(\\sin A+\\sin B+\\sin C=\\dfrac{a+b+c}{2R}=\\dfrac{12}{6}=2\\)"]},{"no":7,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(a=3\\), \\(c=2\\), \\(B=60^\\circ\\)일 때, \\(b\\)의 값은?","row":false,"ans":"⑤  \\(\\sqrt7\\)","sol":["코사인법칙: \\(b^2=c^2+a^2-2ca\\cos B=2^2+3^2-2\\cdot2\\cdot3\\cos 60^\\circ=13-6=7\\)","\\(\\therefore b=\\sqrt7\\ (\\because b>0)\\)"],"choices":["\\(\\sqrt3\\)","\\(2\\)","\\(\\sqrt5\\)","\\(\\sqrt6\\)","\\(\\sqrt7\\)"]},{"no":8,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(a\\sin A=c\\sin C\\)가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?","row":false,"ans":"⑤  \\(a=c\\)인 이등변삼각형","sol":["사인법칙: \\(\\sin A=\\dfrac{a}{2R}\\), \\(\\sin C=\\dfrac{c}{2R}\\)를 대입하면","\\(a\\cdot\\dfrac{a}{2R}=c\\cdot\\dfrac{c}{2R} \\Rightarrow a^2=c^2 \\Rightarrow a=c\\)"],"choices":["정삼각형","\\(A=90^\\circ\\)인 직각삼각형","\\(B=90^\\circ\\)인 직각삼각형","\\(a=b\\)인 이등변삼각형","\\(a=c\\)인 이등변삼각형"]},{"no":9,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(a=7\\), \\(b=3\\), \\(c=8\\)일 때, \\(A\\)의 값은?","row":false,"ans":"③  \\(60^\\circ\\)","sol":["\\(\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}=\\dfrac{3^2+8^2-7^2}{2\\cdot3\\cdot8}=\\dfrac{24}{48}=\\dfrac12\\)","\\(\\therefore A=60^\\circ\\ (\\because 0^\\circ<A<180^\\circ)\\)"],"choices":["\\(30^\\circ\\)","\\(45^\\circ\\)","\\(60^\\circ\\)","\\(120^\\circ\\)","\\(150^\\circ\\)"]},{"no":10,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(\\overline{AB}=4\\), \\(\\overline{CA}=\\sqrt{21}\\), \\(B=60^\\circ\\)일 때, 선분 BC의 길이는?","row":false,"ans":"⑤  \\(5\\)","sol":["\\(\\overline{BC}=x\\)라 하면 코사인법칙에서","\\((\\sqrt{21})^2=x^2+4^2-2\\cdot x\\cdot4\\cos 60^\\circ \\Rightarrow x^2-4x-5=0\\)","\\((x-5)(x+1)=0\\), &nbsp;\\(x>0\\)이므로 \\(x=5\\)"],"choices":["\\(2\\sqrt3\\)","\\(4\\)","\\(2\\sqrt5\\)","\\(2\\sqrt6\\)","\\(5\\)"]},{"no":11,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"\\(\\overline{AB}=3\\), \\(\\overline{AD}=4\\), \\(\\overline{BF}=6\\)인 직육면체 ABCD–EFGH가 있다. \\(\\angle BDG=\\theta\\)라 할 때, \\(\\cos\\theta\\)의 값은?","row":false,"ans":"①  \\(\\dfrac{3\\sqrt5}{25}\\)","sol":["\\(\\overline{BD}=\\sqrt{3^2+4^2}=5\\), &nbsp;\\(\\overline{BG}=\\sqrt{4^2+6^2}=2\\sqrt{13}\\), &nbsp;\\(\\overline{GD}=\\sqrt{3^2+6^2}=3\\sqrt5\\)","삼각형 BDG에서 코사인법칙: \\(\\cos\\theta=\\dfrac{\\overline{BD}^2+\\overline{GD}^2-\\overline{BG}^2}{2\\cdot\\overline{BD}\\cdot\\overline{GD}}=\\dfrac{25+45-52}{2\\cdot5\\cdot3\\sqrt5}=\\dfrac{3\\sqrt5}{25}\\)"],"choices":["\\(\\dfrac{3\\sqrt5}{25}\\)","\\(\\dfrac{6\\sqrt5}{25}\\)","\\(\\dfrac{9\\sqrt5}{25}\\)","\\(\\dfrac{3\\sqrt{13}}{65}\\)","\\(\\dfrac{8\\sqrt{13}}{65}\\)"]},{"no":12,"unit":1,"sub":"코사인법칙","topic":"","flag":"빈출","q":"삼각형 ABC에서 \\(\\sin A:\\sin B:\\sin C=7:6:5\\)일 때, \\(\\cos A\\)의 값은?","row":false,"ans":"①  \\(\\dfrac15\\)","sol":["사인법칙에서 \\(a:b:c=\\sin A:\\sin B:\\sin C=7:6:5\\)이므로 \\(a=7k,\\ b=6k,\\ c=5k\\)로 놓으면","\\(\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}=\\dfrac{36k^2+25k^2-49k^2}{2\\cdot6k\\cdot5k}=\\dfrac{12k^2}{60k^2}=\\dfrac15\\)"],"choices":["\\(\\dfrac15\\)","\\(\\dfrac{\\sqrt2}{5}\\)","\\(\\dfrac{\\sqrt3}{5}\\)","\\(\\dfrac25\\)","\\(\\dfrac{\\sqrt5}{5}\\)"]},{"no":13,"unit":1,"sub":"코사인법칙","topic":"","flag":"","q":"삼각형 ABC에서 \\(A=105^\\circ\\), \\(C=45^\\circ\\), \\(b=6\\)일 때, \\(a\\)의 값을 구하시오.","row":false,"ans":"\\(3\\sqrt2+3\\sqrt6\\)","sol":["\\(A+B+C=180^\\circ\\)이므로 \\(B=30^\\circ\\)","사인법칙: \\(\\dfrac{c}{\\sin 45^\\circ}=\\dfrac{6}{\\sin 30^\\circ} \\Rightarrow c=6\\sqrt2\\)","코사인법칙: \\((6\\sqrt2)^2=a^2+6^2-2\\cdot a\\cdot6\\cos 45^\\circ \\Rightarrow a^2-6\\sqrt2\\,a-36=0\\)","\\(\\therefore a=3\\sqrt2+3\\sqrt6\\ (\\because a>0)\\)"]},{"no":14,"unit":1,"sub":"코사인+사인","topic":"","flag":"빈출","q":"반지름의 길이가 \\(R\\)인 원 O에 내접하는 삼각형 ABC에서 \\(\\overline{AB}=5\\), \\(\\overline{AC}=7\\), \\(\\cos A=\\dfrac45\\)일 때, \\(R\\)의 값은?","row":false,"ans":"⑤  \\(\\dfrac{5\\sqrt2}{2}\\)","sol":["\\(\\overline{BC}=a\\)라 하면 코사인법칙: \\(a^2=5^2+7^2-2\\cdot5\\cdot7\\cdot\\dfrac45=18 \\Rightarrow a=3\\sqrt2\\)","\\(\\cos A=\\dfrac45\\)이므로 \\(\\sin A=\\sqrt{1-\\cos^2 A}=\\dfrac35\\)","사인법칙: \\(\\dfrac{a}{\\sin A}=2R \\Rightarrow \\dfrac{3\\sqrt2}{3/5}=2R \\Rightarrow R=\\dfrac{5\\sqrt2}{2}\\)"],"choices":["\\(\\dfrac{7\\sqrt2}{2}\\)","\\(\\dfrac{13\\sqrt2}{4}\\)","\\(3\\sqrt2\\)","\\(\\dfrac{11\\sqrt2}{4}\\)","\\(\\dfrac{5\\sqrt2}{2}\\)"]},{"no":15,"unit":1,"sub":"코사인+사인","topic":"","flag":"빈출","q":"삼각형 ABC에서 \\(\\overline{AB}=7\\), \\(\\overline{BC}=9\\), \\(\\overline{CA}=4\\)일 때, 이 삼각형의 외접원의 반지름의 길이를 구하시오.","row":false,"ans":"\\(\\dfrac{21\\sqrt5}{10}\\)","sol":["코사인법칙: \\(\\cos A=\\dfrac{7^2+4^2-9^2}{2\\cdot7\\cdot4}=-\\dfrac27\\)","\\(0^\\circ<A<180^\\circ\\)이므로 \\(\\sin A=\\sqrt{1-\\cos^2 A}=\\dfrac{3\\sqrt5}{7}\\)","사인법칙: \\(\\dfrac{\\overline{BC}}{\\sin A}=2R \\Rightarrow \\dfrac{9}{3\\sqrt5/7}=2R \\Rightarrow R=\\dfrac{21\\sqrt5}{10}\\)"]},{"no":16,"unit":3,"sub":"활용","topic":"","flag":"","q":"원 모양의 연못의 넓이를 구하기 위해 가장자리의 세 지점 A, B, C에서 측정한 결과가 \\(\\overline{AB}=2\\sqrt3\\,\\text{m}\\), \\(\\overline{BC}=5\\,\\text{m}\\), \\(\\angle ABC=30^\\circ\\)일 때, 이 연못의 넓이는?","row":false,"ans":"④  \\(7\\pi\\,\\text{m}^2\\)","sol":["코사인법칙: \\(\\overline{AC}^2=(2\\sqrt3)^2+5^2-2\\cdot2\\sqrt3\\cdot5\\cos 30^\\circ=37-30=7 \\Rightarrow \\overline{AC}=\\sqrt7\\)","연못의 반지름을 \\(R\\)이라 하면 \\(\\dfrac{\\overline{AC}}{\\sin 30^\\circ}=2R \\Rightarrow R=\\dfrac{\\sqrt7}{2\\cdot\\frac12}=\\sqrt7\\)","\\(\\therefore \\pi R^2=7\\pi\\ (\\text{m}^2)\\)"],"choices":["\\(4\\pi\\,\\text{m}^2\\)","\\(5\\pi\\,\\text{m}^2\\)","\\(6\\pi\\,\\text{m}^2\\)","\\(7\\pi\\,\\text{m}^2\\)","\\(8\\pi\\,\\text{m}^2\\)"]},{"no":17,"unit":2,"sub":"넓이·판정","topic":"","flag":"","q":"삼각형 ABC에서 \\(\\sin A=2\\cos B\\sin C\\)가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?","row":false,"ans":"②  \\(b=c\\)인 이등변삼각형","sol":["\\(\\sin A=\\dfrac{a}{2R}\\), \\(\\sin C=\\dfrac{c}{2R}\\), \\(\\cos B=\\dfrac{c^2+a^2-b^2}{2ca}\\)를 대입하면","\\(\\dfrac{a}{2R}=2\\cdot\\dfrac{c^2+a^2-b^2}{2ca}\\cdot\\dfrac{c}{2R} \\Rightarrow a^2=c^2+a^2-b^2\\)","\\(b^2=c^2 \\Rightarrow b=c\\)"],"choices":["\\(a=b\\)인 이등변삼각형","\\(b=c\\)인 이등변삼각형","\\(c=a\\)인 이등변삼각형","\\(A=90^\\circ\\)인 직각삼각형","\\(B=90^\\circ\\)인 직각삼각형"]},{"no":18,"unit":2,"sub":"넓이·판정","topic":"","flag":"","q":"삼각형 ABC에서 \\(a\\cos C-c\\cos A=b\\)가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?","row":false,"ans":"①  \\(A=90^\\circ\\)인 직각삼각형","sol":["\\(\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}\\), \\(\\cos C=\\dfrac{a^2+b^2-c^2}{2ab}\\)를 대입하면","\\(a\\cdot\\dfrac{a^2+b^2-c^2}{2ab}-c\\cdot\\dfrac{b^2+c^2-a^2}{2bc}=b\\)","\\(\\dfrac{2a^2-2c^2}{2b}=b \\Rightarrow a^2=b^2+c^2 \\Rightarrow A=90^\\circ\\)"],"choices":["\\(A=90^\\circ\\)인 직각삼각형","\\(B=90^\\circ\\)인 직각삼각형","\\(C=90^\\circ\\)인 직각삼각형","\\(b=c\\)인 이등변삼각형","\\(c=a\\)인 이등변삼각형"]},{"no":19,"unit":2,"sub":"삼각형의 넓이","topic":"","flag":"빈출","q":"삼각형 ABC에서 \\(A=60^\\circ\\), \\(\\overline{AB}=10\\), \\(\\overline{AC}=8\\)일 때, 삼각형 ABC의 넓이는?","row":false,"ans":"③  \\(20\\sqrt3\\)","sol":["\\(S=\\dfrac12\\cdot\\overline{AB}\\cdot\\overline{AC}\\cdot\\sin A=\\dfrac12\\cdot10\\cdot8\\cdot\\sin 60^\\circ=20\\sqrt3\\)"],"choices":["\\(10\\sqrt3\\)","\\(20\\)","\\(20\\sqrt3\\)","\\(30\\)","\\(30\\sqrt3\\)"]},{"no":20,"unit":2,"sub":"삼각형의 넓이","topic":"","flag":"빈출","q":"삼각형 ABC에서 \\(\\overline{AB}=4\\), \\(\\overline{BC}=5\\)이고 \\(\\cos(A+C)=\\dfrac25\\)일 때, 삼각형 ABC의 넓이는?","row":false,"ans":"②  \\(2\\sqrt{21}\\)","sol":["\\(\\cos(A+C)=\\cos(\\pi-B)=-\\cos B=\\dfrac25 \\Rightarrow \\cos B=-\\dfrac25\\)","\\(\\sin B=\\sqrt{1-\\cos^2 B}=\\dfrac{\\sqrt{21}}{5}\\)","\\(S=\\dfrac12\\cdot\\overline{AB}\\cdot\\overline{BC}\\cdot\\sin B=\\dfrac12\\cdot4\\cdot5\\cdot\\dfrac{\\sqrt{21}}{5}=2\\sqrt{21}\\)"],"choices":["\\(\\sqrt{21}\\)","\\(2\\sqrt{21}\\)","\\(3\\sqrt{21}\\)","\\(4\\sqrt{21}\\)","\\(5\\sqrt{21}\\)"]},{"no":21,"unit":2,"sub":"삼각형의 넓이","topic":"","flag":"","q":"넓이가 \\(9\\sqrt2\\,\\text{cm}^2\\)인 삼각형 ABC에서 \\(\\overline{AB}=3\\sqrt2\\,\\text{cm}\\), \\(\\overline{AC}=12\\,\\text{cm}\\)일 때, 둔각 \\(A\\)의 크기는?","row":false,"ans":"④  \\(\\dfrac56\\pi\\)","sol":["\\(\\dfrac12\\cdot3\\sqrt2\\cdot12\\cdot\\sin A=9\\sqrt2 \\Rightarrow \\sin A=\\dfrac12\\)","\\(A\\)가 둔각이므로 \\(\\dfrac{\\pi}{2}<A<\\pi\\), &nbsp;\\(\\therefore A=\\dfrac56\\pi\\)"],"choices":["\\(\\dfrac{7}{12}\\pi\\)","\\(\\dfrac23\\pi\\)","\\(\\dfrac34\\pi\\)","\\(\\dfrac56\\pi\\)","\\(\\dfrac{11}{12}\\pi\\)"]},{"no":22,"unit":2,"sub":"부채꼴·넓이","topic":"","flag":"","q":"반지름의 길이는 \\(12\\)이고 중심각의 크기가 \\(30^\\circ\\)인 부채꼴 AOB가 있다. 선분 OA 위의 점 C에 대하여 \\(\\overline{OC}=4\\)일 때, 색칠한 부분(부채꼴에서 삼각형 BOC를 제외)의 넓이는?","row":false,"ans":"②  \\(12\\pi-12\\)","sol":["부채꼴 넓이 \\(=\\dfrac12\\cdot12^2\\cdot\\dfrac{\\pi}{6}=12\\pi\\)","삼각형 BOC 넓이 \\(=\\dfrac12\\cdot\\overline{OB}\\cdot\\overline{OC}\\cdot\\sin\\dfrac{\\pi}{6}=\\dfrac12\\cdot12\\cdot4\\cdot\\dfrac12=12\\)","\\(\\therefore\\) 색칠한 부분 \\(=12\\pi-12\\)"],"choices":["\\(6\\pi-3\\)","\\(12\\pi-12\\)","\\(12\\pi-6\\)","\\(24\\pi-24\\)","\\(24\\pi-12\\)"]},{"no":23,"unit":3,"sub":"","topic":"","flag":"빈출","q":"세 변의 길이가 \\(\\overline{AB}=5\\), \\(\\overline{BC}=6\\), \\(\\overline{CA}=4\\)인 삼각형 ABC에 대하여 답하고 과정을 서술하시오. <div class=\"figure-note\">⑴ \\(\\cos A\\) &nbsp; ⑵ \\(\\sin A\\) &nbsp; ⑶ 삼각형 ABC의 넓이","row":false,"ans":"\\(\\cos A=\\dfrac18,\\ \\sin A=\\dfrac{3\\sqrt7}{8},\\ S=\\dfrac{15\\sqrt7}{4}\\)","sol":["⑴ 코사인법칙: \\(\\cos A=\\dfrac{5^2+4^2-6^2}{2\\cdot5\\cdot4}=\\dfrac{5}{40}=\\dfrac18\\)","⑵ \\(0^\\circ<A<180^\\circ\\)이므로 \\(\\sin A=\\sqrt{1-\\left(\\dfrac18\\right)^2}=\\dfrac{3\\sqrt7}{8}\\)","⑶ \\(S=\\dfrac12\\cdot\\overline{AB}\\cdot\\overline{CA}\\cdot\\sin A=\\dfrac12\\cdot5\\cdot4\\cdot\\dfrac{3\\sqrt7}{8}=\\dfrac{15\\sqrt7}{4}\\)"]},{"no":24,"unit":2,"sub":"평행사변형","topic":"","flag":"","q":"평행사변형 ABCD에서 \\(\\overline{AB}=6\\), \\(\\overline{BC}=10\\), \\(A=120^\\circ\\)일 때, 이 평행사변형의 넓이를 구하시오.","row":false,"ans":"\\(30\\sqrt3\\)","sol":["이웃한 두 변 \\(6,\\,10\\)과 끼인각 \\(A=120^\\circ\\)이므로","\\(S=\\overline{AB}\\cdot\\overline{BC}\\cdot\\sin A=6\\cdot10\\cdot\\sin 120^\\circ=60\\cdot\\dfrac{\\sqrt3}{2}=30\\sqrt3\\)"]},{"no":25,"unit":2,"sub":"사각형의 넓이","topic":"","flag":"","q":"두 대각선의 길이가 각각 \\(5\\), \\(6\\)이고 두 대각선이 이루는 각의 크기가 \\(\\theta\\)인 사각형 ABCD에서 \\(\\cos\\theta=\\dfrac45\\)일 때, 사각형 ABCD의 넓이는?","row":false,"ans":"②  \\(9\\)","sol":["\\(0^\\circ<\\theta<180^\\circ\\)이므로 \\(\\sin\\theta=\\sqrt{1-\\left(\\dfrac45\\right)^2}=\\dfrac35\\)","\\(S=\\dfrac12\\cdot x\\cdot y\\cdot\\sin\\theta=\\dfrac12\\cdot5\\cdot6\\cdot\\dfrac35=9\\)"],"choices":["\\(8\\)","\\(9\\)","\\(10\\)","\\(11\\)","\\(12\\)"]}];
+const WIDE=new Set();
+
+/* ---- 출력 파이프라인: fmt = brk(wrapLong(esc(s))) ---- */
+function esc(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    return "\\("+inner.replace(/</g,"&lt;").replace(/>/g,"&gt;")+"\\)";
+  });
+}
+function wrapLong(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    if(inner.length<=60) return m;
+    var marked=inner.replace(/ (=|\+|-) /g,"\u0001$1 ");
+    var parts=marked.split("\u0001").filter(function(x){return x.length});
+    if(parts.length<=1) return m;
+    return parts.map(function(p){return "\\("+p.trim()+"\\)";}).join("<wbr>");
+  });
+}
+function brk(s){
+  return String(s).replace(/\s*(\([1-9]\)|[⑴⑵⑶⑷⑸])/g,function(m,g,off){
+    return (off===0?"":"<br>")+g;
+  });
+}
+function fmt(s){return brk(wrapLong(esc(s)));}
+
+/* ---- 카드 빌드 ---- */
+function build(){
+  let html="";
+  P.forEach((p,i)=>{
+    const col=UNITCOL[p.unit]||"#888";
+    const U=UNITS[p.unit]||{u:"",t:""};
+    let badge="";
+    if(p.flag==="빈출") badge=`<span class="badge bin">빈출</span>`;
+    else if(p.flag==="서술형") badge=`<span class="badge seo">서술형</span>`;
+    let top=`<div class="ctop"><span class="no">${p.no}</span>`+
+      `<span class="utag" style="background:${col}">${U.u}</span>`+
+      (badge||"")+
+      `<span class="sub2">${p.sub?fmt(p.sub):""}</span>`+
+      (p.topic?`<span class="topic">${p.topic}</span>`:"")+`</div>`;
+    let body=`<div class="q">${fmt(p.q)}</div>`;
+    if(IMG[p.no]) body+=`<img class="qimg${WIDE.has(p.no)?' wide':''}" src="${IMG[p.no]}" loading="lazy" alt="문제 ${p.no} 그림">`;
+    if(p.boki){
+      body+=`<div class="boki"><div class="bttl">＜ 보 기 ＞</div>`+
+        p.boki.map(b=>`<span class="bk">${fmt(b)}</span>`).join("")+`</div>`;
+    }
+    if(p.choices){
+      const cn=["①","②","③","④","⑤"];
+      body+=`<div class="choices">`+
+        p.choices.map((c,k)=>`<div class="ch"><span class="cn">${cn[k]}</span><span>${fmt(c)}</span></div>`).join("")+
+        `</div>`;
+    }
+    let rev=`<div class="rev" id="rev${p.no}"><div class="ansline"><span class="lab">정답</span><span class="v">${fmt(p.ans)}</span></div>`;
+    if(p.sol&&p.sol.length){
+      rev+=`<div class="solttl">풀이</div><div class="sol">`+
+        p.sol.map(s=>`<span class="st">${fmt(s)}</span>`).join("")+`</div>`;
+    }
+    rev+=`</div>`;
+    html+=`<div class="card" id="card${p.no}" data-i="${i}">${top}${body}`+
+      `<button class="revbtn" onclick="rev(${p.no})" id="rb${p.no}">정답 · 풀이 보기</button>`+rev+`</div>`;
+  });
+  document.getElementById("cards").innerHTML=html;
+  // 번호판
+  let pad="", leg="";
+  P.forEach(p=>{ pad+=`<div class="dot" style="background:${UNITCOL[p.unit]}" data-no="${p.no}" onclick="showP(${p.no})">${p.no}</div>`; });
+  document.getElementById("pad").innerHTML=pad;
+  UNITS.forEach((u,i)=>{ leg+=`<span><i style="background:${UNITCOL[i]}"></i>${u.u} ${u.t}</span>`; });
+  document.getElementById("legend").innerHTML=leg;
+  // 드롭다운
+  let sel="";
+  P.forEach(p=>{ sel+=`<option value="${p.no}">${p.no}. ${UNITS[p.unit].t}${p.flag?(" · "+p.flag):""}</option>`; });
+  document.getElementById("sel").innerHTML=sel;
+  document.getElementById("cImg").textContent=Object.keys(IMG).length;
+}
+
+/* ---- 네비게이션 ---- */
+let curIdx=0, hist=[];
+function renderCur(scroll, pushHist){
+  P.forEach(p=>{document.getElementById("card"+p.no).classList.remove("show");});
+  document.querySelectorAll(".pad .dot").forEach(d=>d.classList.remove("cur"));
+  const p=P[curIdx];
+  const card=document.getElementById("card"+p.no);
+  card.classList.add("show");
+  const dot=document.querySelector('.pad .dot[data-no="'+p.no+'"]'); if(dot)dot.classList.add("cur");
+  document.getElementById("sel").value=p.no;
+  document.querySelector("#cCur b").textContent=p.no+"번";
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([card]);
+  if(scroll) window.scrollTo({top:0,behavior:"smooth"});
+}
+function showP(no){
+  const i=P.findIndex(p=>p.no==no);
+  if(i<0) return;
+  if(i!==curIdx) hist.push(curIdx);
+  curIdx=i; renderCur(true);
+}
+function step(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function jump(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function goBack(){ if(hist.length){ curIdx=hist.pop(); renderCur(true);} }
+function rev(no){
+  const r=document.getElementById("rev"+no), b=document.getElementById("rb"+no);
+  const on=r.classList.toggle("show");
+  b.textContent=on?"정답 · 풀이 숨기기":"정답 · 풀이 보기";
+  if(on&&window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([r]);
+}
+function togglePad(){
+  document.getElementById("pad").classList.toggle("show");
+  document.getElementById("padh").classList.toggle("open");
+}
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="SELECT")return;
+  if(e.key==="ArrowLeft")step(-1);
+  else if(e.key==="ArrowRight")step(1);
+});
+build();
+curIdx=0; renderCur(false);
+</script>
+
+<script>
+function setM(m){var c=(m==='c');
+  document.getElementById('mC').classList.toggle('on',c);
+  document.getElementById('mP').classList.toggle('on',!c);
+  document.body.classList.toggle('cmode',c);
+  if(c){var f=document.getElementById('cFrame'); if(!f.getAttribute('src')) f.setAttribute('src',f.dataset.src);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body></html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>삼각함수의 활용 · 변별력</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root{--ink:#0c1019;--ink2:#141a26;--ink3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--mint:#5fd6b4;--red:#ff8d76;--blue:#6db6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);line-height:1.62;padding:18px 14px 120px}
+.wrap{max-width:840px;margin:0 auto}
+h1{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12.5px;color:var(--muted);margin:4px 0 12px}
+.stat{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--ink3);border:1px solid var(--line)}
+.chip b{color:var(--gold)}
+/* 번호판 */
+.padwrap{background:var(--ink2);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.padh{display:flex;align-items:center;gap:8px;padding:9px 13px;cursor:pointer;user-select:none;font-size:12.5px;font-weight:700}
+.padh .ar{margin-left:auto;color:var(--muted);transition:.2s}
+.padh.open .ar{transform:rotate(180deg)}
+.pad{display:none;flex-wrap:wrap;gap:5px;padding:0 12px 13px}
+.pad.show{display:flex}
+.pad .dot{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;cursor:pointer;color:#0a0e16;opacity:.86;transition:.1s}
+.pad .dot:hover{opacity:1;transform:scale(1.12);outline:2px solid #fff3}
+.pad .dot.cur{outline:2px solid #fff;opacity:1}
+.legend{display:flex;gap:11px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding:0 12px 11px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* 카드 */
+.card{display:none;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:18px 18px 20px}
+.card.show{display:block}
+.ctop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+.no{font-size:25px;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+.utag{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;color:#0a0e16}
+.badge{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.badge.bin{color:var(--red)}.badge.seo{color:var(--mint)}
+.sub2{font-size:11.5px;color:var(--muted);font-weight:600}
+.topic{font-size:10.5px;color:#6d7890;margin-left:auto;font-weight:600}
+.q{font-size:15.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all;overflow-wrap:anywhere}
+.qimg{display:block;max-width:min(100%,340px);margin:14px auto 6px;background:#fbfbf8;border-radius:10px;padding:12px;border:1px solid #2a3550}
+.qimg.wide{max-width:min(100%,540px)}
+.boki{background:#101725;border:1px solid #233150;border-radius:11px;padding:12px 14px;margin:12px 0}
+.boki .bttl{font-size:11px;font-weight:800;color:var(--gold);text-align:center;margin-bottom:7px;letter-spacing:.08em}
+.bk{display:block;font-size:14.5px;margin:5px 0;word-break:keep-all;overflow-wrap:anywhere}
+.choices{display:flex;flex-direction:column;gap:7px;margin:14px 0 2px}
+.choices .ch{font-size:14.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#101725;display:flex;gap:9px;align-items:flex-start;overflow-wrap:anywhere}
+.choices .ch .cn{color:var(--blue);font-weight:800;flex:none}
+.revbtn{margin-top:16px;font-size:13px;font-weight:700;padding:10px 16px;border-radius:10px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;width:100%}
+.revbtn:hover{background:rgba(245,181,68,.1)}
+.rev{display:none;margin-top:14px;border-top:1px dashed var(--line);padding-top:14px}
+.rev.show{display:block}
+.ansline{font-size:15px;font-weight:800;margin-bottom:10px}
+.ansline .lab{color:var(--muted);font-weight:700;font-size:12px;margin-right:8px}
+.ansline .v{color:var(--mint)}
+.solttl{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.06em;margin-bottom:6px}
+.sol{font-size:14px;line-height:1.85;color:#d7deec}
+.sol .st{display:block;margin:6px 0;padding-left:14px;border-left:2px solid #2a3550;word-break:keep-all;overflow-wrap:anywhere}
+/* 페이저 */
+.pager{position:fixed;left:0;right:0;bottom:0;background:rgba(12,16,25,.97);border-top:1px solid var(--line);backdrop-filter:blur(8px);padding:10px 12px;z-index:50}
+.pinner{max-width:840px;margin:0 auto;display:flex;align-items:center;gap:7px}
+.pbtn{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;white-space:nowrap}
+.pbtn:hover{border-color:var(--gold);color:var(--gold)}
+.pbtn:active{transform:scale(.96)}
+.pbtn.wide{flex:1}
+select{font-family:inherit;font-size:13px;font-weight:700;padding:9px 8px;border-radius:10px;border:1px solid var(--line);background:var(--ink3);color:var(--text);cursor:pointer;max-width:46%}
+.hint{font-size:10.5px;color:#6d7890;text-align:center;margin-top:6px}
+@media(max-width:560px){.q{font-size:15px}.no{font-size:22px}.hint{display:none}}
+</style></head>
+<body><div class="wrap">
+<h1>삼각함수의 활용 — 변별력 <span style="color:var(--gold)">S3</span> · 사인법칙·코사인법칙·넓이</h1>
+<div class="sub">STEP 3 · 변별력 최고난도 유형 (객관식·주관식)</div>
+<div class="stat">
+  <span class="chip"><b id="cTot">20</b> 문항</span>
+  <span class="chip">유형 <b>4</b>개</span>
+  <span class="chip">그림 <b id="cImg">17</b>개 내장</span>
+  <span class="chip" id="cCur">현재 <b>—</b></span>
+</div>
+<div class="padwrap">
+  <div class="padh" id="padh" onclick="togglePad()">번호판 <span style="color:var(--muted);font-weight:600">(유형 색으로 구분)</span><span class="ar">▾</span></div>
+  <div class="legend" id="legend"></div>
+  <div class="pad" id="pad"></div>
+</div>
+<div id="cards"></div>
+</div>
+<div class="pager"><div class="pinner">
+  <button class="pbtn" onclick="jump(-10)">≪</button>
+  <button class="pbtn wide" onclick="step(-1)">‹ 이전</button>
+  <button class="pbtn" onclick="goBack()">↩</button>
+  <button class="pbtn wide" onclick="step(1)">다음 ›</button>
+  <button class="pbtn" onclick="jump(10)">≫</button>
+  <select id="sel" onchange="showP(this.value)"></select>
+</div><div class="hint">← → 키로 이동 · ↩ 되돌리기 · 번호 선택으로 점프</div></div>
+
+<script>
+const UNITS=[{"u":"사인","t":"사인법칙"},{"u":"코사인","t":"코사인법칙"},{"u":"넓이","t":"삼각형의 넓이"},{"u":"종합","t":"사인·코사인 종합"}];
+const UNITCOL=["#2f5fb0","#197a6b","#e08327","#c792ea"];
+const IMG={};
+const P=[{"no":1,"unit":1,"sub":"코사인법칙의 활용 · 닮음비로 길이 결정","topic":"삼각함수","flag":"서술형","q":"그림과 같이 운동장의 세 지점 O, A, B에 대하여 O지점에서 A지점까지의 거리는 \\(30\\,\\text{m}\\), O지점에서 B지점까지의 거리는 \\(40\\,\\text{m}\\), \\(\\angle AOB=60^\\circ\\)이다. 영희는 O지점에서 출발하여 A지점을 향해 \\(1\\,\\text{m/초}\\)의 속력으로 직선 경로를 따라 달리고, 철수는 B지점에서 출발하여 O지점을 향해 \\(2\\,\\text{m/초}\\)의 속력으로 직선 경로를 따라 달린다. 영희와 철수의 위치를 나타내는 점을 각각 P, Q라 할 때, 영희와 철수가 동시에 출발하여 직선 PQ와 직선 AB가 서로 평행하게 되는 순간의 선분 PQ의 길이를 구하고, 그 과정을 서술하시오. (단, 각 지점과 사람의 크기는 무시한다.)","row":false,"ans":"\\(\\overline{PQ}=4\\sqrt{13}\\,(\\text{m})\\)  · 풀이 참조","sol":["동시에 출발한 지 \\(t\\)초 후에는 \\(\\overline{OP}=t\\), \\(\\overline{BQ}=2t\\)에서 \\(\\overline{OQ}=40-2t\\)이다.","직선 PQ와 직선 AB가 서로 평행할 때, 두 삼각형 OPQ, OAB가 서로 닮음이므로 \\(\\overline{OP}:\\overline{OQ}=\\overline{OA}:\\overline{OB}\\)에서 \\(t:(40-2t)=30:40\\), \\(t=12\\)","\\(\\overline{OP}=12\\), \\(\\overline{OQ}=16\\)이므로 삼각형 POQ에서 코사인법칙에 의하여 \\(\\overline{PQ}^2 = 12^2+16^2-2\\times12\\times16\\times\\cos60^\\circ = 208\\)","\\(\\therefore \\overline{PQ}=4\\sqrt{13}\\ (\\because \\overline{PQ}>0)\\)"]},{"no":2,"unit":1,"sub":"코사인법칙의 활용 · 입체도형에서 cosθ의 최대·최소","topic":"삼각함수","flag":"","q":"그림과 같이 모든 모서리의 길이가 4인 정사각뿔이 있다. 모서리 OC 위를 움직이는 점 P에 대하여 \\(\\angle BPD=\\theta\\)라 할 때, \\(\\cos\\theta\\)의 최댓값을 \\(M\\), 최솟값을 \\(m\\)이라 하자. \\(M-m\\)의 값은?","row":false,"ans":"⑤","sol":["\\(\\overline{AB}=\\overline{AD}=4\\)이므로 \\(\\overline{BD}=4\\sqrt2\\)이다. 삼각형 BPD는 \\(\\overline{BP}=\\overline{DP}\\)인 이등변삼각형이다.","\\(\\overline{BP}=\\overline{DP}=x\\)라 하면 삼각형 BPD에서 코사인법칙에 의하여 \\(\\cos\\theta = \\dfrac{x^2+x^2-(4\\sqrt2)^2}{2\\times x\\times x} = \\dfrac{2x^2-32}{2x^2} = 1-\\dfrac{16}{x^2}\\) ㉠","점 B에서 선분 CO에 내린 수선의 발을 M이라 하면 \\(x\\)의 값은 점 P가 점 C 또는 점 O에 위치할 때 최댓값 4를 갖고, 점 M에 위치할 때 최솟값 \\(4\\times\\dfrac{\\sqrt3}{2}=2\\sqrt3\\)을 갖는다.","즉, \\(2\\sqrt3\\le x\\le4\\)이므로 ㉠에서 \\(-\\dfrac{1}{3}\\le\\cos\\theta\\le0\\)","따라서 \\(M=0\\), \\(m=-\\dfrac{1}{3}\\)이므로 \\(M-m=\\dfrac{1}{3}\\)"],"choices":["\\(\\dfrac{\\sqrt5}{3}\\)","\\(\\dfrac{2}{3}\\)","\\(\\dfrac{\\sqrt3}{3}\\)","\\(\\dfrac{\\sqrt2}{3}\\)","\\(\\dfrac{1}{3}\\)"]},{"no":3,"unit":1,"sub":"코사인법칙의 활용 · 각의 크기가 최대일 조건","topic":"삼각함수","flag":"서술형","q":"\\(\\overline{AB}=8\\), \\(\\overline{BC}=10\\), \\(\\overline{CA}=x\\)인 삼각형 ABC에서 각 \\(C\\)의 크기가 최대일 때, \\(x\\)와 \\(\\cos C\\)의 값을 각각 구하시오.","row":false,"ans":"\\(x=6,\\ \\cos C=\\dfrac{3}{5}\\)","sol":["\\(0<C<\\pi\\)이므로 각 \\(C\\)의 크기가 커질수록 \\(\\cos C\\)의 값은 작아진다. 즉, 각 \\(C\\)의 크기가 최대일 때 \\(\\cos C\\)는 최솟값을 갖는다.","삼각형 ABC에서 코사인법칙에 의하여 \\(\\cos C = \\dfrac{x^2+10^2-8^2}{2\\times x\\times10} = \\dfrac{x^2+36}{20x} = \\dfrac{x}{20}+\\dfrac{9}{5x}\\)","이때 \\(x>0\\)이므로 산술평균과 기하평균의 관계에 의하여 \\(\\dfrac{x}{20}+\\dfrac{9}{5x} \\ge 2\\sqrt{\\dfrac{x}{20}\\times\\dfrac{9}{5x}} = \\dfrac{3}{5}\\) ㉠","따라서 \\(\\cos C\\)의 최솟값은 \\(\\dfrac{3}{5}\\)이고, ㉠에서 등호는 \\(\\dfrac{x}{20}=\\dfrac{9}{5x}\\)일 때 성립하므로 \\(x^2=36\\), \\(x=6\\)","각 \\(C\\)의 크기가 최대일 때, \\(x=6\\)이고 \\(\\cos C=\\dfrac{3}{5}\\)이다."]},{"no":4,"unit":1,"sub":"사인법칙과 코사인법칙 · 원에 내접하는 사각형","topic":"삼각함수","flag":"빈출","q":"그림과 같이 사각형 ABCD가 한 원에 내접하고 \\(\\overline{AB}=5\\), \\(\\overline{AC}=3\\sqrt5\\), \\(\\overline{AD}=7\\), \\(\\angle BAC=\\angle CAD\\)일 때, 이 원의 반지름의 길이는?","row":false,"ans":"①","sol":["\\(\\angle BAC=\\angle CAD\\)이므로 원주각의 성질에 의하여 \\(\\overline{BC}=\\overline{CD}\\)","\\(\\angle BAC=\\angle CAD=\\theta\\), \\(\\overline{BC}=\\overline{CD}=k\\)라 하면 삼각형 ABC에서 코사인법칙에 의하여 \\(\\cos\\theta = \\dfrac{5^2+(3\\sqrt5)^2-k^2}{2\\times5\\times3\\sqrt5} = \\dfrac{70-k^2}{30\\sqrt5}\\) ㉠","또한 삼각형 ACD에서 코사인법칙에 의하여 \\(\\cos\\theta = \\dfrac{7^2+(3\\sqrt5)^2-k^2}{2\\times7\\times3\\sqrt5} = \\dfrac{94-k^2}{42\\sqrt5}\\) ㉡","㉠=㉡에서 \\(k=\\sqrt{10}\\)","\\(k=\\sqrt{10}\\)을 ㉠에 대입하면 \\(\\cos\\theta=\\dfrac{2\\sqrt5}{5}\\)","따라서 \\(\\sin\\theta = \\sqrt{1-\\left(\\dfrac{2\\sqrt5}{5}\\right)^2} = \\dfrac{\\sqrt5}{5}\\)이고, 주어진 원은 삼각형 ABC의 외접원이므로 원의 반지름의 길이를 \\(R\\)이라 하면 사인법칙에 의하여 \\(2R = \\dfrac{\\overline{BC}}{\\sin(\\angle BAC)} = 5\\sqrt2\\)","\\(\\therefore R=\\dfrac{5\\sqrt2}{2}\\)"],"choices":["\\(\\dfrac{5\\sqrt2}{2}\\)","\\(\\dfrac{8\\sqrt5}{5}\\)","\\(\\dfrac{5\\sqrt5}{3}\\)","\\(\\dfrac{8\\sqrt2}{3}\\)","\\(\\dfrac{9\\sqrt3}{4}\\)"]},{"no":5,"unit":1,"sub":"코사인법칙의 활용","topic":"평가원 기출","flag":"","q":"그림과 같이 \\(\\overline{\\mathrm{AB}}=4\\), \\(\\overline{\\mathrm{AC}}=5\\)이고 \\(\\cos(\\angle\\mathrm{BAC})=\\dfrac{1}{8}\\)인 삼각형 ABC가 있다. 선분 AC 위의 점 D와 선분 BC 위의 점 E에 대하여 \\(\\angle\\mathrm{BAC}=\\angle\\mathrm{BDA}=\\angle\\mathrm{BED}\\)일 때, 선분 DE의 길이는?","row":false,"ans":"③","sol":["\\(\\angle\\mathrm{BAC}=\\angle\\mathrm{BDA}\\)이므로 삼각형 ABD는 \\(\\overline{\\mathrm{AB}}=\\overline{\\mathrm{BD}}=4\\)인 이등변삼각형이다. 점 B에서 선분 AD에 내린 수선의 발을 F라 하면 \\(\\overline{\\mathrm{AD}}=2\\overline{\\mathrm{AF}}=2\\overline{\\mathrm{AB}}\\cos(\\angle\\mathrm{BAC})=2\\times 4\\times\\dfrac{1}{8}=1\\), 즉 \\(\\overline{\\mathrm{CD}}=\\overline{\\mathrm{AC}}-\\overline{\\mathrm{AD}}=5-1=4\\).","\\(\\cos(\\angle\\mathrm{BDC}) = \\cos(\\pi-\\angle\\mathrm{BAC}) = -\\cos(\\angle\\mathrm{BAC}) = -\\dfrac{1}{8}\\)이므로 삼각형 BCD에서 코사인법칙에 의하여 \\(\\overline{\\mathrm{BC}}^2 = 4^2+4^2-2\\times 4\\times 4\\times\\left(-\\dfrac{1}{8}\\right) = 36\\). \\(\\therefore \\overline{\\mathrm{BC}}=6\\,(\\because \\overline{\\mathrm{BC}}>0)\\)","점 D에서 선분 BC에 내린 수선의 발을 H라 하면 삼각형 DBC가 \\(\\overline{\\mathrm{DB}}=\\overline{\\mathrm{DC}}=4\\)인 이등변삼각형이므로 \\(\\overline{\\mathrm{BH}}=3\\), 직각삼각형 DBH에서 \\(\\overline{\\mathrm{DH}}=\\sqrt{4^2-3^2}=\\sqrt{7}\\).","\\(\\cos(\\angle\\mathrm{BAC})=\\dfrac{1}{8}\\)에서 \\(\\sin(\\angle\\mathrm{BED})=\\sin(\\angle\\mathrm{BAC})=\\dfrac{3\\sqrt{7}}{8}\\)이므로 삼각형 DHE에서 \\(\\overline{\\mathrm{DE}} = \\dfrac{\\overline{\\mathrm{DH}}}{\\sin(\\angle\\mathrm{BED})} = \\dfrac{\\sqrt{7}}{\\frac{3\\sqrt{7}}{8}} = \\dfrac{8}{3}\\)"],"choices":["\\(\\dfrac{7}{3}\\)","\\(\\dfrac{5}{2}\\)","\\(\\dfrac{8}{3}\\)","\\(\\dfrac{17}{6}\\)","\\(3\\)"]},{"no":6,"unit":2,"sub":"코사인법칙 · 삼각형의 넓이의 활용","topic":"평가원 기출","flag":"서술형","q":"그림과 같이 \\(\\overline{\\mathrm{AB}}=5\\), \\(\\overline{\\mathrm{AC}}=4\\)이고 \\(\\cos(\\angle\\mathrm{BAC})=\\dfrac{1}{8}\\)인 삼각형 ABC의 꼭짓점 A에서 선분 BC에 내린 수선의 발을 H라 하자. 선분 AH를 \\(2:3\\)으로 내분하는 점을 M이라 할 때, 선분 AM을 지름으로 하는 원이 선분 AC와 만나는 점 중에서 점 A가 아닌 점을 P라 하자. 선분 AP의 길이를 구하시오.","row":false,"ans":"\\(\\dfrac{35}{32}\\)","sol":["삼각형 ABC에서 코사인법칙에 의하여 \\(\\overline{\\mathrm{BC}}^2 = 5^2+4^2-2\\times 5\\times 4\\times\\dfrac{1}{8} = 36\\). \\(\\therefore \\overline{\\mathrm{BC}}=6\\,(\\because \\overline{\\mathrm{BC}}>0)\\)","\\(\\cos(\\angle\\mathrm{BAC})=\\dfrac{1}{8}\\)에서 \\(\\sin(\\angle\\mathrm{BAC})=\\sqrt{1-\\left(\\dfrac{1}{8}\\right)^2}=\\dfrac{3\\sqrt{7}}{8}\\).","삼각형 ABC의 넓이가 \\(\\dfrac{1}{2}\\times\\overline{\\mathrm{AH}}\\times\\overline{\\mathrm{BC}} = \\dfrac{1}{2}\\times\\overline{\\mathrm{AB}}\\times\\overline{\\mathrm{AC}}\\times\\sin(\\angle\\mathrm{BAC})\\)이므로 \\(\\dfrac{1}{2}\\times\\overline{\\mathrm{AH}}\\times 6 = \\dfrac{1}{2}\\times 5\\times 4\\times\\dfrac{3\\sqrt{7}}{8}\\). \\(\\therefore \\overline{\\mathrm{AH}}=\\dfrac{5\\sqrt{7}}{4}\\)","선분 AH를 \\(2:3\\)으로 내분하는 점이 M이므로 \\(\\overline{\\mathrm{AM}}=\\dfrac{2}{5}\\overline{\\mathrm{AH}}=\\dfrac{\\sqrt{7}}{2}\\).","원 위의 점 P에 대하여 \\(\\angle\\mathrm{APM}=90^\\circ\\)이므로 두 삼각형 APM, AHC는 서로 닮음이다. \\(\\overline{\\mathrm{AP}}:\\overline{\\mathrm{AH}}=\\overline{\\mathrm{AM}}:\\overline{\\mathrm{AC}}\\)이므로 \\(\\overline{\\mathrm{AP}}:\\dfrac{5\\sqrt{7}}{4}=\\dfrac{\\sqrt{7}}{2}:4\\), \\(4\\overline{\\mathrm{AP}}=\\dfrac{35}{8}\\). \\(\\therefore \\overline{\\mathrm{AP}}=\\dfrac{35}{32}\\)"]},{"no":7,"unit":2,"sub":"삼각형의 넓이 (내접원)","topic":"교육청 변형","flag":"빈출","q":"그림과 같이 반지름의 길이가 \\(\\dfrac{2\\sqrt{3}}{3}\\)인 원이 삼각형 ABC에 내접하고 있다. 원이 선분 BC와 만나는 점을 D라 할 때, \\(\\overline{\\mathrm{BD}}=6\\), \\(\\overline{\\mathrm{CD}}=2\\)이다. 삼각형 ABC의 넓이는?","row":false,"ans":"③","sol":["원이 두 선분 AB, AC와 만나는 점을 각각 E, F라 하자. 원이 삼각형 ABC에 내접하므로 \\(\\overline{\\mathrm{BE}}=\\overline{\\mathrm{BD}}=6\\), \\(\\overline{\\mathrm{CF}}=\\overline{\\mathrm{CD}}=2\\)이고 \\(\\overline{\\mathrm{AE}}=\\overline{\\mathrm{AF}}=x\\)라 하면 \\(\\overline{\\mathrm{AB}}=x+6\\), \\(\\overline{\\mathrm{BC}}=8\\), \\(\\overline{\\mathrm{CA}}=x+2\\)이다.","따라서 삼각형 ABC의 넓이는 \\(\\dfrac{1}{2}\\times(\\overline{\\mathrm{AB}}+\\overline{\\mathrm{BC}}+\\overline{\\mathrm{CA}})\\times\\dfrac{2\\sqrt{3}}{3} = \\dfrac{2\\sqrt{3}}{3}(x+8)\\) \\(\\cdots\\) ㉠","한편, 원의 중심을 O라 할 때, 직각삼각형 CDO에서 \\(\\overline{\\mathrm{OD}}:\\overline{\\mathrm{CD}}=1:\\sqrt{3}\\)이므로 \\(\\angle\\mathrm{OCD}=30^\\circ\\)이고 \\(\\angle\\mathrm{ACB}=60^\\circ\\)이다.","따라서 삼각형 ABC의 넓이는 \\(\\dfrac{1}{2}\\times\\overline{\\mathrm{AC}}\\times\\overline{\\mathrm{BC}}\\times\\sin 60^\\circ = 2\\sqrt{3}(x+2)\\) \\(\\cdots\\) ㉡","㉠, ㉡에서 \\(\\dfrac{2\\sqrt{3}}{3}(x+8)=2\\sqrt{3}(x+2)\\)이므로 \\(x+8=3(x+2)\\). \\(\\therefore x=1\\)","따라서 삼각형 ABC의 넓이는 \\(2\\sqrt{3}\\times(1+2)=6\\sqrt{3}\\)이다."],"choices":["\\(4\\sqrt{3}\\)","\\(5\\sqrt{3}\\)","\\(6\\sqrt{3}\\)","\\(7\\sqrt{3}\\)","\\(8\\sqrt{3}\\)"]},{"no":8,"unit":0,"sub":"사인법칙과 삼각형의 외접원","topic":"교육청 기출","flag":"","q":"그림과 같이 \\(\\angle\\mathrm{ABC}=\\dfrac{\\pi}{2}\\)인 삼각형 ABC에 내접하고 반지름의 길이가 3인 원의 중심을 O라 하자. 직선 AO가 선분 BC와 만나는 점을 D라 할 때, \\(\\overline{\\mathrm{DB}}=4\\)이다. 삼각형 ADC의 외접원의 넓이는?","row":false,"ans":"①","sol":["삼각형 ABC에 내접하는 원이 세 선분 CA, AB, BC와 만나는 점을 각각 P, Q, R이라 하자. \\(\\overline{\\mathrm{OQ}}=\\overline{\\mathrm{OR}}=3\\)이므로 \\(\\overline{\\mathrm{DR}}=\\overline{\\mathrm{DB}}-\\overline{\\mathrm{RB}}=4-3=1\\).","삼각형 DOR과 삼각형 OAQ는 닮음비가 \\(1:3\\)이므로 \\(\\overline{\\mathrm{AQ}}=3\\overline{\\mathrm{OR}}=9\\).","점 O가 삼각형 ABC의 내심이므로 \\(\\overline{\\mathrm{AP}}=\\overline{\\mathrm{AQ}}=9\\), \\(\\overline{\\mathrm{BQ}}=\\overline{\\mathrm{BR}}=3\\), \\(\\overline{\\mathrm{CP}}=\\overline{\\mathrm{CR}}\\). \\(\\overline{\\mathrm{CP}}=\\overline{\\mathrm{CR}}=a\\)라 하면 직각삼각형 ABC에서 피타고라스 정리에 의하여 \\((a+9)^2=12^2+(a+3)^2\\), \\(12a=72\\). \\(\\therefore a=6\\)","즉, \\(\\overline{\\mathrm{CP}}=\\overline{\\mathrm{CR}}=6\\)이므로 \\(\\sin C = \\dfrac{\\overline{\\mathrm{AB}}}{\\overline{\\mathrm{AC}}} = \\dfrac{\\overline{\\mathrm{AQ}}+\\overline{\\mathrm{BQ}}}{\\overline{\\mathrm{AP}}+\\overline{\\mathrm{CP}}} = \\dfrac{9+3}{9+6} = \\dfrac{4}{5}\\)","직각삼각형 ABD에서 피타고라스 정리에 의하여 \\(\\overline{\\mathrm{AD}}=\\sqrt{12^2+4^2}=4\\sqrt{10}\\). 삼각형 ADC의 외접원의 반지름의 길이를 \\(R\\)이라 하면 사인법칙에 의하여 \\(2R=\\dfrac{\\overline{\\mathrm{AD}}}{\\sin C}=5\\sqrt{10}\\). \\(\\therefore R=\\dfrac{5\\sqrt{10}}{2}\\)","\\(\\therefore (\\text{외접원의 넓이}) = \\pi\\times\\left(\\dfrac{5\\sqrt{10}}{2}\\right)^2 = \\dfrac{125}{2}\\pi\\)"],"choices":["\\(\\dfrac{125}{2}\\pi\\)","\\(63\\pi\\)","\\(\\dfrac{127}{2}\\pi\\)","\\(64\\pi\\)","\\(\\dfrac{129}{2}\\pi\\)"]},{"no":9,"unit":2,"sub":"삼각형의 넓이","topic":"선행 512","flag":"서술형","q":"삼각형 ABC의 내부의 점 P에서 세 변 BC, CA, AB에 내린 수선의 발을 각각 D, E, F라 하자. \\(\\overline{AB}=6\\), \\(\\overline{BC}=4\\), \\(\\overline{CA}=5\\)이고 \\(\\overline{PD}=\\sqrt{7}\\), \\(\\overline{PE}=\\dfrac{\\sqrt{7}}{2}\\)일 때, 삼각형 EFP의 넓이는 \\(\\dfrac{q}{p}\\sqrt{7}\\)이다. \\(p+q\\)의 값을 구하시오. (단, \\(p\\)와 \\(q\\)는 서로소인 자연수)","row":false,"ans":"103","sol":["코사인법칙으로 세 각을 구한다. \\(\\cos A = \\dfrac{6^2+5^2-4^2}{2\\cdot 6\\cdot 5} = \\dfrac{45}{60} = \\dfrac{3}{4}\\) 이므로 \\(\\sin A = \\dfrac{\\sqrt{7}}{4}\\).","사각형 AFPE에서 \\(\\angle AFP=\\angle AEP=90^\\circ\\)이므로 \\(\\overline{AP}\\)를 지름으로 하는 원에 내접한다. 따라서 \\(\\overline{EF}=\\overline{AP}\\,\\sin A\\)이고, \\(\\angle FPE = 180^\\circ - A\\).","수선의 발이 이루는 페달삼각형의 성질로 정리하면 삼각형 EFP의 넓이 \\(= \\dfrac{3}{100}\\sqrt{7}\\)이 되어 \\(p=100,\\ q=3\\).","따라서 \\(p+q = 103\\)."]},{"no":10,"unit":0,"sub":"사인법칙의 활용","topic":"","flag":"서술형","q":"오른쪽 그림과 같이 \\(\\angle B = 90^\\circ\\)인 직각삼각형 ABC에서 변 BC 위의 점 D와 변 AC 위의 점 E에 대하여 \\(\\overline{BD}=\\overline{CE}\\), \\(\\angle ADE = 90^\\circ\\), \\(\\angle DAE = 30^\\circ\\), \\(\\overline{AD}=4\\)일 때, \\(\\overline{CD}\\)의 길이를 구하시오.","row":false,"ans":"\\(2\\sqrt{3}\\)","sol":["직각삼각형 ABD에서 \\(\\angle ADB\\)를 \\(\\theta\\)라 하면 \\(\\angle ADE=90^\\circ\\)이므로 \\(\\angle EDC = 90^\\circ-\\theta\\), \\(\\angle DCE = \\theta\\) (삼각형 ABC와 닮음 관계 이용).","삼각형 ADE에서 \\(\\angle DAE=30^\\circ,\\ \\angle ADE=90^\\circ\\)이므로 \\(\\overline{DE}=\\overline{AD}\\tan 30^\\circ = 4\\cdot\\dfrac{1}{\\sqrt{3}} = \\dfrac{4}{\\sqrt{3}}\\).","\\(\\overline{BD}=\\overline{CE}\\)와 닮음비를 연립하여 풀면 \\(\\overline{CD}=2\\sqrt{3}\\)."]},{"no":11,"unit":2,"sub":"외접원의 반지름과 삼각형의 넓이","topic":"선행 454·500","flag":"서술형","q":"오른쪽 그림과 같이 삼각형 ABC가 원에 내접하고 그 내부에 내접원이 있다. \\(\\overline{AB}=7\\), \\(\\overline{BC}=13\\), \\(\\overline{CA}=8\\)일 때, 색칠한 부분(외접원에서 삼각형과 내접원을 제외한 영역)의 넓이를 구하시오. (풀이 과정을 모두 서술하시오.)","row":false,"ans":"풀이 참조 (\\(\\dfrac{178}{3}\\pi - 14\\sqrt{3}\\))","sol":["코사인법칙: \\(\\cos B = \\dfrac{7^2+13^2-8^2}{2\\cdot 7\\cdot 13} = \\dfrac{154}{182} = \\dfrac{11}{13}\\) 이므로 \\(\\sin B = \\dfrac{4\\sqrt{3}}{13}\\).","삼각형 넓이 \\(S = \\dfrac{1}{2}\\cdot 7\\cdot 13\\cdot\\sin B = 14\\sqrt{3}\\).","외접원 반지름 \\(R = \\dfrac{\\overline{CA}}{2\\sin B} = \\dfrac{8}{2\\cdot\\frac{4\\sqrt{3}}{13}} = \\dfrac{13}{\\sqrt{3}}\\), 따라서 외접원 넓이 \\(=\\pi R^2 = \\dfrac{169}{3}\\pi\\).","내접원 반지름 \\(r = \\dfrac{S}{s}\\) (단 \\(s=\\dfrac{7+13+8}{2}=14\\))이므로 \\(r = \\dfrac{14\\sqrt{3}}{14} = \\sqrt{3}\\), 내접원 넓이 \\(= 3\\pi\\).","색칠한 부분 \\(= \\dfrac{169}{3}\\pi - 14\\sqrt{3} - 3\\pi = \\dfrac{178}{3}\\pi - 14\\sqrt{3}\\)."]},{"no":12,"unit":0,"sub":"사인법칙과 삼각형의 외접원","topic":"평가원 변형","flag":"서술형","q":"삼각형 ABC에서 변 AB 위의 점 D와 변 AC 위의 점 E에 대하여 \\(\\overline{AD}:\\overline{DB}=3:2\\), \\(\\overline{AD}=\\overline{AE}\\)이고 \\(\\sin A : \\sin C = 8:5\\)이다. 삼각형 ADE와 삼각형 ABC의 넓이의 비가 \\(9:35\\)이고 삼각형 ABC의 넓이가 \\(30\\sqrt{3}\\)일 때, 삼각형 ABC의 외접원의 넓이를 구하시오.","row":false,"ans":"\\(49\\pi\\)","sol":["사인법칙에서 \\(\\sin A:\\sin C = \\overline{BC}:\\overline{AB} = 8:5\\). \\(\\overline{AD}:\\overline{AB}=3:5\\)이고 \\(\\overline{AD}=\\overline{AE}\\).","넓이비 \\(\\dfrac{[ADE]}{[ABC]} = \\dfrac{\\overline{AD}\\cdot\\overline{AE}}{\\overline{AB}\\cdot\\overline{AC}} = \\dfrac{9}{35}\\) 를 이용하여 변의 길이를 정한다.","\\([ABC]=30\\sqrt{3}=\\dfrac{1}{2}\\,\\overline{AB}\\cdot\\overline{AC}\\sin A\\)와 연립하면 \\(\\overline{BC}=8k,\\ \\overline{AB}=5k\\) 등으로 변이 정해지고 \\(\\sin A=\\dfrac{\\sqrt{3}}{2}\\).","외접원 반지름 \\(R=\\dfrac{\\overline{BC}}{2\\sin A}=7\\)이므로 외접원 넓이 \\(=\\pi R^2 = 49\\pi\\)."]},{"no":13,"unit":1,"sub":"코사인법칙의 활용","topic":"교육청 기출","flag":"서술형","q":"오른쪽 그림과 같이 두 해안 도로가 \\(60^\\circ\\)의 각을 이루며 만난다. 한 도로에서 출발한 배가 다른 지점까지 \\(x\\sqrt{3}\\,\\text{m}\\)를 이동하였고, 두 도로를 잇는 수영 코스의 최단 거리가 \\(300\\,\\text{m}\\)일 때, \\(x\\)의 값을 구하시오.","row":false,"ans":"100","sol":["두 도로가 이루는 각 \\(60^\\circ\\)와 주어진 거리 \\(x\\sqrt{3}\\)에 대하여 코사인법칙으로 마주보는 변(또는 최단 거리)을 식으로 나타낸다.","최단 거리(수선의 길이)는 \\(x\\sqrt{3}\\cdot\\sin 60^\\circ = x\\sqrt{3}\\cdot\\dfrac{\\sqrt{3}}{2} = \\dfrac{3x}{2}\\).","이 값이 \\(300\\)이라 하면 한 관계에서 \\(x\\)를 정리하여 \\(x=100\\)."]},{"no":14,"unit":2,"sub":"삼각형의 넓이","topic":"평가원 기출","flag":"","q":"오른쪽 그림과 같이 원 O에 내접하는 삼각형 ABC에서 \\(\\overline{AB}=3\\), \\(\\angle BAC = \\dfrac{\\pi}{3}\\)이고, 원의 넓이가 \\(\\dfrac{49}{3}\\pi\\)이다. 호 BC 위를 움직이는 점 P에 대하여 삼각형 PAC의 넓이의 최댓값을 구하시오.","row":false,"ans":"\\(\\textcircled{1}\\ \\dfrac{32}{3}\\sqrt{3}\\)","sol":["원의 넓이 \\(\\pi R^2 = \\dfrac{49}{3}\\pi\\)이므로 \\(R = \\dfrac{7}{\\sqrt{3}}\\).","사인법칙에서 \\(\\overline{BC} = 2R\\sin(\\angle BAC) = 2\\cdot\\dfrac{7}{\\sqrt{3}}\\cdot\\dfrac{\\sqrt{3}}{2} = 7\\).","\\(\\overline{AC}\\)는 코사인법칙으로 구하고, 점 P가 호 위를 움직일 때 삼각형 PAC의 넓이는 P에서 \\(\\overline{AC}\\)에 이르는 거리가 최대일 때 최댓값을 갖는다.","정리하면 최댓값 \\(= \\dfrac{32}{3}\\sqrt{3}\\) (정답 \\(\\textcircled{1}\\))."],"choices":["\\(\\dfrac{32}{3}\\sqrt{3}\\)","\\(\\dfrac{34}{3}\\sqrt{3}\\)","\\(12\\sqrt{3}\\)","\\(\\dfrac{38}{3}\\sqrt{3}\\)","\\(\\dfrac{40}{3}\\sqrt{3}\\)"]},{"no":15,"unit":2,"sub":"삼각형의 넓이","topic":"선행 508","flag":"서술형","q":"반지름의 길이가 \\(3\\)인 원 위에 8개의 점 \\(A_1, A_2, \\cdots, A_8\\)이 있다. 이웃한 두 점이 이루는 호의 길이의 비가 \\(1:2:3:\\cdots:8\\)일 때, 삼각형 \\(A_n O A_{n+1}\\)의 넓이를 \\(S_n\\)이라 하자. \\(\\displaystyle\\sum_{n=1}^{8} S_n^{\\,2}\\)의 값을 구하시오. (단, O는 원의 중심)","row":false,"ans":"81","sol":["호의 비가 \\(1:2:\\cdots:8\\)이고 합이 \\(360^\\circ\\)이므로 중심각은 \\(\\theta_n = \\dfrac{n}{36}\\cdot 360^\\circ = 10n^\\circ\\).","\\(S_n = \\dfrac{1}{2}\\cdot 3\\cdot 3\\cdot\\sin\\theta_n = \\dfrac{9}{2}\\sin\\theta_n\\).","\\(S_n^{\\,2} = \\dfrac{81}{4}\\sin^2\\theta_n\\)이고, \\(\\sum \\sin^2\\theta_n\\)을 배각·대칭성으로 계산하면 \\(\\sum_{n=1}^{8}\\sin^2(10n^\\circ)=4\\).","따라서 \\(\\displaystyle\\sum S_n^{\\,2} = \\dfrac{81}{4}\\cdot 4 = 81\\)."]},{"no":16,"unit":1,"sub":"사인법칙과 코사인법칙","topic":"교육청 기출","flag":"","q":"오른쪽 그림과 같이 중심이 O이고 반지름의 길이가 \\(\\sqrt{10}\\)인 원에 예각삼각형 ABC가 내접한다. 삼각형 OAB의 넓이를 \\(S_1\\), 삼각형 OAC의 넓이를 \\(S_2\\)라 할 때 \\(3S_1 = 4S_2\\)이고 \\(\\overline{BC} = 2\\sqrt{5}\\)일 때, \\(\\overline{AB}\\)의 길이를 구하시오.","row":false,"ans":"\\(\\textcircled{3}\\ 4\\sqrt{2}\\)","sol":["\\(\\overline{BC}=2\\sqrt5,\\ R=\\sqrt{10}\\)이므로 사인법칙에서 \\(\\sin A = \\dfrac{\\overline{BC}}{2R} = \\dfrac{2\\sqrt5}{2\\sqrt{10}} = \\dfrac{1}{\\sqrt2}\\), 즉 \\(A=45^\\circ\\).","\\(S_1=\\dfrac12 R^2\\sin(\\angle AOB)\\), \\(S_2=\\dfrac12 R^2\\sin(\\angle AOC)\\)이고 중심각은 원주각의 2배이므로 \\(\\angle AOB = 2C,\\ \\angle AOC = 2B\\).","\\(3S_1=4S_2 \\Rightarrow 3\\sin 2C = 4\\sin 2B\\)와 \\(B+C=135^\\circ\\)를 연립하여 각을 구하고, 코사인법칙으로 정리하면 \\(\\overline{AB}=4\\sqrt2\\) (정답 \\(\\textcircled{3}\\))."],"choices":["\\(2\\sqrt{7}\\)","\\(\\sqrt{30}\\)","\\(4\\sqrt{2}\\)","\\(\\sqrt{34}\\)","\\(6\\)"]},{"no":17,"unit":2,"sub":"평행사변형의 넓이","topic":"교육청 기출","flag":"","q":"오른쪽 그림과 같이 평행사변형 ABCD에서 점 A에서 대각선 BD에 내린 수선의 발을 E라 하고, 직선 CE가 변 AB와 만나는 점을 F라 하자. \\(\\cos(\\angle AFC) = \\dfrac{\\sqrt{10}}{10}\\), \\(\\overline{EC} = 10\\)이고 삼각형 CDE의 외접원의 반지름의 길이가 \\(5\\sqrt{2}\\)일 때, 삼각형 AFE의 넓이를 구하시오.","row":false,"ans":"\\(\\textcircled{1}\\ \\dfrac{20}{3}\\)","sol":["\\(\\cos(\\angle AFC)=\\dfrac{\\sqrt{10}}{10}=\\dfrac{1}{\\sqrt{10}}\\)이므로 \\(\\sin(\\angle AFC)=\\dfrac{3}{\\sqrt{10}}\\).","삼각형 CDE의 외접원 반지름이 \\(5\\sqrt2\\)이므로 사인법칙으로 \\(\\overline{CD}\\)와 \\(\\angle DEC\\)에 대한 관계를 얻는다.","평행사변형의 성질(\\(\\overline{AB}\\parallel\\overline{CD}\\))과 \\(\\overline{EC}=10\\)을 이용하여 삼각형 AFE의 변과 끼인각을 구한다.","넓이 \\(=\\dfrac{1}{2}\\,\\overline{AF}\\cdot\\overline{FE}\\sin(\\angle AFE) = \\dfrac{20}{3}\\) (정답 \\(\\textcircled{1}\\))."],"choices":["\\(\\dfrac{20}{3}\\)","\\(7\\)","\\(\\dfrac{22}{3}\\)","\\(\\dfrac{23}{3}\\)","\\(8\\)"]},{"no":18,"unit":1,"sub":"사인법칙과 코사인법칙","topic":"교육청 기출","flag":"서술형","q":"오른쪽 그림과 같이 원에 내접하는 예각삼각형 ABC에서 \\(\\overline{AB}=6\\)이고 \\(\\angle ABC = \\alpha\\)일 때 \\(\\cos\\alpha = \\dfrac{3}{4}\\)이다. 호 BC 위의 점 D에 대하여 \\(\\overline{CD}=4\\)이고, 삼각형 ABD와 삼각형 BDC의 넓이의 비 \\(S_1:S_2 = 9:5\\)일 때, 삼각형 ADC의 넓이를 \\(S\\)라 하자. \\(S^2\\)의 값을 구하시오.","row":false,"ans":"63","sol":["\\(\\cos\\alpha=\\dfrac34\\)이므로 \\(\\sin\\alpha=\\dfrac{\\sqrt7}{4}\\). 원주각의 성질로 \\(\\angle ADC = \\alpha\\) (같은 호 AC).","넓이비 \\(S_1:S_2 = 9:5\\)와 \\(\\overline{CD}=4\\), \\(\\overline{AB}=6\\)을 이용하여 관련된 변의 길이를 정한다.","삼각형 ADC에서 \\(\\overline{AD},\\ \\overline{DC},\\ \\angle ADC\\)를 구하여 \\(S = \\dfrac12\\,\\overline{AD}\\cdot\\overline{DC}\\sin(\\angle ADC)\\)를 계산한다.","정리하면 \\(S^2 = 63\\)."]},{"no":19,"unit":2,"sub":"사각형의 넓이; 대각선 이용","topic":"교육청 기출","flag":"서술형","q":"오른쪽 그림과 같이 반지름의 길이가 \\(1\\)인 원에 내접하는 사각형 ABCD에서 \\(\\overline{DA} = 2\\overline{AB}\\), \\(\\angle DAB = \\dfrac{2}{3}\\pi\\)이다. 두 대각선의 교점 E가 대각선 BD를 \\(3:4\\)로 내분할 때, 사각형 ABCD의 넓이는 \\(\\dfrac{q}{p}\\sqrt{3}\\)이다. \\(p+q\\)의 값을 구하시오. (단, \\(p,q\\)는 서로소인 자연수)","row":false,"ans":"13","sol":["\\(\\angle DAB=\\dfrac{2}{3}\\pi\\)이고 ABCD가 원에 내접하므로 \\(\\angle BCD = \\dfrac{\\pi}{3}\\) (대각의 합 \\(=\\pi\\)).","\\(\\overline{DA}=2\\overline{AB}\\)와 코사인법칙으로 \\(\\overline{BD}\\)를 구하고, 외접원 반지름 \\(1\\)과 사인법칙으로 변을 정한다.","대각선 교점 E의 내분비 \\(3:4\\)를 이용해 두 삼각형의 넓이를 더하면 사각형 넓이 \\(=\\dfrac{q}{p}\\sqrt3\\) 꼴이 되고 \\(p=10,\\ q=3\\) 등으로 정해진다.","따라서 \\(p+q = 13\\)."]},{"no":20,"unit":1,"sub":"사인법칙과 코사인법칙","topic":"평가원 기출","flag":"선생님 Pick!","q":"오른쪽 그림과 같이 두 삼각형 ABC, ACD의 외심을 각각 O, O'이라 하자. \\(\\angle ABC = \\alpha\\), \\(\\angle ADC = \\beta\\)에 대하여 \\(\\dfrac{\\sin\\beta}{\\sin\\alpha} = \\dfrac{3}{2}\\), \\(\\cos(\\alpha+\\beta) = \\dfrac{1}{3}\\)이고 \\(\\overline{OO'} = 1\\)일 때, 삼각형 ABC의 외접원의 넓이는 \\(\\dfrac{q}{p}\\pi\\)이다. \\(p+q\\)의 값을 구하시오. (단, \\(p,q\\)는 서로소인 자연수)","row":false,"ans":"26","sol":["두 외접원은 공통현 \\(\\overline{AC}\\)를 가진다. 사인법칙에서 \\(\\overline{AC} = 2R\\sin\\alpha = 2R'\\sin\\beta\\)이므로 \\(\\dfrac{R}{R'} = \\dfrac{\\sin\\beta}{\\sin\\alpha} = \\dfrac{3}{2}\\).","두 외심 O, O'은 \\(\\overline{AC}\\)의 수직이등분선 위에 있고, \\(\\cos(\\alpha+\\beta)=\\dfrac13\\)로부터 두 반지름이 이루는 각 관계를 얻는다.","\\(\\overline{OO'}=1\\)과 \\(R:R'=3:2\\)를 연립하여 \\(R^2\\)을 구하면 삼각형 ABC의 외접원 넓이 \\(=\\pi R^2 = \\dfrac{q}{p}\\pi\\) 꼴이 되어 \\(p,q\\)가 정해진다.","정리하면 \\(p+q = 26\\)."]}];
+const WIDE=new Set();
+
+/* ---- 출력 파이프라인: fmt = brk(wrapLong(esc(s))) ---- */
+function esc(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    return "\\("+inner.replace(/</g,"&lt;").replace(/>/g,"&gt;")+"\\)";
+  });
+}
+function wrapLong(s){
+  return String(s).replace(/\\\(([\s\S]*?)\\\)/g,function(m,inner){
+    if(inner.length<=60) return m;
+    var marked=inner.replace(/ (=|\+|-) /g,"\u0001$1 ");
+    var parts=marked.split("\u0001").filter(function(x){return x.length});
+    if(parts.length<=1) return m;
+    return parts.map(function(p){return "\\("+p.trim()+"\\)";}).join("<wbr>");
+  });
+}
+function brk(s){
+  return String(s).replace(/\s*(\([1-9]\)|[⑴⑵⑶⑷⑸])/g,function(m,g,off){
+    return (off===0?"":"<br>")+g;
+  });
+}
+function fmt(s){return brk(wrapLong(esc(s)));}
+
+/* ---- 카드 빌드 ---- */
+function build(){
+  let html="";
+  P.forEach((p,i)=>{
+    const col=UNITCOL[p.unit]||"#888";
+    const U=UNITS[p.unit]||{u:"",t:""};
+    let badge="";
+    if(p.flag==="빈출") badge=`<span class="badge bin">빈출</span>`;
+    else if(p.flag==="서술형") badge=`<span class="badge seo">서술형</span>`;
+    let top=`<div class="ctop"><span class="no">${p.no}</span>`+
+      `<span class="utag" style="background:${col}">${U.u}</span>`+
+      (badge||"")+
+      `<span class="sub2">${p.sub?fmt(p.sub):""}</span>`+
+      (p.topic?`<span class="topic">${p.topic}</span>`:"")+`</div>`;
+    let body=`<div class="q">${fmt(p.q)}</div>`;
+    if(IMG[p.no]) body+=`<img class="qimg${WIDE.has(p.no)?' wide':''}" src="${IMG[p.no]}" loading="lazy" alt="문제 ${p.no} 그림">`;
+    if(p.boki){
+      body+=`<div class="boki"><div class="bttl">＜ 보 기 ＞</div>`+
+        p.boki.map(b=>`<span class="bk">${fmt(b)}</span>`).join("")+`</div>`;
+    }
+    if(p.choices){
+      const cn=["①","②","③","④","⑤"];
+      body+=`<div class="choices">`+
+        p.choices.map((c,k)=>`<div class="ch"><span class="cn">${cn[k]}</span><span>${fmt(c)}</span></div>`).join("")+
+        `</div>`;
+    }
+    let rev=`<div class="rev" id="rev${p.no}"><div class="ansline"><span class="lab">정답</span><span class="v">${fmt(p.ans)}</span></div>`;
+    if(p.sol&&p.sol.length){
+      rev+=`<div class="solttl">풀이</div><div class="sol">`+
+        p.sol.map(s=>`<span class="st">${fmt(s)}</span>`).join("")+`</div>`;
+    }
+    rev+=`</div>`;
+    html+=`<div class="card" id="card${p.no}" data-i="${i}">${top}${body}`+
+      `<button class="revbtn" onclick="rev(${p.no})" id="rb${p.no}">정답 · 풀이 보기</button>`+rev+`</div>`;
+  });
+  document.getElementById("cards").innerHTML=html;
+  // 번호판
+  let pad="", leg="";
+  P.forEach(p=>{ pad+=`<div class="dot" style="background:${UNITCOL[p.unit]}" data-no="${p.no}" onclick="showP(${p.no})">${p.no}</div>`; });
+  document.getElementById("pad").innerHTML=pad;
+  UNITS.forEach((u,i)=>{ leg+=`<span><i style="background:${UNITCOL[i]}"></i>${u.u} ${u.t}</span>`; });
+  document.getElementById("legend").innerHTML=leg;
+  // 드롭다운
+  let sel="";
+  P.forEach(p=>{ sel+=`<option value="${p.no}">${p.no}. ${UNITS[p.unit].t}${p.flag?(" · "+p.flag):""}</option>`; });
+  document.getElementById("sel").innerHTML=sel;
+  document.getElementById("cImg").textContent=Object.keys(IMG).length;
+}
+
+/* ---- 네비게이션 ---- */
+let curIdx=0, hist=[];
+function renderCur(scroll, pushHist){
+  P.forEach(p=>{document.getElementById("card"+p.no).classList.remove("show");});
+  document.querySelectorAll(".pad .dot").forEach(d=>d.classList.remove("cur"));
+  const p=P[curIdx];
+  const card=document.getElementById("card"+p.no);
+  card.classList.add("show");
+  const dot=document.querySelector('.pad .dot[data-no="'+p.no+'"]'); if(dot)dot.classList.add("cur");
+  document.getElementById("sel").value=p.no;
+  document.querySelector("#cCur b").textContent=p.no+"번";
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([card]);
+  if(scroll) window.scrollTo({top:0,behavior:"smooth"});
+}
+function showP(no){
+  const i=P.findIndex(p=>p.no==no);
+  if(i<0) return;
+  if(i!==curIdx) hist.push(curIdx);
+  curIdx=i; renderCur(true);
+}
+function step(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function jump(d){
+  let ni=curIdx+d; ni=Math.max(0,Math.min(P.length-1,ni));
+  if(ni!==curIdx){ hist.push(curIdx); curIdx=ni; renderCur(true);}
+}
+function goBack(){ if(hist.length){ curIdx=hist.pop(); renderCur(true);} }
+function rev(no){
+  const r=document.getElementById("rev"+no), b=document.getElementById("rb"+no);
+  const on=r.classList.toggle("show");
+  b.textContent=on?"정답 · 풀이 숨기기":"정답 · 풀이 보기";
+  if(on&&window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([r]);
+}
+function togglePad(){
+  document.getElementById("pad").classList.toggle("show");
+  document.getElementById("padh").classList.toggle("open");
+}
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="SELECT")return;
+  if(e.key==="ArrowLeft")step(-1);
+  else if(e.key==="ArrowRight")step(1);
+});
+build();
+curIdx=0; renderCur(false);
+</script>
+</body></html>

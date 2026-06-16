@@ -10,55 +10,50 @@ body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:v
 .htitle{font-size:20px;font-weight:800;letter-spacing:-.02em}
 .hsub{font-size:12.5px;color:var(--muted);margin-top:1px}
 .sec{font-size:13px;color:var(--muted);font-weight:600;margin:22px 2px 11px}
-
-/* ── 단원별 세 칸 메뉴 ── */
-.units{display:flex;flex-direction:column;gap:9px}
-.urow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;animation:rise .5s ease both}
-.ucell{position:relative;background:var(--ink-2);border:1px solid var(--line);border-radius:13px;
-  padding:12px 5px 11px;text-decoration:none;color:inherit;text-align:center;transition:.16s;display:block}
+.units{display:flex;flex-direction:column;gap:14px}
+.ublock{animation:rise .5s ease both}
+.uname{font-size:13.5px;font-weight:700;color:var(--gold);margin:0 2px 7px;letter-spacing:-.02em}
+.uareas{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.ucell{position:relative;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:13px 3px;text-align:center;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:.16s;letter-spacing:-.02em}
 .ucell:active{background:var(--ink-3)}
 @media(hover:hover){.ucell:hover{border-color:#3a4660;transform:translateY(-2px)}}
-.ucell .ut{display:block;font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap;letter-spacing:-.03em;line-height:1.2}
-.ucell b{display:block;font-size:15px;font-weight:700;margin-top:4px;letter-spacing:-.01em}
-/* 연결 완료된 칸 강조 */
-.ucell.ready{border-color:var(--mint);background:#13211d}
-.ucell.ready .ut{color:var(--mint)}
-.ucell.ready::after{content:"";position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--mint)}
-
-/* ── 내신 (단원 무관) ── */
-.naesin{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);
-  border-radius:14px;padding:15px 16px;text-decoration:none;color:inherit;transition:.16s;animation:rise .5s ease both}
+.ucell.ready{border-color:var(--mint);background:#13211d;color:var(--mint)}
+.ucell.ready::after{content:"";position:absolute;top:7px;right:7px;width:5px;height:5px;border-radius:50%;background:var(--mint)}
+.naesin{display:flex;align-items:center;gap:13px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;color:var(--text);cursor:pointer;transition:.16s;animation:rise .5s ease both;margin-bottom:9px}
 .naesin:active{background:var(--ink-3)}
 @media(hover:hover){.naesin:hover{border-color:#3a4660}}
 .naesin .n{width:30px;height:30px;flex:none;border-radius:9px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:15px}
 .naesin .tx{flex:1}.naesin .tx b{font-size:15px;font-weight:600}.naesin .tx span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .naesin .arr{color:var(--muted);font-size:16px}
-
 .foot{text-align:center;color:var(--muted);font-size:11.5px;margin-top:28px;line-height:1.6}
-@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}</style></head><body>
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.viewer{position:fixed;inset:0;z-index:60;background:var(--ink);display:none;flex-direction:column}
+.viewer.on{display:flex;animation:slideup .22s ease both}
+.vbar{display:flex;align-items:center;gap:11px;padding:calc(9px + env(safe-area-inset-top)) 13px 9px;border-bottom:1px solid var(--line);background:var(--ink-2)}
+.vbar .vback{width:34px;height:34px;flex:none;border-radius:10px;background:var(--ink-3);border:1px solid var(--line);color:var(--text);display:grid;place-items:center;font-size:18px;cursor:pointer}
+.vbar .vback:active{background:var(--ink)}
+.vbar .vtit{font-size:14.5px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.vbar .vtit small{display:block;font-size:11px;color:var(--mint);font-weight:600;margin-top:1px}
+.viewer iframe{flex:1;width:100%;border:0;background:#fff}
+@keyframes slideup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}</style></head><body>
 <div class="app">
   <div class="top"><a class="back" href="godeung.html">&#8592;</a>
-    <!-- 과목명만 바꿔 과목별로 복제 -->
     <div><div class="htitle">대수</div><div class="hsub">단원과 학습 영역을 선택하세요</div></div></div>
-
-  <div class="sec">단원별 학습 &nbsp;·&nbsp; 개념 / 유형 / 심화</div>
+  <div class="sec">단원별 학습 &nbsp;·&nbsp; 개념 / 기본 / 응용 / 변별력</div>
   <div class="units" id="units"></div>
-
-  <div class="sec">기타</div>
-  <a class="naesin" href="material-template.html">
-    <div class="n">&#128221;</div>
-    <div class="tx"><b>내신</b><span>학교별 기출 대비 (단원 통합)</span></div>
-    <div class="arr">&#8250;</div>
-  </a>
-
-  <div class="foot">각 칸 안에 교재(HTML)와 유튜브 강의가 연결됩니다<br>● 표시는 자료 연결이 완료된 항목</div>
+  <div class="sec">단원 통합</div>
+  <div id="extra"></div>
+  <div class="foot">각 칸에 교재(HTML)와 유튜브 강의가 연결됩니다<br>● 표시는 자료 연결이 완료된 항목 · 문제집과 무관하게 들어와 확인·복습하세요</div>
 </div>
-
+<div class="viewer" id="viewer">
+  <div class="vbar"><button class="vback" id="vback" aria-label="닫기">&#8592;</button>
+    <div class="vtit" id="vtit">개념<small id="vsub"></small></div></div>
+  <iframe id="vframe" title="개념 뷰어" referrerpolicy="no-referrer"></iframe>
+</div>
 <script>
-// 대수 단원 (2022 개정: 지수·로그 / 삼각함수 / 수열)
 const UNITS = ["지수","로그","지수함수","로그함수","지수방정식","로그방정식","삼각함수정의","삼각함수그래프","사인코사인법칙","등차등비수열","수열의합Σ","수학적귀납법"];
-const AREAS = ["개념","유형","심화"];
-// "단원|영역" : 연결할 파일
+const AREAS = ["개념","기본","응용","변별력"];
+const PLACEHOLDER = "material-template.html";
 const LINKS = {
   "지수|개념": "algebra-exp.html",
   "로그|개념": "algebra-log.html",
@@ -67,28 +62,65 @@ const LINKS = {
   "지수방정식|개념": "algebra-exp-equation.html",
   "로그방정식|개념": "algebra-log-equation.html",
   "등차등비수열|개념": "algebra-sequence.html",
+  "등차등비수열|기본": "algebra-sequence-basic.html",
+  "등차등비수열|응용": "algebra-sequence-application.html",
+  "등차등비수열|변별력": "algebra-sequence-discrimination.html",
   "수열의합Σ|개념": "algebra-series.html",
   "수학적귀납법|개념": "algebra-induction.html",
   "삼각함수정의|개념": "algebra-trig-definition.html",
+  "삼각함수정의|기본": "algebra-trig-definition-basic.html",
+  "삼각함수정의|응용": "algebra-trig-definition-application.html",
+  "삼각함수정의|변별력": "algebra-trig-definition-discrimination.html",
   "삼각함수그래프|개념": "algebra-trig-graph.html",
-  "사인코사인법칙|개념": "algebra-trig-application.html"
-  // 나머지 항목(지수·로그·지수함수·로그함수 개념/유형/심화 등)은 준비되는 대로 여기에 추가
+  "삼각함수그래프|기본": "algebra-trig-graph-basic.html",
+  "삼각함수그래프|응용": "algebra-trig-graph-application.html",
+  "삼각함수그래프|변별력": "algebra-trig-graph-discrimination.html",
+  "사인코사인법칙|개념": "algebra-trig-application.html",
+  "사인코사인법칙|기본": "algebra-trig-app-basic.html",
+  "사인코사인법칙|응용": "algebra-trig-app-application.html",
+  "사인코사인법칙|변별력": "algebra-trig-app-discrimination.html"
 };
-const wrap = document.getElementById("units");
-UNITS.forEach((u, i) => {
-  const row = document.createElement("div");
-  row.className = "urow";
-  row.style.animationDelay = (i * 0.04) + "s";
-  AREAS.forEach(area => {
-    const key = u + "|" + area;
-    const linked = LINKS[key];
-    const a = document.createElement("a");
-    a.className = "ucell" + (linked ? " ready" : "");
-    a.href = linked || "material-template.html";
-    a.innerHTML = `<span class="ut">${u}</span><b>${area}</b>`;
-    row.appendChild(a);
+const EXTRA = [
+  {icon:"📝", title:"내신대비", desc:"학교별 기출 대비 (단원 통합)", file:PLACEHOLDER},
+  {icon:"★", title:"100점문항", desc:"유형분류를 넘어서는 최고난도 (킬러)", file:PLACEHOLDER}
+];
+const viewer=document.getElementById("viewer"), vframe=document.getElementById("vframe"),
+      vtit=document.getElementById("vtit"), vsub=document.getElementById("vsub");
+function loadFrame(url){ try{ vframe.contentWindow.location.replace(url); }catch(e){ vframe.src=url; } }
+function openViewer(url,title,sub){
+  vtit.firstChild.textContent=title; vsub.textContent=sub||"";
+  viewer.classList.add("on"); document.body.style.overflow="hidden";
+  if(!history.state||!history.state.viewer) history.pushState({viewer:1},"");
+  loadFrame(url);
+}
+function closeViewer(){
+  viewer.classList.remove("on"); document.body.style.overflow="";
+  loadFrame("about:blank");
+}
+document.getElementById("vback").onclick=function(){ if(history.state&&history.state.viewer) history.back(); else closeViewer(); };
+window.addEventListener("popstate",function(){ if(viewer.classList.contains("on")) closeViewer(); });
+const wrap=document.getElementById("units");
+UNITS.forEach(function(u,i){
+  const block=document.createElement("div");
+  block.className="ublock"; block.style.animationDelay=(i*0.035)+"s";
+  const name=document.createElement("div"); name.className="uname"; name.textContent=u;
+  const areas=document.createElement("div"); areas.className="uareas";
+  AREAS.forEach(function(area){
+    const key=u+"|"+area, linked=LINKS[key];
+    const cell=document.createElement("div");
+    cell.className="ucell"+(linked?" ready":"");
+    cell.textContent=area;
+    cell.onclick=function(){ openViewer(linked||PLACEHOLDER, u, area+(linked?"":" · 준비중")); };
+    areas.appendChild(cell);
   });
-  wrap.appendChild(row);
+  block.appendChild(name); block.appendChild(areas); wrap.appendChild(block);
+});
+const ex=document.getElementById("extra");
+EXTRA.forEach(function(it){
+  const row=document.createElement("div"); row.className="naesin";
+  row.innerHTML='<div class="n">'+it.icon+'</div><div class="tx"><b>'+it.title+'</b><span>'+it.desc+'</span></div><div class="arr">&#8250;</div>';
+  row.onclick=function(){ openViewer(it.file, it.title, it.desc); };
+  ex.appendChild(row);
 });
 </script>
 </body></html>
