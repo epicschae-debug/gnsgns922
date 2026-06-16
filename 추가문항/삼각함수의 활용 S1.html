@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼각함수의 활용 · 사인법칙 · 코사인법칙 · 넓이</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --bg:#0a0e1a; --bg2:#0f1526; --card:#141c30; --card2:#1a2440;
+    --border:#243150; --border2:#2e3d63;
+    --gold:#e3b53e; --gold-soft:#f0d27a; --gold-dim:#9a7e2e;
+    --mint:#4fd1c5; --text:#e7ecf5; --muted:#93a0b8; --muted2:#6c7894;
+    --hot:#f07a7a; --shadow:0 8px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Pretendard',-apple-system,system-ui,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -200px,#16203a 0%,var(--bg) 55%) fixed,var(--bg);
+    color:var(--text); line-height:1.65; min-height:100vh;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 80px}
+
+  /* Header */
+  header{margin-bottom:18px}
+  .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--gold-dim);font-weight:700;text-transform:uppercase}
+  h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px;
+     background:linear-gradient(92deg,var(--gold-soft),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:13.5px;color:var(--muted)}
+
+  /* Mode toggle */
+  .modes{display:flex;gap:8px;margin:18px 0 14px;background:var(--bg2);
+    border:1px solid var(--border);border-radius:14px;padding:5px}
+  .modes button{flex:1;border:0;background:transparent;color:var(--muted);
+    font-family:inherit;font-size:15px;font-weight:700;padding:11px 8px;border-radius:10px;
+    cursor:pointer;transition:.18s}
+  .modes button.on{background:linear-gradient(180deg,var(--gold),var(--gold-dim));color:#1a1304;box-shadow:0 4px 14px rgba(227,181,62,.25)}
+
+  /* Grid */
+  .grid{display:grid;gap:8px;margin-bottom:18px}
+  .grid.concept{grid-template-columns:repeat(2,1fr)}
+  .grid.problem{grid-template-columns:repeat(5,1fr)}
+  .cell{position:relative;border:1px solid var(--border);background:var(--card);
+    color:var(--muted);font-family:inherit;font-weight:700;font-size:14px;
+    padding:12px 4px;border-radius:11px;cursor:pointer;transition:.15s;text-align:center}
+  .grid.concept .cell{font-size:14.5px;padding:14px 8px;line-height:1.35}
+  .cell:hover{border-color:var(--border2);color:var(--text)}
+  .cell.active{border-color:var(--gold);background:var(--card2);color:var(--gold-soft);box-shadow:0 0 0 1px var(--gold) inset}
+  .cell .dot{position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;
+    background:var(--mint);opacity:0;transition:.2s;box-shadow:0 0 6px var(--mint)}
+  .cell.seen .dot{opacity:1}
+
+  /* Card */
+  .card{background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--border);border-radius:18px;padding:22px 20px 20px;
+    box-shadow:var(--shadow);min-height:200px}
+  .card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;
+    padding-bottom:14px;border-bottom:1px dashed var(--border)}
+  .no{font-size:19px;font-weight:800;color:var(--gold-soft)}
+  .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em}
+  .tag.type{background:rgba(79,209,197,.13);color:var(--mint);border:1px solid rgba(79,209,197,.3)}
+  .tag.hot{background:rgba(240,122,122,.13);color:var(--hot);border:1px solid rgba(240,122,122,.3)}
+  .tag.write{background:rgba(227,181,62,.13);color:var(--gold-soft);border:1px solid rgba(227,181,62,.3)}
+  .tag.unit{margin-left:auto;background:var(--bg2);color:var(--muted2);border:1px solid var(--border)}
+
+  .q{font-size:16px;color:var(--text);line-height:1.85}
+  .figure-note{font-size:12.5px;color:var(--muted2);margin-top:6px}
+  .choices{list-style:none;margin:16px 0 4px;display:grid;gap:7px}
+  .choices li{font-size:15px;padding:9px 13px;border:1px solid var(--border);
+    border-radius:10px;background:var(--bg2);color:var(--muted)}
+  .choices li .ci{color:var(--gold-dim);font-weight:700;margin-right:8px}
+
+  /* Concept card body */
+  .concept-body{font-size:15.5px}
+  .concept-body h3{font-size:15px;color:var(--gold-soft);font-weight:700;margin:18px 0 6px}
+  .concept-body h3:first-child{margin-top:0}
+  .concept-body p{color:#cfd7e6;margin:4px 0}
+  .concept-body .ml{margin-left:2px}
+  .concept-body .lead{color:var(--muted);font-size:13.5px;margin-bottom:10px}
+
+  /* Solution */
+  .sol-btn{margin-top:18px;width:100%;border:1px solid var(--gold-dim);
+    background:linear-gradient(180deg,rgba(227,181,62,.12),rgba(227,181,62,.04));
+    color:var(--gold-soft);font-family:inherit;font-weight:700;font-size:15px;
+    padding:13px;border-radius:12px;cursor:pointer;transition:.15s}
+  .sol-btn:hover{background:rgba(227,181,62,.18)}
+  .sol{display:none;margin-top:14px;padding:16px 16px 6px;border-radius:12px;
+    background:var(--bg2);border:1px solid var(--border)}
+  .sol.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .sol .ans{display:inline-block;font-weight:800;color:#1a1304;background:var(--gold-soft);
+    padding:3px 12px;border-radius:999px;font-size:14px;margin-bottom:10px}
+  .sol p{font-size:15px;color:#d7deec;margin:7px 0;line-height:1.9}
+
+  /* Nav */
+  .nav{display:flex;gap:10px;margin-top:18px}
+  .nav button{flex:1;border:1px solid var(--border);background:var(--card);color:var(--text);
+    font-family:inherit;font-weight:700;font-size:15px;padding:13px;border-radius:12px;cursor:pointer;transition:.15s}
+  .nav button:hover:not(:disabled){border-color:var(--gold);color:var(--gold-soft)}
+  .nav button:disabled{opacity:.35;cursor:default}
+  .pos{flex:0 0 auto;align-self:center;font-size:13px;color:var(--muted2);padding:0 4px;min-width:54px;text-align:center}
+
+  footer{margin-top:28px;text-align:center;font-size:12px;color:var(--muted2);line-height:1.7}
+  footer .src{color:var(--muted)}
+
+  @media (max-width:420px){
+    .grid.problem{grid-template-columns:repeat(4,1fr)}
+    h1{font-size:22px}
+    .q{font-size:15px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">대수 · Ⅱ 삼각함수</div>
+    <h1>삼각함수의 활용</h1>
+    <div class="sub">사인법칙 · 코사인법칙 · 삼각형과 사각형의 넓이</div>
+  </header>
+
+  <div class="modes">
+    <button id="m-concept" class="on" onclick="setMode('concept')">개념</button>
+    <button id="m-problem" onclick="setMode('problem')">예제 25</button>
+  </div>
+
+  <div id="grid" class="grid concept"></div>
+
+  <!-- ===================== 개념 카드 ===================== -->
+  <div id="concept-cards">
+    <div class="card" data-label="사인법칙">
+      <div class="card-head"><span class="no">개념 1</span><span class="tag type">사인법칙</span><span class="tag unit">유형 01</span></div>
+      <div class="concept-body">
+        <p class="lead">삼각형 ABC의 외접원의 반지름의 길이를 $R$이라 할 때</p>
+        <p>$$\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R$$</p>
+        <h3>변형</h3>
+        <p class="ml">$\sin A=\dfrac{a}{2R},\quad \sin B=\dfrac{b}{2R},\quad \sin C=\dfrac{c}{2R}$</p>
+        <p class="ml">$a=2R\sin A,\quad b=2R\sin B,\quad c=2R\sin C$</p>
+        <p class="ml">$a:b:c=\sin A:\sin B:\sin C$</p>
+      </div>
+    </div>
+
+    <div class="card" data-label="코사인법칙">
+      <div class="card-head"><span class="no">개념 2</span><span class="tag type">코사인법칙</span><span class="tag unit">유형 02</span></div>
+      <div class="concept-body">
+        <p class="lead">삼각형 ABC에서</p>
+        <p>$a^2=b^2+c^2-2bc\cos A$</p>
+        <p>$b^2=c^2+a^2-2ca\cos B$</p>
+        <p>$c^2=a^2+b^2-2ab\cos C$</p>
+        <h3>변형</h3>
+        <p>$\cos A=\dfrac{b^2+c^2-a^2}{2bc}$</p>
+        <p>$\cos B=\dfrac{c^2+a^2-b^2}{2ca}$</p>
+        <p>$\cos C=\dfrac{a^2+b^2-c^2}{2ab}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-label="삼각형의 넓이">
+      <div class="card-head"><span class="no">개념 3</span><span class="tag type">삼각형의 넓이</span><span class="tag unit">유형 03</span></div>
+      <div class="concept-body">
+        <p class="lead">삼각형 ABC의 넓이를 $S$라 하면</p>
+        <p>$$S=\tfrac12 bc\sin A=\tfrac12 ca\sin B=\tfrac12 ab\sin C$$</p>
+        <h3>내접원의 반지름이 $r$일 때</h3>
+        <p class="ml">$S=\dfrac12\,r(a+b+c)$</p>
+        <h3>외접원의 반지름이 $R$일 때</h3>
+        <p class="ml">$S=\dfrac{abc}{4R}=2R^2\sin A\sin B\sin C$</p>
+      </div>
+    </div>
+
+    <div class="card" data-label="사각형의 넓이">
+      <div class="card-head"><span class="no">개념 4</span><span class="tag type">사각형의 넓이</span></div>
+      <div class="concept-body">
+        <p class="lead">사각형 ABCD의 넓이는 두 삼각형 ABC, ACD의 넓이의 합으로 구할 수 있다.</p>
+        <h3>평행사변형의 넓이</h3>
+        <p class="ml">이웃한 두 변의 길이가 $a,\,b$, 끼인각이 $\theta$일 때 &nbsp; $S=ab\sin\theta$</p>
+        <h3>두 대각선이 주어진 사각형</h3>
+        <p class="ml">두 대각선의 길이가 $x,\,y$, 이루는 각이 $\theta$일 때 &nbsp; $S=\dfrac12\,xy\sin\theta$</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 예제 카드 ===================== -->
+  <div id="problem-cards">
+
+    <!-- ===== 유형 01 사인법칙 ===== -->
+    <div class="card" data-no="440">
+      <div class="card-head"><span class="no">440</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $A=60^\circ$, $\overline{BC}=12$일 때, 삼각형 ABC의 외접원의 반지름의 길이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$3$</li><li><span class="ci">②</span>$3\sqrt3$</li><li><span class="ci">③</span>$6$</li><li><span class="ci">④</span>$4\sqrt3$</li><li><span class="ci">⑤</span>$7$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ④ &nbsp;$4\sqrt3$</span>
+        <p>외접원의 반지름을 $R$이라 하면 사인법칙에 의하여 $\dfrac{12}{\sin 60^\circ}=2R$</p>
+        <p>$\therefore R=\dfrac{12}{2\cdot\frac{\sqrt3}{2}}=4\sqrt3$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="441">
+      <div class="card-head"><span class="no">441</span><span class="tag hot">빈출</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $A=75^\circ$, $B=45^\circ$, $b=4$일 때, $c$의 값과 외접원의 반지름 $R$의 값을 각각 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$c=2\sqrt6,\ R=2\sqrt2$</span>
+        <p>$A+B+C=180^\circ$이므로 $C=60^\circ$</p>
+        <p>사인법칙: $\dfrac{4}{\sin 45^\circ}=\dfrac{c}{\sin 60^\circ}=2R$</p>
+        <p>$\therefore c=2\sqrt6,\quad R=2\sqrt2$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="442">
+      <div class="card-head"><span class="no">442</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $a=2$, $b=2\sqrt3$, $A=30^\circ$일 때, $B$, $C$의 값을 각각 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$B=60^\circ,C=90^\circ$ 또는 $B=120^\circ,C=30^\circ$</span>
+        <p>사인법칙: $\dfrac{2}{\sin 30^\circ}=\dfrac{2\sqrt3}{\sin B}$ 이므로 $\sin B=\dfrac{\sqrt3}{2}$</p>
+        <p>$0^\circ<B<180^\circ$이므로 $B=60^\circ$ 또는 $B=120^\circ$</p>
+        <p>$B=60^\circ$이면 $C=90^\circ$, &nbsp;$B=120^\circ$이면 $C=30^\circ$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="443">
+      <div class="card-head"><span class="no">443</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">반지름의 길이가 $2$인 원 O에 내접하는 삼각형 ABC에서 $A=60^\circ$, $B=45^\circ$일 때, $a^2+b^2$의 값을 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$20$</span>
+        <p>외접원의 반지름이 $2$이므로 $2R=4$</p>
+        <p>$\dfrac{a}{\sin 60^\circ}=4 \Rightarrow a=2\sqrt3$, &nbsp;$\dfrac{b}{\sin 45^\circ}=4 \Rightarrow b=2\sqrt2$</p>
+        <p>$\therefore a^2+b^2=12+8=20$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="444">
+      <div class="card-head"><span class="no">444</span><span class="tag hot">빈출</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">삼각형 ABC가 다음 조건을 만족시킬 때, 선분 BC의 길이는?
+        <div class="figure-note">㈎ $9\sin A\cdot\sin(B+C)=4$ &nbsp;&nbsp; ㈏ 외접원의 지름의 길이는 $12$이다.</div></div>
+      <ul class="choices"><li><span class="ci">①</span>$4$</li><li><span class="ci">②</span>$6$</li><li><span class="ci">③</span>$8$</li><li><span class="ci">④</span>$10$</li><li><span class="ci">⑤</span>$12$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ③ &nbsp;$8$</span>
+        <p>$\sin(B+C)=\sin(\pi-A)=\sin A$이므로 ㈎에서 $9\sin^2 A=4$</p>
+        <p>$\sin A=\dfrac23\ (\because 0<A<\pi)$</p>
+        <p>사인법칙: $\dfrac{\overline{BC}}{\sin A}=12 \Rightarrow \overline{BC}=12\cdot\dfrac23=8$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="445">
+      <div class="card-head"><span class="no">445</span><span class="tag hot">빈출</span><span class="tag unit">사인법칙</span></div>
+      <div class="q">반지름의 길이가 $3$인 원에 내접하는 삼각형 ABC의 둘레의 길이가 $12$일 때, $\sin A+\sin B+\sin C$의 값을 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$2$</span>
+        <p>$R=3$, $a+b+c=12$이고 사인법칙에서 $\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R$</p>
+        <p>$\sin A+\sin B+\sin C=\dfrac{a+b+c}{2R}=\dfrac{12}{6}=2$</p>
+      </div>
+    </div>
+
+    <!-- ===== 유형 02 코사인법칙 ===== -->
+    <div class="card" data-no="446">
+      <div class="card-head"><span class="no">446</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $a=3$, $c=2$, $B=60^\circ$일 때, $b$의 값은?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\sqrt3$</li><li><span class="ci">②</span>$2$</li><li><span class="ci">③</span>$\sqrt5$</li><li><span class="ci">④</span>$\sqrt6$</li><li><span class="ci">⑤</span>$\sqrt7$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ⑤ &nbsp;$\sqrt7$</span>
+        <p>코사인법칙: $b^2=c^2+a^2-2ca\cos B=2^2+3^2-2\cdot2\cdot3\cos 60^\circ=13-6=7$</p>
+        <p>$\therefore b=\sqrt7\ (\because b>0)$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="447">
+      <div class="card-head"><span class="no">447</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $a\sin A=c\sin C$가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?</div>
+      <ul class="choices"><li><span class="ci">①</span>정삼각형</li><li><span class="ci">②</span>$A=90^\circ$인 직각삼각형</li><li><span class="ci">③</span>$B=90^\circ$인 직각삼각형</li><li><span class="ci">④</span>$a=b$인 이등변삼각형</li><li><span class="ci">⑤</span>$a=c$인 이등변삼각형</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ⑤ &nbsp;$a=c$인 이등변삼각형</span>
+        <p>사인법칙: $\sin A=\dfrac{a}{2R}$, $\sin C=\dfrac{c}{2R}$를 대입하면</p>
+        <p>$a\cdot\dfrac{a}{2R}=c\cdot\dfrac{c}{2R} \Rightarrow a^2=c^2 \Rightarrow a=c$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="448">
+      <div class="card-head"><span class="no">448</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $a=7$, $b=3$, $c=8$일 때, $A$의 값은?</div>
+      <ul class="choices"><li><span class="ci">①</span>$30^\circ$</li><li><span class="ci">②</span>$45^\circ$</li><li><span class="ci">③</span>$60^\circ$</li><li><span class="ci">④</span>$120^\circ$</li><li><span class="ci">⑤</span>$150^\circ$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ③ &nbsp;$60^\circ$</span>
+        <p>$\cos A=\dfrac{b^2+c^2-a^2}{2bc}=\dfrac{3^2+8^2-7^2}{2\cdot3\cdot8}=\dfrac{24}{48}=\dfrac12$</p>
+        <p>$\therefore A=60^\circ\ (\because 0^\circ<A<180^\circ)$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="449">
+      <div class="card-head"><span class="no">449</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $\overline{AB}=4$, $\overline{CA}=\sqrt{21}$, $B=60^\circ$일 때, 선분 BC의 길이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$2\sqrt3$</li><li><span class="ci">②</span>$4$</li><li><span class="ci">③</span>$2\sqrt5$</li><li><span class="ci">④</span>$2\sqrt6$</li><li><span class="ci">⑤</span>$5$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ⑤ &nbsp;$5$</span>
+        <p>$\overline{BC}=x$라 하면 코사인법칙에서</p>
+        <p>$(\sqrt{21})^2=x^2+4^2-2\cdot x\cdot4\cos 60^\circ \Rightarrow x^2-4x-5=0$</p>
+        <p>$(x-5)(x+1)=0$, &nbsp;$x>0$이므로 $x=5$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="450">
+      <div class="card-head"><span class="no">450</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">$\overline{AB}=3$, $\overline{AD}=4$, $\overline{BF}=6$인 직육면체 ABCD–EFGH가 있다. $\angle BDG=\theta$라 할 때, $\cos\theta$의 값은?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\dfrac{3\sqrt5}{25}$</li><li><span class="ci">②</span>$\dfrac{6\sqrt5}{25}$</li><li><span class="ci">③</span>$\dfrac{9\sqrt5}{25}$</li><li><span class="ci">④</span>$\dfrac{3\sqrt{13}}{65}$</li><li><span class="ci">⑤</span>$\dfrac{8\sqrt{13}}{65}$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ① &nbsp;$\dfrac{3\sqrt5}{25}$</span>
+        <p>$\overline{BD}=\sqrt{3^2+4^2}=5$, &nbsp;$\overline{BG}=\sqrt{4^2+6^2}=2\sqrt{13}$, &nbsp;$\overline{GD}=\sqrt{3^2+6^2}=3\sqrt5$</p>
+        <p>삼각형 BDG에서 코사인법칙: $\cos\theta=\dfrac{\overline{BD}^2+\overline{GD}^2-\overline{BG}^2}{2\cdot\overline{BD}\cdot\overline{GD}}=\dfrac{25+45-52}{2\cdot5\cdot3\sqrt5}=\dfrac{3\sqrt5}{25}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="451">
+      <div class="card-head"><span class="no">451</span><span class="tag hot">빈출</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $\sin A:\sin B:\sin C=7:6:5$일 때, $\cos A$의 값은?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\dfrac15$</li><li><span class="ci">②</span>$\dfrac{\sqrt2}{5}$</li><li><span class="ci">③</span>$\dfrac{\sqrt3}{5}$</li><li><span class="ci">④</span>$\dfrac25$</li><li><span class="ci">⑤</span>$\dfrac{\sqrt5}{5}$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ① &nbsp;$\dfrac15$</span>
+        <p>사인법칙에서 $a:b:c=\sin A:\sin B:\sin C=7:6:5$이므로 $a=7k,\ b=6k,\ c=5k$로 놓으면</p>
+        <p>$\cos A=\dfrac{b^2+c^2-a^2}{2bc}=\dfrac{36k^2+25k^2-49k^2}{2\cdot6k\cdot5k}=\dfrac{12k^2}{60k^2}=\dfrac15$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="452">
+      <div class="card-head"><span class="no">452</span><span class="tag unit">코사인법칙</span></div>
+      <div class="q">삼각형 ABC에서 $A=105^\circ$, $C=45^\circ$, $b=6$일 때, $a$의 값을 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$3\sqrt2+3\sqrt6$</span>
+        <p>$A+B+C=180^\circ$이므로 $B=30^\circ$</p>
+        <p>사인법칙: $\dfrac{c}{\sin 45^\circ}=\dfrac{6}{\sin 30^\circ} \Rightarrow c=6\sqrt2$</p>
+        <p>코사인법칙: $(6\sqrt2)^2=a^2+6^2-2\cdot a\cdot6\cos 45^\circ \Rightarrow a^2-6\sqrt2\,a-36=0$</p>
+        <p>$\therefore a=3\sqrt2+3\sqrt6\ (\because a>0)$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="453">
+      <div class="card-head"><span class="no">453</span><span class="tag hot">빈출</span><span class="tag unit">코사인+사인</span></div>
+      <div class="q">반지름의 길이가 $R$인 원 O에 내접하는 삼각형 ABC에서 $\overline{AB}=5$, $\overline{AC}=7$, $\cos A=\dfrac45$일 때, $R$의 값은?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\dfrac{7\sqrt2}{2}$</li><li><span class="ci">②</span>$\dfrac{13\sqrt2}{4}$</li><li><span class="ci">③</span>$3\sqrt2$</li><li><span class="ci">④</span>$\dfrac{11\sqrt2}{4}$</li><li><span class="ci">⑤</span>$\dfrac{5\sqrt2}{2}$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ⑤ &nbsp;$\dfrac{5\sqrt2}{2}$</span>
+        <p>$\overline{BC}=a$라 하면 코사인법칙: $a^2=5^2+7^2-2\cdot5\cdot7\cdot\dfrac45=18 \Rightarrow a=3\sqrt2$</p>
+        <p>$\cos A=\dfrac45$이므로 $\sin A=\sqrt{1-\cos^2 A}=\dfrac35$</p>
+        <p>사인법칙: $\dfrac{a}{\sin A}=2R \Rightarrow \dfrac{3\sqrt2}{3/5}=2R \Rightarrow R=\dfrac{5\sqrt2}{2}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="454">
+      <div class="card-head"><span class="no">454</span><span class="tag hot">빈출</span><span class="tag unit">코사인+사인</span></div>
+      <div class="q">삼각형 ABC에서 $\overline{AB}=7$, $\overline{BC}=9$, $\overline{CA}=4$일 때, 이 삼각형의 외접원의 반지름의 길이를 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$\dfrac{21\sqrt5}{10}$</span>
+        <p>코사인법칙: $\cos A=\dfrac{7^2+4^2-9^2}{2\cdot7\cdot4}=-\dfrac27$</p>
+        <p>$0^\circ<A<180^\circ$이므로 $\sin A=\sqrt{1-\cos^2 A}=\dfrac{3\sqrt5}{7}$</p>
+        <p>사인법칙: $\dfrac{\overline{BC}}{\sin A}=2R \Rightarrow \dfrac{9}{3\sqrt5/7}=2R \Rightarrow R=\dfrac{21\sqrt5}{10}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="455">
+      <div class="card-head"><span class="no">455</span><span class="tag unit">활용</span></div>
+      <div class="q">원 모양의 연못의 넓이를 구하기 위해 가장자리의 세 지점 A, B, C에서 측정한 결과가 $\overline{AB}=2\sqrt3\,\text{m}$, $\overline{BC}=5\,\text{m}$, $\angle ABC=30^\circ$일 때, 이 연못의 넓이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$4\pi\,\text{m}^2$</li><li><span class="ci">②</span>$5\pi\,\text{m}^2$</li><li><span class="ci">③</span>$6\pi\,\text{m}^2$</li><li><span class="ci">④</span>$7\pi\,\text{m}^2$</li><li><span class="ci">⑤</span>$8\pi\,\text{m}^2$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ④ &nbsp;$7\pi\,\text{m}^2$</span>
+        <p>코사인법칙: $\overline{AC}^2=(2\sqrt3)^2+5^2-2\cdot2\sqrt3\cdot5\cos 30^\circ=37-30=7 \Rightarrow \overline{AC}=\sqrt7$</p>
+        <p>연못의 반지름을 $R$이라 하면 $\dfrac{\overline{AC}}{\sin 30^\circ}=2R \Rightarrow R=\dfrac{\sqrt7}{2\cdot\frac12}=\sqrt7$</p>
+        <p>$\therefore \pi R^2=7\pi\ (\text{m}^2)$</p>
+      </div>
+    </div>
+
+    <!-- ===== 유형 03 삼각형의 넓이 ===== -->
+    <div class="card" data-no="456">
+      <div class="card-head"><span class="no">456</span><span class="tag unit">넓이·판정</span></div>
+      <div class="q">삼각형 ABC에서 $\sin A=2\cos B\sin C$가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?</div>
+      <ul class="choices"><li><span class="ci">①</span>$a=b$인 이등변삼각형</li><li><span class="ci">②</span>$b=c$인 이등변삼각형</li><li><span class="ci">③</span>$c=a$인 이등변삼각형</li><li><span class="ci">④</span>$A=90^\circ$인 직각삼각형</li><li><span class="ci">⑤</span>$B=90^\circ$인 직각삼각형</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ② &nbsp;$b=c$인 이등변삼각형</span>
+        <p>$\sin A=\dfrac{a}{2R}$, $\sin C=\dfrac{c}{2R}$, $\cos B=\dfrac{c^2+a^2-b^2}{2ca}$를 대입하면</p>
+        <p>$\dfrac{a}{2R}=2\cdot\dfrac{c^2+a^2-b^2}{2ca}\cdot\dfrac{c}{2R} \Rightarrow a^2=c^2+a^2-b^2$</p>
+        <p>$b^2=c^2 \Rightarrow b=c$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="457">
+      <div class="card-head"><span class="no">457</span><span class="tag unit">넓이·판정</span></div>
+      <div class="q">삼각형 ABC에서 $a\cos C-c\cos A=b$가 성립할 때, 삼각형 ABC는 어떤 삼각형인가?</div>
+      <ul class="choices"><li><span class="ci">①</span>$A=90^\circ$인 직각삼각형</li><li><span class="ci">②</span>$B=90^\circ$인 직각삼각형</li><li><span class="ci">③</span>$C=90^\circ$인 직각삼각형</li><li><span class="ci">④</span>$b=c$인 이등변삼각형</li><li><span class="ci">⑤</span>$c=a$인 이등변삼각형</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ① &nbsp;$A=90^\circ$인 직각삼각형</span>
+        <p>$\cos A=\dfrac{b^2+c^2-a^2}{2bc}$, $\cos C=\dfrac{a^2+b^2-c^2}{2ab}$를 대입하면</p>
+        <p>$a\cdot\dfrac{a^2+b^2-c^2}{2ab}-c\cdot\dfrac{b^2+c^2-a^2}{2bc}=b$</p>
+        <p>$\dfrac{2a^2-2c^2}{2b}=b \Rightarrow a^2=b^2+c^2 \Rightarrow A=90^\circ$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="458">
+      <div class="card-head"><span class="no">458</span><span class="tag hot">빈출</span><span class="tag unit">삼각형의 넓이</span></div>
+      <div class="q">삼각형 ABC에서 $A=60^\circ$, $\overline{AB}=10$, $\overline{AC}=8$일 때, 삼각형 ABC의 넓이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$10\sqrt3$</li><li><span class="ci">②</span>$20$</li><li><span class="ci">③</span>$20\sqrt3$</li><li><span class="ci">④</span>$30$</li><li><span class="ci">⑤</span>$30\sqrt3$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ③ &nbsp;$20\sqrt3$</span>
+        <p>$S=\dfrac12\cdot\overline{AB}\cdot\overline{AC}\cdot\sin A=\dfrac12\cdot10\cdot8\cdot\sin 60^\circ=20\sqrt3$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="459">
+      <div class="card-head"><span class="no">459</span><span class="tag hot">빈출</span><span class="tag unit">삼각형의 넓이</span></div>
+      <div class="q">삼각형 ABC에서 $\overline{AB}=4$, $\overline{BC}=5$이고 $\cos(A+C)=\dfrac25$일 때, 삼각형 ABC의 넓이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\sqrt{21}$</li><li><span class="ci">②</span>$2\sqrt{21}$</li><li><span class="ci">③</span>$3\sqrt{21}$</li><li><span class="ci">④</span>$4\sqrt{21}$</li><li><span class="ci">⑤</span>$5\sqrt{21}$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ② &nbsp;$2\sqrt{21}$</span>
+        <p>$\cos(A+C)=\cos(\pi-B)=-\cos B=\dfrac25 \Rightarrow \cos B=-\dfrac25$</p>
+        <p>$\sin B=\sqrt{1-\cos^2 B}=\dfrac{\sqrt{21}}{5}$</p>
+        <p>$S=\dfrac12\cdot\overline{AB}\cdot\overline{BC}\cdot\sin B=\dfrac12\cdot4\cdot5\cdot\dfrac{\sqrt{21}}{5}=2\sqrt{21}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="460">
+      <div class="card-head"><span class="no">460</span><span class="tag unit">삼각형의 넓이</span></div>
+      <div class="q">넓이가 $9\sqrt2\,\text{cm}^2$인 삼각형 ABC에서 $\overline{AB}=3\sqrt2\,\text{cm}$, $\overline{AC}=12\,\text{cm}$일 때, 둔각 $A$의 크기는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$\dfrac{7}{12}\pi$</li><li><span class="ci">②</span>$\dfrac23\pi$</li><li><span class="ci">③</span>$\dfrac34\pi$</li><li><span class="ci">④</span>$\dfrac56\pi$</li><li><span class="ci">⑤</span>$\dfrac{11}{12}\pi$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ④ &nbsp;$\dfrac56\pi$</span>
+        <p>$\dfrac12\cdot3\sqrt2\cdot12\cdot\sin A=9\sqrt2 \Rightarrow \sin A=\dfrac12$</p>
+        <p>$A$가 둔각이므로 $\dfrac{\pi}{2}<A<\pi$, &nbsp;$\therefore A=\dfrac56\pi$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="461">
+      <div class="card-head"><span class="no">461</span><span class="tag unit">부채꼴·넓이</span></div>
+      <div class="q">반지름의 길이는 $12$이고 중심각의 크기가 $30^\circ$인 부채꼴 AOB가 있다. 선분 OA 위의 점 C에 대하여 $\overline{OC}=4$일 때, 색칠한 부분(부채꼴에서 삼각형 BOC를 제외)의 넓이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$6\pi-3$</li><li><span class="ci">②</span>$12\pi-12$</li><li><span class="ci">③</span>$12\pi-6$</li><li><span class="ci">④</span>$24\pi-24$</li><li><span class="ci">⑤</span>$24\pi-12$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ② &nbsp;$12\pi-12$</span>
+        <p>부채꼴 넓이 $=\dfrac12\cdot12^2\cdot\dfrac{\pi}{6}=12\pi$</p>
+        <p>삼각형 BOC 넓이 $=\dfrac12\cdot\overline{OB}\cdot\overline{OC}\cdot\sin\dfrac{\pi}{6}=\dfrac12\cdot12\cdot4\cdot\dfrac12=12$</p>
+        <p>$\therefore$ 색칠한 부분 $=12\pi-12$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="462">
+      <div class="card-head"><span class="no">462</span><span class="tag hot">빈출</span><span class="tag write">서술형</span></div>
+      <div class="q">세 변의 길이가 $\overline{AB}=5$, $\overline{BC}=6$, $\overline{CA}=4$인 삼각형 ABC에 대하여 답하고 과정을 서술하시오.
+        <div class="figure-note">⑴ $\cos A$ &nbsp; ⑵ $\sin A$ &nbsp; ⑶ 삼각형 ABC의 넓이</div></div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$\cos A=\dfrac18,\ \sin A=\dfrac{3\sqrt7}{8},\ S=\dfrac{15\sqrt7}{4}$</span>
+        <p>⑴ 코사인법칙: $\cos A=\dfrac{5^2+4^2-6^2}{2\cdot5\cdot4}=\dfrac{5}{40}=\dfrac18$</p>
+        <p>⑵ $0^\circ<A<180^\circ$이므로 $\sin A=\sqrt{1-\left(\dfrac18\right)^2}=\dfrac{3\sqrt7}{8}$</p>
+        <p>⑶ $S=\dfrac12\cdot\overline{AB}\cdot\overline{CA}\cdot\sin A=\dfrac12\cdot5\cdot4\cdot\dfrac{3\sqrt7}{8}=\dfrac{15\sqrt7}{4}$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="463">
+      <div class="card-head"><span class="no">463</span><span class="tag unit">평행사변형</span></div>
+      <div class="q">평행사변형 ABCD에서 $\overline{AB}=6$, $\overline{BC}=10$, $A=120^\circ$일 때, 이 평행사변형의 넓이를 구하시오.</div>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 &nbsp;$30\sqrt3$</span>
+        <p>이웃한 두 변 $6,\,10$과 끼인각 $A=120^\circ$이므로</p>
+        <p>$S=\overline{AB}\cdot\overline{BC}\cdot\sin A=6\cdot10\cdot\sin 120^\circ=60\cdot\dfrac{\sqrt3}{2}=30\sqrt3$</p>
+      </div>
+    </div>
+
+    <div class="card" data-no="464">
+      <div class="card-head"><span class="no">464</span><span class="tag unit">사각형의 넓이</span></div>
+      <div class="q">두 대각선의 길이가 각각 $5$, $6$이고 두 대각선이 이루는 각의 크기가 $\theta$인 사각형 ABCD에서 $\cos\theta=\dfrac45$일 때, 사각형 ABCD의 넓이는?</div>
+      <ul class="choices"><li><span class="ci">①</span>$8$</li><li><span class="ci">②</span>$9$</li><li><span class="ci">③</span>$10$</li><li><span class="ci">④</span>$11$</li><li><span class="ci">⑤</span>$12$</li></ul>
+      <button class="sol-btn" onclick="toggleSol(this)">풀이 보기</button>
+      <div class="sol"><span class="ans">정답 ② &nbsp;$9$</span>
+        <p>$0^\circ<\theta<180^\circ$이므로 $\sin\theta=\sqrt{1-\left(\dfrac45\right)^2}=\dfrac35$</p>
+        <p>$S=\dfrac12\cdot x\cdot y\cdot\sin\theta=\dfrac12\cdot5\cdot6\cdot\dfrac35=9$</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav">
+    <button id="prev" onclick="move(-1)">‹ 이전</button>
+    <span class="pos" id="pos">1 / 4</span>
+    <button id="next" onclick="move(1)">다음 ›</button>
+  </div>
+
+  <footer>
+    <div class="src">출처 · 유형내신고쟁이 대수 — Ⅱ 삼각함수 02</div>
+    <div>지훈쌤 수학 학습허브</div>
+  </footer>
+</div>
+
+<script>
+  var mode = 'concept';
+  var idx = 0;
+  var seen = {}; // {mode: Set of indices}
+  function getCards(m){
+    return document.querySelectorAll('#'+ (m==='concept'?'concept-cards':'problem-cards') +' > .card');
+  }
+  function label(card, i, m){
+    return m==='concept' ? (card.getAttribute('data-label')||(i+1)) : card.getAttribute('data-no');
+  }
+  function buildGrid(){
+    var grid = document.getElementById('grid');
+    grid.className = 'grid '+mode;
+    grid.innerHTML = '';
+    var cards = getCards(mode);
+    cards.forEach(function(card,i){
+      var b = document.createElement('button');
+      b.className = 'cell'+(i===idx?' active':'')+(isSeen(i)?' seen':'');
+      b.innerHTML = '<span>'+label(card,i,mode)+'</span><span class="dot"></span>';
+      b.onclick = function(){ idx=i; render(); };
+      grid.appendChild(b);
+    });
+  }
+  function isSeen(i){ return seen[mode] && seen[mode][i]; }
+  function markSeen(){
+    if(!seen[mode]) seen[mode]={};
+    seen[mode][idx]=true;
+  }
+  function render(){
+    // show only the active card of current mode, hide everything else
+    document.querySelectorAll('#concept-cards > .card, #problem-cards > .card').forEach(function(c){c.style.display='none';});
+    var cards = getCards(mode);
+    if(idx<0) idx=0; if(idx>cards.length-1) idx=cards.length-1;
+    cards[idx].style.display='block';
+    // reset solution open state when navigating
+    cards.forEach(function(c){
+      var s=c.querySelector('.sol'); var btn=c.querySelector('.sol-btn');
+      if(s){ s.classList.remove('show'); if(btn) btn.textContent='풀이 보기'; }
+    });
+    document.getElementById('pos').textContent=(idx+1)+' / '+cards.length;
+    document.getElementById('prev').disabled = idx===0;
+    document.getElementById('next').disabled = idx===cards.length-1;
+    // active grid cell
+    document.querySelectorAll('#grid .cell').forEach(function(c,i){
+      c.classList.toggle('active', i===idx);
+      c.classList.toggle('seen', isSeen(i));
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function setMode(m){
+    if(m===mode) return;
+    mode=m; idx=0;
+    document.getElementById('m-concept').classList.toggle('on', m==='concept');
+    document.getElementById('m-problem').classList.toggle('on', m==='problem');
+    buildGrid(); render();
+  }
+  function move(d){
+    var cards=getCards(mode);
+    var n=idx+d;
+    if(n<0||n>cards.length-1) return;
+    idx=n; render();
+    document.querySelectorAll('#grid .cell').forEach(function(c,i){c.classList.toggle('active', i===idx);});
+  }
+  function toggleSol(btn){
+    var sol=btn.parentElement.querySelector('.sol');
+    var open=sol.classList.toggle('show');
+    btn.textContent= open ? '풀이 닫기' : '풀이 보기';
+    if(open){ markSeen(); var cell=document.querySelectorAll('#grid .cell')[idx]; if(cell) cell.classList.add('seen'); }
+  }
+
+  // keyboard
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowLeft') move(-1);
+    else if(e.key==='ArrowRight') move(1);
+    else if(e.key==='Enter'||e.key===' '){
+      var cards=getCards(mode); var btn=cards[idx].querySelector('.sol-btn');
+      if(btn){ e.preventDefault(); toggleSol(btn); }
+    }
+  });
+
+  // swipe
+  var tx=0, ty=0;
+  document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].clientX;ty=e.changedTouches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ move(dx<0?1:-1); }
+  },{passive:true});
+
+  buildGrid(); render();
+</script>
+</body>
+</html>

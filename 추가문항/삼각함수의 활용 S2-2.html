@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>삼각함수의 활용 · 심화</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{--ink:#0c1019;--ink-2:#141a26;--ink-3:#1c2433;--line:#28324a;--text:#eef2fb;--muted:#8893ad;--gold:#f5b544;--gold-soft:#f5b54422;--mint:#5fd6b4;--rose:#f08fb0;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--ink);color:var(--text);min-height:100vh;background-image:radial-gradient(900px 480px at 50% -8%,#1d2740 0,transparent 60%),radial-gradient(var(--line) 1px,transparent 1px);background-size:100% 100%,22px 22px;background-attachment:fixed;display:flex;justify-content:center;padding:0 16px 56px;line-height:1.55}
+.app{width:100%;max-width:460px;padding-top:calc(22px + env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px;animation:rise .5s ease both}
+.back{width:38px;height:38px;flex:none;border-radius:11px;background:var(--ink-2);border:1px solid var(--line);display:grid;place-items:center;color:var(--text);text-decoration:none;font-size:20px;line-height:1}
+.back:active{background:var(--ink-3)}
+.htitle{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.htitle small{display:block;font-size:12px;font-weight:600;color:var(--gold);margin-top:2px;letter-spacing:0}
+/* 유형 필터 */
+.tabs{display:flex;gap:7px;margin-bottom:13px;animation:rise .5s .04s ease both}
+.tab{flex:1;padding:9px 4px;border-radius:12px;background:var(--ink-2);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:700;text-align:center;cursor:pointer;transition:.15s}
+.tab.on{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.tab:active{transform:scale(.97)}
+/* 번호 그리드 */
+.grid{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;animation:rise .5s .08s ease both}
+.cell{width:38px;height:38px;border-radius:10px;background:var(--ink-2);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:700;display:grid;place-items:center;cursor:pointer;transition:.13s;position:relative}
+.cell:active{transform:scale(.92)}
+.cell.on{background:var(--gold);border-color:var(--gold);color:#1a1205;box-shadow:0 4px 14px var(--gold-soft)}
+.cell.seo::after,.cell.area::after{content:"";position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%}
+.cell.seo::after{background:var(--mint)}
+.cell.area::after{background:var(--rose)}
+/* 카드 */
+.viewer{position:relative;animation:rise .5s .12s ease both}
+.card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px 22px;min-height:280px;box-shadow:0 14px 40px #0006}
+.cmeta{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.cno{font-size:22px;font-weight:900;color:var(--gold);letter-spacing:-.02em}
+.ctag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;border:1px solid var(--line)}
+.ctag.seo{color:var(--mint);border-color:#5fd6b455;background:#5fd6b412}
+.ctag.area{color:var(--rose);border-color:#f08fb055;background:#f08fb012}
+.qbody{font-size:15.5px;color:var(--text);word-break:keep-all}
+.choices{margin-top:14px;display:flex;flex-direction:column;gap:7px}
+.choice{font-size:14.5px;color:#cdd5e8;padding:2px 0}
+.divider{height:1px;background:var(--line);margin:18px 0 0}
+/* 풀이 토글 */
+.soltop{display:flex;align-items:center;justify-content:space-between;padding:14px 0 0}
+.soltop span{font-size:13px;font-weight:700;color:var(--muted)}
+.sw{width:46px;height:26px;border-radius:999px;background:var(--ink-3);border:1px solid var(--line);position:relative;cursor:pointer;transition:.18s;flex:none}
+.sw.on{background:var(--gold-soft);border-color:var(--gold)}
+.sw i{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:.18s}
+.sw.on i{left:22px;background:var(--gold)}
+.sol{margin-top:14px;font-size:14.5px;color:#c6cfe3;display:none;word-break:keep-all}
+.sol.show{display:block;animation:rise .3s ease both}
+.sol .ans{display:inline-block;margin-top:4px;padding:6px 12px;border-radius:10px;background:var(--gold-soft);border:1px solid var(--gold);color:var(--gold);font-weight:800;font-size:14px}
+.sol p{margin:9px 0}
+/* 좌우 버튼 */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:12px}
+.arrow{flex:1;padding:13px;border-radius:13px;background:var(--ink-2);border:1px solid var(--line);color:var(--text);font-size:14px;font-weight:700;cursor:pointer;transition:.13s;display:flex;align-items:center;justify-content:center;gap:6px}
+.arrow:active{transform:scale(.97);background:var(--ink-3)}
+.arrow:disabled{opacity:.35;cursor:default}
+.counter{font-size:13px;font-weight:700;color:var(--muted);min-width:62px;text-align:center}
+mjx-container{overflow-x:auto;overflow-y:visible !important}
+mjx-container[display="true"]{margin:6px 0 !important}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hint{text-align:center;font-size:11.5px;color:var(--muted);margin-top:13px;opacity:.7}
+</style></head>
+<body><div class="app">
+<div class="top">
+  <a class="back" href="sub-algebra.html">‹</a>
+  <div class="htitle">삼각함수의 활용<small>STEP 2 · 심화 유형 (494–520)</small></div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab on" data-f="all">전체</div>
+  <div class="tab" data-f="seo">사인·코사인법칙</div>
+  <div class="tab" data-f="area">삼각형의 넓이</div>
+</div>
+<div class="grid" id="grid"></div>
+<div class="viewer">
+  <div class="card">
+    <div class="cmeta"><span class="cno" id="cno"></span><span class="ctag" id="ctag"></span></div>
+    <div class="qbody" id="qbody"></div>
+    <div class="choices" id="choices"></div>
+    <div class="soltop"><span>풀이 보기</span><div class="sw" id="sw"><i></i></div></div>
+    <div class="sol" id="sol"></div>
+  </div>
+  <div class="nav">
+    <button class="arrow" id="prev">‹ 이전</button>
+    <div class="counter" id="counter"></div>
+    <button class="arrow" id="next">다음 ›</button>
+  </div>
+  <div class="hint">← → 키 · 좌우 스와이프로 이동</div>
+</div>
+</div>
+
+<script>
+window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},svg:{fontCache:'global'},options:{enableMenu:false},startup:{typeset:false}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+
+<script>
+// type: 'seo' = 사인·코사인법칙 활용 / 'area' = 삼각형의 넓이
+const P=[
+{no:494,type:'seo',q:`선분 $\\mathrm{AB}$를 지름으로 하는 원 위의 점 $\\mathrm C$에 대하여 $\\overline{\\mathrm{BC}}=12\\sqrt2$, $\\cos(\\angle\\mathrm{CAB})=\\dfrac13$이다. 선분 $\\mathrm{AB}$를 $5:4$로 내분하는 점을 $\\mathrm D$라 할 때, 삼각형 $\\mathrm{CAD}$의 외접원의 넓이는 $S$이다. $\\dfrac{S}{\\pi}$의 값을 구하시오.`,c:null,a:`$\\dfrac{S}{\\pi}=27$`,
+s:`$\\angle\\mathrm{BCA}=\\dfrac{\\pi}{2}$인 직각삼각형이고 $\\angle\\mathrm{CAB}=\\alpha$라 하면 $\\cos\\alpha=\\dfrac13,\\ \\sin\\alpha=\\dfrac{2\\sqrt2}{3}$.<p>$\\overline{\\mathrm{AB}}=\\dfrac{\\overline{\\mathrm{BC}}}{\\sin\\alpha}=18,\\ \\overline{\\mathrm{AC}}=\\overline{\\mathrm{AB}}\\cos\\alpha=6,\\ \\overline{\\mathrm{AD}}=18\\cdot\\dfrac59=10$</p><p>코사인법칙: $\\overline{\\mathrm{DC}}^2=6^2+10^2-2\\cdot6\\cdot10\\cdot\\dfrac13=96,\\ \\overline{\\mathrm{DC}}=4\\sqrt6$</p><p>사인법칙: $\\dfrac{\\overline{\\mathrm{DC}}}{\\sin\\alpha}=2R\\Rightarrow R=\\dfrac{4\\sqrt6}{2\\cdot\\frac{2\\sqrt2}{3}}=3\\sqrt3$</p><p>$S=\\pi(3\\sqrt3)^2=27\\pi$</p>`},
+
+{no:495,type:'seo',q:`정삼각형 $\\mathrm{ABC}$가 반지름의 길이가 $r$인 원에 내접하고 있다. 선분 $\\mathrm{AC}$와 선분 $\\mathrm{BD}$가 만나고 $\\overline{\\mathrm{BD}}=\\sqrt2$가 되도록 원 위에서 점 $\\mathrm D$를 잡는다. $\\angle\\mathrm{DBC}=\\theta$라 할 때 $\\sin\\theta=\\dfrac{\\sqrt3}{3}$이다. $r$의 값은?`,c:[`$\\dfrac{6-\\sqrt6}{5}$`,`$\\dfrac{6-\\sqrt5}{5}$`,`$\\dfrac45$`,`$\\dfrac{6-\\sqrt3}{5}$`,`$\\dfrac{6-\\sqrt2}{5}$`],a:`① $\\dfrac{6-\\sqrt6}{5}$`,
+s:`호 $\\mathrm{BC}$의 원주각이므로 $\\angle\\mathrm{BDC}=\\angle\\mathrm{BAC}=\\dfrac{\\pi}{3}$.<p>사인법칙: $\\dfrac{\\overline{\\mathrm{CD}}}{\\sin\\theta}=2r,\\ \\dfrac{\\overline{\\mathrm{BC}}}{\\sin\\frac{\\pi}{3}}=2r$이므로 $\\overline{\\mathrm{CD}}=\\dfrac{2\\sqrt3}{3}r,\\ \\overline{\\mathrm{BC}}=\\sqrt3\\,r$</p><p>코사인법칙(△BCD): $(\\sqrt3r)^2=(\\sqrt2)^2+\\Big(\\dfrac{2\\sqrt3}{3}r\\Big)^2-2\\cdot\\sqrt2\\cdot\\dfrac{2\\sqrt3}{3}r\\cdot\\dfrac12$</p><p>$5r^2+2\\sqrt6\\,r-6=0\\Rightarrow r=\\dfrac{6-\\sqrt6}{5}\\ (\\because r\\gt0)$</p>`},
+
+{no:496,type:'seo',q:`한 모서리의 길이가 $3$인 정사면체 $\\mathrm{OABC}$에서 모서리 $\\mathrm{AB}$를 $1:2$로 내분하는 점을 $\\mathrm M$이라 하자. 점 $\\mathrm M$을 출발하여 두 모서리 $\\mathrm{OB},\\mathrm{OC}$ 위를 움직이는 두 점 $\\mathrm P,\\mathrm Q$를 차례로 지나 점 $\\mathrm A$에 이르는 최단 거리는?`,c:[`$3\\sqrt3$`,`$2\\sqrt7$`,`$\\sqrt{29}$`,`$\\sqrt{30}$`,`$\\sqrt{31}$`],a:`⑤ $\\sqrt{31}$`,
+s:`전개도에서 최단 거리는 $\\overline{\\mathrm{MA'}}$와 같다.<p>$\\overline{\\mathrm{AM}}=1,\\ \\overline{\\mathrm{AA'}}=6,\\ \\angle\\mathrm{MAA'}=60^\\circ$</p><p>코사인법칙(△AMA'): $\\overline{\\mathrm{MA'}}^2=1^2+6^2-2\\cdot1\\cdot6\\cos60^\\circ=31$</p><p>$\\therefore\\ \\overline{\\mathrm{MA'}}=\\sqrt{31}$</p>`},
+
+{no:497,type:'seo',q:`밑면의 반지름의 길이가 $4\\,\\mathrm{km}$, 모선의 길이가 $12\\,\\mathrm{km}$인 원뿔 모양의 산이 있다. $\\mathrm A$지점에서 산을 한 바퀴 돌아 $\\mathrm A$지점으로부터 $3\\,\\mathrm{km}$ 떨어진 모선 $\\mathrm{OA}$ 위의 $\\mathrm B$지점에 이르는 최단 거리의 등산로의 길이는?`,c:[`$\\sqrt{13}\\,\\mathrm{km}$`,`$\\sqrt{37}\\,\\mathrm{km}$`,`$3\\sqrt{13}\\,\\mathrm{km}$`,`$2\\sqrt{37}\\,\\mathrm{km}$`,`$3\\sqrt{37}\\,\\mathrm{km}$`],a:`⑤ $3\\sqrt{37}\\,\\mathrm{km}$`,
+s:`전개도에서 부채꼴의 중심각 $\\theta$는 $12\\theta=2\\pi\\cdot4=8\\pi\\Rightarrow\\theta=\\dfrac{2}{3}\\pi$.<p>$\\overline{\\mathrm{OA}}=12,\\ \\overline{\\mathrm{OB}}=12-3=9$</p><p>코사인법칙(△AOB): $\\overline{\\mathrm{AB}}^2=12^2+9^2-2\\cdot12\\cdot9\\cos\\dfrac{2}{3}\\pi=333$</p><p>$\\therefore\\ \\overline{\\mathrm{AB}}=3\\sqrt{37}\\,\\mathrm{km}$</p>`},
+
+{no:498,type:'seo',q:`$\\overline{\\mathrm{AC}}=240\\,\\mathrm m,\\ \\overline{\\mathrm{BC}}=60\\,\\mathrm m$인 $\\mathrm C$지점에 카메라를 두었다. $\\mathrm A$지점에서 친 공이 $\\mathrm D$지점에 떨어졌을 때 $\\angle\\mathrm{CAD}=\\angle\\mathrm{ACD}=30^\\circ$였다. $\\angle\\mathrm{BCD}=30^\\circ$일 때, $\\mathrm D$지점에서 $\\mathrm B$지점까지의 직선거리는?`,c:[`$18\\sqrt{21}\\,\\mathrm m$`,`$20\\sqrt{21}\\,\\mathrm m$`,`$22\\sqrt{21}\\,\\mathrm m$`,`$24\\sqrt{21}\\,\\mathrm m$`,`$26\\sqrt{21}\\,\\mathrm m$`],a:`② $20\\sqrt{21}\\,\\mathrm m$`,
+s:`$\\mathrm D$에서 $\\overline{\\mathrm{AC}}$에 내린 수선의 발 $\\mathrm H$. 이등변삼각형이므로 $\\overline{\\mathrm{CH}}=120$.<p>$\\overline{\\mathrm{CD}}=\\dfrac{120}{\\cos30^\\circ}=80\\sqrt3$</p><p>코사인법칙(△BCD): $\\overline{\\mathrm{BD}}^2=60^2+(80\\sqrt3)^2-2\\cdot60\\cdot80\\sqrt3\\cos30^\\circ=8400$</p><p>$\\therefore\\ \\overline{\\mathrm{BD}}=20\\sqrt{21}\\,\\mathrm m$</p>`},
+
+{no:499,type:'area',q:`삼각형 $\\mathrm{ABC}$에서 $\\overline{\\mathrm{AB}}=\\sqrt2,\\ \\overline{\\mathrm{BC}}=\\sqrt{17}$이고 $A=135^\\circ$일 때, 삼각형 $\\mathrm{ABC}$의 넓이를 구하시오.`,c:null,a:`$\\dfrac32$`,
+s:`코사인법칙: $(\\sqrt{17})^2=(\\sqrt2)^2+b^2-2\\sqrt2\\,b\\cos135^\\circ$<p>$b^2+2b-15=0,\\ (b-3)(b+5)=0\\Rightarrow b=3$ 즉 $\\overline{\\mathrm{AC}}=3$</p><p>넓이 $=\\dfrac12\\cdot\\sqrt2\\cdot3\\cdot\\sin135^\\circ=\\dfrac12\\cdot\\sqrt2\\cdot3\\cdot\\dfrac{\\sqrt2}{2}=\\dfrac32$</p>`},
+
+{no:500,type:'area',q:`세 변의 길이가 $4,\\,5,\\,7$인 삼각형의 내접원의 반지름의 길이는?`,c:[`$\\dfrac{\\sqrt3}{2}$`,`$\\dfrac{\\sqrt6}{2}$`,`$2$`,`$\\sqrt6$`,`$2\\sqrt3$`],a:`② $\\dfrac{\\sqrt6}{2}$`,
+s:`$a=7,b=5,c=4$. 코사인법칙: $\\cos A=\\dfrac{5^2+4^2-7^2}{2\\cdot5\\cdot4}=-\\dfrac15,\\ \\sin A=\\dfrac{2\\sqrt6}{5}$<p>넓이 공식 두 가지를 같게: $\\dfrac12 r(7+5+4)=\\dfrac12\\cdot5\\cdot4\\cdot\\dfrac{2\\sqrt6}{5}$</p><p>$8r=4\\sqrt6\\Rightarrow r=\\dfrac{\\sqrt6}{2}$</p>`},
+
+{no:501,type:'area',q:`삼각형 $\\mathrm{ABC}$에서 $A=120^\\circ,\\ a=5,\\ b+c=\\sqrt{33}$일 때, 삼각형 $\\mathrm{ABC}$의 넓이는?`,c:[`$\\dfrac{2\\sqrt3}{3}$`,`$2$`,`$2\\sqrt3$`,`$6$`,`$6\\sqrt3$`],a:`③ $2\\sqrt3$`,
+s:`코사인법칙: $5^2=b^2+c^2-2bc\\cos120^\\circ=(b+c)^2-bc=33-bc$<p>$\\therefore\\ bc=8$</p><p>넓이 $=\\dfrac12 bc\\sin120^\\circ=\\dfrac12\\cdot8\\cdot\\dfrac{\\sqrt3}{2}=2\\sqrt3$</p>`},
+
+{no:502,type:'area',q:`세 변의 길이가 $a,b,c$인 삼각형 $\\mathrm{ABC}$의 넓이를 $S$, 외접원의 반지름을 $R$이라 할 때, $S=\\dfrac{abc}{4R}$임을 증명하시오.`,c:null,a:`풀이 참조`,
+s:`사인법칙: $\\dfrac{c}{\\sin C}=2R\\Rightarrow\\sin C=\\dfrac{c}{2R}$<p>$S=\\dfrac12 ab\\sin C=\\dfrac12 ab\\cdot\\dfrac{c}{2R}=\\dfrac{abc}{4R}$</p>`},
+
+{no:503,type:'area',q:`삼각형 $\\mathrm{ABC}$의 외접원의 반지름이 $6$, 내접원의 반지름이 $3$일 때, $\\dfrac{\\sin A+\\sin B+\\sin C}{\\sin A\\sin B\\sin C}$의 값을 구하시오.`,c:null,a:`$4$`,
+s:`$\\dfrac{a}{\\sin A}=2R=12$이므로 $\\sin A=\\dfrac{a}{12}$ 등.<p>$S=\\dfrac12 ab\\sin C=\\dfrac{abc}{24}$, 또 $S=\\dfrac12\\cdot3\\cdot(a+b+c)$</p><p>$\\Rightarrow\\dfrac{a+b+c}{abc}=\\dfrac{1}{36}$</p><p>$\\dfrac{\\sin A+\\sin B+\\sin C}{\\sin A\\sin B\\sin C}=\\dfrac{(a+b+c)/12}{abc/12^3}=\\dfrac{12^2(a+b+c)}{abc}=144\\cdot\\dfrac{1}{36}=4$</p>`},
+
+{no:504,type:'area',q:`$\\overline{\\mathrm{AB}}=5,\\ \\overline{\\mathrm{BC}}=6,\\ \\overline{\\mathrm{CA}}=4$인 삼각형 $\\mathrm{ABC}$에서 선분 $\\mathrm{BC}$를 한 변으로 하는 정사각형 $\\mathrm{BEDC}$를 만들었다. 삼각형 $\\mathrm{ABE}$의 넓이는?`,c:[`$\\dfrac{15}{2}$`,`$9$`,`$\\dfrac{45}{4}$`,`$15$`,`$\\dfrac{45}{2}$`],a:`③ $\\dfrac{45}{4}$`,
+s:`$\\cos(\\angle\\mathrm{ABC})=\\dfrac{5^2+6^2-4^2}{2\\cdot5\\cdot6}=\\dfrac34$<p>$\\angle\\mathrm{ABE}=\\angle\\mathrm{ABC}+90^\\circ$이므로 $\\sin(\\angle\\mathrm{ABE})=\\cos(\\angle\\mathrm{ABC})=\\dfrac34$</p><p>넓이 $=\\dfrac12\\cdot5\\cdot6\\cdot\\dfrac34=\\dfrac{45}{4}$</p>`},
+
+{no:505,type:'area',q:`$\\overline{\\mathrm{AB}}=5,\\ \\overline{\\mathrm{AC}}=3,\\ C=90^\\circ$인 직각삼각형 $\\mathrm{ABC}$에 두 변 $\\mathrm{AB},\\mathrm{AC}$를 각각 한 변으로 하는 정사각형을 그렸다. 삼각형 $\\mathrm{ADE}$의 넓이는?`,c:[`$3\\sqrt2$`,`$3\\sqrt3$`,`$6$`,`$6\\sqrt2$`,`$6\\sqrt3$`],a:`③ $6$`,
+s:`$\\overline{\\mathrm{BC}}=4$, $\\angle\\mathrm{BAC}=\\theta$라 하면 $\\sin\\theta=\\dfrac45$.<p>$\\overline{\\mathrm{AD}}=3,\\ \\overline{\\mathrm{AE}}=5,\\ \\angle\\mathrm{DAE}=\\pi-\\theta$</p><p>넓이 $=\\dfrac12\\cdot3\\cdot5\\cdot\\sin(\\pi-\\theta)=\\dfrac12\\cdot15\\cdot\\dfrac45=6$</p>`},
+
+{no:506,type:'area',q:`$A=120^\\circ,\\ \\overline{\\mathrm{AB}}=10,\\ \\overline{\\mathrm{AC}}=6$인 삼각형 $\\mathrm{ABC}$에서 $\\angle A$의 이등분선과 변 $\\mathrm{BC}$가 만나는 점을 $\\mathrm D$라 할 때, 선분 $\\mathrm{AD}$의 길이는?`,c:[`$\\dfrac{11}{4}$`,`$3$`,`$\\dfrac{13}{4}$`,`$\\dfrac{15}{4}$`,`$4$`],a:`④ $\\dfrac{15}{4}$`,
+s:`$\\overline{\\mathrm{AD}}=x$. 넓이 분할: $\\triangle\\mathrm{ABC}=\\triangle\\mathrm{ABD}+\\triangle\\mathrm{ACD}$<p>$\\dfrac12\\cdot10\\cdot6\\sin120^\\circ=\\dfrac12\\cdot10\\cdot x\\sin60^\\circ+\\dfrac12\\cdot x\\cdot6\\sin60^\\circ$</p><p>$15\\sqrt3=\\dfrac{5\\sqrt3}{2}x+\\dfrac{3\\sqrt3}{2}x=4\\sqrt3\\,x\\Rightarrow x=\\dfrac{15}{4}$</p>`},
+
+{no:507,type:'area',q:`$\\overline{\\mathrm{AB}}=8,\\ \\overline{\\mathrm{AC}}=10$인 삼각형 $\\mathrm{ABC}$에서 선분 $\\mathrm{BC}$의 중점을 $\\mathrm M$이라 하자. $\\angle\\mathrm{BAM}=\\alpha,\\ \\angle\\mathrm{CAM}=\\beta$라 할 때 $\\dfrac{\\sin\\alpha}{\\sin\\beta}$의 값은?`,c:[`$\\dfrac35$`,`$\\dfrac45$`,`$\\dfrac54$`,`$\\dfrac85$`,`$\\dfrac53$`],a:`③ $\\dfrac54$`,
+s:`$\\mathrm M$이 중점이므로 $\\triangle\\mathrm{BAM}=\\triangle\\mathrm{CAM}$.<p>$\\dfrac12\\cdot8\\cdot\\overline{\\mathrm{AM}}\\sin\\alpha=\\dfrac12\\cdot10\\cdot\\overline{\\mathrm{AM}}\\sin\\beta$</p><p>$\\therefore\\ \\dfrac{\\sin\\alpha}{\\sin\\beta}=\\dfrac{10}{8}=\\dfrac54$</p>`},
+
+{no:508,type:'area',q:`반지름의 길이가 $6$인 원 위의 세 점 $\\mathrm A,\\mathrm B,\\mathrm C$에 대하여 $\\overgroup{\\mathrm{AB}}:\\overgroup{\\mathrm{BC}}:\\overgroup{\\mathrm{CA}}=3:4:5$일 때, 삼각형 $\\mathrm{ABC}$의 넓이를 구하시오.`,c:null,a:`$27+9\\sqrt3$`,
+s:`호의 길이는 중심각에 비례하므로 $\\angle\\mathrm{AOB}=90^\\circ,\\ \\angle\\mathrm{BOC}=120^\\circ,\\ \\angle\\mathrm{COA}=150^\\circ$.<p>$\\triangle\\mathrm{ABC}=\\dfrac12\\cdot6\\cdot6(\\sin90^\\circ+\\sin120^\\circ+\\sin150^\\circ)$</p><p>$=18\\Big(1+\\dfrac{\\sqrt3}{2}+\\dfrac12\\Big)=27+9\\sqrt3$</p>`},
+
+{no:509,type:'area',q:`삼각형 $\\mathrm{ABC}$에서 $\\sin A:\\sin B:\\sin C=4:5:6$이고 넓이가 $\\dfrac{15\\sqrt7}{16}$일 때, 둘레의 길이 $l$과 외접원의 넓이 $S$를 각각 구하시오.`,c:null,a:`$l=\\dfrac{15}{2},\\ S=\\dfrac{16}{7}\\pi$`,
+s:`$a:b:c=4:5:6$이므로 $a=4k,b=5k,c=6k$.<p>$\\cos C=\\dfrac{16k^2+25k^2-36k^2}{2\\cdot4k\\cdot5k}=\\dfrac18,\\ \\sin C=\\dfrac{3\\sqrt7}{8}$</p><p>넓이 $=\\dfrac12\\cdot4k\\cdot5k\\cdot\\dfrac{3\\sqrt7}{8}=\\dfrac{15\\sqrt7}{4}k^2=\\dfrac{15\\sqrt7}{16}\\Rightarrow k=\\dfrac12$</p><p>$a=2,b=\\dfrac52,c=3\\Rightarrow l=\\dfrac{15}{2}$</p><p>$R=\\dfrac{c}{2\\sin C}=\\dfrac{4}{\\sqrt7}\\Rightarrow S=\\pi R^2=\\dfrac{16}{7}\\pi$</p>`},
+
+{no:510,type:'area',q:`한 변의 길이가 $8$인 정삼각형 모양의 종이를 한 꼭짓점이 그 대변을 $3:1$로 내분하는 점 위에 오도록 접었을 때, 접힌 색칠한 부분의 넓이는?`,c:[`$\\dfrac{169\\sqrt3}{140}$`,`$\\dfrac{169}{70}$`,`$\\dfrac{169\\sqrt3}{70}$`,`$\\dfrac{169}{35}$`,`$\\dfrac{169\\sqrt3}{35}$`],a:`⑤ $\\dfrac{169\\sqrt3}{35}$`,
+s:`색칠 삼각형을 $\\mathrm{DEF}$라 하면 $\\mathrm E$가 $\\overline{\\mathrm{BC}}$를 $3:1$로 내분 $\\Rightarrow\\overline{\\mathrm{BE}}=6,\\ \\overline{\\mathrm{EC}}=2$.<p>$\\overline{\\mathrm{AD}}=x$라 하면 $\\overline{\\mathrm{DE}}=x,\\ \\overline{\\mathrm{DB}}=8-x,\\ \\angle\\mathrm{DBE}=60^\\circ$</p><p>$x^2=6^2+(8-x)^2-2\\cdot6(8-x)\\cos60^\\circ\\Rightarrow x=\\dfrac{26}{5}$</p><p>같은 방법으로 $\\overline{\\mathrm{AF}}=y\\Rightarrow y=\\dfrac{26}{7}$</p><p>$\\triangle\\mathrm{DEF}=\\dfrac12 xy\\sin60^\\circ=\\dfrac12\\cdot\\dfrac{26}{5}\\cdot\\dfrac{26}{7}\\cdot\\dfrac{\\sqrt3}{2}=\\dfrac{169\\sqrt3}{35}$</p>`},
+
+{no:511,type:'area',q:`삼각형 $\\mathrm{ABC}$의 세 변 $\\mathrm{AB},\\mathrm{BC},\\mathrm{CA}$를 $1:2$로 내분하는 점을 각각 $\\mathrm D,\\mathrm E,\\mathrm F$라 할 때, 삼각형 $\\mathrm{ABC}$와 삼각형 $\\mathrm{DEF}$의 넓이의 비는?`,c:[`$2:1$`,`$3:1$`,`$3:2$`,`$4:1$`,`$4:3$`],a:`② $3:1$`,
+s:`$\\triangle\\mathrm{ABC}=S$라 하면 $\\triangle\\mathrm{ADF}=\\dfrac12\\cdot\\dfrac c3\\cdot\\dfrac{2b}{3}\\sin A=\\dfrac19 bc\\sin A=\\dfrac29 S$.<p>같은 방법으로 $\\triangle\\mathrm{BED}=\\triangle\\mathrm{CEF}=\\dfrac29 S$</p><p>$\\triangle\\mathrm{DEF}=S-3\\cdot\\dfrac29 S=\\dfrac13 S$</p><p>$\\therefore\\ S:\\dfrac13 S=3:1$</p>`},
+
+{no:512,type:'area',q:`한 변의 길이가 $4\\sqrt2$인 정삼각형 $\\mathrm{ABC}$의 내부의 한 점 $\\mathrm P$에서 세 변 $\\mathrm{AB},\\mathrm{BC},\\mathrm{CA}$에 내린 수선의 발을 각각 $\\mathrm D,\\mathrm E,\\mathrm F$라 하자. 삼각형 $\\mathrm{DEF}$의 넓이가 $\\sqrt3$일 때, $\\overline{\\mathrm{PD}}^2+\\overline{\\mathrm{PE}}^2+\\overline{\\mathrm{PF}}^2$의 값은?`,c:[`$8\\sqrt3$`,`$16$`,`$16\\sqrt2$`,`$16\\sqrt3$`,`$32$`],a:`② $16$`,
+s:`$\\overline{\\mathrm{PD}}=x,\\overline{\\mathrm{PE}}=y,\\overline{\\mathrm{PF}}=z$. 넓이로부터 $\\dfrac{\\sqrt3}{4}(4\\sqrt2)^2=\\dfrac12\\cdot4\\sqrt2(x+y+z)\\Rightarrow x+y+z=2\\sqrt6$.<p>$\\angle\\mathrm{DPE}=\\angle\\mathrm{DPF}=\\angle\\mathrm{EPF}=120^\\circ$이므로 $\\dfrac12(xy+yz+zx)\\sin120^\\circ=\\sqrt3\\Rightarrow xy+yz+zx=4$</p><p>$x^2+y^2+z^2=(2\\sqrt6)^2-2\\cdot4=16$</p>`},
+
+{no:513,type:'area',q:`사각형 $\\mathrm{ABCD}$의 두 대각선의 길이는 $x,y$이고 두 대각선이 이루는 예각의 크기는 $30^\\circ$이다. $x+y=12$일 때, 사각형 $\\mathrm{ABCD}$의 넓이의 최댓값을 구하시오.`,c:null,a:`$9$`,
+s:`넓이 $=\\dfrac12 xy\\sin30^\\circ=\\dfrac14 xy=\\dfrac14 x(12-x)=-\\dfrac14(x-6)^2+9$<p>$\\therefore\\ x=y=6$일 때 최댓값 $9$</p>`},
+
+{no:514,type:'area',q:`평행사변형 $\\mathrm{ABCD}$에서 $\\overline{\\mathrm{AB}}=3\\sqrt5,\\ \\overline{\\mathrm{AC}}=12,\\ \\overline{\\mathrm{BD}}=18$일 때, 평행사변형 $\\mathrm{ABCD}$의 넓이는?`,c:[`$24\\sqrt5$`,`$28\\sqrt5$`,`$32\\sqrt5$`,`$36\\sqrt5$`,`$40\\sqrt5$`],a:`④ $36\\sqrt5$`,
+s:`대각선 교점 $\\mathrm M$. $\\overline{\\mathrm{AM}}=6,\\ \\overline{\\mathrm{BM}}=9,\\ \\angle\\mathrm{AMB}=\\theta$.<p>$\\cos\\theta=\\dfrac{6^2+9^2-(3\\sqrt5)^2}{2\\cdot6\\cdot9}=\\dfrac23,\\ \\sin\\theta=\\dfrac{\\sqrt5}{3}$</p><p>넓이 $=\\dfrac12\\cdot12\\cdot18\\cdot\\dfrac{\\sqrt5}{3}=36\\sqrt5$</p>`},
+
+{no:515,type:'area',q:`사각형 $\\mathrm{ABCD}$에서 $\\overline{\\mathrm{AB}}=8,\\ \\overline{\\mathrm{BC}}=10,\\ \\overline{\\mathrm{CD}}=9,\\ \\overline{\\mathrm{DA}}=7,\\ A=120^\\circ$일 때, 사각형 $\\mathrm{ABCD}$의 넓이는?`,c:[`$14+12\\sqrt{17}$`,`$28+12\\sqrt{17}$`,`$14\\sqrt3+12\\sqrt{13}$`,`$14\\sqrt3+12\\sqrt{14}$`,`$14\\sqrt3+12\\sqrt{15}$`],a:`④ $14\\sqrt3+12\\sqrt{14}$`,
+s:`$\\triangle\\mathrm{ABD}$에서 $\\overline{\\mathrm{BD}}^2=8^2+7^2-2\\cdot8\\cdot7\\cos120^\\circ=169\\Rightarrow\\overline{\\mathrm{BD}}=13$.<p>$\\angle\\mathrm{BCD}=\\theta$: $\\cos\\theta=\\dfrac{9^2+10^2-13^2}{2\\cdot9\\cdot10}=\\dfrac{1}{15},\\ \\sin\\theta=\\dfrac{4\\sqrt{14}}{15}$</p><p>넓이 $=\\dfrac12\\cdot8\\cdot7\\sin120^\\circ+\\dfrac12\\cdot9\\cdot10\\cdot\\dfrac{4\\sqrt{14}}{15}=14\\sqrt3+12\\sqrt{14}$</p>`},
+
+{no:516,type:'area',q:`원에 내접하는 사각형 $\\mathrm{ABCD}$에서 $\\overline{\\mathrm{AB}}=4,\\ \\overline{\\mathrm{BC}}=1,\\ \\overline{\\mathrm{AD}}=4,\\ \\angle\\mathrm{ADC}=60^\\circ$일 때, 사각형 $\\mathrm{ABCD}$의 넓이는?`,c:[`$4\\sqrt3$`,`$5\\sqrt3$`,`$6\\sqrt3$`,`$7\\sqrt3$`,`$8\\sqrt3$`],a:`③ $6\\sqrt3$`,
+s:`$\\angle\\mathrm{ABC}=180^\\circ-60^\\circ=120^\\circ$. $\\overline{\\mathrm{AC}}=x,\\ \\overline{\\mathrm{CD}}=y$.<p>$\\triangle\\mathrm{ABC}$: $x^2=4^2+1^2-2\\cdot4\\cos120^\\circ=21\\Rightarrow x=\\sqrt{21}$</p><p>$\\triangle\\mathrm{ACD}$: $21=16+y^2-4y\\Rightarrow y^2-4y-5=0\\Rightarrow y=5$</p><p>넓이 $=\\dfrac12\\cdot4\\cdot1\\sin120^\\circ+\\dfrac12\\cdot4\\cdot5\\sin60^\\circ=\\sqrt3+5\\sqrt3=6\\sqrt3$</p>`},
+
+{no:517,type:'area',q:`원에 내접하는 사각형 $\\mathrm{ABCD}$에서 $\\overline{\\mathrm{AB}}=3,\\ \\overline{\\mathrm{BC}}=2,\\ \\overline{\\mathrm{CD}}=1,\\ \\overline{\\mathrm{DA}}=4$일 때, (1) $\\cos B$의 값과 (2) 사각형 $\\mathrm{ABCD}$의 넓이를 구하시오.`,c:null,a:`(1) $\\cos B=-\\dfrac15$ (2) $2\\sqrt6$`,
+s:`(1) $D=\\pi-B$. $\\overline{\\mathrm{AC}}^2=3^2+2^2-12\\cos B=13-12\\cos B$, 또 $\\overline{\\mathrm{AC}}^2=4^2+1^2-8\\cos(\\pi-B)=17+8\\cos B$.<p>$13-12\\cos B=17+8\\cos B\\Rightarrow\\cos B=-\\dfrac15$</p><p>(2) $\\sin B=\\dfrac{2\\sqrt6}{5}$. 넓이 $=\\dfrac12\\cdot3\\cdot2\\sin B+\\dfrac12\\cdot4\\cdot1\\sin(\\pi-B)=\\dfrac{6\\sqrt6}{5}+\\dfrac{4\\sqrt6}{5}=2\\sqrt6$</p>`},
+
+{no:518,type:'area',q:`원에 내접하는 사각형 $\\mathrm{ABCD}$에서 $\\overline{\\mathrm{AB}}=3,\\ \\overline{\\mathrm{BC}}=1,\\ \\overline{\\mathrm{AD}}=2\\sqrt2$이고 삼각형 $\\mathrm{ABD}$의 넓이가 $\\dfrac{3\\sqrt7}{2}$일 때, 선분 $\\mathrm{CD}$의 길이는? (단, $\\angle\\mathrm{BAD}$는 예각)`,c:[`$\\dfrac{3\\sqrt2}{2}$`,`$2\\sqrt2$`,`$\\dfrac{5\\sqrt2}{2}$`,`$3\\sqrt2$`,`$\\dfrac{7\\sqrt2}{2}$`],a:`② $2\\sqrt2$`,
+s:`$\\triangle\\mathrm{ABD}=\\dfrac12\\cdot3\\cdot2\\sqrt2\\sin(\\angle\\mathrm{BAD})=\\dfrac{3\\sqrt7}{2}\\Rightarrow\\sin(\\angle\\mathrm{BAD})=\\dfrac{\\sqrt{14}}{4}$, $\\cos(\\angle\\mathrm{BAD})=\\dfrac{\\sqrt2}{4}$.<p>$\\angle\\mathrm{BCD}=\\pi-\\angle\\mathrm{BAD}\\Rightarrow\\cos(\\angle\\mathrm{BCD})=-\\dfrac{\\sqrt2}{4}$</p><p>$\\overline{\\mathrm{BD}}^2=3^2+(2\\sqrt2)^2-2\\cdot3\\cdot2\\sqrt2\\cos(\\angle\\mathrm{BAD})=11$</p><p>$\\overline{\\mathrm{CD}}=x$: $11=1+x^2+\\dfrac{\\sqrt2}{2}x\\Rightarrow2x^2+\\sqrt2x-20=0\\Rightarrow x=2\\sqrt2$</p>`},
+
+{no:519,type:'area',q:`반지름의 길이가 $3$인 원의 둘레를 $6$등분하는 점 중 연속된 세 점을 각각 $\\mathrm A,\\mathrm B,\\mathrm C$라 하자. 점 $\\mathrm B$를 포함하지 않는 호 $\\mathrm{AC}$ 위의 점 $\\mathrm P$에 대하여 $\\overline{\\mathrm{AP}}+\\overline{\\mathrm{CP}}=8$이다. 사각형 $\\mathrm{ABCP}$의 넓이는?`,c:[`$\\dfrac{13\\sqrt3}{3}$`,`$\\dfrac{16\\sqrt3}{3}$`,`$\\dfrac{19\\sqrt3}{3}$`,`$\\dfrac{22\\sqrt3}{3}$`,`$\\dfrac{25\\sqrt3}{3}$`],a:`② $\\dfrac{16\\sqrt3}{3}$`,
+s:`$\\angle\\mathrm{AOB}=\\angle\\mathrm{BOC}=\\dfrac{\\pi}{3}\\Rightarrow\\overline{\\mathrm{AB}}=\\overline{\\mathrm{BC}}=3,\\ \\angle\\mathrm{ABC}=\\dfrac{2}{3}\\pi$.<p>$\\overline{\\mathrm{AC}}^2=9+9-18\\cos\\dfrac{2}{3}\\pi=27\\Rightarrow\\overline{\\mathrm{AC}}=3\\sqrt3$</p><p>$\\angle\\mathrm{APC}=\\pi-\\dfrac{2}{3}\\pi=\\dfrac{\\pi}{3}$. $\\overline{\\mathrm{AP}}=x,\\overline{\\mathrm{CP}}=y$: $27=(x+y)^2-3xy=64-3xy\\Rightarrow xy=\\dfrac{37}{3}$</p><p>넓이 $=\\dfrac12\\cdot9\\sin\\dfrac{2}{3}\\pi+\\dfrac12\\cdot\\dfrac{37}{3}\\sin\\dfrac{\\pi}{3}=\\dfrac{9\\sqrt3}{4}+\\dfrac{37\\sqrt3}{12}=\\dfrac{16\\sqrt3}{3}$</p>`},
+
+{no:520,type:'area',q:`$A=60^\\circ,\\ \\overline{\\mathrm{AB}}=6,\\ \\overline{\\mathrm{AC}}=4$인 삼각형 $\\mathrm{ABC}$에서 두 선분 $\\mathrm{AB},\\mathrm{AC}$ 위에 각각 두 점 $\\mathrm P,\\mathrm Q$를 잡을 때, 삼각형 $\\mathrm{ABC}$의 넓이를 이등분하는 선분 $\\mathrm{PQ}$의 길이의 최솟값은?`,c:[`$3$`,`$\\sqrt{10}$`,`$\\sqrt{11}$`,`$2\\sqrt3$`,`$\\sqrt{13}$`],a:`④ $2\\sqrt3$`,
+s:`$\\overline{\\mathrm{AP}}=x,\\overline{\\mathrm{AQ}}=y$. 넓이 이등분: $\\dfrac12 xy\\sin60^\\circ=\\dfrac12\\Big(\\dfrac12\\cdot6\\cdot4\\sin60^\\circ\\Big)\\Rightarrow xy=12$.<p>$\\overline{\\mathrm{PQ}}^2=x^2+y^2-2xy\\cos60^\\circ=x^2+y^2-12$</p><p>산술·기하평균: $x^2+y^2\\ge2xy=24$이므로 $\\overline{\\mathrm{PQ}}^2\\ge12$</p><p>$\\therefore$ $x=y=2\\sqrt3$일 때 최솟값 $2\\sqrt3$</p>`}
+];
+
+const grid=document.getElementById('grid');
+const cno=document.getElementById('cno'),ctag=document.getElementById('ctag');
+const qbody=document.getElementById('qbody'),choices=document.getElementById('choices');
+const sol=document.getElementById('sol'),sw=document.getElementById('sw');
+const counter=document.getElementById('counter');
+const prev=document.getElementById('prev'),next=document.getElementById('next');
+const TAGS={seo:'사인·코사인법칙',area:'삼각형의 넓이'};
+let filter='all',view=[],idx=0;
+
+function applyFilter(){
+  view=P.filter(p=>filter==='all'||p.type===filter);
+  idx=0; buildGrid(); render();
+}
+function buildGrid(){
+  grid.innerHTML='';
+  view.forEach((p,i)=>{
+    const c=document.createElement('div');
+    c.className='cell '+p.type; c.textContent=p.no;
+    c.onclick=()=>{idx=i;render();};
+    grid.appendChild(c);
+  });
+}
+function typeset(){
+  if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetClear&&MathJax.typesetClear();MathJax.typesetPromise();}
+  else{setTimeout(typeset,120);}
+}
+function render(){
+  const p=view[idx]; if(!p)return;
+  cno.textContent='#'+p.no;
+  ctag.textContent=TAGS[p.type]; ctag.className='ctag '+p.type;
+  qbody.innerHTML=p.q;
+  choices.innerHTML = p.c ? p.c.map((t,i)=>`<div class="choice">${'①②③④⑤'[i]} ${t}</div>`).join('') : '';
+  sol.classList.remove('show'); sw.classList.remove('on');
+  sol.innerHTML=`<span class="ans">정답 · ${p.a}</span><div style="margin-top:10px">${p.s}</div>`;
+  [...grid.children].forEach((c,i)=>c.classList.toggle('on',i===idx));
+  counter.textContent=`${idx+1} / ${view.length}`;
+  prev.disabled=idx===0; next.disabled=idx===view.length-1;
+  typeset();
+}
+sw.onclick=()=>{const on=sw.classList.toggle('on');sol.classList.toggle('show',on);if(on)typeset();};
+prev.onclick=()=>{if(idx>0){idx--;render();}};
+next.onclick=()=>{if(idx<view.length-1){idx++;render();}};
+document.getElementById('tabs').onclick=e=>{
+  const t=e.target.closest('.tab'); if(!t)return;
+  [...document.querySelectorAll('.tab')].forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); filter=t.dataset.f; applyFilter();
+};
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev.click();
+  if(e.key==='ArrowRight')next.click();
+});
+let sx=0;
+const vw=document.querySelector('.viewer');
+vw.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+vw.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  if(dx>50)prev.click(); else if(dx<-50)next.click();
+},{passive:true});
+applyFilter();
+</script>
+</body></html>
